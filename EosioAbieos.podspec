@@ -44,12 +44,11 @@ Pod::Spec.new do |s|
 					  
                       
   
-  s.ios.resource_bundle = { 'EosioAbieos' => 'EosioAbieos/AbiEos/transaction.abi.json EosioAbieos/AbiEos/abi.abi.json EosioAbieos/Transaction/contract-template-toolkit.js ' }
+  s.ios.resource_bundle = { 'EosioAbieos' => 'EosioAbieos/AbiEos/transaction.abi.json EosioAbieos/AbiEos/abi.abi.json EosioAbieos/AbiEos/eosio.assert.abi.json' }
 
   s.resources = 'EosioAbieos/AbiEos/transaction.abi.json',
                 'EosioAbieos/AbiEos/abi.abi.json',
-                'EosioAbieos/AbiEos/eosio.assert.abi.json',
-                'EosioAbieos/Transaction/contract-template-toolkit.js'
+                'EosioAbieos/AbiEos/eosio.assert.abi.json'
   
   s.public_header_files =  'EosioAbieos/AbiEos/abieos.h',
                            'EosioAbieos/Crypto/crypto.h',

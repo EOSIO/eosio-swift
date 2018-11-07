@@ -56,7 +56,7 @@ Pod::Spec.new do |s|
                            'EosioAbieos/Crypto/base58.h'
 					   
   s.libraries = "c++"
-  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/EosioVault/Crypto $(PROJECT_DIR)/../../eosio-abieos-framework/EosioVault/AbiEos $(PROJECT_DIR)/../../eosio-abieos-framework/EosioVault/Recover',
+  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/Crypto $(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/AbiEos $(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/Recover',
   						   'FRAMEWORK_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/Frameworks/boost.framework $(SRCROOT)/Frameworks', 
  						   'LIBRARY_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/** $(SRCROOT)/**', 
  						   'HEADER_SEARCH_PATHS' => '$(SRCROOT)/** $(SRCROOT)/EosioAbieos/** $(PROJECT_DIR)/../../eosio-abieos-framework/** $(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/**', 

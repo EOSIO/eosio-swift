@@ -17,7 +17,7 @@ public class RecoverKey {
         
     }
     
-    func recoverPublicKey(privateKey: Data, curve: String) -> Data?  {
+    public func recoverPublicKey(privateKey: Data, curve: String) -> Data?  {
         guard curve == "R1" || curve == "K1" else { return nil }
         
         let privKeyBN = BN_new()!
@@ -47,7 +47,7 @@ public class RecoverKey {
         return Data(hexString: recoveredPubKeyHex)
     }
     
-    func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: String = "R1") -> Data? {
+    public func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: String = "R1") -> Data? {
         
         var curveName: Int32
         if curve == "R1" {
@@ -89,7 +89,7 @@ public class RecoverKey {
         return Data(hexString: recoveredPubKeyHex)
     }
     
-    func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: String = "R1") throws -> Int {
+    public func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: String = "R1") throws -> Int {
         for i in 0..<4 {
             if let recoveredKey = recoverPublicKey(signatureDer: signatureDer, message: message, recid: i, curve: curve) {
                 //print("Recovered Key: \(recoveredKey.hexEncodedString())")

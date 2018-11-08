@@ -31,7 +31,8 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '11.4'
   
-  s.source_files =  'EosioAbieos/**/*.{c,h,m,cpp,hpp,js,json}'
+  s.source_files =  'EosioAbieos/**/*.{c,h,m,cpp,hpp}',
+  		    'EosioAbieos/**/*.swift'
    
   s.preserve_paths =  'Frameworks/boost.framework',
   					  'EosioAbieos/Crypto/module.modulemap',
@@ -51,12 +52,11 @@ Pod::Spec.new do |s|
                 'EosioAbieos/AbiEos/eosio.assert.abi.json'
   
   s.public_header_files =  'EosioAbieos/AbiEos/abieos.h',
-                           'EosioAbieos/Crypto/crypto.h',
                            'EosioAbieos/Crypto/base58.h'
 					   
   s.libraries = "c++"
   s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/Crypto $(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/AbiEos $(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/Recover',
-  						   'FRAMEWORK_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/Frameworks/boost.framework $(SRCROOT)/Frameworks', 
+  						   'FRAMEWORK_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/Frameworks/boost.framework', 
  						   'LIBRARY_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-abieos-framework/** $(SRCROOT)/**', 
  						   'HEADER_SEARCH_PATHS' => '$(SRCROOT)/** $(SRCROOT)/EosioAbieos/** $(PROJECT_DIR)/../../eosio-abieos-framework/** $(PROJECT_DIR)/../../eosio-abieos-framework/EosioAbieos/**', 
  						   'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17', 

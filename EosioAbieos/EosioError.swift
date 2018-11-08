@@ -26,7 +26,7 @@ public enum EosioErrorCode : String {
     case unexpectedError = "unexpectedError"
 }
 
-public class EosioError: Error, CustomStringConvertible {
+open class EosioError: Error, CustomStringConvertible {
     
     var errorCode: EosioErrorCode
     var reason: String
@@ -64,7 +64,7 @@ public class EosioError: Error, CustomStringConvertible {
         self.reason = reason
     }
     
-    convenience init (_ errorCode: EosioErrorCode, reason: String, context: String = "", originalError: NSError? = nil) {
+    public convenience init (_ errorCode: EosioErrorCode, reason: String, context: String = "", originalError: NSError? = nil) {
         self.init(errorCode, reason: reason, context: context)
         self.originalError = originalError
     }

@@ -9,7 +9,7 @@
 import Foundation
 import AbiEos
 
-class AbiEos {
+public class AbiEos {
     
     public class Error: EosioError { }
     
@@ -20,18 +20,21 @@ class AbiEos {
         return String(validatingUTF8: abieos_get_error(context))
     }
 
+    public init() {
+        
+    }
     
-    func refreshContext() {
+    public func refreshContext() {
         //abieos_destroy(context)
         //context = abieos_create()
     }
     
-    func name64(string: String?) -> UInt64 {
+    public func name64(string: String?) -> UInt64 {
         guard let string = string else { return 0 }
         return abieos_string_to_name(context, string)
     }
     
-    func string(name64: UInt64) -> String? {
+    public func string(name64: UInt64) -> String? {
         return String(validatingUTF8: abieos_name_to_string(context, name64))
     }
     
@@ -49,7 +52,7 @@ class AbiEos {
         return abiString
     }
     
-    func jsonToHex(contract: String?, name: String, json: String, abi: Any, isReorderable: Bool = false) throws -> String {
+    public func jsonToHex(contract: String?, name: String, json: String, abi: Any, isReorderable: Bool = false) throws -> String {
         
         refreshContext()
         let contract64 = name64(string: contract)
@@ -79,7 +82,7 @@ class AbiEos {
     }
     
     
-    func hexToJson(contract: String?, name: String, hex: String, abi: Any) throws -> String {
+    public func hexToJson(contract: String?, name: String, hex: String, abi: Any) throws -> String {
         let contract64 = name64(string: contract)
         abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
         

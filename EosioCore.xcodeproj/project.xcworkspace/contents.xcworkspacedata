@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/mccoole/Documents/ws/ios/eosio-abieos-framework/EosioAbieos.xcodeproj">
+      location = "self:/Users/mccoole/Documents/ws/ios/eosio-core-framework/EosioCore.xcodeproj">
    </FileRef>
 </Workspace>

@@ -1,6 +1,6 @@
 //
 //  Base58.swift
-//  EosioAbieos
+//  EosioCore
 //
 //  Created by Steve McCoole on 11/8/18.
 //  Copyright © 2018 Block One. All rights reserved.

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23271617FB8D18A53744BD34 /* Pods_EosioCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88444D77FEDFB1AFF0AC39B7 /* Pods_EosioCore.framework */; };
 		6B0D07C020F68E1700542756 /* ecwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B0D07BF20F68E1700542756 /* ecwrapper.cpp */; };
 		6B0D07C420F690AD00542756 /* serialize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07C320F690AD00542756 /* serialize.h */; };
 		6B0D07CA20F69C5000542756 /* uint256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B0D07C820F69C4F00542756 /* uint256.cpp */; };
@@ -16,7 +17,7 @@
 		6B0D07D120F69C8E00542756 /* tinyformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07D020F69C8E00542756 /* tinyformat.h */; };
 		6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F4E2320EFF0DF003D06D9 /* exampletx.json */; };
 		6B8AEF86215187A6000134AA /* abi.abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B8AEF85215187A6000134AA /* abi.abi.json */; };
-		6BE39DC220C5CCBB00EBBCA3 /* EosioAbieos.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioAbieos.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6BE39DC220C5CCBB00EBBCA3 /* EosioCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
 		6BFA74E120EBF456003CBCEB /* abieos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA74BE20EBF456003CBCEB /* abieos.cpp */; };
 		6BFA74E220EBF456003CBCEB /* ripemd160.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6BFA74BF20EBF456003CBCEB /* ripemd160.hpp */; };
@@ -48,6 +49,7 @@
 		6BFA74FC20EBF456003CBCEB /* abieos.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6BFA74DD20EBF456003CBCEB /* abieos.hpp */; };
 		6BFA74FE20EBF456003CBCEB /* transaction.abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 6BFA74E020EBF456003CBCEB /* transaction.abi.json */; };
 		6BFA750020EBF49E003CBCEB /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFA74FF20EBF49E003CBCEB /* boost.framework */; };
+		8B2479AB547F66712CCC6EFB /* Pods_EosioCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 974470602FC1A03C5729D0E5 /* Pods_EosioCoreTests.framework */; };
 		B454F4982193A717005E1B2C /* eosio.assert.abi.json in Resources */ = {isa = PBXBuildFile; fileRef = B454F4972193A717005E1B2C /* eosio.assert.abi.json */; };
 		B4552B252193954A00564935 /* AbiEos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B242193954A00564935 /* AbiEos.swift */; };
 		B4552B282193956D00564935 /* Data+Sha.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B262193956D00564935 /* Data+Sha.swift */; };
@@ -57,9 +59,7 @@
 		B4552B302193993100564935 /* Data＋Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B2F2193993100564935 /* Data＋Hex.swift */; };
 		B49BA8222194BAC6005516C2 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49BA8212194BAC6005516C2 /* Base58.swift */; };
 		B4EAD99621925E79009D3E04 /* EosioAbieosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */; };
-		B4EAD99821925E79009D3E04 /* EosioAbieos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE39DB120C5CCBB00EBBCA3 /* EosioAbieos.framework */; };
-		C60ACD840512FE8CBF386121 /* Pods_EosioAbieos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92E986D5C700C4B322E9D52 /* Pods_EosioAbieos.framework */; };
-		D6612802DC56CC833706378C /* Pods_EosioAbieosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6360C47017FB76655DB9B2A6 /* Pods_EosioAbieosTests.framework */; };
+		B4EAD99821925E79009D3E04 /* EosioCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE39DB120C5CCBB00EBBCA3 /* EosioCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,9 +73,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		287BD47BA73E167F0D5E869B /* Pods-EosioAbieos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioAbieos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioAbieos/Pods-EosioAbieos.debug.xcconfig"; sourceTree = "<group>"; };
-		6360C47017FB76655DB9B2A6 /* Pods_EosioAbieosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioAbieosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		66D1C7BF1425E0A2A17BB780 /* Pods-EosioAbieos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioAbieos.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioAbieos/Pods-EosioAbieos.release.xcconfig"; sourceTree = "<group>"; };
+		31383A8E4A8EAD4CF005558F /* Pods-EosioCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioCoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioCoreTests/Pods-EosioCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
+		669033CCD649D4D5F5D6C0C8 /* Pods-EosioCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioCore.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioCore/Pods-EosioCore.release.xcconfig"; sourceTree = "<group>"; };
 		6B0D07BF20F68E1700542756 /* ecwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ecwrapper.cpp; sourceTree = "<group>"; };
 		6B0D07C320F690AD00542756 /* serialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = serialize.h; sourceTree = "<group>"; };
 		6B0D07C720F691D700542756 /* recover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = recover.h; sourceTree = "<group>"; };
@@ -87,8 +86,8 @@
 		6B7F4E2320EFF0DF003D06D9 /* exampletx.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampletx.json; sourceTree = "<group>"; };
 		6B8AEF85215187A6000134AA /* abi.abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abi.abi.json; sourceTree = "<group>"; };
 		6BA8074320F6A19B0051E406 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		6BE39DB120C5CCBB00EBBCA3 /* EosioAbieos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioAbieos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BE39DB420C5CCBB00EBBCA3 /* EosioAbieos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioAbieos.h; sourceTree = "<group>"; };
+		6BE39DB120C5CCBB00EBBCA3 /* EosioCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BE39DB420C5CCBB00EBBCA3 /* EosioCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioCore.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BE39DD820C5DA3600EBBCA3 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
 		6BE39DD920C5DA3600EBBCA3 /* base58.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base58.c; sourceTree = "<group>"; };
@@ -124,7 +123,10 @@
 		6BFA74DE20EBF456003CBCEB /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6BFA74E020EBF456003CBCEB /* transaction.abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transaction.abi.json; sourceTree = "<group>"; };
 		6BFA74FF20EBF49E003CBCEB /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = Frameworks/boost.framework; sourceTree = "<group>"; };
-		92B1A3CDCF9F71DA48C982ED /* Pods-EosioAbieosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioAbieosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioAbieosTests/Pods-EosioAbieosTests.debug.xcconfig"; sourceTree = "<group>"; };
+		88444D77FEDFB1AFF0AC39B7 /* Pods_EosioCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8ECDA090CDC1D5EE7689D626 /* Pods-EosioCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioCore/Pods-EosioCore.debug.xcconfig"; sourceTree = "<group>"; };
+		974470602FC1A03C5729D0E5 /* Pods_EosioCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3D2A51E40E7120CDA30F26B /* Pods-EosioCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioCoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioCoreTests/Pods-EosioCoreTests.release.xcconfig"; sourceTree = "<group>"; };
 		B454F4972193A717005E1B2C /* eosio.assert.abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = eosio.assert.abi.json; sourceTree = "<group>"; };
 		B4552B242193954A00564935 /* AbiEos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiEos.swift; sourceTree = "<group>"; };
 		B4552B262193956D00564935 /* Data+Sha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Sha.swift"; sourceTree = "<group>"; };
@@ -133,11 +135,9 @@
 		B4552B2C2193989800564935 /* EosioError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioError.swift; sourceTree = "<group>"; };
 		B4552B2F2193993100564935 /* Data＋Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data＋Hex.swift"; sourceTree = "<group>"; };
 		B49BA8212194BAC6005516C2 /* Base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
-		B4EAD99321925E79009D3E04 /* EosioAbieosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioAbieosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4EAD99321925E79009D3E04 /* EosioCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbieosTests.swift; sourceTree = "<group>"; };
 		B4EAD99721925E79009D3E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C92E986D5C700C4B322E9D52 /* Pods_EosioAbieos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioAbieos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D34524A56CEC4F7D5DC2F75C /* Pods-EosioAbieosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioAbieosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioAbieosTests/Pods-EosioAbieosTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,7 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BFA750020EBF49E003CBCEB /* boost.framework in Frameworks */,
-				C60ACD840512FE8CBF386121 /* Pods_EosioAbieos.framework in Frameworks */,
+				23271617FB8D18A53744BD34 /* Pods_EosioCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,8 +154,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4EAD99821925E79009D3E04 /* EosioAbieos.framework in Frameworks */,
-				D6612802DC56CC833706378C /* Pods_EosioAbieosTests.framework in Frameworks */,
+				B4EAD99821925E79009D3E04 /* EosioCore.framework in Frameworks */,
+				8B2479AB547F66712CCC6EFB /* Pods_EosioCoreTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,8 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				6BFA74FF20EBF49E003CBCEB /* boost.framework */,
-				C92E986D5C700C4B322E9D52 /* Pods_EosioAbieos.framework */,
-				6360C47017FB76655DB9B2A6 /* Pods_EosioAbieosTests.framework */,
+				88444D77FEDFB1AFF0AC39B7 /* Pods_EosioCore.framework */,
+				974470602FC1A03C5729D0E5 /* Pods_EosioCoreTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -192,8 +192,8 @@
 		6BE39DA720C5CCBB00EBBCA3 = {
 			isa = PBXGroup;
 			children = (
-				6BE39DB320C5CCBB00EBBCA3 /* EosioAbieos */,
-				B4EAD99421925E79009D3E04 /* EosioAbieosTests */,
+				6BE39DB320C5CCBB00EBBCA3 /* EosioCore */,
+				B4EAD99421925E79009D3E04 /* EosioCoreTests */,
 				6BE39DB220C5CCBB00EBBCA3 /* Products */,
 				6B6EA3A620DA9C9500707864 /* Frameworks */,
 				D99565CDAFEC7D76F9D80B98 /* Pods */,
@@ -203,17 +203,17 @@
 		6BE39DB220C5CCBB00EBBCA3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6BE39DB120C5CCBB00EBBCA3 /* EosioAbieos.framework */,
-				B4EAD99321925E79009D3E04 /* EosioAbieosTests.xctest */,
+				6BE39DB120C5CCBB00EBBCA3 /* EosioCore.framework */,
+				B4EAD99321925E79009D3E04 /* EosioCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6BE39DB320C5CCBB00EBBCA3 /* EosioAbieos */ = {
+		6BE39DB320C5CCBB00EBBCA3 /* EosioCore */ = {
 			isa = PBXGroup;
 			children = (
 				B4552B2E2193991A00564935 /* Extensions */,
-				6BE39DB420C5CCBB00EBBCA3 /* EosioAbieos.h */,
+				6BE39DB420C5CCBB00EBBCA3 /* EosioCore.h */,
 				B4552B2C2193989800564935 /* EosioError.swift */,
 				6BFA74BD20EBF456003CBCEB /* AbiEos */,
 				6BE39DD720C5DA1700EBBCA3 /* Crypto */,
@@ -221,7 +221,7 @@
 				6B7F4E2320EFF0DF003D06D9 /* exampletx.json */,
 				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
 			);
-			path = EosioAbieos;
+			path = EosioCore;
 			sourceTree = "<group>";
 		};
 		6BE39DD720C5DA1700EBBCA3 /* Crypto */ = {
@@ -309,22 +309,22 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		B4EAD99421925E79009D3E04 /* EosioAbieosTests */ = {
+		B4EAD99421925E79009D3E04 /* EosioCoreTests */ = {
 			isa = PBXGroup;
 			children = (
 				B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */,
 				B4EAD99721925E79009D3E04 /* Info.plist */,
 			);
-			path = EosioAbieosTests;
+			path = EosioCoreTests;
 			sourceTree = "<group>";
 		};
 		D99565CDAFEC7D76F9D80B98 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				287BD47BA73E167F0D5E869B /* Pods-EosioAbieos.debug.xcconfig */,
-				66D1C7BF1425E0A2A17BB780 /* Pods-EosioAbieos.release.xcconfig */,
-				92B1A3CDCF9F71DA48C982ED /* Pods-EosioAbieosTests.debug.xcconfig */,
-				D34524A56CEC4F7D5DC2F75C /* Pods-EosioAbieosTests.release.xcconfig */,
+				8ECDA090CDC1D5EE7689D626 /* Pods-EosioCore.debug.xcconfig */,
+				669033CCD649D4D5F5D6C0C8 /* Pods-EosioCore.release.xcconfig */,
+				31383A8E4A8EAD4CF005558F /* Pods-EosioCoreTests.debug.xcconfig */,
+				B3D2A51E40E7120CDA30F26B /* Pods-EosioCoreTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -337,7 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BFA74E620EBF456003CBCEB /* memorystream.h in Headers */,
-				6BE39DC220C5CCBB00EBBCA3 /* EosioAbieos.h in Headers */,
+				6BE39DC220C5CCBB00EBBCA3 /* EosioCore.h in Headers */,
 				6BFA74E520EBF456003CBCEB /* abieos.h in Headers */,
 				6BFA74F420EBF456003CBCEB /* pow10.h in Headers */,
 				6BFA74FA20EBF456003CBCEB /* error.h in Headers */,
@@ -373,9 +373,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6BE39DB020C5CCBB00EBBCA3 /* EosioAbieos */ = {
+		6BE39DB020C5CCBB00EBBCA3 /* EosioCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioAbieos" */;
+			buildConfigurationList = 6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioCore" */;
 			buildPhases = (
 				B3CA5472FB7A98FB2755F73C /* [CP] Check Pods Manifest.lock */,
 				6BE39DAC20C5CCBB00EBBCA3 /* Sources */,
@@ -387,14 +387,14 @@
 			);
 			dependencies = (
 			);
-			name = EosioAbieos;
+			name = EosioCore;
 			productName = EOSKeys;
-			productReference = 6BE39DB120C5CCBB00EBBCA3 /* EosioAbieos.framework */;
+			productReference = 6BE39DB120C5CCBB00EBBCA3 /* EosioCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B4EAD99221925E79009D3E04 /* EosioAbieosTests */ = {
+		B4EAD99221925E79009D3E04 /* EosioCoreTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B4EAD99D21925E79009D3E04 /* Build configuration list for PBXNativeTarget "EosioAbieosTests" */;
+			buildConfigurationList = B4EAD99D21925E79009D3E04 /* Build configuration list for PBXNativeTarget "EosioCoreTests" */;
 			buildPhases = (
 				51327F738D249A2F37C7C722 /* [CP] Check Pods Manifest.lock */,
 				B4EAD98F21925E79009D3E04 /* Sources */,
@@ -407,9 +407,9 @@
 			dependencies = (
 				B4EAD99A21925E79009D3E04 /* PBXTargetDependency */,
 			);
-			name = EosioAbieosTests;
+			name = EosioCoreTests;
 			productName = EosioAbieosTests;
-			productReference = B4EAD99321925E79009D3E04 /* EosioAbieosTests.xctest */;
+			productReference = B4EAD99321925E79009D3E04 /* EosioCoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -431,7 +431,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioAbieos" */;
+			buildConfigurationList = 6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioCore" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -443,8 +443,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6BE39DB020C5CCBB00EBBCA3 /* EosioAbieos */,
-				B4EAD99221925E79009D3E04 /* EosioAbieosTests */,
+				6BE39DB020C5CCBB00EBBCA3 /* EosioCore */,
+				B4EAD99221925E79009D3E04 /* EosioCoreTests */,
 			);
 		};
 /* End PBXProject section */
@@ -486,7 +486,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EosioAbieosTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-EosioCoreTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -501,7 +501,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EosioAbieosTests/Pods-EosioAbieosTests-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-EosioCoreTests/Pods-EosioCoreTests-frameworks.sh",
 				"${PODS_ROOT}/GRKOpenSSLFramework/OpenSSL-iOS/bin/openssl.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -512,7 +512,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EosioAbieosTests/Pods-EosioAbieosTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EosioCoreTests/Pods-EosioCoreTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B3CA5472FB7A98FB2755F73C /* [CP] Check Pods Manifest.lock */ = {
@@ -530,7 +530,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EosioAbieos-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-EosioCore-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -573,7 +573,7 @@
 /* Begin PBXTargetDependency section */
 		B4EAD99A21925E79009D3E04 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6BE39DB020C5CCBB00EBBCA3 /* EosioAbieos */;
+			target = 6BE39DB020C5CCBB00EBBCA3 /* EosioCore */;
 			targetProxy = B4EAD99921925E79009D3E04 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -703,7 +703,7 @@
 		};
 		6BE39DC620C5CCBB00EBBCA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 287BD47BA73E167F0D5E869B /* Pods-EosioAbieos.debug.xcconfig */;
+			baseConfigurationReference = 8ECDA090CDC1D5EE7689D626 /* Pods-EosioCore.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -722,13 +722,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/**",
-					"$(PROJECT_DIR)/EosioAbieos",
+					"$(PROJECT_DIR)/EosioCore",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/EosioAbieos/**/**",
+					"$(PROJECT_DIR)/EosioCore/**/**",
 					"$(PROJECT_DIR)/**/**",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/EosioAbieos/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/EosioCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -741,11 +741,11 @@
 					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "one.block.eosio-abieos-framework";
+				PRODUCT_BUNDLE_IDENTIFIER = "one.block.eosio-core-framework";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioAbieos/Crypto ${SRCROOT}/EosioAbieos/AbiEos ${SRCROOT}/EosioAbieos/Recover";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioCore/Crypto ${SRCROOT}/EosioCore/AbiEos ${SRCROOT}/EosioCore/Recover";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -756,7 +756,7 @@
 		};
 		6BE39DC720C5CCBB00EBBCA3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66D1C7BF1425E0A2A17BB780 /* Pods-EosioAbieos.release.xcconfig */;
+			baseConfigurationReference = 669033CCD649D4D5F5D6C0C8 /* Pods-EosioCore.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -775,13 +775,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/**",
-					"$(PROJECT_DIR)/EosioAbieos",
+					"$(PROJECT_DIR)/EosioCore",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/EosioAbieos/**/**",
+					"$(PROJECT_DIR)/EosioCore/**/**",
 					"$(PROJECT_DIR)/**/**",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/EosioAbieos/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/EosioCore/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -794,11 +794,11 @@
 					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "one.block.eosio-abieos-framework";
+				PRODUCT_BUNDLE_IDENTIFIER = "one.block.eosio-core-framework";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioAbieos/Crypto ${SRCROOT}/EosioAbieos/AbiEos ${SRCROOT}/EosioAbieos/Recover";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioCore/Crypto ${SRCROOT}/EosioCore/AbiEos ${SRCROOT}/EosioCore/Recover";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -808,12 +808,12 @@
 		};
 		B4EAD99B21925E79009D3E04 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92B1A3CDCF9F71DA48C982ED /* Pods-EosioAbieosTests.debug.xcconfig */;
+			baseConfigurationReference = 31383A8E4A8EAD4CF005558F /* Pods-EosioCoreTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9574LUMBYJ;
-				INFOPLIST_FILE = EosioAbieosTests/Info.plist;
+				INFOPLIST_FILE = EosioCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -822,7 +822,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.blockone.EosioAbieosTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockone.EosioCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -831,12 +831,12 @@
 		};
 		B4EAD99C21925E79009D3E04 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D34524A56CEC4F7D5DC2F75C /* Pods-EosioAbieosTests.release.xcconfig */;
+			baseConfigurationReference = B3D2A51E40E7120CDA30F26B /* Pods-EosioCoreTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9574LUMBYJ;
-				INFOPLIST_FILE = EosioAbieosTests/Info.plist;
+				INFOPLIST_FILE = EosioCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -844,7 +844,7 @@
 					"@loader_path/Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.blockone.EosioAbieosTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockone.EosioCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -854,7 +854,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioAbieos" */ = {
+		6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6BE39DC320C5CCBB00EBBCA3 /* Debug */,
@@ -863,7 +863,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioAbieos" */ = {
+		6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6BE39DC620C5CCBB00EBBCA3 /* Debug */,
@@ -872,7 +872,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B4EAD99D21925E79009D3E04 /* Build configuration list for PBXNativeTarget "EosioAbieosTests" */ = {
+		B4EAD99D21925E79009D3E04 /* Build configuration list for PBXNativeTarget "EosioCoreTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B4EAD99B21925E79009D3E04 /* Debug */,

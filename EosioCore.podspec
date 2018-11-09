@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/EOSIO/eosio-core-framework.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.4'
-  "
+  
   s.source_files =  'EosioCore/**/*.{c,h,m,cpp,hpp}',
   		    'EosioCore/**/*.swift'
    

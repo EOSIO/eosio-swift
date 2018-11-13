@@ -50,7 +50,7 @@ playground.xcworkspace
 Podfile.lock
 Pods/
 xcworkspace.projects/
-EosioCore.xcworkspace/
+EosioSwiftCommon.xcworkspace/
 
 # Carthage
 #

@@ -1,6 +1,6 @@
 //
-//  EosioCoreTests.swift
-//  EosioCoreTests
+//  EosioSwiftCommonTests.swift
+//  EosioSwitfCommonTests
 //
 //  Created by Steve McCoole on 11/6/18.
 //  Copyright © 2018 Block One. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class EosioCoreTests: XCTestCase {
+class EosioSwiftCommonTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

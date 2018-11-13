@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-               BuildableName = "EosioCore.framework"
-               BlueprintName = "EosioCore"
-               ReferencedContainer = "container:EosioCore.xcodeproj">
+               BuildableName = "EosioSwiftCommon.framework"
+               BlueprintName = "EosioSwiftCommon"
+               ReferencedContainer = "container:EosioSwiftCommon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B4EAD99221925E79009D3E04"
-               BuildableName = "EosioCoreTests.xctest"
-               BlueprintName = "EosioCoreTests"
-               ReferencedContainer = "container:EosioCore.xcodeproj">
+               BuildableName = "EosioSwiftCommonTests.xctest"
+               BlueprintName = "EosioSwiftCommonTests"
+               ReferencedContainer = "container:EosioSwiftCommon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-            BuildableName = "EosioCore.framework"
-            BlueprintName = "EosioCore"
-            ReferencedContainer = "container:EosioCore.xcodeproj">
+            BuildableName = "EosioSwiftCommon.framework"
+            BlueprintName = "EosioSwiftCommon"
+            ReferencedContainer = "container:EosioSwiftCommon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-            BuildableName = "EosioCore.framework"
-            BlueprintName = "EosioCore"
-            ReferencedContainer = "container:EosioCore.xcodeproj">
+            BuildableName = "EosioSwiftCommon.framework"
+            BlueprintName = "EosioSwiftCommon"
+            ReferencedContainer = "container:EosioSwiftCommon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -87,9 +87,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-            BuildableName = "EosioCore.framework"
-            BlueprintName = "EosioCore"
-            ReferencedContainer = "container:EosioCore.xcodeproj">
+            BuildableName = "EosioSwiftCommon.framework"
+            BlueprintName = "EosioSwiftCommon"
+            ReferencedContainer = "container:EosioSwiftCommon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

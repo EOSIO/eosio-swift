@@ -12,7 +12,7 @@
 //! Project version number for EosioSwiftCommon.
 FOUNDATION_EXPORT double EosioSwiftCommonVersionNumber;
 
-//! Project version string for EosioCore.
+//! Project version string for EosioSwiftCommon.
 FOUNDATION_EXPORT const unsigned char EosioSwiftCommonVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements

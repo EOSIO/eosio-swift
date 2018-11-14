@@ -17,7 +17,6 @@
 		6B0D07D120F69C8E00542756 /* tinyformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07D020F69C8E00542756 /* tinyformat.h */; };
 		6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F4E2320EFF0DF003D06D9 /* exampletx.json */; };
 		6B8AEF86215187A6000134AA /* abi.abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B8AEF85215187A6000134AA /* abi.abi.json */; };
-		6BE39DC220C5CCBB00EBBCA3 /* EosioCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
 		6BFA74E120EBF456003CBCEB /* abieos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA74BE20EBF456003CBCEB /* abieos.cpp */; };
 		6BFA74E220EBF456003CBCEB /* ripemd160.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6BFA74BF20EBF456003CBCEB /* ripemd160.hpp */; };
@@ -57,6 +56,7 @@
 		B4552B2B2193958900564935 /* Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B2A2193958900564935 /* Recover.swift */; };
 		B4552B2D2193989800564935 /* EosioError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B2C2193989800564935 /* EosioError.swift */; };
 		B4552B302193993100564935 /* Data＋Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B2F2193993100564935 /* Data＋Hex.swift */; };
+		B49A11EC219CB1830020736E /* EosioSwiftCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B49BA8222194BAC6005516C2 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49BA8212194BAC6005516C2 /* Base58.swift */; };
 		B4EAD99621925E79009D3E04 /* EosioAbieosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */; };
 		B4EAD99821925E79009D3E04 /* EosioSwiftCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftCommon.framework */; };
@@ -88,7 +88,7 @@
 		6B8AEF85215187A6000134AA /* abi.abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abi.abi.json; sourceTree = "<group>"; };
 		6BA8074320F6A19B0051E406 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BE39DB420C5CCBB00EBBCA3 /* EosioCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioCore.h; sourceTree = "<group>"; };
+		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftCommon.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BE39DD820C5DA3600EBBCA3 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
 		6BE39DD920C5DA3600EBBCA3 /* base58.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base58.c; sourceTree = "<group>"; };
@@ -219,7 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				B4552B2E2193991A00564935 /* Extensions */,
-				6BE39DB420C5CCBB00EBBCA3 /* EosioCore.h */,
+				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftCommon.h */,
 				B4552B2C2193989800564935 /* EosioError.swift */,
 				6BFA74BD20EBF456003CBCEB /* AbiEos */,
 				6BE39DD720C5DA1700EBBCA3 /* Crypto */,
@@ -342,8 +342,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B49A11EC219CB1830020736E /* EosioSwiftCommon.h in Headers */,
 				6BFA74E620EBF456003CBCEB /* memorystream.h in Headers */,
-				6BE39DC220C5CCBB00EBBCA3 /* EosioCore.h in Headers */,
 				6BFA74E520EBF456003CBCEB /* abieos.h in Headers */,
 				6BFA74F420EBF456003CBCEB /* pow10.h in Headers */,
 				6BFA74FA20EBF456003CBCEB /* error.h in Headers */,

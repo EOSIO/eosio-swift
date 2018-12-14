@@ -64,7 +64,7 @@ Pod::Spec.new do |s|
  						   'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES', 
  						   'CLANG_ENABLE_MODULES' => 'YES',
 						   'SWIFT_COMPILATION_MODE' => 'wholemodule',
-						   'ENABLE_BITCODE' => 'NO'} 
+						   'ENABLE_BITCODE' => 'YES'} 
 
   
   s.ios.vendored_frameworks = 'Frameworks/boost.framework'

@@ -28,10 +28,10 @@ public enum EosioErrorCode : String {
 
 open class EosioError: Error, CustomStringConvertible {
     
-    var errorCode: EosioErrorCode
-    var reason: String
-    var context: String
-    var originalError: NSError?
+    public var errorCode: EosioErrorCode
+    public var reason: String
+    public var context: String
+    public var originalError: NSError?
     
     var errorAsJsonString: String {
         let jsonDict = [

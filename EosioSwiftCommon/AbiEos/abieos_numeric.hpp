@@ -9,6 +9,7 @@
 #include <string>
 #include <string_view>
 
+#include "abieos_error.hpp"
 #include "ripemd160.hpp"
 
 namespace abieos {
@@ -46,7 +47,7 @@ std::array<uint8_t, size> decimal_to_binary(std::string_view s) {
     std::array<uint8_t, size> result{{0}};
     for (auto& src_digit : s) {
         if (src_digit < '0' || src_digit > '9')
-            throw std::runtime_error("invalid number");
+            throw error("invalid number");
         uint8_t carry = src_digit - '0';
         for (auto& result_byte : result) {
             int x = result_byte * 10 + carry;
@@ -54,7 +55,7 @@ std::array<uint8_t, size> decimal_to_binary(std::string_view s) {
             carry = x >> 8;
         }
         if (carry)
-            throw std::runtime_error("number is out of range");
+            throw error("number is out of range");
     }
     return result;
 }
@@ -84,14 +85,14 @@ std::array<uint8_t, size> base58_to_binary(std::string_view s) {
     for (auto& src_digit : s) {
         int carry = base58_map[src_digit];
         if (carry < 0)
-            throw std::runtime_error("invalid base-58 value");
+            throw error("invalid base-58 value");
         for (auto& result_byte : result) {
             int x = result_byte * 58 + carry;
             result_byte = x;
             carry = x >> 8;
         }
         if (carry)
-            throw std::runtime_error("base-58 value is out of range");
+            throw error("base-58 value is out of range");
     }
     std::reverse(result.begin(), result.end());
     return result;
@@ -147,7 +148,7 @@ inline auto digest_message_ripemd160(const unsigned char* message, size_t messag
     ripemd160::ripemd160_init(&self);
     ripemd160::ripemd160_update(&self, message, message_len);
     if (!ripemd160::ripemd160_digest(&self, digest.data()))
-        throw std::runtime_error("ripemd failed");
+        throw error("ripemd failed");
     return digest;
 }
 
@@ -159,7 +160,7 @@ inline auto digest_suffix_ripemd160(const std::array<uint8_t, size>& data, const
     ripemd160::ripemd160_update(&self, data.data(), data.size());
     ripemd160::ripemd160_update(&self, (uint8_t*)suffix, suffix_size - 1);
     if (!ripemd160::ripemd160_digest(&self, digest.data()))
-        throw std::runtime_error("ripemd failed");
+        throw error("ripemd failed");
     return digest;
 }
 
@@ -171,7 +172,7 @@ Key string_to_key(std::string_view s, key_type type, const char (&suffix)[suffix
     memcpy(result.data.data(), whole.data(), result.data.size());
     auto ripe_digest = digest_suffix_ripemd160(result.data, suffix);
     if (memcmp(ripe_digest.data(), whole.data() + result.data.size(), 4))
-        throw std::runtime_error("checksum doesn't match");
+        throw error("checksum doesn't match");
     return result;
 }
 
@@ -193,14 +194,14 @@ inline public_key string_to_public_key(std::string_view s) {
         memcpy(key.data.data(), whole.data(), key.data.size());
         auto ripe_digest = digest_message_ripemd160(key.data.data(), key.data.size());
         if (memcmp(ripe_digest.data(), whole.data() + key.data.size(), 4))
-            throw std::runtime_error("Key checksum doesn't match");
+            throw error("Key checksum doesn't match");
         return key;
     } else if (s.size() >= 7 && s.substr(0, 7) == "PUB_K1_") {
         return string_to_key<public_key>(s.substr(7), key_type::k1, "K1");
     } else if (s.size() >= 7 && s.substr(0, 7) == "PUB_R1_") {
         return string_to_key<public_key>(s.substr(7), key_type::r1, "R1");
     } else {
-        throw std::runtime_error("unrecognized public key format");
+        throw error("unrecognized public key format");
     }
 }
 
@@ -210,7 +211,7 @@ inline std::string public_key_to_string(const public_key& key) {
     } else if (key.type == key_type::r1) {
         return key_to_string(key, "R1", "PUB_R1_");
     } else {
-        throw std::runtime_error("unrecognized public key format");
+        throw error("unrecognized public key format");
     }
 }
 
@@ -218,14 +219,14 @@ inline private_key string_to_private_key(std::string_view s) {
     if (s.size() >= 7 && s.substr(0, 7) == "PVT_R1_")
         return string_to_key<private_key>(s.substr(7), key_type::r1, "R1");
     else
-        throw std::runtime_error("unrecognized private key format");
+        throw error("unrecognized private key format");
 }
 
 inline std::string private_key_to_string(const private_key& private_key) {
     if (private_key.type == key_type::r1)
         return key_to_string(private_key, "R1", "PVT_R1_");
     else
-        throw std::runtime_error("unrecognized private key format");
+        throw error("unrecognized private key format");
 }
 
 inline signature string_to_signature(std::string_view s) {
@@ -234,7 +235,7 @@ inline signature string_to_signature(std::string_view s) {
     else if (s.size() >= 7 && s.substr(0, 7) == "SIG_R1_")
         return string_to_key<signature>(s.substr(7), key_type::r1, "R1");
     else
-        throw std::runtime_error("unrecognized signature format");
+        throw error("unrecognized signature format");
 }
 
 inline std::string signature_to_string(const signature& signature) {
@@ -243,7 +244,7 @@ inline std::string signature_to_string(const signature& signature) {
     else if (signature.type == key_type::r1)
         return key_to_string(signature, "R1", "SIG_R1_");
     else
-        throw std::runtime_error("unrecognized signature format");
+        throw error("unrecognized signature format");
 }
 
 } // namespace abieos

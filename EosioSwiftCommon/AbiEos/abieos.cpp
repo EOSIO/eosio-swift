@@ -7,6 +7,8 @@
 
 #include <memory>
 
+inline const bool catch_all = true;
+
 using namespace abieos;
 
 struct abieos_context_s {
@@ -28,6 +30,8 @@ void set_error(abieos_context* context, const char* error) noexcept {
         context->last_error_buffer = error;
         context->last_error = context->last_error_buffer.c_str();
     } catch (...) {
+        if (!catch_all)
+            throw;
         context->last_error = "exception while recording error";
     }
 }
@@ -38,10 +42,20 @@ auto handle_exceptions(abieos_context* context, T errval, F f) noexcept -> declt
         return errval;
     try {
         return f();
+    } catch (error& e) {
+        set_error(context, e.what());
+        return errval;
+    } catch (boost::exception& e) {
+        set_error(context, diagnostic_information(e).c_str());
+        return errval;
     } catch (std::exception& e) {
+        if (!catch_all)
+            throw;
         set_error(context, e.what());
         return errval;
     } catch (...) {
+        if (!catch_all)
+            throw;
         set_error(context, "unknown exception");
         return errval;
     }
@@ -50,7 +64,13 @@ auto handle_exceptions(abieos_context* context, T errval, F f) noexcept -> declt
 extern "C" abieos_context* abieos_create() {
     try {
         return new abieos_context{};
+    } catch (error& e) {
+        return nullptr;
+    } catch (boost::exception& e) {
+        return nullptr;
     } catch (...) {
+        if (!catch_all)
+            throw;
         return nullptr;
     }
 }
@@ -114,10 +134,11 @@ extern "C" abieos_bool abieos_set_abi_bin(abieos_context* context, uint64_t cont
     return handle_exceptions(context, false, [&] {
         context->last_error = "abi parse error";
         if (!data || !size)
-            throw std::runtime_error("no data");
+            throw error("no data");
         check_abi_version(input_buffer{data, data + size});
         abi_def def{};
-        if (!bin_to_native(def, {data, data + size}))
+        input_buffer buf{data, data + size};
+        if (!bin_to_native(def, buf))
             return false;
         auto c = create_contract(def);
         context->contracts.insert({name{contract}, std::move(c)});
@@ -138,13 +159,13 @@ extern "C" const char* abieos_get_type_for_action(abieos_context* context, uint6
     return handle_exceptions(context, nullptr, [&] {
         auto contract_it = context->contracts.find(::abieos::name{contract});
         if (contract_it == context->contracts.end())
-            throw std::runtime_error("contract \"" + name_to_string(contract) + "\" is not loaded");
+            throw error("contract \"" + name_to_string(contract) + "\" is not loaded");
         auto& c = contract_it->second;
 
         auto action_it = c.action_types.find(name{action});
         if (action_it == c.action_types.end())
-            throw std::runtime_error("contract \"" + name_to_string(contract) + "\" does not have action \"" +
-                                     name_to_string(action) + "\"");
+            throw error("contract \"" + name_to_string(contract) + "\" does not have action \"" +
+                        name_to_string(action) + "\"");
         return action_it->second.c_str();
     });
 }
@@ -157,7 +178,7 @@ extern "C" abieos_bool abieos_json_to_bin(abieos_context* context, uint64_t cont
         context->last_error = "json parse error";
         auto contract_it = context->contracts.find(::abieos::name{contract});
         if (contract_it == context->contracts.end())
-            throw std::runtime_error("contract \"" + name_to_string(contract) + "\" is not loaded");
+            throw error("contract \"" + name_to_string(contract) + "\" is not loaded");
         auto& t = get_type(contract_it->second.abi_types, type, 0);
         context->result_bin.clear();
         return json_to_bin(context->result_bin, &t, json);
@@ -172,7 +193,7 @@ extern "C" abieos_bool abieos_json_to_bin_reorderable(abieos_context* context, u
         context->last_error = "json parse error";
         auto contract_it = context->contracts.find(::abieos::name{contract});
         if (contract_it == context->contracts.end())
-            throw std::runtime_error("contract \"" + name_to_string(contract) + "\" is not loaded");
+            throw error("contract \"" + name_to_string(contract) + "\" is not loaded");
         auto& t = get_type(contract_it->second.abi_types, type, 0);
         context->result_bin.clear();
         ::abieos::jvalue value;
@@ -192,13 +213,13 @@ extern "C" const char* abieos_bin_to_json(abieos_context* context, uint64_t cont
         context->last_error = "binary decode error";
         auto contract_it = context->contracts.find(::abieos::name{contract});
         if (contract_it == context->contracts.end())
-            throw std::runtime_error("contract \"" + name_to_string(contract) + "\" is not loaded");
+            throw error("contract \"" + name_to_string(contract) + "\" is not loaded");
         auto& t = get_type(contract_it->second.abi_types, type, 0);
         input_buffer bin{data, data + size};
         if (!bin_to_json(bin, &t, context->result_str))
             return nullptr;
         if (bin.pos != bin.end)
-            throw std::runtime_error("Extra data");
+            throw error("Extra data");
         return context->result_str.c_str();
     });
 }

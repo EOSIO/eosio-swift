@@ -22,6 +22,7 @@ public enum EosioErrorCode : String {
     case transactionError = "transactionError"
     case vaultError = "vaultError"
     case whitelistingError = "whitelistingError"
+    case malformedRequestError = "malformedRequestError"
     //general catch all
     case unexpectedError = "unexpectedError"
 }

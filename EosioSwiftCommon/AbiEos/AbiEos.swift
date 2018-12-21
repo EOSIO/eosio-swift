@@ -52,7 +52,7 @@ public class AbiEos {
         return abiString
     }
     
-    public func jsonToHex(contract: String?, name: String, json: String, abi: Any, isReorderable: Bool = false) throws -> String {
+    public func jsonToHex(contract: String?, name: String = "", type: String? = nil, json: String, abi: Any, isReorderable: Bool = false) throws -> String {
         
         refreshContext()
         let contract64 = name64(string: contract)
@@ -63,12 +63,17 @@ public class AbiEos {
         guard setAbiResult == 1 else {
             throw Error(EosioErrorCode.vaultError, reason: "Json to hex -- Unable to set ABI. \(self.error ?? "")")
         }
+                
+        // get the type name for the action
+        guard let type = type ?? getType(action: name, contract: contract64) else {
+            throw Error(EosioErrorCode.vaultError, reason: "Unable find type for action \(name). \(self.error ?? "")")
+        }
         
         var jsonToBinResult: Int32 = 0
         if isReorderable {
-            jsonToBinResult = abieos_json_to_bin_reorderable(context, contract64, name, json)
+            jsonToBinResult = abieos_json_to_bin_reorderable(context, contract64, type, json)
         } else {
-            jsonToBinResult = abieos_json_to_bin(context, contract64, name, json)
+            jsonToBinResult = abieos_json_to_bin(context, contract64, type, json)
         }
         
         guard jsonToBinResult == 1 else {
@@ -82,7 +87,7 @@ public class AbiEos {
     }
     
     
-    public func hexToJson(contract: String?, name: String, hex: String, abi: Any) throws -> String {
+    public func hexToJson(contract: String?, name: String = "", type: String? = nil, hex: String, abi: Any) throws -> String {
         let contract64 = name64(string: contract)
         abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
         
@@ -91,8 +96,13 @@ public class AbiEos {
         guard setAbiResult == 1 else {
             throw Error(EosioErrorCode.vaultError, reason: "Hex to json -- Unable to set ABI. \(self.error ?? "")")
         }
+        
+        // get the type name for the action
+        guard let type = type ?? getType(action: name, contract: contract64) else {
+            throw Error(EosioErrorCode.vaultError, reason: "Unable find type for action \(name). \(self.error ?? "")")
+        }
      
-        if let json = abieos_hex_to_json(context, contract64, name, hex) {
+        if let json = abieos_hex_to_json(context, contract64, type, hex) {
             if let string = String(validatingUTF8: json) {
                 return string
             } else {
@@ -102,6 +112,16 @@ public class AbiEos {
             throw Error(EosioErrorCode.vaultError, reason: "Unable to unpack hex to json. \(self.error ?? "")")
         }
         
+    }
+    
+    // get the type name for the action and contract
+    private func getType(action: String, contract: UInt64) -> String? {
+        let action64 = name64(string: action)
+        if let type = abieos_get_type_for_action(context, contract, action64) {
+            return String(validatingUTF8: type)
+        } else {
+            return nil
+        }
     }
     
     private func jsonString(dictionary: [String:Any]) -> String? {

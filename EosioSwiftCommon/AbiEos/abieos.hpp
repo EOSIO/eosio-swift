@@ -5,9 +5,11 @@
 #include <boost/algorithm/hex.hpp>
 #include <boost/container/flat_map.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/exception/diagnostic_information.hpp>
 #include <boost/variant.hpp>
 #include <ctime>
 #include <map>
+#include <variant>
 #include <vector>
 
 #include "abieos_numeric.hpp"
@@ -42,8 +44,20 @@ inline constexpr bool is_pair_v = false;
 template <typename First, typename Second>
 inline constexpr bool is_pair_v<std::pair<First, Second>> = true;
 
+template <typename T>
+inline constexpr bool is_optional_v = false;
+
+template <typename T>
+inline constexpr bool is_optional_v<std::optional<T>> = true;
+
+template <typename T>
+inline constexpr bool is_string_v = false;
+
+template <>
+inline constexpr bool is_string_v<std::string> = true;
+
 template <auto P>
-struct member_ptr {};
+struct member_ptr;
 
 template <class C, typename M>
 C* class_from_void(M C::*, void* v) {
@@ -51,9 +65,14 @@ C* class_from_void(M C::*, void* v) {
 }
 
 template <auto P>
-auto& member_from_void(member_ptr<P>, void* p) {
+auto& member_from_void(const member_ptr<P>&, void* p) {
     return class_from_void(P, p)->*P;
 }
+
+template <auto P>
+struct member_ptr {
+    using member_type = std::decay_t<decltype(member_from_void(std::declval<member_ptr<P>>(), std::declval<void*>()))>;
+};
 
 // Pseudo objects never exist, except in serialized form
 struct pseudo_optional;
@@ -80,8 +99,9 @@ struct input_buffer {
 
 inline void read_bin(input_buffer& bin, void* dest, ptrdiff_t size) {
     if (bin.end - bin.pos < size)
-        throw std::runtime_error("read past end");
-    memcpy(dest, bin.pos, size);
+        throw error("read past end");
+    if (size)
+        memcpy(dest, bin.pos, size);
     bin.pos += size;
 }
 
@@ -89,6 +109,12 @@ template <typename T>
 void read_bin(input_buffer& bin, T& dest) {
     static_assert(std::is_trivially_copyable_v<T>);
     read_bin(bin, &dest, sizeof(dest));
+}
+
+inline void read_bin(input_buffer& bin, bool& dest) {
+    char tmp;
+    read_bin(bin, &tmp, sizeof(tmp));
+    dest = tmp;
 }
 
 template <typename T>
@@ -103,7 +129,7 @@ uint32_t read_varuint32(input_buffer& bin);
 inline std::string read_string(input_buffer& bin) {
     auto size = read_varuint32(bin);
     if (size > bin.end - bin.pos)
-        throw std::runtime_error("invalid string size");
+        throw error("invalid string size");
     std::string result(size, 0);
     read_bin(bin, result.data(), size);
     return result;
@@ -192,13 +218,13 @@ struct jvalue {
     boost::variant<std::nullptr_t, bool, std::string, jobject, jarray> value;
 };
 
-event_type get_event_type(std::nullptr_t) { return event_type::received_null; }
-event_type get_event_type(bool b) { return event_type::received_bool; }
-event_type get_event_type(const std::string& s) { return event_type::received_string; }
-event_type get_event_type(const jobject&) { return event_type::received_start_object; }
-event_type get_event_type(const jarray&) { return event_type::received_start_array; }
+inline event_type get_event_type(std::nullptr_t) { return event_type::received_null; }
+inline event_type get_event_type(bool b) { return event_type::received_bool; }
+inline event_type get_event_type(const std::string& s) { return event_type::received_string; }
+inline event_type get_event_type(const jobject&) { return event_type::received_start_object; }
+inline event_type get_event_type(const jarray&) { return event_type::received_start_array; }
 
-event_type get_event_type(const jvalue& value) {
+inline event_type get_event_type(const jvalue& value) {
     return boost::apply_visitor([](const auto& x) { return get_event_type(x); }, value.value);
 }
 
@@ -268,13 +294,13 @@ struct jvalue_to_bin_state {
 
     bool get_bool() const {
         if (!received_value)
-            throw std::runtime_error("internal error: !received_value");
+            throw error("internal error: !received_value");
         return boost::get<bool>(received_value->value);
     }
 
     const std::string& get_string() const {
         if (!received_value)
-            throw std::runtime_error("internal error: !received_value");
+            throw error("internal error: !received_value");
         return boost::get<std::string>(received_value->value);
     }
 };
@@ -334,6 +360,10 @@ template <typename First, typename Second>
 bool bin_to_native(std::pair<First, Second>& obj, bin_to_native_state& state, bool start);
 bool bin_to_native(std::string& obj, bin_to_native_state& state, bool);
 template <typename T>
+bool bin_to_native(std::optional<T>& v, bin_to_native_state& state, bool start);
+template <typename... Ts>
+bool bin_to_native(std::variant<Ts...>& v, bin_to_native_state& state, bool start);
+template <typename T>
 bool bin_to_native(might_not_exist<T>& obj, bin_to_native_state& state, bool);
 
 template <typename T>
@@ -348,12 +378,16 @@ template <typename First, typename Second>
 bool json_to_native(std::pair<First, Second>& obj, json_to_native_state& state, event_type event, bool start);
 bool json_to_native(std::string& obj, json_to_native_state& state, event_type event, bool start);
 template <typename T>
+bool json_to_native(std::optional<T>& obj, json_to_native_state& state, event_type event, bool start);
+template <typename... Ts>
+bool json_to_native(std::variant<Ts...>& obj, json_to_native_state& state, event_type event, bool start);
+template <typename T>
 bool json_to_native(might_not_exist<T>& obj, json_to_native_state& state, event_type event, bool start);
 
-inline bool json_to_bin(pseudo_optional*, jvalue_to_bin_state& state, bool allow_extensions, const abi_type* type,
-                        event_type event, bool);
-inline bool json_to_bin(pseudo_extension*, jvalue_to_bin_state& state, bool allow_extensions, const abi_type* type,
-                        event_type event, bool);
+bool json_to_bin(pseudo_optional*, jvalue_to_bin_state& state, bool allow_extensions, const abi_type* type,
+                 event_type event, bool);
+bool json_to_bin(pseudo_extension*, jvalue_to_bin_state& state, bool allow_extensions, const abi_type* type,
+                 event_type event, bool);
 bool json_to_bin(pseudo_object*, jvalue_to_bin_state& state, bool allow_extensions, const abi_type* type,
                  event_type event, bool start);
 bool json_to_bin(pseudo_array*, jvalue_to_bin_state& state, bool allow_extensions, const abi_type* type,
@@ -401,31 +435,32 @@ T json_to_number(State& state, event_type event) {
     if (event == event_type::received_bool)
         return state.get_bool();
     if (event == event_type::received_string) {
-        auto check = [](auto f) {
+        auto check = [](auto f, bool check_result = true) {
             using T2 = decltype(f());
             T2 result;
             try {
                 result = f();
             } catch (...) {
-                throw std::runtime_error("number is out of range or has bad format");
+                throw error("number is out of range or has bad format");
             }
-            if ((T2)(T)result != result)
-                throw std::runtime_error("number is out of range");
+            if (check_result && (T2)(T)result != result)
+                throw error("number is out of range");
             return result;
         };
         auto& s = state.get_string();
-        if (std::is_integral_v<T> && std::is_signed_v<T>)
+        if (std::is_integral_v<T> && std::is_signed_v<T>) {
             return check([&] { return stoll(s); });
-        else if (std::is_integral_v<T> && !std::is_signed_v<T>) {
+        } else if (std::is_integral_v<T> && !std::is_signed_v<T>) {
             if (s.find('-') != s.npos)
-                throw std::runtime_error("expected non-negative number");
+                throw error("expected non-negative number");
             return check([&] { return stoull(s); });
-        } else if (std::is_same_v<T, float>)
-            return stof(s);
-        else if (std::is_same_v<T, double>)
-            return stod(s);
+        } else if (std::is_same_v<T, float>) {
+            return check([&] { return stof(s); }, false);
+        } else if (std::is_same_v<T, double>) {
+            return check([&] { return stod(s); }, false);
+        }
     }
-    throw std::runtime_error("expected number or boolean");
+    throw error("expected number or boolean");
 } // namespace abieos
 
 struct bytes {
@@ -434,6 +469,46 @@ struct bytes {
 
 void push_varuint32(std::vector<char>& bin, uint32_t v);
 
+inline bool bin_to_native(bytes& obj, bin_to_native_state& state, bool) {
+    auto size = read_varuint32(state.bin);
+    if (size > state.bin.end - state.bin.pos)
+        throw error("invalid bytes size");
+    obj.data.resize(size);
+    read_bin(state.bin, obj.data.data(), size);
+    return true;
+}
+
+inline bool bin_to_native(input_buffer& obj, bin_to_native_state& state, bool) {
+    auto size = read_varuint32(state.bin);
+    if (size > state.bin.end - state.bin.pos)
+        throw error("invalid bytes size");
+    obj = {state.bin.pos, state.bin.pos + size};
+    state.bin.pos += size;
+    return true;
+}
+
+inline bool json_to_native(bytes& obj, json_to_native_state& state, event_type event, bool start) {
+    if (event == event_type::received_string) {
+        auto& s = state.get_string();
+        if (trace_json_to_native)
+            printf("%*sbytes (%d hex digits)\n", int(state.stack.size() * 4), "", int(s.size()));
+        if (s.size() & 1)
+            throw error("odd number of hex digits");
+        obj.data.clear();
+        try {
+            boost::algorithm::unhex(s.begin(), s.end(), std::back_inserter(obj.data));
+        } catch (...) {
+            throw error("expected hex string");
+        }
+        return true;
+    } else
+        throw error("expected string containing hex digits");
+}
+
+inline bool json_to_native(input_buffer& obj, json_to_native_state& state, event_type event, bool start) {
+    throw error("can not convert json to input_buffer");
+}
+
 template <typename State>
 bool json_to_bin(bytes*, State& state, bool, const abi_type*, event_type event, bool start) {
     if (event == event_type::received_string) {
@@ -441,22 +516,22 @@ bool json_to_bin(bytes*, State& state, bool, const abi_type*, event_type event, 
         if (trace_json_to_bin)
             printf("%*sbytes (%d hex digits)\n", int(state.stack.size() * 4), "", int(s.size()));
         if (s.size() & 1)
-            throw std::runtime_error("odd number of hex digits");
+            throw error("odd number of hex digits");
         push_varuint32(state.bin, s.size() / 2);
         try {
             boost::algorithm::unhex(s.begin(), s.end(), std::back_inserter(state.bin));
         } catch (...) {
-            throw std::runtime_error("expected hex string");
+            throw error("expected hex string");
         }
         return true;
     } else
-        throw std::runtime_error("expected string containing hex digits");
+        throw error("expected string containing hex digits");
 }
 
 inline bool bin_to_json(bytes*, bin_to_json_state& state, bool, const abi_type*, bool start) {
     auto size = read_varuint32(state.bin);
     if (size > state.bin.end - state.bin.pos)
-        throw std::runtime_error("invalid bytes size");
+        throw error("invalid bytes size");
     std::vector<char> raw(size);
     read_bin(state.bin, raw.data(), size);
     std::string result;
@@ -467,12 +542,44 @@ inline bool bin_to_json(bytes*, bin_to_json_state& state, bool, const abi_type*,
 template <unsigned size>
 struct fixed_binary {
     std::array<uint8_t, size> value{{0}};
+
+    explicit operator std::string() const {
+        std::string result;
+        boost::algorithm::hex(value.begin(), value.end(), std::back_inserter(result));
+        return result;
+    }
 };
 
 using float128 = fixed_binary<16>;
 using checksum160 = fixed_binary<20>;
 using checksum256 = fixed_binary<32>;
 using checksum512 = fixed_binary<64>;
+
+template <unsigned size>
+bool bin_to_native(fixed_binary<size>& obj, bin_to_native_state& state, bool start) {
+    read_bin(state.bin, obj);
+    return true;
+}
+
+template <unsigned size>
+bool json_to_native(fixed_binary<size>& obj, json_to_native_state& state, event_type event, bool start) {
+    if (event == event_type::received_string) {
+        auto& s = state.get_string();
+        if (trace_json_to_native)
+            printf("%*schecksum\n", int(state.stack.size() * 4), "");
+        std::vector<uint8_t> v;
+        try {
+            boost::algorithm::unhex(s.begin(), s.end(), std::back_inserter(v));
+        } catch (...) {
+            throw error("expected hex string");
+        }
+        if (v.size() != size)
+            throw error("hex string has incorrect length");
+        memcpy(obj.value.data(), v.data(), size);
+        return true;
+    } else
+        throw error("expected string containing hex");
+}
 
 template <typename State, unsigned size>
 bool json_to_bin(fixed_binary<size>*, State& state, bool, const abi_type*, event_type event, bool start) {
@@ -484,14 +591,14 @@ bool json_to_bin(fixed_binary<size>*, State& state, bool, const abi_type*, event
         try {
             boost::algorithm::unhex(s.begin(), s.end(), std::back_inserter(v));
         } catch (...) {
-            throw std::runtime_error("expected hex string");
+            throw error("expected hex string");
         }
         if (v.size() != size)
-            throw std::runtime_error("hex string has incorrect length");
+            throw error("hex string has incorrect length");
         state.bin.insert(state.bin.end(), v.begin(), v.end());
         return true;
     } else
-        throw std::runtime_error("expected string containing hex");
+        throw error("expected string containing hex");
 }
 
 template <unsigned size>
@@ -504,6 +611,8 @@ inline bool bin_to_json(fixed_binary<size>*, bin_to_json_state& state, bool, con
 
 struct uint128 {
     std::array<uint8_t, 16> value{{0}};
+
+    explicit operator std::string() const { return binary_to_decimal(value); }
 };
 
 template <typename State>
@@ -516,7 +625,7 @@ bool json_to_bin(uint128*, State& state, bool, const abi_type*, event_type event
         push_raw(state.bin, value);
         return true;
     } else
-        throw std::runtime_error("expected string containing uint128");
+        throw error("expected string containing uint128");
 }
 
 inline bool bin_to_json(uint128*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -527,6 +636,17 @@ inline bool bin_to_json(uint128*, bin_to_json_state& state, bool, const abi_type
 
 struct int128 {
     std::array<uint8_t, 16> value{{0}};
+
+    explicit operator std::string() const {
+        auto v = value;
+        bool negative = is_negative(v);
+        if (negative)
+            negate(v);
+        auto result = binary_to_decimal(v);
+        if (negative)
+            result = "-" + result;
+        return result;
+    }
 };
 
 template <typename State>
@@ -544,11 +664,11 @@ bool json_to_bin(int128*, State& state, bool, const abi_type*, event_type event,
         if (negative)
             negate(value);
         if (is_negative(value) != negative)
-            throw std::runtime_error("number is out of range");
+            throw error("number is out of range");
         push_raw(state.bin, value);
         return true;
     } else
-        throw std::runtime_error("expected string containing int128");
+        throw error("expected string containing int128");
 }
 
 inline bool bin_to_json(int128*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -562,6 +682,15 @@ inline bool bin_to_json(int128*, bin_to_json_state& state, bool, const abi_type*
     return state.writer.String(result.c_str(), result.size());
 }
 
+inline bool bin_to_native(public_key& obj, bin_to_native_state& state, bool) {
+    read_bin(state.bin, obj);
+    return true;
+}
+
+inline bool json_to_native(public_key& obj, json_to_native_state& state, event_type event, bool start) {
+    throw error("can't convert public_key");
+}
+
 template <typename State>
 bool json_to_bin(public_key*, State& state, bool, const abi_type*, event_type event, bool start) {
     if (event == event_type::received_string) {
@@ -572,7 +701,7 @@ bool json_to_bin(public_key*, State& state, bool, const abi_type*, event_type ev
         push_raw(state.bin, key);
         return true;
     } else
-        throw std::runtime_error("expected string containing public_key");
+        throw error("expected string containing public_key");
 }
 
 inline bool bin_to_json(public_key*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -591,13 +720,26 @@ bool json_to_bin(private_key*, State& state, bool, const abi_type*, event_type e
         push_raw(state.bin, key);
         return true;
     } else
-        throw std::runtime_error("expected string containing private_key");
+        throw error("expected string containing private_key");
 }
 
 inline bool bin_to_json(private_key*, bin_to_json_state& state, bool, const abi_type*, bool start) {
     auto v = read_bin<private_key>(state.bin);
     auto result = private_key_to_string(v);
     return state.writer.String(result.c_str(), result.size());
+}
+
+inline bool bin_to_native(signature& obj, bin_to_native_state& state, bool) {
+    read_bin(state.bin, obj);
+    return true;
+}
+
+inline bool json_to_native(signature& obj, json_to_native_state& state, event_type event, bool start) {
+    if (event == event_type::received_string) {
+        obj = string_to_signature(state.get_string());
+        return true;
+    } else
+        throw error("expected string containing signature");
 }
 
 template <typename State>
@@ -610,7 +752,7 @@ bool json_to_bin(signature*, State& state, bool, const abi_type*, event_type eve
         push_raw(state.bin, key);
         return true;
     } else
-        throw std::runtime_error("expected string containing signature");
+        throw error("expected string containing signature");
 }
 
 inline bool bin_to_json(signature*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -680,7 +822,7 @@ inline bool json_to_native(name& obj, json_to_native_state& state, event_type ev
                    (unsigned long long)obj.value, std::string{obj}.c_str());
         return true;
     } else
-        throw std::runtime_error("expected string containing name");
+        throw error("expected string containing name");
 }
 
 template <typename State>
@@ -693,7 +835,7 @@ bool json_to_bin(name*, State& state, bool, const abi_type*, event_type event, b
         push_raw(state.bin, obj.value);
         return true;
     } else
-        throw std::runtime_error("expected string containing name");
+        throw error("expected string containing name");
 }
 
 inline bool bin_to_json(name*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -703,6 +845,8 @@ inline bool bin_to_json(name*, bin_to_json_state& state, bool, const abi_type*, 
 
 struct varuint32 {
     uint32_t value = 0;
+
+    explicit operator std::string() const { return std::to_string(value); }
 };
 
 inline void push_varuint32(std::vector<char>& bin, uint32_t v) {
@@ -720,11 +864,23 @@ inline uint32_t read_varuint32(input_buffer& bin) {
     int shift = 0;
     uint8_t b = 0;
     do {
+        if (shift >= 35)
+            throw error("invalid varuint32 encoding");
         b = read_bin<uint8_t>(bin);
-        result |= (b & 0x7f) << shift;
+        result |= uint32_t(b & 0x7f) << shift;
         shift += 7;
     } while (b & 0x80);
     return result;
+}
+
+inline bool bin_to_native(varuint32& obj, bin_to_native_state& state, bool) {
+    obj = varuint32{read_varuint32(state.bin)};
+    return true;
+}
+
+inline bool json_to_native(varuint32& obj, json_to_native_state& state, event_type event, bool) {
+    obj = varuint32{json_to_number<uint32_t>(state, event)};
+    return true;
 }
 
 template <typename State>
@@ -739,6 +895,8 @@ inline bool bin_to_json(varuint32*, bin_to_json_state& state, bool, const abi_ty
 
 struct varint32 {
     int32_t value = 0;
+
+    explicit operator std::string() const { return std::to_string(value); }
 };
 
 inline void push_varint32(std::vector<char>& bin, int32_t v) {
@@ -771,13 +929,17 @@ struct time_point_sec {
     explicit time_point_sec(uint32_t seconds) : utc_seconds{seconds} {}
 
     explicit time_point_sec(const std::string& s) {
-        static const boost::posix_time::ptime epoch = boost::posix_time::from_time_t(0);
-        boost::posix_time::ptime pt;
-        if (s.size() >= 5 && s.at(4) == '-') // http://en.wikipedia.org/wiki/ISO_8601
-            pt = boost::date_time::parse_delimited_time<boost::posix_time::ptime>(s, 'T');
-        else
-            pt = boost::posix_time::from_iso_string(s);
-        utc_seconds = (pt - epoch).total_seconds();
+        try {
+            static const boost::posix_time::ptime epoch = boost::posix_time::from_time_t(0);
+            boost::posix_time::ptime pt;
+            if (s.size() >= 5 && s.at(4) == '-') // http://en.wikipedia.org/wiki/ISO_8601
+                pt = boost::date_time::parse_delimited_time<boost::posix_time::ptime>(s, 'T');
+            else
+                pt = boost::posix_time::from_iso_string(s);
+            utc_seconds = (pt - epoch).total_seconds();
+        } catch (...) {
+            throw error("expected string containing time_point_sec");
+        }
     }
 
     explicit operator std::string() {
@@ -796,7 +958,7 @@ bool json_to_bin(time_point_sec*, State& state, bool, const abi_type*, event_typ
         push_raw(state.bin, obj.utc_seconds);
         return true;
     } else
-        throw std::runtime_error("expected string containing time_point_sec");
+        throw error("expected string containing time_point_sec");
 }
 
 inline bool bin_to_json(time_point_sec*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -841,7 +1003,7 @@ bool json_to_bin(time_point*, State& state, bool, const abi_type*, event_type ev
         push_raw(state.bin, obj.microseconds);
         return true;
     } else
-        throw std::runtime_error("expected string containing time_point");
+        throw error("expected string containing time_point");
 }
 
 inline bool bin_to_json(time_point*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -863,6 +1025,15 @@ struct block_timestamp {
     explicit operator std::string() const { return std::string{time_point{*this}}; }
 }; // block_timestamp
 
+inline bool bin_to_native(block_timestamp& obj, bin_to_native_state& state, bool) {
+    read_bin(state.bin, obj.slot);
+    return true;
+}
+
+inline bool json_to_native(block_timestamp& obj, json_to_native_state& state, event_type event, bool start) {
+    throw error("can't convert block_timestamp");
+}
+
 template <typename State>
 bool json_to_bin(block_timestamp*, State& state, bool, const abi_type*, event_type event, bool start) {
     if (event == event_type::received_string) {
@@ -873,7 +1044,7 @@ bool json_to_bin(block_timestamp*, State& state, bool, const abi_type*, event_ty
         push_raw(state.bin, obj.slot);
         return true;
     } else
-        throw std::runtime_error("expected string containing block_timestamp_type");
+        throw error("expected string containing block_timestamp_type");
 }
 
 inline bool bin_to_json(block_timestamp*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -890,8 +1061,11 @@ inline constexpr uint64_t string_to_symbol_code(const char* str) {
         ++str;
     uint64_t result = 0;
     uint32_t i = 0;
-    while (*str >= 'A' && *str <= 'Z')
+    while (*str >= 'A' && *str <= 'Z') {
+        if (i >= 7)
+            throw error("expected string containing symbol_code");
         result |= uint64_t(*str++) << (8 * i++);
+    }
     return result;
 }
 
@@ -914,7 +1088,7 @@ bool json_to_bin(symbol_code*, State& state, bool, const abi_type*, event_type e
         push_raw(state.bin, v);
         return true;
     } else
-        throw std::runtime_error("expected string containing symbol_code");
+        throw error("expected string containing symbol_code");
 }
 
 inline bool bin_to_json(symbol_code*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -953,7 +1127,7 @@ bool json_to_bin(symbol*, State& state, bool, const abi_type*, event_type event,
         push_raw(state.bin, v);
         return true;
     } else
-        throw std::runtime_error("expected string containing symbol");
+        throw error("expected string containing symbol");
 }
 
 inline bool bin_to_json(symbol*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -1028,7 +1202,7 @@ bool json_to_bin(asset*, State& state, bool, const abi_type*, event_type event, 
         push_raw(state.bin, v.sym.value);
         return true;
     } else
-        throw std::runtime_error("expected string containing asset");
+        throw error("expected string containing asset");
 }
 
 inline bool bin_to_json(asset*, bin_to_json_state& state, bool, const abi_type*, bool start) {
@@ -1170,7 +1344,7 @@ constexpr void for_each_field(abi_def*, F f) {
 
 inline void check_abi_version(const std::string& s) {
     if (s.substr(0, 13) != "eosio::abi/1.")
-        throw std::runtime_error("unsupported abi version");
+        throw error("unsupported abi version");
 }
 
 inline void check_abi_version(input_buffer bin) { check_abi_version(read_string(bin)); }
@@ -1184,9 +1358,9 @@ bool json_to_jarray(jvalue& value, json_to_jvalue_state& state, event_type event
 
 inline bool receive_event(struct json_to_jvalue_state& state, event_type event, bool start) {
     if (state.stack.empty())
-        throw std::runtime_error("extra data");
+        throw error("extra data");
     if (state.stack.size() > max_stack_size)
-        throw std::runtime_error("recursion limit reached");
+        throw error("recursion limit reached");
     if (trace_json_to_jvalue_event)
         printf("(event %d)\n", (int)event);
     auto& v = *state.stack.back().value;
@@ -1213,13 +1387,14 @@ inline bool receive_event(struct json_to_jvalue_state& state, event_type event, 
         else if (boost::get<jarray>(&v.value))
             return json_to_jarray(v, state, event, start);
         else
-            throw std::runtime_error("extra data");
+            throw error("extra data");
     }
     return true;
 }
 
 inline bool json_to_jvalue(jvalue& value, std::string_view json) {
     std::string mutable_json{json};
+    mutable_json.push_back(0);
     json_to_jvalue_state state;
     state.stack.push_back({&value});
     rapidjson::Reader reader;
@@ -1231,7 +1406,7 @@ inline bool json_to_jvalue(jvalue& value, std::string_view json) {
 inline bool json_to_jobject(jvalue& value, json_to_jvalue_state& state, event_type event, bool start) {
     if (start) {
         if (event != event_type::received_start_object)
-            throw std::runtime_error("expected object");
+            throw error("expected object");
         if (trace_json_to_jvalue)
             printf("%*s{\n", int(state.stack.size() * 4), "");
         state.stack.push_back({&value});
@@ -1258,7 +1433,7 @@ inline bool json_to_jobject(jvalue& value, json_to_jvalue_state& state, event_ty
 inline bool json_to_jarray(jvalue& value, json_to_jvalue_state& state, event_type event, bool start) {
     if (start) {
         if (event != event_type::received_start_array)
-            throw std::runtime_error("expected array");
+            throw error("expected array");
         if (trace_json_to_jvalue)
             printf("%*s[\n", int(state.stack.size() * 4), "");
         state.stack.push_back({&value});
@@ -1284,10 +1459,12 @@ inline bool json_to_jarray(jvalue& value, json_to_jvalue_state& state, event_typ
 template <typename T>
 struct native_serializer_impl : native_serializer {
     bool bin_to_native(void* v, bin_to_native_state& state, bool start) const override {
-        return ::abieos::bin_to_native(*reinterpret_cast<T*>(v), state, start);
+        using ::abieos::bin_to_native;
+        return bin_to_native(*reinterpret_cast<T*>(v), state, start);
     }
     bool json_to_native(void* v, json_to_native_state& state, event_type event, bool start) const override {
-        return ::abieos::json_to_native(*reinterpret_cast<T*>(v), state, event, start);
+        using ::abieos::json_to_native;
+        return json_to_native(*reinterpret_cast<T*>(v), state, event, start);
     }
 };
 
@@ -1298,10 +1475,12 @@ template <typename member_ptr>
 constexpr auto create_native_field_serializer_methods_impl() {
     struct impl : native_field_serializer_methods {
         bool bin_to_native(void* v, bin_to_native_state& state, bool start) const override {
-            return ::abieos::bin_to_native(member_from_void(member_ptr{}, v), state, start);
+            using ::abieos::bin_to_native;
+            return bin_to_native(member_from_void(member_ptr{}, v), state, start);
         }
         bool json_to_native(void* v, json_to_native_state& state, event_type event, bool start) const override {
-            return ::abieos::json_to_native(member_from_void(member_ptr{}, v), state, event, start);
+            using ::abieos::json_to_native;
+            return json_to_native(member_from_void(member_ptr{}, v), state, event, start);
         }
     };
     return impl{};
@@ -1333,7 +1512,7 @@ inline constexpr auto native_field_serializers_for = create_native_field_seriali
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
-bool bin_to_native(T& obj, input_buffer bin) {
+bool bin_to_native(T& obj, input_buffer& bin) {
     bin_to_native_state state{bin};
     if (!native_serializer_for<T>.bin_to_native(&obj, state, true))
         return false;
@@ -1341,8 +1520,9 @@ bool bin_to_native(T& obj, input_buffer bin) {
         if (!state.stack.back().ser->bin_to_native(state.stack.back().obj, state, false))
             return false;
         if (state.stack.size() > max_stack_size)
-            throw std::runtime_error("recursion limit reached");
+            throw error("recursion limit reached");
     }
+    bin = state.bin;
     return true;
 }
 
@@ -1422,7 +1602,7 @@ bool bin_to_native(std::pair<First, Second>& obj, bin_to_native_state& state, bo
         if (trace_bin_to_native)
             printf("%*sitem 1/1\n", int(state.stack.size() * 4), "");
         ++stack_entry.position;
-        return native_serializer_for<First>.bin_to_native(&obj.second, state, true);
+        return native_serializer_for<Second>.bin_to_native(&obj.second, state, true);
     } else {
         if (trace_bin_to_native)
             printf("%*s]\n", int((state.stack.size() - 1) * 4), "");
@@ -1435,10 +1615,40 @@ bool bin_to_native(std::pair<First, Second>& obj, bin_to_native_state& state, bo
 inline bool bin_to_native(std::string& obj, bin_to_native_state& state, bool) {
     auto size = read_varuint32(state.bin);
     if (size > state.bin.end - state.bin.pos)
-        throw std::runtime_error("invalid string size");
+        throw error("invalid string size");
     obj.resize(size);
     read_bin(state.bin, obj.data(), size);
     return true;
+}
+
+template <typename T>
+bool bin_to_native(std::optional<T>& obj, bin_to_native_state& state, bool) {
+    auto present = read_bin<bool>(state.bin);
+    if (!present)
+        return true;
+    obj.emplace();
+    return bin_to_native(*obj, state, true);
+}
+
+template <uint32_t I, typename... Ts>
+bool bin_to_native_variant(std::variant<Ts...>& v, bin_to_native_state& state, uint32_t i) {
+    if constexpr (I < std::variant_size_v<std::variant<Ts...>>) {
+        if (i == I) {
+            auto& x = v.template emplace<std::variant_alternative_t<I, std::variant<Ts...>>>();
+            if (!bin_to_native(x, state, true))
+                return false;
+        } else {
+            bin_to_native_variant<I + 1>(v, state, i);
+        }
+    } else {
+        throw error("bad variant index");
+    }
+    return true;
+}
+
+template <typename... Ts>
+bool bin_to_native(std::variant<Ts...>& obj, bin_to_native_state& state, bool) {
+    return bin_to_native_variant<0>(obj, state, read_varuint32(state.bin));
 }
 
 template <typename T>
@@ -1454,9 +1664,9 @@ bool bin_to_native(might_not_exist<T>& obj, bin_to_native_state& state, bool sta
 
 inline bool receive_event(struct json_to_native_state& state, event_type event, bool start) {
     if (state.stack.empty())
-        throw std::runtime_error("extra data");
+        throw error("extra data");
     if (state.stack.size() > max_stack_size)
-        throw std::runtime_error("recursion limit reached");
+        throw error("recursion limit reached");
     if (trace_json_to_native_event)
         printf("(event %d)\n", (int)event);
     auto x = state.stack.back();
@@ -1468,6 +1678,7 @@ inline bool receive_event(struct json_to_native_state& state, event_type event, 
 template <typename T>
 bool json_to_native(T& obj, std::string_view json) {
     std::string mutable_json{json};
+    mutable_json.push_back(0);
     json_to_native_state state;
     state.stack.push_back(native_stack_entry{&obj, &native_serializer_for<T>, 0});
     rapidjson::Reader reader;
@@ -1490,7 +1701,7 @@ auto json_to_native(T& obj, json_to_native_state& state, event_type event, bool 
 
     if (start) {
         if (event != event_type::received_start_object)
-            throw std::runtime_error("expected object");
+            throw error("expected object");
         if (trace_json_to_native)
             printf("%*s{ %d fields\n", int(state.stack.size() * 4), "", int(native_field_serializers_for<T>.size()));
         state.stack.push_back({&obj, &native_serializer_for<T>});
@@ -1508,7 +1719,7 @@ auto json_to_native(T& obj, json_to_native_state& state, event_type event, bool 
                native_field_serializers_for<T>[stack_entry.position].name != state.received_data.key)
             ++stack_entry.position;
         if (stack_entry.position >= (ptrdiff_t)native_field_serializers_for<T>.size())
-            throw std::runtime_error("unknown field " + state.received_data.key); // TODO: eat unknown subtree
+            throw error("unknown field " + state.received_data.key); // TODO: eat unknown subtree
         return true;
     } else if (stack_entry.position < (ptrdiff_t)native_field_serializers_for<T>.size()) {
         auto& field_ser = native_field_serializers_for<T>[stack_entry.position];
@@ -1526,7 +1737,7 @@ template <typename T>
 bool json_to_native(std::vector<T>& v, json_to_native_state& state, event_type event, bool start) {
     if (start) {
         if (event != event_type::received_start_array)
-            throw std::runtime_error("expected array");
+            throw error("expected array");
         if (trace_json_to_native)
             printf("%*s[\n", int(state.stack.size() * 4), "");
         state.stack.push_back({&v, &native_serializer_for<std::vector<T>>});
@@ -1545,7 +1756,7 @@ bool json_to_native(std::vector<T>& v, json_to_native_state& state, event_type e
 
 template <typename First, typename Second>
 bool json_to_native(std::pair<First, Second>& obj, json_to_native_state& state, event_type event, bool start) {
-    throw std::runtime_error("pair not implemented"); // TODO
+    throw error("pair not implemented"); // TODO
 }
 
 inline bool json_to_native(std::string& obj, json_to_native_state& state, event_type event, bool start) {
@@ -1555,7 +1766,20 @@ inline bool json_to_native(std::string& obj, json_to_native_state& state, event_
             printf("%*sstring: %s\n", int(state.stack.size() * 4), "", obj.c_str());
         return true;
     } else
-        throw std::runtime_error("expected string");
+        throw error("expected string");
+}
+
+template <typename T>
+bool json_to_native(std::optional<T>& obj, json_to_native_state& state, event_type event, bool) {
+    if (event == event_type::received_null)
+        return true;
+    obj.emplace();
+    return json_to_native(*obj, state, event, true);
+}
+
+template <typename... Ts>
+bool json_to_native(std::variant<Ts...>& obj, json_to_native_state& state, event_type event, bool) {
+    throw error("can not convert json to variant");
 }
 
 template <typename T>
@@ -1660,36 +1884,36 @@ bool ends_with(const std::string& s, const char (&suffix)[i]) {
 
 inline abi_type& get_type(std::map<std::string, abi_type>& abi_types, const std::string& name, int depth) {
     if (depth >= 32)
-        throw std::runtime_error("abi recursion limit reached");
+        throw error("abi recursion limit reached");
     auto it = abi_types.find(name);
     if (it == abi_types.end()) {
         if (ends_with(name, "?")) {
             abi_type type{name};
             type.optional_of = &get_type(abi_types, name.substr(0, name.size() - 1), depth + 1);
             if (type.optional_of->optional_of || type.optional_of->array_of)
-                throw std::runtime_error("optional (?) and array ([]) don't support nesting");
+                throw error("optional (?) and array ([]) don't support nesting");
             if (type.optional_of->extension_of)
-                throw std::runtime_error("optional (?) may not contain binary extensions ($)");
+                throw error("optional (?) may not contain binary extensions ($)");
             type.ser = &abi_serializer_for<pseudo_optional>;
             return abi_types[name] = std::move(type);
         } else if (ends_with(name, "[]")) {
             abi_type type{name};
             type.array_of = &get_type(abi_types, name.substr(0, name.size() - 2), depth + 1);
             if (type.array_of->array_of || type.array_of->optional_of)
-                throw std::runtime_error("optional (?) and array ([]) don't support nesting");
+                throw error("optional (?) and array ([]) don't support nesting");
             if (type.array_of->extension_of)
-                throw std::runtime_error("array ([]) may not contain binary extensions ($)");
+                throw error("array ([]) may not contain binary extensions ($)");
             type.ser = &abi_serializer_for<pseudo_array>;
             return abi_types[name] = std::move(type);
         } else if (ends_with(name, "$")) {
             abi_type type{name};
             type.extension_of = &get_type(abi_types, name.substr(0, name.size() - 1), depth + 1);
             if (type.extension_of->extension_of)
-                throw std::runtime_error("binary extensions ($) may not contain binary extensions ($)");
+                throw error("binary extensions ($) may not contain binary extensions ($)");
             type.ser = &abi_serializer_for<pseudo_extension>;
             return abi_types[name] = std::move(type);
         } else
-            throw std::runtime_error("unknown type \"" + name + "\"");
+            throw error("unknown type \"" + name + "\"");
     }
     if (it->second.alias_of)
         return *it->second.alias_of;
@@ -1702,11 +1926,11 @@ inline abi_type& get_type(std::map<std::string, abi_type>& abi_types, const std:
 
 inline abi_type& fill_struct(std::map<std::string, abi_type>& abi_types, abi_type& type, int depth) {
     if (depth >= 32)
-        throw std::runtime_error("abi recursion limit reached");
+        throw error("abi recursion limit reached");
     if (type.filled_struct)
         return type;
     if (!type.struct_def)
-        throw std::runtime_error("abi type \"" + type.name + "\" is not a struct");
+        throw error("abi type \"" + type.name + "\" is not a struct");
     if (!type.struct_def->base.empty())
         type.fields = fill_struct(abi_types, get_type(abi_types, type.struct_def->base, depth + 1), depth + 1).fields;
     for (auto& field : type.struct_def->fields)
@@ -1717,11 +1941,11 @@ inline abi_type& fill_struct(std::map<std::string, abi_type>& abi_types, abi_typ
 
 inline abi_type& fill_variant(std::map<std::string, abi_type>& abi_types, abi_type& type, int depth) {
     if (depth >= 32)
-        throw std::runtime_error("abi recursion limit reached");
+        throw error("abi recursion limit reached");
     if (type.filled_variant)
         return type;
     if (!type.variant_def)
-        throw std::runtime_error("abi type \"" + type.name + "\" is not a variant");
+        throw error("abi type \"" + type.name + "\" is not a variant");
     for (auto& t : type.variant_def->types)
         type.fields.push_back(abi_field{t, &get_type(abi_types, t, depth + 1)});
     type.filled_variant = true;
@@ -1748,30 +1972,30 @@ inline contract create_contract(const abi_def& abi) {
 
     for (auto& t : abi.types) {
         if (t.new_type_name.empty())
-            throw std::runtime_error("abi has a type with a missing name");
+            throw error("abi has a type with a missing name");
         auto [_, inserted] = c.abi_types.insert({t.new_type_name, abi_type{t.new_type_name, t.type}});
         if (!inserted)
-            throw std::runtime_error("abi redefines type \"" + t.new_type_name + "\"");
+            throw error("abi redefines type \"" + t.new_type_name + "\"");
     }
     for (auto& s : abi.structs) {
         if (s.name.empty())
-            throw std::runtime_error("abi has a struct with a missing name");
+            throw error("abi has a struct with a missing name");
         abi_type type{s.name};
         type.struct_def = &s;
         type.ser = &abi_serializer_for<pseudo_object>;
         auto [_, inserted] = c.abi_types.insert({s.name, std::move(type)});
         if (!inserted)
-            throw std::runtime_error("abi redefines type \"" + s.name + "\"");
+            throw error("abi redefines type \"" + s.name + "\"");
     }
     for (auto& v : abi.variants.value) {
         if (v.name.empty())
-            throw std::runtime_error("abi has a variant with a missing name");
+            throw error("abi has a variant with a missing name");
         abi_type type{v.name};
         type.variant_def = &v;
         type.ser = &abi_serializer_for<pseudo_variant>;
         auto [_, inserted] = c.abi_types.insert({v.name, std::move(type)});
         if (!inserted)
-            throw std::runtime_error("abi redefines type \"" + v.name + "\"");
+            throw error("abi redefines type \"" + v.name + "\"");
     }
     for (auto& [_, t] : c.abi_types)
         if (!t.alias_of_name.empty())
@@ -1786,7 +2010,7 @@ inline contract create_contract(const abi_def& abi) {
         t.struct_def = nullptr;
         t.variant_def = nullptr;
         if (t.alias_of && t.alias_of->extension_of)
-            throw std::runtime_error("can't use extensions ($) within typedefs");
+            throw error("can't use extensions ($) within typedefs");
     }
     return c;
 }
@@ -1798,16 +2022,20 @@ inline contract create_contract(const abi_def& abi) {
 inline bool json_to_bin(std::vector<char>& bin, const abi_type* type, const jvalue& value) {
     jvalue_to_bin_state state{bin, &value};
     try {
-        if (!type->ser->json_to_bin(state, true, type, get_event_type(value), true))
-            return false;
-        while (!state.stack.empty()) {
-            auto& entry = state.stack.back();
-            if (!entry.type->ser->json_to_bin(state, entry.allow_extensions, entry.type, get_event_type(*entry.value),
-                                              false))
+        try {
+            if (!type->ser->json_to_bin(state, true, type, get_event_type(value), true))
                 return false;
+            while (!state.stack.empty()) {
+                auto& entry = state.stack.back();
+                if (!entry.type->ser->json_to_bin(state, entry.allow_extensions, entry.type,
+                                                  get_event_type(*entry.value), false))
+                    return false;
+            }
+            return true;
+        } catch (boost::exception& e) {
+            throw error(boost::diagnostic_information(e));
         }
-        return true;
-    } catch (std::exception& e) {
+    } catch (error& e) {
         std::string s;
         if (!state.stack.empty() && state.stack[0].type->filled_struct)
             s += state.stack[0].type->name;
@@ -1828,7 +2056,7 @@ inline bool json_to_bin(std::vector<char>& bin, const abi_type* type, const jval
         if (!s.empty())
             s += ": ";
         s += e.what();
-        throw std::runtime_error{s};
+        throw error{s};
     }
     return true;
 }
@@ -1854,7 +2082,7 @@ inline bool json_to_bin(pseudo_object*, jvalue_to_bin_state& state, bool allow_e
                         event_type event, bool start) {
     if (start) {
         if (!state.received_value || !boost::get<jobject>(&state.received_value->value))
-            throw std::runtime_error("expected object");
+            throw error("expected object");
         if (trace_jvalue_to_bin)
             printf("%*s{ %d fields, allow_ex=%d\n", int(state.stack.size() * 4), "", int(type->fields.size()),
                    allow_extensions);
@@ -1881,10 +2109,10 @@ inline bool json_to_bin(pseudo_object*, jvalue_to_bin_state& state, bool allow_e
             return true;
         }
         stack_entry.position = -1;
-        throw std::runtime_error("expected field \"" + field.name + "\"");
+        throw error("expected field \"" + field.name + "\"");
     }
     if (state.skipped_extension)
-        throw std::runtime_error("unexpected field \"" + field.name + "\"");
+        throw error("unexpected field \"" + field.name + "\"");
     state.received_value = &it->second;
     return field.type->ser && field.type->ser->json_to_bin(state, allow_extensions && &field == &type->fields.back(),
                                                            field.type, get_event_type(it->second), true);
@@ -1894,7 +2122,7 @@ inline bool json_to_bin(pseudo_array*, jvalue_to_bin_state& state, bool, const a
                         bool start) {
     if (start) {
         if (!state.received_value || !boost::get<jarray>(&state.received_value->value))
-            throw std::runtime_error("expected array");
+            throw error("expected array");
         if (trace_jvalue_to_bin)
             printf("%*s[ %d elements\n", int(state.stack.size() * 4), "",
                    int(boost::get<jarray>(state.received_value->value).size()));
@@ -1922,13 +2150,13 @@ inline bool json_to_bin(pseudo_variant*, jvalue_to_bin_state& state, bool allow_
                         event_type event, bool start) {
     if (start) {
         if (!state.received_value || !boost::get<jarray>(&state.received_value->value))
-            throw std::runtime_error(R"(expected variant: ["type", value])");
+            throw error(R"(expected variant: ["type", value])");
         auto& arr = boost::get<jarray>(state.received_value->value);
         if (arr.size() != 2)
-            throw std::runtime_error(R"(expected variant: ["type", value])");
+            throw error(R"(expected variant: ["type", value])");
         auto* typeName = boost::get<std::string>(&arr[0].value);
         if (!typeName)
-            throw std::runtime_error(R"(expected variant: ["type", value])");
+            throw error(R"(expected variant: ["type", value])");
         if (trace_jvalue_to_bin)
             printf("%*s[ variant %s\n", int(state.stack.size() * 4), "", typeName->c_str());
         state.stack.push_back({type, allow_extensions, state.received_value, 0});
@@ -1941,7 +2169,7 @@ inline bool json_to_bin(pseudo_variant*, jvalue_to_bin_state& state, bool allow_
         auto it = std::find_if(stack_entry.type->fields.begin(), stack_entry.type->fields.end(),
                                [&](auto& field) { return field.name == typeName; });
         if (it == stack_entry.type->fields.end())
-            throw std::runtime_error("type is not valid for this variant");
+            throw error("type is not valid for this variant");
         push_varuint32(state.bin, it - stack_entry.type->fields.begin());
         state.received_value = &arr[++stack_entry.position];
         return it->type->ser && it->type->ser->json_to_bin(state, allow_extensions, it->type,
@@ -1970,7 +2198,7 @@ inline bool json_to_bin(std::string*, jvalue_to_bin_state& state, bool, const ab
         state.bin.insert(state.bin.end(), s.begin(), s.end());
         return true;
     } else
-        throw std::runtime_error("expected string");
+        throw error("expected string");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1987,21 +2215,26 @@ inline bool receive_event(struct json_to_bin_state& state, event_type event, boo
     if (start)
         state.stack.clear();
     if (state.stack.size() > max_stack_size)
-        throw std::runtime_error("recursion limit reached");
+        throw error("recursion limit reached");
     return type->ser && type->ser->json_to_bin(state, entry.allow_extensions, type, event, start);
 }
 
 inline bool json_to_bin(std::vector<char>& bin, const abi_type* type, std::string_view json) {
     std::string mutable_json{json};
+    mutable_json.push_back(0);
     json_to_bin_state state;
     state.stack.push_back({type, true});
     rapidjson::Reader reader;
     rapidjson::InsituStringStream ss(mutable_json.data());
     try {
-        if (!reader.Parse<rapidjson::kParseValidateEncodingFlag | rapidjson::kParseIterativeFlag |
-                          rapidjson::kParseNumbersAsStringsFlag>(ss, state))
-            throw std::runtime_error{"failed to parse"};
-    } catch (std::exception& e) {
+        try {
+            if (!reader.Parse<rapidjson::kParseValidateEncodingFlag | rapidjson::kParseIterativeFlag |
+                              rapidjson::kParseNumbersAsStringsFlag>(ss, state))
+                throw error{"failed to parse"};
+        } catch (boost::exception& e) {
+            throw error(boost::diagnostic_information(e));
+        }
+    } catch (error& e) {
         std::string s;
         if (!state.stack.empty() && state.stack[0].type->filled_struct)
             s += state.stack[0].type->name;
@@ -2022,7 +2255,7 @@ inline bool json_to_bin(std::vector<char>& bin, const abi_type* type, std::strin
         if (!s.empty())
             s += ": ";
         s += e.what();
-        throw std::runtime_error{s};
+        throw error{s};
     }
     size_t pos = 0;
     for (auto& insertion : state.size_insertions) {
@@ -2055,7 +2288,7 @@ inline bool json_to_bin(pseudo_object*, json_to_bin_state& state, bool allow_ext
                         event_type event, bool start) {
     if (start) {
         if (event != event_type::received_start_object)
-            throw std::runtime_error("expected object");
+            throw error("expected object");
         if (trace_json_to_bin)
             printf("%*s{ %d fields, allow_ex=%d\n", int(state.stack.size() * 4), "", int(type->fields.size()),
                    allow_extensions);
@@ -2068,7 +2301,7 @@ inline bool json_to_bin(pseudo_object*, json_to_bin_state& state, bool allow_ext
             auto& field = type->fields[stack_entry.position + 1];
             if (!field.type->extension_of || !allow_extensions) {
                 stack_entry.position = -1;
-                throw std::runtime_error("expected field \"" + field.name + "\"");
+                throw error("expected field \"" + field.name + "\"");
             }
             ++stack_entry.position;
             state.skipped_extension = true;
@@ -2081,11 +2314,11 @@ inline bool json_to_bin(pseudo_object*, json_to_bin_state& state, bool allow_ext
     }
     if (event == event_type::received_key) {
         if (++stack_entry.position >= (ptrdiff_t)type->fields.size() || state.skipped_extension)
-            throw std::runtime_error("unexpected field \"" + state.received_data.key + "\"");
+            throw error("unexpected field \"" + state.received_data.key + "\"");
         auto& field = type->fields[stack_entry.position];
         if (state.received_data.key != field.name) {
             stack_entry.position = -1;
-            throw std::runtime_error("expected field \"" + field.name + "\"");
+            throw error("expected field \"" + field.name + "\"");
         }
         return true;
     } else {
@@ -2103,7 +2336,7 @@ inline bool json_to_bin(pseudo_array*, json_to_bin_state& state, bool, const abi
                         bool start) {
     if (start) {
         if (event != event_type::received_start_array)
-            throw std::runtime_error("expected array");
+            throw error("expected array");
         if (trace_json_to_bin)
             printf("%*s[\n", int(state.stack.size() * 4), "");
         state.stack.push_back({type, false});
@@ -2129,7 +2362,7 @@ inline bool json_to_bin(pseudo_variant*, json_to_bin_state& state, bool allow_ex
                         event_type event, bool start) {
     if (start) {
         if (event != event_type::received_start_array)
-            throw std::runtime_error(R"(expected variant: ["type", value])");
+            throw error(R"(expected variant: ["type", value])");
         if (trace_json_to_bin)
             printf("%*s[ variant\n", int(state.stack.size() * 4), "");
         state.stack.push_back({type, allow_extensions});
@@ -2139,7 +2372,7 @@ inline bool json_to_bin(pseudo_variant*, json_to_bin_state& state, bool allow_ex
     ++stack_entry.position;
     if (event == event_type::received_end_array) {
         if (stack_entry.position != 2)
-            throw std::runtime_error(R"(expected variant: ["type", value])");
+            throw error(R"(expected variant: ["type", value])");
         if (trace_json_to_bin)
             printf("%*s]\n", int((state.stack.size() - 1) * 4), "");
         state.stack.pop_back();
@@ -2153,17 +2386,17 @@ inline bool json_to_bin(pseudo_variant*, json_to_bin_state& state, bool allow_ex
             auto it = std::find_if(stack_entry.type->fields.begin(), stack_entry.type->fields.end(),
                                    [&](auto& field) { return field.name == typeName; });
             if (it == stack_entry.type->fields.end())
-                throw std::runtime_error("type is not valid for this variant");
+                throw error("type is not valid for this variant");
             stack_entry.variant_type_index = it - stack_entry.type->fields.begin();
             push_varuint32(state.bin, stack_entry.variant_type_index);
             return true;
         } else
-            throw std::runtime_error(R"(expected variant: ["type", value])");
+            throw error(R"(expected variant: ["type", value])");
     } else if (stack_entry.position == 1) {
         auto& field = stack_entry.type->fields[stack_entry.variant_type_index];
         return field.type->ser && field.type->ser->json_to_bin(state, allow_extensions, field.type, event, true);
     } else {
-        throw std::runtime_error(R"(expected variant: ["type", value])");
+        throw error(R"(expected variant: ["type", value])");
     }
 }
 
@@ -2183,7 +2416,7 @@ inline bool json_to_bin(std::string*, json_to_bin_state& state, bool, const abi_
         state.bin.insert(state.bin.end(), s.begin(), s.end());
         return true;
     } else
-        throw std::runtime_error("expected string");
+        throw error("expected string");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2203,7 +2436,7 @@ inline bool bin_to_json(input_buffer& bin, const abi_type* type, std::string& de
         if (!entry.type->ser || !entry.type->ser->bin_to_json(state, entry.allow_extensions, entry.type, false))
             return false;
         if (state.stack.size() > max_stack_size)
-            throw std::runtime_error("recursion limit reached");
+            throw error("recursion limit reached");
     }
     dest = buffer.GetString();
     return true;
@@ -2291,7 +2524,7 @@ inline bool bin_to_json(pseudo_variant*, bin_to_json_state& state, bool allow_ex
     if (++stack_entry.position == 0) {
         auto index = read_varuint32(state.bin);
         if (index >= stack_entry.type->fields.size())
-            throw std::runtime_error("invalid variant type index");
+            throw error("invalid variant type index");
         auto& f = stack_entry.type->fields[index];
         state.writer.String(f.name.c_str());
         return f.type->ser &&

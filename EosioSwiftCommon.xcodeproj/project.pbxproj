@@ -17,6 +17,7 @@
 		6B0D07D120F69C8E00542756 /* tinyformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07D020F69C8E00542756 /* tinyformat.h */; };
 		6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F4E2320EFF0DF003D06D9 /* exampletx.json */; };
 		6B8AEF86215187A6000134AA /* abi.abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B8AEF85215187A6000134AA /* abi.abi.json */; };
+		6BC6E13421CD51280029EA5C /* abieos_error.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6BC6E13321CD51270029EA5C /* abieos_error.hpp */; };
 		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
 		6BFA74E120EBF456003CBCEB /* abieos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA74BE20EBF456003CBCEB /* abieos.cpp */; };
 		6BFA74E220EBF456003CBCEB /* ripemd160.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6BFA74BF20EBF456003CBCEB /* ripemd160.hpp */; };
@@ -87,6 +88,7 @@
 		6B7F4E2320EFF0DF003D06D9 /* exampletx.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampletx.json; sourceTree = "<group>"; };
 		6B8AEF85215187A6000134AA /* abi.abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abi.abi.json; sourceTree = "<group>"; };
 		6BA8074320F6A19B0051E406 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		6BC6E13321CD51270029EA5C /* abieos_error.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = abieos_error.hpp; sourceTree = "<group>"; };
 		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftCommon.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				B4552B242193954A00564935 /* AbiEos.swift */,
+				6BC6E13321CD51270029EA5C /* abieos_error.hpp */,
 				6BFA74C220EBF456003CBCEB /* abieos.h */,
 				6BFA74DD20EBF456003CBCEB /* abieos.hpp */,
 				6BFA74BE20EBF456003CBCEB /* abieos.cpp */,
@@ -344,6 +347,7 @@
 			files = (
 				B49A11EC219CB1830020736E /* EosioSwiftCommon.h in Headers */,
 				6BFA74E620EBF456003CBCEB /* memorystream.h in Headers */,
+				6BC6E13421CD51280029EA5C /* abieos_error.hpp in Headers */,
 				6BFA74E520EBF456003CBCEB /* abieos.h in Headers */,
 				6BFA74F420EBF456003CBCEB /* pow10.h in Headers */,
 				6BFA74FA20EBF456003CBCEB /* error.h in Headers */,

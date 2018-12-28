@@ -13,6 +13,7 @@ public enum EosioErrorCode : String {
     
     case biometricsDisabled = "biometricsDisabled"
     case keychainError = "keychainError"
+    case manifestError = "manifestError"
     case metadataError = "metadataError"
     case networkError = "networkError"
     case parsingError = "parsingError"
@@ -23,6 +24,7 @@ public enum EosioErrorCode : String {
     case vaultError = "vaultError"
     case whitelistingError = "whitelistingError"
     case malformedRequestError = "malformedRequestError"
+    case domainError = "domainError"
     //general catch all
     case unexpectedError = "unexpectedError"
 }

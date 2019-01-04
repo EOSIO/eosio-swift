@@ -35,6 +35,7 @@ open class EosioError: Error, CustomStringConvertible {
     public var reason: String
     public var context: String
     public var originalError: NSError?
+    public var isReturnable = true // can this error be returned to a requesting app
     
     var errorAsJsonString: String {
         let jsonDict = [
@@ -61,15 +62,17 @@ open class EosioError: Error, CustomStringConvertible {
         return self.localizedDescription
     }
     
-    public init(_ errorCode: EosioErrorCode, reason: String, context: String = "") {
+    public init(_ errorCode: EosioErrorCode, reason: String, context: String = "", isReturnable: Bool = true) {
         self.context = context
         self.errorCode = errorCode
         self.reason = reason
+        self.isReturnable = isReturnable
     }
     
-    public convenience init (_ errorCode: EosioErrorCode, reason: String, context: String = "", originalError: NSError? = nil) {
+    public convenience init (_ errorCode: EosioErrorCode, reason: String, context: String = "", originalError: NSError? = nil, isReturnable: Bool = true) {
         self.init(errorCode, reason: reason, context: context)
         self.originalError = originalError
+        self.isReturnable = isReturnable
     }
 }
 

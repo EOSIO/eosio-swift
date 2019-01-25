@@ -23,7 +23,17 @@ public class RecoverKey {
         let privKeyBN = BN_new()!
         let key = EC_KEY_new()
         let ctx = BN_CTX_new()
-        let group = EC_GROUP_new_by_curve_name(NID_secp256k1);
+        
+        var curveName: Int32
+        if curve == "R1" {
+            curveName = NID_X9_62_prime256v1
+        } else if curve == "K1" {
+            curveName = NID_secp256k1
+        } else {
+            return nil
+        }
+        
+        let group = EC_GROUP_new_by_curve_name(curveName);
         EC_KEY_set_group(key, group);
         
         var recoveredPubKeyHex = ""

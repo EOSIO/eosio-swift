@@ -43,7 +43,6 @@ Pod::Spec.new do |s|
 						   'ENABLE_BITCODE' => 'YES'} 
 
 
-s.ios.dependency 'GRKOpenSSLFramework'
-s.ios.dependency 'EosioSwiftFoundation', '~> 1.0'
+s.ios.dependency 'EosioSwiftC', '~> 1.0'
   
 end

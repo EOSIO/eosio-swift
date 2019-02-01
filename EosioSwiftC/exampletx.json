@@ -1,0 +1,33 @@
+{
+    "requestId": "68a10b3e-c808-4181-8c27-8b7bef6de765",
+    "action": "signTx",
+    "pubKeys": [
+                "PUB_R1_77N4yqkKdGMHaZKTwqgW1QcFJkKAbdp7ZusaUsJF95j4Qgq1BT"
+                ],
+    "unpackedTransaction": {
+        "actions": [
+                    {
+                    "account": "eosio.token",
+                    "name": "transfer",
+                    "authorization": [
+                                      {
+                                      "actor": "remasteryoda",
+                                      "permission": "active"
+                                      }
+                                      ],
+                    "data": {
+                    "from": "remasteryoda",
+                    "to": "thegazelle",
+                    "quantity": "1.0000 EOS",
+                    "memo": "For a secure future."
+                    }
+                    }
+                    ]
+    },
+    "transactionConfig": {
+        "blocksBehind": 3,
+        "expireSeconds": 30
+    },
+    "chainId": "038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca",
+    "url": "http://dev.cryptolions.io:18888"
+}

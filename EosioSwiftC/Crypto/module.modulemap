@@ -1,0 +1,4 @@
+module Crypto {
+    header "base58.h"
+    export *
+}

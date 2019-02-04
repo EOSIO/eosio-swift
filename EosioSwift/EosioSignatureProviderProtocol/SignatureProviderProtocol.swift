@@ -6,28 +6,7 @@
 //
 
 import Foundation
-
-// TODO (This struct will be eventually replaced by EosioError)
-public struct SignatureProviderError: Error, Codable {
-    public var errorCode: String = "signatureProviderError"
-    public var reason: String
-    public var contextualInfo: String = ""
-    public lazy var originalError: NSError? = nil
-    public lazy var isReturnable = true
-    
-    public var localizedDescription: String {
-        return errorCode + ": " + reason
-    }
-    public init(_ errorCode: String? = nil, reason: String, context: String = "", originalError: NSError? = nil, isReturnable: Bool = true) {
-        if let errorCode = errorCode {
-            self.errorCode = errorCode
-        }
-        self.reason = reason
-        self.contextualInfo = context
-        self.originalError = originalError
-        self.isReturnable = true
-    }
-}
+import EosioSwiftFoundation
 
 
 public struct SignatureProviderTransaction: Codable {
@@ -59,11 +38,11 @@ public struct TransactionSignatureRequest: Codable {
 
 public struct TransactionSignatureResponse: Codable {
     public var signedTransaction: SignatureProviderTransaction?
-    public var error: SignatureProviderError?
+    public var error: EosioError?
     
     public init() { }
     
-    public init(error: SignatureProviderError) {
+    public init(error: EosioError) {
         self.error = error
     }
     
@@ -75,7 +54,7 @@ public struct TransactionSignatureResponse: Codable {
 
 public struct AvailableKeysResponse: Codable {
     public var keys: [String]?
-    public var error: SignatureProviderError?
+    public var error: EosioError?
     
     public init() { }
 }

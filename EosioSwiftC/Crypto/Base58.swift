@@ -1,6 +1,6 @@
 //
 //  Base58.swift
-//  EosioSwiftCommon
+//  EosioSwiftC
 //
 //  Created by Steve McCoole on 11/8/18.
 //  Copyright © 2018 Block One. All rights reserved.
@@ -9,7 +9,6 @@
 
 import Foundation
 import Crypto
-
 
 public extension Data {
     

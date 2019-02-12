@@ -151,6 +151,7 @@ public extension EosioTransaction {
         /// - Parameter abi: the abi as a json string
         /// - Throws: if the data cannot be serialized
         public mutating func serializeData(abi: String) throws {
+            if isDataSerialized { return }
             guard let json = dataJson else {
                 throw EosioError(.serializationError, reason: "Cannot convert data to json")
             }
@@ -168,6 +169,7 @@ public extension EosioTransaction {
         /// - Parameter abi: the abi as a json string
         /// - Throws: if the data cannot be deserialized
         public mutating func deserializeData(abi: String) throws {
+            if data.count > 0 { return }
             let abieos = AbiEos()
             guard let dataHex = dataHex else {
                 throw EosioError(.parsingError, reason: "Serialized data not set for action \(account)::\(name)")

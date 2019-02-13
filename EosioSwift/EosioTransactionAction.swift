@@ -13,7 +13,7 @@ import EosioSwiftC
 public extension EosioTransaction {
     
     /// Action struct for `EosioTransaction`
-    public struct Action: Codable {
+    public class Action: Codable {
 
         /// Contract account name
         public private(set) var account: EosioName
@@ -60,7 +60,7 @@ public extension EosioTransaction {
         ///   - authorization: authorization (actor and permission)
         ///   - data: action data (codable struct)
         /// - Throws: if the strings are not valid eosio names or data cannot be encoded
-        public init(account: String, name: String, authorization: [Authorization], data: Encodable) throws {
+        public convenience init(account: String, name: String, authorization: [Authorization], data: Encodable) throws {
             try self.init(account: EosioName(account), name: EosioName(name), authorization: authorization, data: data)
         }
 
@@ -89,7 +89,7 @@ public extension EosioTransaction {
         ///   - authorization: authorization (actor and permission)
         ///   - dataSerialized: data in serialized form
         /// - Throws: if the strings are not valid eosio names
-        public init(account: String, name: String, authorization: [Authorization], dataSerialized: Data) throws {
+        public convenience init(account: String, name: String, authorization: [Authorization], dataSerialized: Data) throws {
             try self.init(account: EosioName(account), name: EosioName(name), authorization: authorization, dataSerialized: dataSerialized)
         }
         
@@ -114,7 +114,7 @@ public extension EosioTransaction {
         ///
         /// - Parameter decoder: the decoder
         /// - Throws: if the input cannot be decoded into a Action struct
-        public init(from decoder: Decoder) throws {
+        required public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             account = try container.decode(EosioName.self, forKey: .account)
             name = try container.decode(EosioName.self, forKey: .name)
@@ -150,7 +150,7 @@ public extension EosioTransaction {
         ///
         /// - Parameter abi: the abi as a json string
         /// - Throws: if the data cannot be serialized
-        public mutating func serializeData(abi: String) throws {
+        public func serializeData(abi: String) throws {
             if isDataSerialized { return }
             guard let json = dataJson else {
                 throw EosioError(.serializationError, reason: "Cannot convert data to json")
@@ -168,7 +168,7 @@ public extension EosioTransaction {
         ///
         /// - Parameter abi: the abi as a json string
         /// - Throws: if the data cannot be deserialized
-        public mutating func deserializeData(abi: String) throws {
+        public func deserializeData(abi: String) throws {
             if data.count > 0 { return }
             let abieos = AbiEos()
             guard let dataHex = dataHex else {

@@ -24,9 +24,8 @@ public class AbiEos {
         
     }
     
-    public func refreshContext() {
-        //abieos_destroy(context)
-        //context = abieos_create()
+    deinit {
+        abieos_destroy(context)
     }
     
     public func name64(string: String?) -> UInt64 {
@@ -54,7 +53,6 @@ public class AbiEos {
     
     public func jsonToHex(contract: String?, name: String = "", type: String? = nil, json: String, abi: Any, isReorderable: Bool = false) throws -> String {
         
-        refreshContext()
         let contract64 = name64(string: contract)
         abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
         

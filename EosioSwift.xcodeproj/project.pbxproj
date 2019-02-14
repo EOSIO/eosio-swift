@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		253B18F50A06A5FD16AC1CB8 /* Pods_EosioSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9FACA18719237291A2B3C4 /* Pods_EosioSwiftTests.framework */; };
+		28D8C7A02214A25E000F1DC2 /* EosioTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D8C79F2214A25E000F1DC2 /* EosioTransactionTests.swift */; };
 		28FE03982209D44700CCC977 /* EosioTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FE03972209D44700CCC977 /* EosioTransaction.swift */; };
 		28FE039A2209D4C100CCC977 /* EosioTransactionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FE03992209D4C100CCC977 /* EosioTransactionAction.swift */; };
 		28FE039C220B814C00CCC977 /* EosioTransactionActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FE039B220B814C00CCC977 /* EosioTransactionActionTests.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		1BF4FF0E7E2C20D3B18A1655 /* Pods-EosioSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwift/Pods-EosioSwift.release.xcconfig"; sourceTree = "<group>"; };
+		28D8C79F2214A25E000F1DC2 /* EosioTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionTests.swift; sourceTree = "<group>"; };
 		28FE03972209D44700CCC977 /* EosioTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransaction.swift; sourceTree = "<group>"; };
 		28FE03992209D4C100CCC977 /* EosioTransactionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionAction.swift; sourceTree = "<group>"; };
 		28FE039B220B814C00CCC977 /* EosioTransactionActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionActionTests.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				6B80D26D21FA6DDF00716A7B /* EosioSwiftTests.swift */,
+				28D8C79F2214A25E000F1DC2 /* EosioTransactionTests.swift */,
 				28FE039B220B814C00CCC977 /* EosioTransactionActionTests.swift */,
 				6B80D26F21FA6DDF00716A7B /* Info.plist */,
 			);
@@ -334,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28FE039C220B814C00CCC977 /* EosioTransactionActionTests.swift in Sources */,
+				28D8C7A02214A25E000F1DC2 /* EosioTransactionTests.swift in Sources */,
 				6B80D26E21FA6DDF00716A7B /* EosioSwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

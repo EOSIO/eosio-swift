@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct SerializedEosioTransaction: Codable {
-    var signatures = [String]()
-    var compression: Int = 0
-    var packedContextFreeData = ""
-    var packedTrx =  ""
+public struct SerializedEosioTransaction: Codable {
+    public var signatures = [String]()
+    public var compression: Int = 0
+    public var packedContextFreeData = ""
+    public var packedTrx =  ""
     
-    var json: String? {
+    public var json: String? {
         return try? self.toJsonString(convertToSnakeCase: true, prettyPrinted: false)
     }
 }

@@ -8,8 +8,9 @@
 
 import Foundation
 import EosioSwiftFoundation
+import EosioSwiftC
 
-public class EosioTransaction {
+public class EosioTransaction: Codable {
     
     public var chainId = ""
     
@@ -28,6 +29,19 @@ public class EosioTransaction {
     public var actions = [Action]()
     public var transactionExtensions = [String]()
     
+    /// Coding keys
+    enum CodingKeys: String, CodingKey {
+        case expiration
+        case refBlockNum
+        case refBlockPrefix
+        case maxNetUsageWords
+        case maxCpuUsageMs
+        case delaySec
+        case contextFreeActions
+        case actions
+        case transactionExtensions
+    }
+    
     
     /// Returns an array of action accounts that do not have an abi in `abis`
     public var actionAccountsMissingAbis: [EosioName] {
@@ -40,11 +54,42 @@ public class EosioTransaction {
         return accounts
     }
     
-    /// Retuns an array of actions that do not have serialized data
+    
+    /// Returns an array of actions that do not have serialized data
     public var actionsWithoutSerializedData: [Action] {
         return actions.filter { (action) -> Bool in
             !action.isDataSerialized
         }
+    }
+    
+    
+    /// Encode the transaction as a json string. Properties will be snake_case. Action data will be serialized.
+    func toJson(prettyPrinted: Bool = false) throws -> String {
+        return try self.toJsonString(convertToSnakeCase: true, prettyPrinted: prettyPrinted)
+    }
+    
+    
+    /**
+     Serializes the transaction using `Abieos` and returns a `SerializedEosioTransaction` struct. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
+     - Returns: A `SerializedEosioTransaction` struct
+     - Throws: If any of the necessary data is missing, or transaction cannot be serialized.
+     */
+    public func toSerializedEosioTransaction() throws -> SerializedEosioTransaction {
+        try serializeActionData()
+        guard refBlockNum > 0 else {
+            throw EosioError(.serializationError, reason: "refBlockNum is not set")
+        }
+        guard refBlockPrefix > 0 else {
+            throw EosioError(.serializationError, reason: "refBlockPrefix is not set")
+        }
+        guard expiration > Date(timeIntervalSince1970: 0) else {
+            throw EosioError(.serializationError, reason: "expiration is not set")
+        }
+        var serializedEosioTransaction = SerializedEosioTransaction()
+        let abieos = AbiEos()
+        let json = try self.toJson()
+        serializedEosioTransaction.packedTrx = try abieos.jsonToHex(contract: nil, type: "transaction", json: json, abi: "transaction.abi.json", isReorderable: true)
+        return serializedEosioTransaction
     }
     
     

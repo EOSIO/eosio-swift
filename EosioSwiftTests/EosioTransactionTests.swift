@@ -15,9 +15,7 @@ class EosioTransactionTests: XCTestCase {
     
     
     func testSerializeActionData() {
-        
         let transaction = EosioTransaction()
-        
         
         guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else {
             return XCTFail()
@@ -38,18 +36,33 @@ class EosioTransactionTests: XCTestCase {
         
         transaction.abis[try! EosioName("eosio.token")] = getTokenAbiJson()
         
-       
         do {
             try transaction.serializeActionData()
         } catch {
             XCTFail()
         }
-        
-
+    
         XCTAssertTrue(transaction.actionsWithoutSerializedData.count == 0)
-        
-        
     }
+    
+    
+    func testToSerializedEosioTransaction() {
+        do {
+            let transaction = EosioTransaction()
+            let action = try makeTransferAction(from: EosioName("todd"), to: EosioName("brandon"))
+            transaction.actions.append(action)
+            transaction.abis[try! EosioName("eosio.token")] = getTokenAbiJson()
+            transaction.refBlockNum = 100
+            transaction.refBlockPrefix = 123456
+            transaction.expiration = Date(yyyyMMddTHHmmss: "2009-01-03T18:15:05.000")!
+            let serializedEosioTransaction = try! transaction.toSerializedEosioTransaction()
+            XCTAssertTrue(serializedEosioTransaction.packedTrx == "29AB5F49640040E20100000000000100A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B7300")
+            print(try transaction.toJson(prettyPrinted: true))
+        } catch {
+            XCTFail()
+        }
+    }
+    
     
     struct Transfer: Codable {
         var from: EosioName

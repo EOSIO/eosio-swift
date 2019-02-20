@@ -13,8 +13,7 @@ import EosioSwiftC
 public class EosioTransaction: Codable {
     
     public var chainId = ""
-    
-    public var abis = [EosioName:String]()
+    public let abis = Abis()
     
     public var id: String?
     public var blockNum: UInt64?
@@ -45,13 +44,10 @@ public class EosioTransaction: Codable {
     
     /// Returns an array of action accounts that do not have an abi in `abis`
     public var actionAccountsMissingAbis: [EosioName] {
-        var accounts = [EosioName]()
-        for action in actions {
-            if abis[action.account] == nil, !accounts.contains(action.account) {
-                accounts.append(action.account)
-            }
+        let accounts = actions.compactMap { (action) -> EosioName in
+            return action.account
         }
-        return accounts
+        return abis.missingAbis(names: accounts)
     }
     
     
@@ -64,13 +60,17 @@ public class EosioTransaction: Codable {
     
     
     /// Encode the transaction as a json string. Properties will be snake_case. Action data will be serialized.
-    func toJson(prettyPrinted: Bool = false) throws -> String {
+    ///
+    /// - Parameter prettyPrinted: Should the json be pretty printed? (default = no)
+    /// - Returns: The transaction as a json string
+    /// - Throws: If the transaction cannot be encoded to json
+    public func toJson(prettyPrinted: Bool = false) throws -> String {
         return try self.toJsonString(convertToSnakeCase: true, prettyPrinted: prettyPrinted)
     }
     
-    
+     
     /**
-     Serializes the transaction using `Abieos` and returns a `SerializedEosioTransaction` struct. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
+     Serializes the transaction and returns a `SerializedEosioTransaction` struct. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
      - Returns: A `SerializedEosioTransaction` struct
      - Throws: If any of the necessary data is missing, or transaction cannot be serialized.
      */
@@ -94,7 +94,7 @@ public class EosioTransaction: Codable {
     
     
     /**
-     Serializes the `data` property of each action in `actions` and sets the `serializedData` property for each action, if not alredy set. Serializing the action data requires abis to be available in the `abis` dictionary for all the contracts in the actions. If the necessary abis are not known to be set, call the async version method of this method which will attempt to get the abis first.
+     Serializes the `data` property of each action in `actions` and sets the `serializedData` property for each action, if not alredy set. Serializing the action data requires abis to be available in the `abis` class for all the contracts in the actions. If the necessary abis are not known to be available, call the async version method of this method which will attempt to get the abis first.
      - Throws: If any required abis are not available, or the action `data` cannot be serialized.
      */
     public func serializeActionData() throws {
@@ -103,7 +103,7 @@ public class EosioTransaction: Codable {
             throw EosioError(.serializationError, reason: "Cannot serialize action data. Abis missing for \(missingAbis).")
         }
         for action in actions {
-            try action.serializeData(abi: abis[action.account] ?? "")
+            try action.serializeData(abi: abis.jsonAbi(name: action.account))
         }
     }
     

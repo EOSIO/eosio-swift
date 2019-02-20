@@ -33,7 +33,7 @@ class EosioTransactionActionTests: XCTestCase {
     
     func testActionSerializeData() {
         
-        guard var action = try? makeTransferActionWithEosioNames() else {
+        guard let action = try? makeTransferActionWithEosioNames() else {
             return XCTFail()
         }
         guard let tokenAbiJson = getTokenAbiJson() else {
@@ -68,7 +68,7 @@ class EosioTransactionActionTests: XCTestCase {
     
     func testActionDeserializeData() {
         
-        guard var action = try? makeTransferActionWithEosioNames() else {
+        guard let action = try? makeTransferActionWithEosioNames() else {
             return XCTFail()
         }
         

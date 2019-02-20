@@ -12,7 +12,7 @@ import EosioSwiftC
 
 public extension EosioTransaction {
     
-    /// Action struct for `EosioTransaction`
+    /// Action class for `EosioTransaction`
     public class Action: Codable {
 
         /// Contract account name

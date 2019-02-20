@@ -15,34 +15,24 @@ class EosioTransactionTests: XCTestCase {
     
     
     func testSerializeActionData() {
-        let transaction = EosioTransaction()
-        
-        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else {
-            return XCTFail()
-        }
-        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else {
-            return XCTFail()
-        }
-        
-        transaction.actions.append(action1)
-        transaction.actions.append(action2)
-        
         do {
+            let transaction = EosioTransaction()
+            
+            let action1 = try makeTransferAction(from: EosioName("todd"), to: EosioName("brandon"))
+            let action2 = try makeTransferAction(from: EosioName("brandon"), to: EosioName("todd"))
+            
+            transaction.actions.append(action1)
+            transaction.actions.append(action2)
+            
+            try transaction.abis.addAbi(name: try! EosioName("eosio.token"), base64: tokenAbiB64)
             try transaction.serializeActionData()
-            XCTFail()
+          
+            XCTAssertTrue(transaction.actionsWithoutSerializedData.count == 0)
         } catch {
             print(error)
-        }
-        
-        try? transaction.abis.addAbi(name: try! EosioName("eosio.token"), base64: tokenAbiB64)
-        
-        do {
-            try transaction.serializeActionData()
-        } catch {
             XCTFail()
         }
-    
-        XCTAssertTrue(transaction.actionsWithoutSerializedData.count == 0)
+        
     }
     
     

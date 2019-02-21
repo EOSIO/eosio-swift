@@ -70,11 +70,11 @@ public class EosioTransaction: Codable {
     
      
     /**
-     Serializes the transaction and returns a `SerializedEosioTransaction` struct. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
-     - Returns: A `SerializedEosioTransaction` struct
+     Serializes the transaction and returns a `EosioTransactionRequest` struct with the `packedTrx` property set. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
+     - Returns: A `EosioTransactionRequest` struct
      - Throws: If any of the necessary data is missing, or transaction cannot be serialized.
      */
-    public func toSerializedEosioTransaction() throws -> SerializedEosioTransaction {
+    public func toEosioTransactionRequest() throws -> EosioTransactionRequest {
         try serializeActionData()
         guard refBlockNum > 0 else {
             throw EosioError(.serializationError, reason: "refBlockNum is not set")
@@ -85,11 +85,11 @@ public class EosioTransaction: Codable {
         guard expiration > Date(timeIntervalSince1970: 0) else {
             throw EosioError(.serializationError, reason: "expiration is not set")
         }
-        var serializedEosioTransaction = SerializedEosioTransaction()
+        var eosioTransactionRequest = EosioTransactionRequest()
         let abieos = AbiEos()
         let json = try self.toJson()
-        serializedEosioTransaction.packedTrx = try abieos.jsonToHex(contract: nil, type: "transaction", json: json, abi: "transaction.abi.json", isReorderable: true)
-        return serializedEosioTransaction
+        eosioTransactionRequest.packedTrx = try abieos.jsonToHex(contract: nil, type: "transaction", json: json, abi: "transaction.abi.json", isReorderable: true)
+        return eosioTransactionRequest
     }
     
     

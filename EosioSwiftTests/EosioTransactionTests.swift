@@ -24,7 +24,7 @@ class EosioTransactionTests: XCTestCase {
             transaction.actions.append(action1)
             transaction.actions.append(action2)
             
-            try transaction.abis.addAbi(name: try! EosioName("eosio.token"), base64: tokenAbiB64)
+            try transaction.abis.addAbi(name: try EosioName("eosio.token"), base64: tokenAbiB64)
             try transaction.serializeActionData()
           
             XCTAssertTrue(transaction.actionsWithoutSerializedData.count == 0)
@@ -36,7 +36,7 @@ class EosioTransactionTests: XCTestCase {
     }
     
     
-    func testToSerializedEosioTransaction() {
+    func testToEosioTransactionRequest() {
         do {
             let transaction = EosioTransaction()
             let action = try makeTransferAction(from: EosioName("todd"), to: EosioName("brandon"))
@@ -45,8 +45,8 @@ class EosioTransactionTests: XCTestCase {
             transaction.refBlockNum = 100
             transaction.refBlockPrefix = 123456
             transaction.expiration = Date(yyyyMMddTHHmmss: "2009-01-03T18:15:05.000")!
-            let serializedEosioTransaction = try! transaction.toSerializedEosioTransaction()
-            XCTAssertTrue(serializedEosioTransaction.packedTrx == "29AB5F49640040E20100000000000100A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B7300")
+            let eosioTransactionRequest = try! transaction.toEosioTransactionRequest()
+            XCTAssertTrue(eosioTransactionRequest.packedTrx == "29AB5F49640040E20100000000000100A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B7300")
             print(try transaction.toJson(prettyPrinted: true))
         } catch {
             print(error)

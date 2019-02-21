@@ -101,6 +101,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		28560292221F3E0300642377 /* EosioTransaction */ = {
+			isa = PBXGroup;
+			children = (
+				28FE03972209D44700CCC977 /* EosioTransaction.swift */,
+				2856028E22182EFA00642377 /* EosioTransactionAbis.swift */,
+				28FE03992209D4C100CCC977 /* EosioTransactionAction.swift */,
+				28D8C7A12215D016000F1DC2 /* SerializedEosioTransaction.swift */,
+			);
+			path = EosioTransaction;
+			sourceTree = "<group>";
+		};
 		6B80D25521FA6DDF00716A7B = {
 			isa = PBXGroup;
 			children = (
@@ -126,11 +137,8 @@
 			children = (
 				B49EE50D221CC63700018D29 /* EosioRpcProviderProtocol */,
 				B4B69EBD2204B631009260A5 /* EosioSignatureProviderProtocol */,
+				28560292221F3E0300642377 /* EosioTransaction */,
 				6B80D26221FA6DDF00716A7B /* EosioSwift.h */,
-				28FE03972209D44700CCC977 /* EosioTransaction.swift */,
-				2856028E22182EFA00642377 /* EosioTransactionAbis.swift */,
-				28FE03992209D4C100CCC977 /* EosioTransactionAction.swift */,
-				28D8C7A12215D016000F1DC2 /* SerializedEosioTransaction.swift */,
 				6B80D26321FA6DDF00716A7B /* Info.plist */,
 			);
 			path = EosioSwift;

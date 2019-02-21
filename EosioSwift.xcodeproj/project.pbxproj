@@ -26,7 +26,7 @@
 		B49EE515221CC90100018D29 /* EosioResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE514221CC90100018D29 /* EosioResponse.swift */; };
 		B49EE517221CC94F00018D29 /* EosioEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE516221CC94F00018D29 /* EosioEndpoint.swift */; };
 		B49EE519221CCA0900018D29 /* RpcProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE518221CCA0900018D29 /* RpcProviderProtocol.swift */; };
-		B4B69EBF2204B65E009260A5 /* SignatureProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B69EBE2204B65E009260A5 /* SignatureProviderProtocol.swift */; };
+		B4B69EBF2204B65E009260A5 /* EosioSignatureProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B69EBE2204B65E009260A5 /* EosioSignatureProviderProtocol.swift */; };
 		D5BFB1230A59BB8A0FA38330 /* Pods_EosioSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC90074E5682E66407277928 /* Pods_EosioSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,7 +67,7 @@
 		B49EE514221CC90100018D29 /* EosioResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioResponse.swift; sourceTree = "<group>"; };
 		B49EE516221CC94F00018D29 /* EosioEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioEndpoint.swift; sourceTree = "<group>"; };
 		B49EE518221CCA0900018D29 /* RpcProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RpcProviderProtocol.swift; sourceTree = "<group>"; };
-		B4B69EBE2204B65E009260A5 /* SignatureProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignatureProviderProtocol.swift; sourceTree = "<group>"; };
+		B4B69EBE2204B65E009260A5 /* EosioSignatureProviderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioSignatureProviderProtocol.swift; sourceTree = "<group>"; };
 		EC90074E5682E66407277928 /* Pods_EosioSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -193,7 +193,7 @@
 		B4B69EBD2204B631009260A5 /* EosioSignatureProviderProtocol */ = {
 			isa = PBXGroup;
 			children = (
-				B4B69EBE2204B65E009260A5 /* SignatureProviderProtocol.swift */,
+				B4B69EBE2204B65E009260A5 /* EosioSignatureProviderProtocol.swift */,
 			);
 			path = EosioSignatureProviderProtocol;
 			sourceTree = "<group>";
@@ -395,7 +395,7 @@
 				B49EE513221CC8AC00018D29 /* EosioRequest.swift in Sources */,
 				B49EE511221CC7E900018D29 /* EosioResult.swift in Sources */,
 				B49EE517221CC94F00018D29 /* EosioEndpoint.swift in Sources */,
-				B4B69EBF2204B65E009260A5 /* SignatureProviderProtocol.swift in Sources */,
+				B4B69EBF2204B65E009260A5 /* EosioSignatureProviderProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

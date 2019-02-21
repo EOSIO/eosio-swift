@@ -30,7 +30,7 @@ public class EosioResponse {
             return EosioResult.empty
         }
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        //decoder.keyDecodingStrategy = .convertFromSnakeCase
         if let json = string {
             let jsonKey = CodingUserInfoKey(rawValue: "json")!
             decoder.userInfo[jsonKey] = json

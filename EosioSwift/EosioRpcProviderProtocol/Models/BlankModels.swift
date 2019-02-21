@@ -8,14 +8,6 @@
 
 import Foundation
 
-public struct EosioRpcInfo: Codable {
-    
-}
-
-public struct EosioRpcBlock: Codable {
-    
-}
-
 public struct EosioRpcBlockHeaderState: Codable {
     
 }
@@ -25,10 +17,6 @@ public struct EosioRpcAccount: Codable {
 }
 
 public struct EosioRpcAccountAbi: Codable {
-    
-}
-
-public struct EosioRpcRawAbi: Codable {
     
 }
 

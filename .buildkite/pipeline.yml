@@ -5,7 +5,6 @@ steps:
     agents:
       - "queue=ios-builder"
   - wait
-  
   - command: "fastlane tests"
     label: ":fastlane: Run Tests"
     agents:

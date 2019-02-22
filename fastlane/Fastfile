@@ -107,7 +107,7 @@ lane :tests do
 
   get_certificates
   get_provisioning_profile
-  run_tests(scheme: "EosioSwift",
+  run_tests(scheme: "EosioSwiftTests",
   devices: ["iPhone 5s"],
   xcpretty_args:"--report junit")
 end

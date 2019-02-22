@@ -1,0 +1,18 @@
+
+steps:
+  - command: "bundle install --path ci/bundle"
+    label: ":ruby: bundle install"
+    agents:
+      - "queue=ios-builder"
+  - wait
+  - command: "fastlane tests"
+    label: ":fastlane: Run Tests"
+    agents:
+      - "queue=ios-builder"
+    artifact_paths:
+      - "build/reports/junit.xml"
+  - wait
+  - command: "echo 'Success!!'"
+    label: ":trophy: Success"
+    agents:
+      - "queue=ios-builder"

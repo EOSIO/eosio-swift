@@ -20,6 +20,20 @@
                ReferencedContainer = "container:EosioSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6B80D26721FA6DDF00716A7B"
+               BuildableName = "EosioSwiftTests.xctest"
+               BlueprintName = "EosioSwiftTests"
+               ReferencedContainer = "container:EosioSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

@@ -55,6 +55,38 @@ class EosioTransactionTests: XCTestCase {
     }
     
     
+    func testCalculateExpiration() {
+        let transaction = EosioTransaction()
+        transaction.calculateExpiration()
+        XCTAssert(transaction.expiration > Date())
+    }
+
+    
+    func testGetChainIdAndCalculateTapos() {
+        let expect = expectation(description: "testGetChainIdAndCalculateTapos")
+        let transaction = EosioTransaction()
+        guard let endpoint = EosioEndpoint("mock://endpoint") else {
+            return XCTFail()
+        }
+        transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
+        transaction.getChainIdAndCalculateTapos { (result) in
+            switch result {
+            case .error(let error):
+                print(error)
+                XCTFail()
+            case .empty:
+                XCTFail()
+            case .success:
+                XCTAssertEqual(transaction.refBlockNum, 28672)
+                XCTAssertEqual(transaction.refBlockPrefix, 2249927103)
+                XCTAssertEqual(transaction.chainId, "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17")
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 3)
+    }
+    
+    
     struct Transfer: Codable {
         var from: EosioName
         var to: EosioName

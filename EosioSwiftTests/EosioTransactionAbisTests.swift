@@ -46,6 +46,22 @@ class EosioTransactionAbisTests: XCTestCase {
         }
     }
     
+    func testAddDataAbis() {
+        do {
+            let abis = EosioTransaction.Abis()
+            try abis.addAbi(name: EosioName("eosio.token"), data: Data(hex: tokenAbiHex))
+            try abis.addAbi(name: EosioName("eosio.msig"), data: Data(hex: msigAbiHex))
+            let hexAbis = abis.hexAbis()
+            try XCTAssertTrue(hexAbis[EosioName("eosio.token")] == tokenAbiHex)
+            try XCTAssertTrue(hexAbis[EosioName("eosio.msig")] == msigAbiHex)
+            try XCTAssertTrue(abis.hexAbi(name: EosioName("eosio.token")) == tokenAbiHex)
+            try XCTAssertTrue(abis.hexAbi(name: EosioName("eosio.msig")) == msigAbiHex)
+        } catch {
+            XCTFail()
+            print(error)
+        }
+    }
+    
     func testHashAbis() {
         do {
             let abis = EosioTransaction.Abis()

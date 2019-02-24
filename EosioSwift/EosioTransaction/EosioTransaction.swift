@@ -125,4 +125,62 @@ public class EosioTransaction: Codable {
     }
 
     
+    /**
+     This method will get the `chainId`, `info` and `block`, set the `chainId` property then calculate and set `refBlockNum` and `refBlockPrefix` using the `taposConfig` property. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match. If `chainId`, `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require the `taposConfig` property to be set and an `rpcProvider` to get the data necessary to get or calculate these values. If either the `taposConfig` or the `rpcProvider` are not set or another error is encountered this method will call the completion with an error.
+    */
+    public func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool>) -> Void) {
+        
+        // if all the data is set just return true
+        if refBlockNum > 0 && refBlockPrefix > 0  && chainId != "" {
+            return completion(.success(true))
+        }
+        
+        // if no rpcProvider available, return error
+        guard let rpcProvider = rpcProvider else {
+            return completion(.error(EosioError(.transactionError, reason: "No rpc provider available")))
+        }
+        
+        // get chain info
+        rpcProvider.getInfo { (infoResponse) in
+            switch infoResponse {
+            case .error(let error):
+                completion(.error(error))
+            case .empty:
+                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .success(let info):
+                if self.chainId == "" {
+                    self.chainId = info.chainId
+                }
+                // return an error if provided chainId does not match info chainID
+                guard self.chainId == info.chainId else {
+                    return completion(.error(EosioError(.transactionError, reason:"Provided chain id \(self.chainId) does not match chain id \(info.chainId)")))
+                }
+                // if the only data needed was the chainId, return now
+                if self.refBlockPrefix > 0 && self.refBlockNum > 0 {
+                    return completion(.success(true))
+                }
+                var blocksBehind = UInt64(self.taposConfig.blocksBehind)
+                if blocksBehind > info.headBlockNum {
+                    blocksBehind = info.headBlockNum
+                }
+                let blockNum = info.headBlockNum - blocksBehind
+                rpcProvider.getBlock(blockNum: blockNum, completion: { (blockResponse) in
+                    switch blockResponse {
+                    case .error(let error):
+                        completion(.error(error))
+                    case .empty:
+                        completion(.error(EosioError(.unexpectedError, reason: "")))
+                    case .success(let block):
+                        // set tapos fields and return
+                        self.refBlockNum = UInt16(block.blockNum & 0xffff)
+                        self.refBlockPrefix = block.refBlockPrefix
+                        return completion(.success(true))
+                    }
+                })
+            }
+        }
+        
+       
+       
+    }
 }

@@ -13,9 +13,19 @@ import EosioSwiftC
 public class EosioTransaction: Codable {
     
     public var chainId = ""
+    
+    public var rpcProvider: RpcProviderProtocol?
+    public var signatureProvider: EosioSignatureProviderProtocol?
+    
+    public var taposConfig = EosioTransaction.TaposConfig()
+    public struct TaposConfig {
+        public var blocksBehind: UInt = 3
+        public var expireSeconds: UInt = 60 * 5
+    }
+    
     public let abis = Abis()
     
-    public var id: String?
+    public var transactionId: String?
     public var blockNum: UInt64?
     
     public var expiration = Date(timeIntervalSince1970: 0)
@@ -68,7 +78,7 @@ public class EosioTransaction: Codable {
         return try self.toJsonString(convertToSnakeCase: true, prettyPrinted: prettyPrinted)
     }
     
-     
+    
     /**
      Serializes the transaction and returns a `EosioTransactionRequest` struct with the `packedTrx` property set. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
      - Returns: A `EosioTransactionRequest` struct

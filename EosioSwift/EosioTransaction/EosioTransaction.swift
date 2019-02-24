@@ -117,5 +117,12 @@ public class EosioTransaction: Codable {
         }
     }
     
+    /// Calculate the `expiration` using `taposConfig.expireSeconds` if current `expiration` is not valid
+    public func calculateExpiration() {
+        if expiration < Date() {
+            expiration = Date().addingTimeInterval(TimeInterval(self.taposConfig.expireSeconds))
+        }
+    }
+
     
 }

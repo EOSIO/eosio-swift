@@ -67,7 +67,7 @@ class EosioMockRpcProviderTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
     
-    func testGetRawAbi() {
+    func testGetRawAbiToken() {
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio.token")
@@ -93,4 +93,31 @@ class EosioMockRpcProviderTests: XCTestCase {
         }
     }
     
+    func testGetRawAbiEosio() {
+        do {
+            let expect = expectation(description: "testGetRawAbi")
+            let name = try EosioName("eosio")
+            rpcProvider?.getRawAbi(account: name) { response in
+                switch response {
+                case .success(let infoResponse):
+                    XCTAssertTrue(infoResponse.accountName == "eosio")
+                    XCTAssertTrue(infoResponse.codeHash == "add7914493bb911bbc179b19115032bbaae1f567f733391060edfaf79a6c8096")
+                    XCTAssertTrue(infoResponse.abiHash == "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
+                case .error(let err):
+                    print(err.description)
+                    XCTFail()
+                case .empty:
+                    print("Should not get empty result.")
+                    XCTFail()
+                }
+                expect.fulfill()
+            }
+            wait(for: [expect], timeout: 30)
+        } catch {
+            print(error)
+            XCTFail()
+        }
+    }
+    
 }
+

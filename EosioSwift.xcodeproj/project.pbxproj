@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		253B18F50A06A5FD16AC1CB8 /* Pods_EosioSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9FACA18719237291A2B3C4 /* Pods_EosioSwiftTests.framework */; };
+		284C5E682224558800795392 /* EosioAbiProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284C5E672224558800795392 /* EosioAbiProviderTests.swift */; };
 		2856028F22182EFA00642377 /* EosioTransactionAbis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2856028E22182EFA00642377 /* EosioTransactionAbis.swift */; };
 		28560291221C571E00642377 /* EosioTransactionAbisTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28560290221C571E00642377 /* EosioTransactionAbisTests.swift */; };
+		28A7A3B722236641002386D3 /* EosioAbiProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A7A3B622236641002386D3 /* EosioAbiProviderProtocol.swift */; };
+		28A7A3BA22236890002386D3 /* EosioAbiProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A7A3B922236890002386D3 /* EosioAbiProvider.swift */; };
 		28D8C7A02214A25E000F1DC2 /* EosioTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D8C79F2214A25E000F1DC2 /* EosioTransactionTests.swift */; };
 		28D8C7A22215D016000F1DC2 /* EosioTransactionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D8C7A12215D016000F1DC2 /* EosioTransactionRequest.swift */; };
 		28FE03982209D44700CCC977 /* EosioTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FE03972209D44700CCC977 /* EosioTransaction.swift */; };
@@ -45,8 +48,11 @@
 
 /* Begin PBXFileReference section */
 		1BF4FF0E7E2C20D3B18A1655 /* Pods-EosioSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwift/Pods-EosioSwift.release.xcconfig"; sourceTree = "<group>"; };
+		284C5E672224558800795392 /* EosioAbiProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbiProviderTests.swift; sourceTree = "<group>"; };
 		2856028E22182EFA00642377 /* EosioTransactionAbis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionAbis.swift; sourceTree = "<group>"; };
 		28560290221C571E00642377 /* EosioTransactionAbisTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionAbisTests.swift; sourceTree = "<group>"; };
+		28A7A3B622236641002386D3 /* EosioAbiProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbiProviderProtocol.swift; sourceTree = "<group>"; };
+		28A7A3B922236890002386D3 /* EosioAbiProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbiProvider.swift; sourceTree = "<group>"; };
 		28D8C79F2214A25E000F1DC2 /* EosioTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionTests.swift; sourceTree = "<group>"; };
 		28D8C7A12215D016000F1DC2 /* EosioTransactionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionRequest.swift; sourceTree = "<group>"; };
 		28FE03972209D44700CCC977 /* EosioTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransaction.swift; sourceTree = "<group>"; };
@@ -118,6 +124,15 @@
 			path = EosioTransaction;
 			sourceTree = "<group>";
 		};
+		28A7A3B822236650002386D3 /* EosioAbiProviderProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				28A7A3B622236641002386D3 /* EosioAbiProviderProtocol.swift */,
+				28A7A3B922236890002386D3 /* EosioAbiProvider.swift */,
+			);
+			path = EosioAbiProviderProtocol;
+			sourceTree = "<group>";
+		};
 		6B80D25521FA6DDF00716A7B = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +156,7 @@
 		6B80D26121FA6DDF00716A7B /* EosioSwift */ = {
 			isa = PBXGroup;
 			children = (
+				28A7A3B822236650002386D3 /* EosioAbiProviderProtocol */,
 				B4A80E27221F0CD300C5134D /* EosioRpcProviderMockImpl */,
 				B49EE50D221CC63700018D29 /* EosioRpcProviderProtocol */,
 				B4B69EBD2204B631009260A5 /* EosioSignatureProviderProtocol */,
@@ -158,8 +174,9 @@
 				28D8C79F2214A25E000F1DC2 /* EosioTransactionTests.swift */,
 				28FE039B220B814C00CCC977 /* EosioTransactionActionTests.swift */,
 				28560290221C571E00642377 /* EosioTransactionAbisTests.swift */,
-				6B80D26F21FA6DDF00716A7B /* Info.plist */,
 				B4A80E2C221F605D00C5134D /* EosioMockRpcProviderTests.swift */,
+				284C5E672224558800795392 /* EosioAbiProviderTests.swift */,
+				6B80D26F21FA6DDF00716A7B /* Info.plist */,
 			);
 			path = EosioSwiftTests;
 			sourceTree = "<group>";
@@ -401,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28D8C7A22215D016000F1DC2 /* EosioTransactionRequest.swift in Sources */,
+				28A7A3B722236641002386D3 /* EosioAbiProviderProtocol.swift in Sources */,
 				2856028F22182EFA00642377 /* EosioTransactionAbis.swift in Sources */,
 				B49EE50F221CC78900018D29 /* EosioHttpMethod.swift in Sources */,
 				B4A80E2B221F40C900C5134D /* EosRpcProviderMockImpl.swift in Sources */,
@@ -413,6 +431,7 @@
 				B49EE519221CCA0900018D29 /* EosioRpcProviderProtocol.swift in Sources */,
 				B49EE513221CC8AC00018D29 /* EosioRequest.swift in Sources */,
 				B49EE511221CC7E900018D29 /* EosioResult.swift in Sources */,
+				28A7A3BA22236890002386D3 /* EosioAbiProvider.swift in Sources */,
 				B49EE517221CC94F00018D29 /* EosioEndpoint.swift in Sources */,
 				B4B69EBF2204B65E009260A5 /* EosioSignatureProviderProtocol.swift in Sources */,
 			);
@@ -423,6 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4A80E2D221F605D00C5134D /* EosioMockRpcProviderTests.swift in Sources */,
+				284C5E682224558800795392 /* EosioAbiProviderTests.swift in Sources */,
 				28FE039C220B814C00CCC977 /* EosioTransactionActionTests.swift in Sources */,
 				28560291221C571E00642377 /* EosioTransactionAbisTests.swift in Sources */,
 				28D8C7A02214A25E000F1DC2 /* EosioTransactionTests.swift in Sources */,

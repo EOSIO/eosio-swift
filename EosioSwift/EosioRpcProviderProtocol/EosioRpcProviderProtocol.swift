@@ -9,7 +9,7 @@
 import Foundation
 import EosioSwiftFoundation
 
-public protocol RpcProviderProtocol {
+public protocol EosioRpcProviderProtocol {
     
     var endpoints: [EosioEndpoint] { get }
     var failoverRetries: Int { get }

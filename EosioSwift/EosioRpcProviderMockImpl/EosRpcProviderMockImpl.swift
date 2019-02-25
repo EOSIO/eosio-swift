@@ -9,7 +9,7 @@
 import Foundation
 import EosioSwiftFoundation
 
-public class EosioRpcProviderMockImpl: RpcProviderProtocol {
+public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
     public var endpoints: [EosioEndpoint]
     
     public var failoverRetries: Int

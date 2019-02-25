@@ -14,7 +14,7 @@ public class EosioTransaction: Codable {
     
     public var chainId = ""
     
-    public var rpcProvider: RpcProviderProtocol?
+    public var rpcProvider: EosioRpcProviderProtocol?
     public var signatureProvider: EosioSignatureProviderProtocol?
     
     public var taposConfig = EosioTransaction.TaposConfig()

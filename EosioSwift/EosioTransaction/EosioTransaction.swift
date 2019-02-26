@@ -15,6 +15,7 @@ public class EosioTransaction: Codable {
     public var chainId = ""
     
     public var rpcProvider: EosioRpcProviderProtocol?
+    public var abiProvider: EosioAbiProviderProtocol?
     public var signatureProvider: EosioSignatureProviderProtocol?
     
     public var taposConfig = EosioTransaction.TaposConfig()
@@ -124,6 +125,45 @@ public class EosioTransaction: Codable {
         }
     }
 
+    
+    /**
+    This method will get abis for every contract in the actions using the `abiProvider` and add them to `abis`. If abis are already present for all contracts this method will not need to use the abiProvider, and will immediately call the completion with true. If the `abiProvider` is not set but the `rpcProvider` is set, an `EosioAbiProvider` instance will be created using the `rpcProvider` and set as the `abiProvider`.  If the abis are not present and the `abiProvider` is not set or `abiProvider` cannot get some of the requested abis, then an error is returned. If all abis are successfully set this method will call the completion with true.
+    */
+    public func getAbis(completion: @escaping (EosioResult<Bool>) -> Void) {
+        let missingAbis = actionAccountsMissingAbis
+        // if no missing abis, return now
+        if missingAbis.count == 0 {
+            return completion(.success(true))
+        }
+        // if abiProvider is not set but rpcProvider is, init the default abiProvider with the rpcProvider
+        if let rpcProvider = self.rpcProvider, self.abiProvider == nil {
+            self.abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
+        }
+        guard let abiProvider = self.abiProvider else {
+            return completion(.error(EosioError(.transactionError, reason:"No abi provider available")))
+        }
+        guard chainId != "" else {
+            return completion(.error(EosioError(.transactionError, reason:"Chain id is not set")))
+        }
+        abiProvider.getAbis(chainId: chainId, accounts: missingAbis) { (response) in
+            switch response {
+            case .error(let error):
+                completion(.error(error))
+            case .empty:
+                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .success(let abiDictionary):
+                do {
+                    for (account, abi) in abiDictionary {
+                        try self.abis.addAbi(name: account, data: abi)
+                    }
+                    return completion(.success(true))
+                } catch {
+                    return completion(.error(error.eosioError))
+                }
+            }
+        }
+    }
+    
     
     /**
      This method will get the `chainId`, `info` and `block`, set the `chainId` property then calculate and set `refBlockNum` and `refBlockPrefix` using the `taposConfig` property. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match. If `chainId`, `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require the `taposConfig` property to be set and an `rpcProvider` to get the data necessary to get or calculate these values. If either the `taposConfig` or the `rpcProvider` are not set or another error is encountered this method will call the completion with an error.

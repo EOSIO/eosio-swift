@@ -30,7 +30,7 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     /**
     Return a map of Abis as Data for all of the given accounts, keyed by the account name. An Abi for each account must be returned, otherwise an EosioResult.failure type will be returned.
     */
-    public func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName:Data]>) -> Void) {
+    public func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName:Data], EosioError>) -> Void) {
         let accounts = Array(Set(accounts)) // remove any duplicate account names
         var responseAbis = [EosioName:Data]()
         var hasReturnedError = false
@@ -42,15 +42,10 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
                     if responseAbis.count >= accounts.count {
                         completion(.success(responseAbis))
                     }
-                case .error(let error):
+                case .failure(let error):
                     if !hasReturnedError {
                         hasReturnedError = true
-                        completion(.error(error))
-                    }
-                case .empty:
-                    if !hasReturnedError {
-                        hasReturnedError = true
-                        completion(.error(EosioError(.unexpectedError, reason: "")))
+                        completion(.failure(error))
                     }
                 }
             }
@@ -61,7 +56,7 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     /**
     Return the Abi as Data for the specified account name. An EosioResult.failure type will be returned if the specified Abi could not be found or decoded properly.
     */
-    public func getAbi(chainId: String, account: EosioName, completion: @escaping (EosioResult<Data>) -> Void) {
+    public func getAbi(chainId: String, account: EosioName, completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
         if let abi = getCachedAbi(chainId: chainId, account: account) {
             return completion(.success(abi))
         }
@@ -74,22 +69,20 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
                     let declaredHash = abiResponse.abiHash.lowercased()
                     guard computedHash == declaredHash else {
                         let errorReason = "Computed hash of abi for \(account) \(computedHash) does not match declared hash \(declaredHash)"
-                        return completion(.error(EosioError(.resourceIntegrityError, reason: errorReason)))
+                        return completion(.failure(EosioError(.resourceIntegrityError, reason: errorReason)))
                     }
                     guard account.string == abiResponse.accountName else {
                         let errorReason = "Requested account \(account) does not match declared account \(abiResponse.accountName)"
-                        return completion(.error(EosioError(.resourceIntegrityError, reason: errorReason)))
+                        return completion(.failure(EosioError(.resourceIntegrityError, reason: errorReason)))
                     }
                     self.cacheAbi(abi, chainId: chainId, account: account)
                     return completion(.success(abi))
                     
                 } catch {
-                    completion(.error(error.eosioError))
+                    completion(.failure(error.eosioError))
                 }
-            case .error(let error):
-                completion(.error(error))
-            case .empty:
-                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }

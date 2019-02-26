@@ -28,10 +28,8 @@ class EosioAbiProviderTests: XCTestCase {
                 switch response {
                 case .success(let abi):
                     XCTAssertEqual(abi.sha256.hex, "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
-                case .error(let error):
+                case .failure(let error):
                     print(error)
-                    XCTFail()
-                case .empty:
                     XCTFail()
                 }
             })
@@ -53,10 +51,8 @@ class EosioAbiProviderTests: XCTestCase {
                 case .success(let abi):
                     XCTAssertEqual(abi[eosioToken]?.sha256.hex, "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
                     XCTAssertEqual(abi[eosio]?.sha256.hex, "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
-                case .error(let error):
+                case .failure(let error):
                     print(error)
-                    XCTFail()
-                case .empty:
                     XCTFail()
                 }
             })
@@ -78,10 +74,8 @@ class EosioAbiProviderTests: XCTestCase {
                 switch response {
                 case .success:
                     XCTFail()
-                case .error(let error):
+                case .failure(let error):
                     print(error)
-                case .empty:
-                    XCTFail()
                 }
             })
         } catch {

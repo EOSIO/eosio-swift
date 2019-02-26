@@ -107,30 +107,26 @@ public class EosioTransaction: Codable {
     /**
     This method will call the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If any of these methods return an error this method will call the completion that error, otherwise the completion will be called with an `EosioTransactionRequest`.
     */
-    public func toEosioTransactionRequest(completion: @escaping (EosioResult<EosioTransactionRequest>) -> Void) {
+    public func toEosioTransactionRequest(completion: @escaping (EosioResult<EosioTransactionRequest, EosioError>) -> Void) {
         calculateExpiration()
         getChainIdAndCalculateTapos { (taposResult) in
             switch taposResult {
-            case .error(let error):
-                completion(.error(error))
-            case .empty:
-                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .failure(let error):
+                completion(.failure(error))
             case .success:
                 self.serializeActionData { [weak self] (result) in
                     guard let strongSelf = self else {
-                        return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+                        return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
                     }
                     switch result {
-                    case .error(let error):
-                        completion(.error(error))
-                    case .empty:
-                        completion(.error(EosioError(.unexpectedError, reason: "")))
+                    case .failure(let error):
+                        completion(.failure(error))
                     case .success:
                         do {
                             let eosioTransactionRequest = try strongSelf.toEosioTransactionRequest()
                             return completion(.success(eosioTransactionRequest))
                         } catch {
-                            return completion(.error(error.eosioError))
+                            return completion(.failure(error.eosioError))
                         }
                     }
                 }
@@ -157,22 +153,20 @@ public class EosioTransaction: Codable {
     /**
      This method will call `getABIs(completion:)` before before attemping to serialize the actions data by calling `serializeActionData()`. If `getABIs(completion:)` returns an error this method will call completion with that error. If `serializeActionData()` throws an error, the completion will be called with that error. If all action data is successfully serialized the completion will be called with true.
     */
-    public func serializeActionData(completion: @escaping (EosioResult<Bool>) -> Void) {
+    public func serializeActionData(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         getAbis { [weak self] (abisResult) in
             guard let strongSelf = self else {
-                return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }
             switch abisResult {
-            case .error(let error):
-                completion(.error(error))
-            case .empty:
-                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .failure(let error):
+                completion(.failure(error))
             case .success:
                 do {
                     try strongSelf.serializeActionData()
                     return completion(.success(true))
                 } catch {
-                    return completion(.error(error.eosioError))
+                    return completion(.failure(error.eosioError))
                 }
             }
         }
@@ -190,7 +184,7 @@ public class EosioTransaction: Codable {
     /**
     This method will get abis for every contract in the actions using the `abiProvider` and add them to `abis`. If abis are already present for all contracts this method will not need to use the abiProvider, and will immediately call the completion with true. If the `abiProvider` is not set but the `rpcProvider` is set, an `EosioAbiProvider` instance will be created using the `rpcProvider` and set as the `abiProvider`.  If the abis are not present and the `abiProvider` is not set or `abiProvider` cannot get some of the requested abis, then an error is returned. If all abis are successfully set this method will call the completion with true.
     */
-    public func getAbis(completion: @escaping (EosioResult<Bool>) -> Void) {
+    public func getAbis(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         let missingAbis = actionAccountsMissingAbis
         // if no missing abis, return now
         if missingAbis.count == 0 {
@@ -201,20 +195,18 @@ public class EosioTransaction: Codable {
             self.abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
         }
         guard let abiProvider = self.abiProvider else {
-            return completion(.error(EosioError(.transactionError, reason:"No abi provider available")))
+            return completion(.failure(EosioError(.transactionError, reason:"No abi provider available")))
         }
         guard chainId != "" else {
-            return completion(.error(EosioError(.transactionError, reason:"Chain id is not set")))
+            return completion(.failure(EosioError(.transactionError, reason:"Chain id is not set")))
         }
         abiProvider.getAbis(chainId: chainId, accounts: missingAbis) { [weak self] (response) in
             guard let strongSelf = self else {
-                return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }
             switch response {
-            case .error(let error):
-                completion(.error(error))
-            case .empty:
-                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .failure(let error):
+                completion(.failure(error))
             case .success(let abiDictionary):
                 do {
                     for (account, abi) in abiDictionary {
@@ -222,7 +214,7 @@ public class EosioTransaction: Codable {
                     }
                     return completion(.success(true))
                 } catch {
-                    return completion(.error(error.eosioError))
+                    return completion(.failure(error.eosioError))
                 }
             }
         }
@@ -232,7 +224,7 @@ public class EosioTransaction: Codable {
     /**
      This method will get the `chainId`, `info` and `block`, set the `chainId` property then calculate and set `refBlockNum` and `refBlockPrefix` using the `taposConfig` property. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match. If `chainId`, `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require the `taposConfig` property to be set and an `rpcProvider` to get the data necessary to get or calculate these values. If either the `taposConfig` or the `rpcProvider` are not set or another error is encountered this method will call the completion with an error.
     */
-    public func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool>) -> Void) {
+    public func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         
         // if all the data is set just return true
         if refBlockNum > 0 && refBlockPrefix > 0  && chainId != "" {
@@ -241,26 +233,24 @@ public class EosioTransaction: Codable {
         
         // if no rpcProvider available, return error
         guard let rpcProvider = rpcProvider else {
-            return completion(.error(EosioError(.transactionError, reason: "No rpc provider available")))
+            return completion(.failure(EosioError(.transactionError, reason: "No rpc provider available")))
         }
         
         // get chain info
         rpcProvider.getInfo { [weak self] (infoResponse) in
             guard let strongSelf = self else {
-                return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }
             switch infoResponse {
-            case .error(let error):
-                completion(.error(error))
-            case .empty:
-                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .failure(let error):
+                completion(.failure(error))
             case .success(let info):
                 if strongSelf.chainId == "" {
                     strongSelf.chainId = info.chainId
                 }
                 // return an error if provided chainId does not match info chainID
                 guard strongSelf.chainId == info.chainId else {
-                    return completion(.error(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
+                    return completion(.failure(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
                 // if the only data needed was the chainId, return now
                 if strongSelf.refBlockPrefix > 0 && strongSelf.refBlockNum > 0 {
@@ -273,10 +263,8 @@ public class EosioTransaction: Codable {
                 let blockNum = info.headBlockNum - blocksBehind
                 rpcProvider.getBlock(blockNum: blockNum, completion: { (blockResponse) in
                     switch blockResponse {
-                    case .error(let error):
-                        completion(.error(error))
-                    case .empty:
-                        completion(.error(EosioError(.unexpectedError, reason: "")))
+                    case .failure(let error):
+                        completion(.failure(error))
                     case .success(let block):
                         // set tapos fields and return
                         strongSelf.refBlockNum = UInt16(block.blockNum & 0xffff)

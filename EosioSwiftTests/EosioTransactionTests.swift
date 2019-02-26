@@ -59,10 +59,8 @@ class EosioTransactionTests: XCTestCase {
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         transaction.serializeActionData { (result) in
             switch result {
-            case .error(let error):
+            case .failure(let error):
                 print(error)
-                XCTFail()
-            case .empty:
                 XCTFail()
             case .success:
                 XCTAssertTrue(transaction.actionsWithoutSerializedData.count == 0)
@@ -114,10 +112,8 @@ class EosioTransactionTests: XCTestCase {
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         transaction.toEosioTransactionRequest { (result) in
             switch result {
-            case .error(let error):
+            case .failure(let error):
                 print(error)
-                XCTFail()
-            case .empty:
                 XCTFail()
             case .success(let transactionRequest):
                 XCTAssertEqual(transactionRequest.packedTrx, "29E24FA20070BF291B86000000000200A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B730000000000EA30557015D289DEAA32DD0100000000009012CD00000000A8ED32322900000000009012CD00000000009012CD0300000857219DE8AD00001057219DE8AD00001857219DE8AD00")
@@ -144,10 +140,8 @@ class EosioTransactionTests: XCTestCase {
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         transaction.getChainIdAndCalculateTapos { (result) in
             switch result {
-            case .error(let error):
+            case .failure(let error):
                 print(error)
-                XCTFail()
-            case .empty:
                 XCTFail()
             case .success:
                 XCTAssertEqual(transaction.refBlockNum, 28672)
@@ -180,10 +174,8 @@ class EosioTransactionTests: XCTestCase {
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         transaction.getAbis { (result) in
             switch result {
-            case .error(let error):
+            case .failure(let error):
                 print(error)
-                XCTFail()
-            case .empty:
                 XCTFail()
             case .success:
                 XCTAssertEqual(try? transaction.abis.hashAbi(name: EosioName("eosio.token")), "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")

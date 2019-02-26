@@ -116,7 +116,10 @@ public class EosioTransaction: Codable {
             case .empty:
                 completion(.error(EosioError(.unexpectedError, reason: "")))
             case .success:
-                self.serializeActionData { (result) in
+                self.serializeActionData { [weak self] (result) in
+                    guard let strongSelf = self else {
+                        return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+                    }
                     switch result {
                     case .error(let error):
                         completion(.error(error))
@@ -124,7 +127,7 @@ public class EosioTransaction: Codable {
                         completion(.error(EosioError(.unexpectedError, reason: "")))
                     case .success:
                         do {
-                            let eosioTransactionRequest = try self.toEosioTransactionRequest()
+                            let eosioTransactionRequest = try strongSelf.toEosioTransactionRequest()
                             return completion(.success(eosioTransactionRequest))
                         } catch {
                             return completion(.error(error.eosioError))
@@ -155,7 +158,10 @@ public class EosioTransaction: Codable {
      This method will call `getABIs(completion:)` before before attemping to serialize the actions data by calling `serializeActionData()`. If `getABIs(completion:)` returns an error this method will call completion with that error. If `serializeActionData()` throws an error, the completion will be called with that error. If all action data is successfully serialized the completion will be called with true.
     */
     public func serializeActionData(completion: @escaping (EosioResult<Bool>) -> Void) {
-        getAbis { (abisResult) in
+        getAbis { [weak self] (abisResult) in
+            guard let strongSelf = self else {
+                return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
             switch abisResult {
             case .error(let error):
                 completion(.error(error))
@@ -163,7 +169,7 @@ public class EosioTransaction: Codable {
                 completion(.error(EosioError(.unexpectedError, reason: "")))
             case .success:
                 do {
-                    try self.serializeActionData()
+                    try strongSelf.serializeActionData()
                     return completion(.success(true))
                 } catch {
                     return completion(.error(error.eosioError))
@@ -200,7 +206,10 @@ public class EosioTransaction: Codable {
         guard chainId != "" else {
             return completion(.error(EosioError(.transactionError, reason:"Chain id is not set")))
         }
-        abiProvider.getAbis(chainId: chainId, accounts: missingAbis) { (response) in
+        abiProvider.getAbis(chainId: chainId, accounts: missingAbis) { [weak self] (response) in
+            guard let strongSelf = self else {
+                return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
             switch response {
             case .error(let error):
                 completion(.error(error))
@@ -209,7 +218,7 @@ public class EosioTransaction: Codable {
             case .success(let abiDictionary):
                 do {
                     for (account, abi) in abiDictionary {
-                        try self.abis.addAbi(name: account, data: abi)
+                        try strongSelf.abis.addAbi(name: account, data: abi)
                     }
                     return completion(.success(true))
                 } catch {
@@ -236,25 +245,28 @@ public class EosioTransaction: Codable {
         }
         
         // get chain info
-        rpcProvider.getInfo { (infoResponse) in
+        rpcProvider.getInfo { [weak self] (infoResponse) in
+            guard let strongSelf = self else {
+                return completion(.error(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
             switch infoResponse {
             case .error(let error):
                 completion(.error(error))
             case .empty:
                 completion(.error(EosioError(.unexpectedError, reason: "")))
             case .success(let info):
-                if self.chainId == "" {
-                    self.chainId = info.chainId
+                if strongSelf.chainId == "" {
+                    strongSelf.chainId = info.chainId
                 }
                 // return an error if provided chainId does not match info chainID
-                guard self.chainId == info.chainId else {
-                    return completion(.error(EosioError(.transactionError, reason:"Provided chain id \(self.chainId) does not match chain id \(info.chainId)")))
+                guard strongSelf.chainId == info.chainId else {
+                    return completion(.error(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
                 // if the only data needed was the chainId, return now
-                if self.refBlockPrefix > 0 && self.refBlockNum > 0 {
+                if strongSelf.refBlockPrefix > 0 && strongSelf.refBlockNum > 0 {
                     return completion(.success(true))
                 }
-                var blocksBehind = UInt64(self.taposConfig.blocksBehind)
+                var blocksBehind = UInt64(strongSelf.taposConfig.blocksBehind)
                 if blocksBehind > info.headBlockNum {
                     blocksBehind = info.headBlockNum
                 }
@@ -267,8 +279,8 @@ public class EosioTransaction: Codable {
                         completion(.error(EosioError(.unexpectedError, reason: "")))
                     case .success(let block):
                         // set tapos fields and return
-                        self.refBlockNum = UInt16(block.blockNum & 0xffff)
-                        self.refBlockPrefix = block.refBlockPrefix
+                        strongSelf.refBlockNum = UInt16(block.blockNum & 0xffff)
+                        strongSelf.refBlockPrefix = block.refBlockPrefix
                         return completion(.success(true))
                     }
                 })

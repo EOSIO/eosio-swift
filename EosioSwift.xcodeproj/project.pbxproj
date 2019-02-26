@@ -21,7 +21,6 @@
 		B4892C67221E02960050FA72 /* BlankModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4892C66221E02960050FA72 /* BlankModels.swift */; };
 		B4892C6D221E0CAA0050FA72 /* RequestModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4892C6C221E0CAA0050FA72 /* RequestModels.swift */; };
 		B49EE50F221CC78900018D29 /* EosioHttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE50E221CC78900018D29 /* EosioHttpMethod.swift */; };
-		B49EE511221CC7E900018D29 /* EosioResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE510221CC7E900018D29 /* EosioResult.swift */; };
 		B49EE513221CC8AC00018D29 /* EosioRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE512221CC8AC00018D29 /* EosioRequest.swift */; };
 		B49EE515221CC90100018D29 /* EosioResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE514221CC90100018D29 /* EosioResponse.swift */; };
 		B49EE517221CC94F00018D29 /* EosioEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49EE516221CC94F00018D29 /* EosioEndpoint.swift */; };
@@ -65,7 +64,6 @@
 		B4892C66221E02960050FA72 /* BlankModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankModels.swift; sourceTree = "<group>"; };
 		B4892C6C221E0CAA0050FA72 /* RequestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModels.swift; sourceTree = "<group>"; };
 		B49EE50E221CC78900018D29 /* EosioHttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioHttpMethod.swift; sourceTree = "<group>"; };
-		B49EE510221CC7E900018D29 /* EosioResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioResult.swift; sourceTree = "<group>"; };
 		B49EE512221CC8AC00018D29 /* EosioRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioRequest.swift; sourceTree = "<group>"; };
 		B49EE514221CC90100018D29 /* EosioResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioResponse.swift; sourceTree = "<group>"; };
 		B49EE516221CC94F00018D29 /* EosioEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioEndpoint.swift; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 			children = (
 				B4892BF9221DC3AA0050FA72 /* Models */,
 				B49EE50E221CC78900018D29 /* EosioHttpMethod.swift */,
-				B49EE510221CC7E900018D29 /* EosioResult.swift */,
 				B49EE512221CC8AC00018D29 /* EosioRequest.swift */,
 				B49EE514221CC90100018D29 /* EosioResponse.swift */,
 				B49EE516221CC94F00018D29 /* EosioEndpoint.swift */,
@@ -412,7 +409,6 @@
 				28FE039A2209D4C100CCC977 /* EosioTransactionAction.swift in Sources */,
 				B49EE519221CCA0900018D29 /* RpcProviderProtocol.swift in Sources */,
 				B49EE513221CC8AC00018D29 /* EosioRequest.swift in Sources */,
-				B49EE511221CC7E900018D29 /* EosioResult.swift in Sources */,
 				B49EE517221CC94F00018D29 /* EosioEndpoint.swift in Sources */,
 				B4B69EBF2204B65E009260A5 /* EosioSignatureProviderProtocol.swift in Sources */,
 			);

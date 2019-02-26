@@ -105,6 +105,38 @@ public class EosioTransaction: Codable {
     
     
     /**
+    This method will call the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If any of these methods return an error this method will call the completion that error, otherwise the completion will be called with an `EosioTransactionRequest`.
+    */
+    public func toEosioTransactionRequest(completion: @escaping (EosioResult<EosioTransactionRequest>) -> Void) {
+        calculateExpiration()
+        getChainIdAndCalculateTapos { (taposResult) in
+            switch taposResult {
+            case .error(let error):
+                completion(.error(error))
+            case .empty:
+                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .success:
+                self.serializeActionData { (result) in
+                    switch result {
+                    case .error(let error):
+                        completion(.error(error))
+                    case .empty:
+                        completion(.error(EosioError(.unexpectedError, reason: "")))
+                    case .success:
+                        do {
+                            let eosioTransactionRequest = try self.toEosioTransactionRequest()
+                            return completion(.success(eosioTransactionRequest))
+                        } catch {
+                            return completion(.error(error.eosioError))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    /**
      Serializes the `data` property of each action in `actions` and sets the `serializedData` property for each action, if not alredy set. Serializing the action data requires abis to be available in the `abis` class for all the contracts in the actions. If the necessary abis are not known to be available, call the async version method of this method which will attempt to get the abis first.
      - Throws: If any required abis are not available, or the action `data` cannot be serialized.
      */
@@ -117,6 +149,7 @@ public class EosioTransaction: Codable {
             try action.serializeData(abi: abis.jsonAbi(name: action.account))
         }
     }
+    
     
     /**
      This method will call `getABIs(completion:)` before before attemping to serialize the actions data by calling `serializeActionData()`. If `getABIs(completion:)` returns an error this method will call completion with that error. If `serializeActionData()` throws an error, the completion will be called with that error. If all action data is successfully serialized the completion will be called with true.

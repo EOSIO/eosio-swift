@@ -118,6 +118,28 @@ public class EosioTransaction: Codable {
         }
     }
     
+    /**
+     This method will call `getABIs(completion:)` before before attemping to serialize the actions data by calling `serializeActionData()`. If `getABIs(completion:)` returns an error this method will call completion with that error. If `serializeActionData()` throws an error, the completion will be called with that error. If all action data is successfully serialized the completion will be called with true.
+    */
+    public func serializeActionData(completion: @escaping (EosioResult<Bool>) -> Void) {
+        getAbis { (abisResult) in
+            switch abisResult {
+            case .error(let error):
+                completion(.error(error))
+            case .empty:
+                completion(.error(EosioError(.unexpectedError, reason: "")))
+            case .success:
+                do {
+                    try self.serializeActionData()
+                    return completion(.success(true))
+                } catch {
+                    return completion(.error(error.eosioError))
+                }
+            }
+        }
+    }
+    
+    
     /// Calculate the `expiration` using `taposConfig.expireSeconds` if current `expiration` is not valid
     public func calculateExpiration() {
         if expiration < Date() {

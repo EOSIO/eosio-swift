@@ -39,6 +39,42 @@ class EosioTransactionTests: XCTestCase {
     }
     
     
+    func testAsyncSerializeActionData() {
+        let expect = expectation(description: "testAsyncSerializeActionData")
+        let transaction = EosioTransaction()
+        transaction.chainId = "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17"
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else {
+            return XCTFail()
+        }
+        guard let action2 = try? makeVoteProducerAction(voter: EosioName("todd")) else {
+            return XCTFail()
+        }
+        transaction.actions.append(action1)
+        transaction.actions.append(action2)
+        
+        guard let endpoint = EosioEndpoint("mock://endpoint") else {
+            return XCTFail()
+        }
+        
+        transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
+        transaction.serializeActionData { (result) in
+            switch result {
+            case .error(let error):
+                print(error)
+                XCTFail()
+            case .empty:
+                XCTFail()
+            case .success:
+                XCTAssertTrue(transaction.actionsWithoutSerializedData.count == 0)
+                XCTAssertEqual(transaction.actions[0].dataSerialized?.hex, "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73")
+                XCTAssertEqual(transaction.actions[1].dataSerialized?.hex, "00000000009012cd00000000009012cd0300000857219de8ad00001057219de8ad00001857219de8ad")
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 3)
+    }
+    
+    
     func testToEosioTransactionRequest() {
         do {
             let transaction = EosioTransaction()
@@ -118,7 +154,6 @@ class EosioTransactionTests: XCTestCase {
             case .success:
                 XCTAssertEqual(try? transaction.abis.hashAbi(name: EosioName("eosio.token")), "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
                 XCTAssertEqual(try? transaction.abis.hashAbi(name: EosioName("eosio")), "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
-                print(try! transaction.toJson(prettyPrinted: true))
                 expect.fulfill()
             }
         }

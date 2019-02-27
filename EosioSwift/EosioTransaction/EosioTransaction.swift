@@ -257,7 +257,7 @@ public class EosioTransaction: Codable {
                     blocksBehind = info.headBlockNum
                 }
                 let blockNum = info.headBlockNum - blocksBehind
-                strongSelf.calculateTapos(blockNum: blockNum, completion: completion)
+                strongSelf.getBlockAndSetTapos(blockNum: blockNum, completion: completion)
             }
         }
     }
@@ -266,7 +266,7 @@ public class EosioTransaction: Codable {
     /**
      This method will get the `block` specified by `blockNum` and set `refBlockNum` and `refBlockPrefix`. If `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require an `rpcProvider` to get the data for these values. If the `rpcProvider` is not set or another error is encountered this method will call the completion with an error.
      */
-    public func calculateTapos(blockNum: UInt64, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    public func getBlockAndSetTapos(blockNum: UInt64, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         // if the only data needed was the chainId, return now
         if self.refBlockPrefix > 0 && self.refBlockNum > 0 {
             return completion(.success(true))

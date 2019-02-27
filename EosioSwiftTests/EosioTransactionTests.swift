@@ -154,14 +154,14 @@ class EosioTransactionTests: XCTestCase {
     }
     
     
-    func testCalculateTapos() {
+    func testGetBlockAndSetTapos() {
         let expect = expectation(description: "testGetChainIdAndCalculateTapos")
         let transaction = EosioTransaction()
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
             return XCTFail()
         }
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
-        transaction.calculateTapos(blockNum: 28672) { (result) in
+        transaction.getBlockAndSetTapos(blockNum: 28672) { (result) in
             switch result {
             case .failure(let error):
                 print(error)

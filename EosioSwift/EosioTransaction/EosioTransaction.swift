@@ -105,31 +105,42 @@ public class EosioTransaction: Codable {
     
     
     /**
-    This method will call the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If any of these methods return an error this method will call the completion that error, otherwise the completion will be called with an `EosioTransactionRequest`.
+    This method will call `prepareTransaction(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If an error is encountered this method will call the completion with that error, otherwise the completion will be called with an `EosioTransactionRequest`.
     */
     public func toEosioTransactionRequest(completion: @escaping (EosioResult<EosioTransactionRequest, EosioError>) -> Void) {
+        prepareTransaction { [weak self] (result) in
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success:
+                do {
+                    let eosioTransactionRequest = try strongSelf.toEosioTransactionRequest()
+                    return completion(.success(eosioTransactionRequest))
+                } catch {
+                    return completion(.failure(error.eosioError))
+                }
+            }
+        }
+    }
+    
+    
+    /**
+     This method will prepare the transaction, fetching or calculating any needed values by calling the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)`. If any of these methods return an error this method will call the completion that error.
+     */
+    public func prepareTransaction(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         calculateExpiration()
-        getChainIdAndCalculateTapos { (taposResult) in
+        getChainIdAndCalculateTapos { [weak self] (taposResult) in
             switch taposResult {
             case .failure(let error):
                 completion(.failure(error))
             case .success:
-                self.serializeActionData { [weak self] (result) in
-                    guard let strongSelf = self else {
-                        return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
-                    }
-                    switch result {
-                    case .failure(let error):
-                        completion(.failure(error))
-                    case .success:
-                        do {
-                            let eosioTransactionRequest = try strongSelf.toEosioTransactionRequest()
-                            return completion(.success(eosioTransactionRequest))
-                        } catch {
-                            return completion(.failure(error.eosioError))
-                        }
-                    }
+                guard let strongSelf = self else {
+                    return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
                 }
+                strongSelf.serializeActionData(completion: completion)
             }
         }
     }

@@ -222,7 +222,7 @@ public class EosioTransaction: Codable {
     
     
     /**
-     This method will get the `chainId`, `info` and `block`, set the `chainId` property then calculate and set `refBlockNum` and `refBlockPrefix` using the `taposConfig` property. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match. If `chainId`, `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require the `taposConfig` property to be set and an `rpcProvider` to get the data necessary to get or calculate these values. If either the `taposConfig` or the `rpcProvider` are not set or another error is encountered this method will call the completion with an error.
+     This method will get the chain `info`, set the `chainId` property then calculate the reference block num using the using the `taposConfig` property and call `calculateTapos(blockNum:, completion:)`. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match.  
     */
     public func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         
@@ -252,30 +252,42 @@ public class EosioTransaction: Codable {
                 guard strongSelf.chainId == info.chainId else {
                     return completion(.failure(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
-                // if the only data needed was the chainId, return now
-                if strongSelf.refBlockPrefix > 0 && strongSelf.refBlockNum > 0 {
-                    return completion(.success(true))
-                }
                 var blocksBehind = UInt64(strongSelf.taposConfig.blocksBehind)
                 if blocksBehind > info.headBlockNum {
                     blocksBehind = info.headBlockNum
                 }
                 let blockNum = info.headBlockNum - blocksBehind
-                rpcProvider.getBlock(blockNum: blockNum, completion: { (blockResponse) in
-                    switch blockResponse {
-                    case .failure(let error):
-                        completion(.failure(error))
-                    case .success(let block):
-                        // set tapos fields and return
-                        strongSelf.refBlockNum = UInt16(block.blockNum & 0xffff)
-                        strongSelf.refBlockPrefix = block.refBlockPrefix
-                        return completion(.success(true))
-                    }
-                })
+                strongSelf.calculateTapos(blockNum: blockNum, completion: completion)
             }
         }
-        
-       
-       
+    }
+    
+    
+    /**
+     This method will get the `block` specified by `blockNum` and set `refBlockNum` and `refBlockPrefix`. If `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require an `rpcProvider` to get the data for these values. If the `rpcProvider` is not set or another error is encountered this method will call the completion with an error.
+     */
+    public func calculateTapos(blockNum: UInt64, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        // if the only data needed was the chainId, return now
+        if self.refBlockPrefix > 0 && self.refBlockNum > 0 {
+            return completion(.success(true))
+        }
+        // if no rpcProvider available, return error
+        guard let rpcProvider = rpcProvider else {
+            return completion(.failure(EosioError(.transactionError, reason: "No rpc provider available")))
+        }
+        rpcProvider.getBlock(blockNum: blockNum, completion: { [weak self] (blockResponse) in
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            switch blockResponse {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let block):
+                // set tapos fields and return
+                strongSelf.refBlockNum = UInt16(block.blockNum & 0xffff)
+                strongSelf.refBlockPrefix = block.refBlockPrefix
+                return completion(.success(true))
+            }
+        })
     }
 }

@@ -154,6 +154,29 @@ class EosioTransactionTests: XCTestCase {
     }
     
     
+    func testCalculateTapos() {
+        let expect = expectation(description: "testGetChainIdAndCalculateTapos")
+        let transaction = EosioTransaction()
+        guard let endpoint = EosioEndpoint("mock://endpoint") else {
+            return XCTFail()
+        }
+        transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
+        transaction.calculateTapos(blockNum: 28672) { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                XCTFail()
+            case .success:
+                XCTAssertEqual(transaction.refBlockNum, 28672)
+                XCTAssertEqual(transaction.refBlockPrefix, 2249927103)
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 3)
+    }
+    
+    
+    
     func testGetAbis() {
         let expect = expectation(description: "testGetAbis")
         let transaction = EosioTransaction()

@@ -21,4 +21,8 @@ public struct EosioTransactionRequest: Codable {
     public var json: String? {
         return try? self.toJsonString(convertToSnakeCase: true, prettyPrinted: false)
     }
+    
+    public init() {
+        
+    }
 }

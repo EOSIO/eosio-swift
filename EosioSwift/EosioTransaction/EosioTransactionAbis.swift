@@ -50,6 +50,17 @@ public extension EosioTransaction {
         }
         
         
+        /// Add an abi as Data
+        /// - Parameters:
+        ///   - name: The contract name
+        ///   - data: The abi as Data
+        /// - Throws: If the abi is not valid
+        public func addAbi(name: EosioName, data: Data) throws {
+            try validateAbi(hex: data.hex)
+            abis[name] = data
+        }
+        
+        
         /// Array of contract names missing an abi
         /// - Parameter names: Contract names to look for
         /// - Returns: Contract names missing an abi

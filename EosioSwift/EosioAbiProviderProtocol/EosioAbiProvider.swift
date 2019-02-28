@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import EosioSwiftFoundation
+
 
 public class EosioAbiProvider: EosioAbiProviderProtocol {
     

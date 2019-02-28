@@ -12,6 +12,6 @@ target 'EosioSwift' do
 
   # Pods for EosioSwift
   pod 'EosioSwiftC', :path => '../eosio-swift-c'
-  pod 'EosioSwiftFoundation', :path => '../eosio-swift-foundation'
+  
 
 end

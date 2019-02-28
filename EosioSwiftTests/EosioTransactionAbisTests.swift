@@ -10,7 +10,7 @@ import Foundation
 
 import XCTest
 @testable import EosioSwift
-@testable import EosioSwiftFoundation
+
 @testable import EosioSwiftC
 
 class EosioTransactionAbisTests: XCTestCase {

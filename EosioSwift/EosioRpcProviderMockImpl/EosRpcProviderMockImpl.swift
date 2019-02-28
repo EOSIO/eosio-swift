@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import EosioSwiftFoundation
+
 
 public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
     public var endpoints: [EosioEndpoint]

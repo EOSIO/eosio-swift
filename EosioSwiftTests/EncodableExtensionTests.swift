@@ -9,7 +9,7 @@
 import Foundation
 
 import XCTest
-@testable import EosioSwiftFoundation
+@testable import EosioSwift
 
 class EncodableExtensionTests: XCTestCase {
     

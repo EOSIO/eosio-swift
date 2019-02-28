@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import EosioSwiftFoundation
+
 import EosioSwiftC
 
 public class EosioTransaction: Codable {

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import EosioSwiftFoundation
+@testable import EosioSwift
 
 class EosioNameTests: XCTestCase {
     

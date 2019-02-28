@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '12.0'
+platform :ios, '11.4'
 
 target 'EosioSwift' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -11,7 +11,7 @@ target 'EosioSwift' do
   end
 
   # Pods for EosioSwift
-  pod 'EosioSwiftC', :path => '../eosio-swift-c'
+  pod 'EosioSwiftC', :path => '../eosio-swift-abieos-serialization-provider'
   
 
 end

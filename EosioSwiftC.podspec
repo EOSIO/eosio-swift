@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   s.author           = { 'Steve McCoole' => 'steve.mccoole@objectpartners.com' }
   s.source           = { :git => 'https://github.com/EOSIO/eosio-swift-c.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '11.4'
+  s.ios.deployment_target = '12.0'
   
   s.source_files =  'EosioSwiftC/**/*.{c,h,m,cpp,hpp}',
   		    'EosioSwiftC/**/*.swift'

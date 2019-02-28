@@ -1,5 +1,7 @@
 // copyright defined in abieos/LICENSE.txt
 
+#pragma once
+
 #include <stddef.h>
 #include <stdint.h>
 

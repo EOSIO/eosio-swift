@@ -43,12 +43,15 @@
  *   "RIPEMD-160 is big-bit-endian, little-byte-endian, and left-justified."
  */
 
-#pragma clang diagnostic ignored "-Weverything"
+#pragma once
 
 #include <assert.h>
 #include <string.h>
 
-namespace ripemd160 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
+
+namespace abieos_ripemd160 {
 
 inline constexpr auto ripemd160_digest_size = 20;
 inline constexpr auto ripemd160_magic = 0x9f19dd68u;
@@ -414,3 +417,5 @@ inline int ripemd160_digest(const ripemd160_state* self, unsigned char* out) {
 }
 
 } // namespace ripemd160
+
+#pragma clang diagnostic pop

@@ -34,8 +34,7 @@ Pod::Spec.new do |s|
   s.source_files =  'EosioSwiftC/**/*.{c,h,m,cpp,hpp}',
   		    'EosioSwiftC/**/*.swift'
    
-  s.preserve_paths =  'Frameworks/boost.framework',
-  					  'EosioSwiftC/Crypto/module.modulemap',
+  s.preserve_paths =  'EosioSwiftC/Crypto/module.modulemap',
 					  'EosioSwiftC/AbiEos/module.modulemap',
 					  'EosioSwiftC/Recover/module.modulemap',
                       'EosioSwiftC/AbiEos/eosio.assert.abi.json',
@@ -56,7 +55,6 @@ Pod::Spec.new do |s|
 					   
   s.libraries = "c++"
   s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-c/EosioSwiftC/Crypto $(PROJECT_DIR)/../../eosio-swift-c/EosioSwiftC/AbiEos $(PROJECT_DIR)/../../eosio-swift-c/EosioSwiftC/Recover',
-  						   'FRAMEWORK_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-c/Frameworks/boost.framework', 
  						   'LIBRARY_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-c/** $(SRCROOT)/**', 
  						   'HEADER_SEARCH_PATHS' => '$(SRCROOT)/** $(SRCROOT)/EosioSwiftC/** $(PROJECT_DIR)/../../eosio-swift-c/** $(PROJECT_DIR)/../../eosio-swift-c/EosioSwiftC/**', 
  						   'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17', 
@@ -67,7 +65,6 @@ Pod::Spec.new do |s|
 						   'ENABLE_BITCODE' => 'YES'} 
 
   
-  s.ios.vendored_frameworks = 'Frameworks/boost.framework'
   s.ios.dependency 'GRKOpenSSLFramework'
   s.ios.dependency 'EosioSwiftFoundation', '~> 1.0'
   

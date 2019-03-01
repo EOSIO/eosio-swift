@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import EosioSwiftFoundation
+
 
 public struct EosioRpcTableRowsRequest: Codable {
     var scope: String = "inita"

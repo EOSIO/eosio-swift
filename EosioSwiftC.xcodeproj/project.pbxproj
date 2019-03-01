@@ -8,17 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5972DB03CDC3134F4442713F /* Pods_EosioSwiftC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA02BAF0D58BDCF61775B43 /* Pods_EosioSwiftC.framework */; };
-		6B0D07C020F68E1700542756 /* ecwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B0D07BF20F68E1700542756 /* ecwrapper.cpp */; };
-		6B0D07C420F690AD00542756 /* serialize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07C320F690AD00542756 /* serialize.h */; };
-		6B0D07CA20F69C5000542756 /* uint256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B0D07C820F69C4F00542756 /* uint256.cpp */; };
-		6B0D07CB20F69C5000542756 /* uint256.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07C920F69C5000542756 /* uint256.h */; };
-		6B0D07CE20F69C7200542756 /* utilstrencodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07CC20F69C7100542756 /* utilstrencodings.h */; };
-		6B0D07CF20F69C7200542756 /* utilstrencodings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B0D07CD20F69C7200542756 /* utilstrencodings.cpp */; };
-		6B0D07D120F69C8E00542756 /* tinyformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07D020F69C8E00542756 /* tinyformat.h */; };
 		6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F4E2320EFF0DF003D06D9 /* exampletx.json */; };
 		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
 		B4552B292193956D00564935 /* RIPEMD160.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B272193956D00564935 /* RIPEMD160.swift */; };
-		B4552B2B2193958900564935 /* Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B2A2193958900564935 /* Recover.swift */; };
 		B467E0492228785800C8A67D /* abieos.h in Headers */ = {isa = PBXBuildFile; fileRef = B467E00D2228785600C8A67D /* abieos.h */; };
 		B467E04A2228785800C8A67D /* abi.abi.json in Resources */ = {isa = PBXBuildFile; fileRef = B467E00E2228785600C8A67D /* abi.abi.json */; };
 		B467E04B2228785800C8A67D /* abieos_exception.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B467E00F2228785700C8A67D /* abieos_exception.hpp */; };
@@ -94,16 +86,7 @@
 /* Begin PBXFileReference section */
 		26C5F8A98FD5A92B3377C4B0 /* Pods-EosioSwiftCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftCTests/Pods-EosioSwiftCTests.release.xcconfig"; sourceTree = "<group>"; };
 		4DA02BAF0D58BDCF61775B43 /* Pods_EosioSwiftC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B0D07BF20F68E1700542756 /* ecwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ecwrapper.cpp; sourceTree = "<group>"; };
-		6B0D07C320F690AD00542756 /* serialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = serialize.h; sourceTree = "<group>"; };
-		6B0D07C720F691D700542756 /* recover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = recover.h; sourceTree = "<group>"; };
-		6B0D07C820F69C4F00542756 /* uint256.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = uint256.cpp; sourceTree = "<group>"; };
-		6B0D07C920F69C5000542756 /* uint256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uint256.h; sourceTree = "<group>"; };
-		6B0D07CC20F69C7100542756 /* utilstrencodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utilstrencodings.h; sourceTree = "<group>"; };
-		6B0D07CD20F69C7200542756 /* utilstrencodings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utilstrencodings.cpp; sourceTree = "<group>"; };
-		6B0D07D020F69C8E00542756 /* tinyformat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyformat.h; sourceTree = "<group>"; };
 		6B7F4E2320EFF0DF003D06D9 /* exampletx.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampletx.json; sourceTree = "<group>"; };
-		6BA8074320F6A19B0051E406 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftC.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -113,7 +96,6 @@
 		6BFA74FF20EBF49E003CBCEB /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = Frameworks/boost.framework; sourceTree = "<group>"; };
 		A092362EF27F7355012BF26B /* Pods_EosioSwiftCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4552B272193956D00564935 /* RIPEMD160.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RIPEMD160.swift; sourceTree = "<group>"; };
-		B4552B2A2193958900564935 /* Recover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recover.swift; sourceTree = "<group>"; };
 		B467E00D2228785600C8A67D /* abieos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abieos.h; sourceTree = "<group>"; };
 		B467E00E2228785600C8A67D /* abi.abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abi.abi.json; sourceTree = "<group>"; };
 		B467E00F2228785700C8A67D /* abieos_exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = abieos_exception.hpp; sourceTree = "<group>"; };
@@ -210,23 +192,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6BA8074220F6A1650051E406 /* Recover */ = {
-			isa = PBXGroup;
-			children = (
-				B4552B2A2193958900564935 /* Recover.swift */,
-				6B0D07BF20F68E1700542756 /* ecwrapper.cpp */,
-				6B0D07C320F690AD00542756 /* serialize.h */,
-				6B0D07C720F691D700542756 /* recover.h */,
-				6B0D07C820F69C4F00542756 /* uint256.cpp */,
-				6B0D07C920F69C5000542756 /* uint256.h */,
-				6B0D07CD20F69C7200542756 /* utilstrencodings.cpp */,
-				6B0D07CC20F69C7100542756 /* utilstrencodings.h */,
-				6B0D07D020F69C8E00542756 /* tinyformat.h */,
-				6BA8074320F6A19B0051E406 /* module.modulemap */,
-			);
-			path = Recover;
-			sourceTree = "<group>";
-		};
 		6BE39DA720C5CCBB00EBBCA3 = {
 			isa = PBXGroup;
 			children = (
@@ -253,7 +218,6 @@
 				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftC.h */,
 				6BFA74BD20EBF456003CBCEB /* AbiEos */,
 				6BE39DD720C5DA1700EBBCA3 /* Crypto */,
-				6BA8074220F6A1650051E406 /* Recover */,
 				6B7F4E2320EFF0DF003D06D9 /* exampletx.json */,
 				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
 			);
@@ -415,7 +379,6 @@
 				B467E0792228785800C8A67D /* tz.h in Headers */,
 				B467E06B2228785800C8A67D /* document.h in Headers */,
 				B467E0762228785800C8A67D /* julian.h in Headers */,
-				6B0D07D120F69C8E00542756 /* tinyformat.h in Headers */,
 				B467E0532228785800C8A67D /* prettywriter.h in Headers */,
 				B467E05E2228785800C8A67D /* diyfp.h in Headers */,
 				B467E0612228785800C8A67D /* itoa.h in Headers */,
@@ -434,10 +397,7 @@
 				B467E06F2228785800C8A67D /* en.h in Headers */,
 				B467E0622228785800C8A67D /* stack.h in Headers */,
 				B467E0632228785800C8A67D /* dtoa.h in Headers */,
-				6B0D07CE20F69C7200542756 /* utilstrencodings.h in Headers */,
 				B467E0702228785800C8A67D /* memorybuffer.h in Headers */,
-				6B0D07CB20F69C5000542756 /* uint256.h in Headers */,
-				6B0D07C420F690AD00542756 /* serialize.h in Headers */,
 				B467E0562228785800C8A67D /* filereadstream.h in Headers */,
 				B467E0752228785800C8A67D /* date.h in Headers */,
 				B467E0672228785800C8A67D /* schema.h in Headers */,
@@ -628,13 +588,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */,
-				6B0D07C020F68E1700542756 /* ecwrapper.cpp in Sources */,
 				B467E07D2228785800C8A67D /* AbiEos.swift in Sources */,
-				B4552B2B2193958900564935 /* Recover.swift in Sources */,
-				6B0D07CA20F69C5000542756 /* uint256.cpp in Sources */,
 				B467E07F2228785800C8A67D /* fuzzer.cpp in Sources */,
 				B49BA8222194BAC6005516C2 /* Base58.swift in Sources */,
-				6B0D07CF20F69C7200542756 /* utilstrencodings.cpp in Sources */,
 				B467E07E2228785800C8A67D /* abieos.cpp in Sources */,
 				B4552B292193956D00564935 /* RIPEMD160.swift in Sources */,
 			);

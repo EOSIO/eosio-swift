@@ -17,7 +17,6 @@
 		6B0D07D120F69C8E00542756 /* tinyformat.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B0D07D020F69C8E00542756 /* tinyformat.h */; };
 		6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F4E2320EFF0DF003D06D9 /* exampletx.json */; };
 		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
-		6BFA750020EBF49E003CBCEB /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFA74FF20EBF49E003CBCEB /* boost.framework */; };
 		B4552B292193956D00564935 /* RIPEMD160.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B272193956D00564935 /* RIPEMD160.swift */; };
 		B4552B2B2193958900564935 /* Recover.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B2A2193958900564935 /* Recover.swift */; };
 		B467E0492228785800C8A67D /* abieos.h in Headers */ = {isa = PBXBuildFile; fileRef = B467E00D2228785600C8A67D /* abieos.h */; };
@@ -185,7 +184,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BFA750020EBF49E003CBCEB /* boost.framework in Frameworks */,
 				5972DB03CDC3134F4442713F /* Pods_EosioSwiftC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

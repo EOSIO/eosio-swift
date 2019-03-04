@@ -7,14 +7,12 @@
 //
 
 import Foundation
-import EosioSwiftFoundation
-import EosioSwiftC
 
 public extension EosioTransaction {
     
     /// Action class for `EosioTransaction`
     public class Action: Codable {
-
+        
         /// Contract account name
         public private(set) var account: EosioName
         /// Contract action name
@@ -38,8 +36,6 @@ public extension EosioTransaction {
         public var isDataSerialized: Bool {
             return dataSerialized != nil
         }
-        
-        
         
         /// Coding keys
         enum CodingKeys: String, CodingKey {
@@ -144,17 +140,18 @@ public extension EosioTransaction {
         }
         
         
-        /// Serialize the data from the `data` dictionary using Abieos and an abi, then set the `dataSerialized` property
+        /// Serialize the data from the `data` dictionary using serializationProvider and an abi, then set the `dataSerialized` property
         ///
         /// - Parameter abi: the abi as a json string
+         /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
         /// - Throws: if the data cannot be serialized
-        public func serializeData(abi: String) throws {
+        public func serializeData(abi: String, serializationProviderType: EosioSerializationProviderProtocol.Type) throws {
             if isDataSerialized { return }
             guard let json = dataJson else {
                 throw EosioError(.serializationError, reason: "Cannot convert data to json")
             }
-            let abieos = AbiEos()
-            let hex = try abieos.jsonToHex(contract: account.string, name: name.string, json: json, abi: abi, isReorderable: true)
+            let serializationProvider = serializationProviderType.init()
+            let hex = try serializationProvider.jsonToHex(contract: account.string, name: name.string, type: nil, json: json, abi: abi)
             guard let binaryData = Data(hexString: hex) else {
                 throw EosioError(.serializationError, reason: "Cannot decode hex \(hex)")
             }
@@ -162,17 +159,18 @@ public extension EosioTransaction {
         }
         
         
-        /// Deserialize the data from the `dataSerialized` property using Abieos and an abi, then set the `data` dictionary
+        /// Deserialize the data from the `dataSerialized` property using serializationProvider and an abi, then set the `data` dictionary
         ///
         /// - Parameter abi: the abi as a json string
+        /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
         /// - Throws: if the data cannot be deserialized
-        public func deserializeData(abi: String) throws {
+        public func deserializeData(abi: String, serializationProviderType: EosioSerializationProviderProtocol.Type) throws {
             if data.count > 0 { return }
-            let abieos = AbiEos()
             guard let dataHex = dataHex else {
                 throw EosioError(.parsingError, reason: "Serialized data not set for action \(account)::\(name)")
             }
-            let json = try abieos.hexToJson(contract: account.string, name: name.string, hex: dataHex, abi: abi)
+            let serializationProvider = serializationProviderType.init()
+            let json = try serializationProvider.hexToJson(contract: account.string, name: name.string, type: nil, hex: dataHex, abi: abi)
             data = try json.jsonToDictionary()
         }
         

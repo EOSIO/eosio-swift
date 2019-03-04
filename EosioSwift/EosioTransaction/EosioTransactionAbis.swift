@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import EosioSwiftFoundation
-import EosioSwiftC
 
 public extension EosioTransaction {
     
@@ -16,14 +14,17 @@ public extension EosioTransaction {
     public class Abis {
         
         private var abis = [EosioName:Data]()
-        
+        public var serializationProviderType: EosioSerializationProviderProtocol.Type?
         
         /// Validate an abi
         /// - Parameter hex: The abi as a hex string
         /// - Throws: If the abi is not valid
         public func validateAbi(hex: String) throws {
-            let abieos = AbiEos()
-            let _ = try abieos.hexToJson(contract: nil, type: "abi_def", hex: hex, abi: "abi.abi.json")
+            guard let serializerType = self.serializationProviderType else {
+                preconditionFailure("A serializationProviderType must be set!")
+            }
+            let serializer = serializerType.init()
+            let _ = try serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hex, abi: "abi.abi.json")
         }
         
         
@@ -116,9 +117,12 @@ public extension EosioTransaction {
         /// The abis as json
         /// - Returns: Dictionary of the abis as json, keyed by contract name
         public func jsonAbis() throws -> [EosioName:String] {
-            let abieos = AbiEos()
             return try hexAbis().mapValues({ (hex) -> String in
-                return try abieos.hexToJson(contract: nil, type: "abi_def", hex: hex, abi: "abi.abi.json")
+                guard let serializerType = self.serializationProviderType else {
+                    preconditionFailure("A serializationProviderType must be set!")
+                }
+                let serializer = serializerType.init()
+                return try serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hex, abi: "abi.abi.json")
             })
         }
         
@@ -129,8 +133,11 @@ public extension EosioTransaction {
         /// - Throws: If the abi is not available or not valid
         public func jsonAbi(name: EosioName) throws -> String {
             let hexAbi = try self.hexAbi(name: name)
-            let abieos = AbiEos()
-            return try abieos.hexToJson(contract: nil, type: "abi_def", hex: hexAbi, abi: "abi.abi.json")
+            guard let serializerType = self.serializationProviderType else {
+                preconditionFailure("A serializationProviderType must be set!")
+            }
+            let serializer = serializerType.init()
+            return try serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hexAbi, abi: "abi.abi.json")
         }
         
     

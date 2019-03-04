@@ -1,11 +1,10 @@
-
 steps:
-  - command: "bundle install --path ci/bundle"
+  - command: "source ~/.bash_profile && bundle install --path ci/bundle"
     label: ":ruby: bundle install"
     agents:
       - "queue=ios-builder"
   - wait
-  - command: "fastlane tests"
+  - command: "source ~/.bash_profile && bundle install && bundle exec fastlane tests"
     label: ":fastlane: Run Tests"
     agents:
       - "queue=ios-builder"

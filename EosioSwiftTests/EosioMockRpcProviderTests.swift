@@ -9,8 +9,6 @@
 import Foundation
 import XCTest
 import EosioSwift
-import EosioSwiftC
-
 
 class EosioMockRpcProviderTests: XCTestCase {
     

@@ -8,8 +8,6 @@
 
 import Foundation
 
-import EosioSwiftC
-
 public class EosioTransaction: Codable {
     
     public var chainId = ""
@@ -17,6 +15,11 @@ public class EosioTransaction: Codable {
     public var rpcProvider: EosioRpcProviderProtocol?
     public var abiProvider: EosioAbiProviderProtocol?
     public var signatureProvider: EosioSignatureProviderProtocol?
+    public var serializationProviderType: EosioSerializationProviderProtocol.Type? {
+        didSet {
+            abis.serializationProviderType = serializationProviderType
+        }
+    }
     
     public var taposConfig = EosioTransaction.TaposConfig()
     public struct TaposConfig {
@@ -51,7 +54,6 @@ public class EosioTransaction: Codable {
         case actions
         case transactionExtensions
     }
-    
     
     /// Returns an array of action accounts that do not have an abi in `abis`
     public var actionAccountsMissingAbis: [EosioName] {
@@ -97,9 +99,12 @@ public class EosioTransaction: Codable {
             throw EosioError(.serializationError, reason: "expiration is not set")
         }
         var eosioTransactionRequest = EosioTransactionRequest()
-        let abieos = AbiEos()
+        guard let serializerType = self.serializationProviderType else {
+            preconditionFailure("A serializationProviderTpe must be set!")
+        }
+        let serializer = serializerType.init()
         let json = try self.toJson()
-        eosioTransactionRequest.packedTrx = try abieos.jsonToHex(contract: nil, type: "transaction", json: json, abi: "transaction.abi.json", isReorderable: true)
+        eosioTransactionRequest.packedTrx = try serializer.jsonToHex(contract: nil, name: "", type: "transaction", json: json, abi: "transaction.abi.json")
         return eosioTransactionRequest
     }
     
@@ -148,6 +153,7 @@ public class EosioTransaction: Codable {
     
     /**
      Serializes the `data` property of each action in `actions` and sets the `serializedData` property for each action, if not alredy set. Serializing the action data requires abis to be available in the `abis` class for all the contracts in the actions. If the necessary abis are not known to be available, call the async version method of this method which will attempt to get the abis first.
+     - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
      - Throws: If any required abis are not available, or the action `data` cannot be serialized.
      */
     public func serializeActionData() throws {
@@ -155,8 +161,11 @@ public class EosioTransaction: Codable {
         guard missingAbis.count == 0 else {
             throw EosioError(.serializationError, reason: "Cannot serialize action data. Abis missing for \(missingAbis).")
         }
+        guard let serializerType = self.serializationProviderType else {
+            preconditionFailure("A serializationProviderType must be set!")
+        }
         for action in actions {
-            try action.serializeData(abi: abis.jsonAbi(name: action.account))
+            try action.serializeData(abi: abis.jsonAbi(name: action.account), serializationProviderType: serializerType)
         }
     }
     

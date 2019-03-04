@@ -12,6 +12,6 @@ target 'EosioSwiftC' do
 
   # Pods for EosioSwiftC
   pod 'GRKOpenSSLFramework'
-  pod 'EosioSwiftFoundation', :path => '../eosio-swift-foundation'
+  pod 'EosioSwift', :path => '../eosio-swift'
   
 end

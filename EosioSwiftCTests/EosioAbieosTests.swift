@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 import EosioSwiftC
-import EosioSwiftFoundation
+import EosioSwift
 
 class EosioSwiftCTests: XCTestCase {
 
@@ -29,7 +29,7 @@ class EosioSwiftCTests: XCTestCase {
         """
         let hex = "00000000009012CD177472616E736665722E746F6464626F7764656E2E636F6D7268747470733A2F2F7472616E736665722E746F6464626F7764656E2E636F6D2F6170702D6D657461646174612E6A736F6E23363764383639353462633366663739323861353564663731376233316237333263386563343865303062326566666664366434393361636338343133623762620100A6823403EA3055000000572D3CCDCD"
         do {
-            let result = try abieos?.jsonToHex(contract: nil, name: "", type: "manifest", json: json, abi: "eosio.assert.abi.json", isReorderable: true)
+            let result = try abieos?.jsonToHex(contract: nil, name: "", type: "manifest", json: json, abi: "eosio.assert.abi.json")
             XCTAssertTrue(hex == result)
         } catch {
             print(error)
@@ -73,7 +73,7 @@ class EosioSwiftCTests: XCTestCase {
         """
         let hex = "CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB1556248"
         do {
-            let result = try abieos?.jsonToHex(contract: "eosio.assert", name: "", type: "require", json: json, abi: "eosio.assert.abi.json", isReorderable: true)
+            let result = try abieos?.jsonToHex(contract: "eosio.assert", name: "", type: "require", json: json, abi: "eosio.assert.abi.json")
             XCTAssertTrue(hex == result)
         } catch {
             print(error)
@@ -103,7 +103,7 @@ class EosioSwiftCTests: XCTestCase {
         """
         let hex = "687FA513E18843AD3E820744F4FFCF93B1354036D80737DB8DC444FE4B15AD170A623120546573746E65744720078C233754482699678CBF8E75B0B671596F794904A5A788515517F04EE3"
         do {
-            let resut = try abieos?.jsonToHex(contract: nil, name: "", type: "chain_params", json: json, abi: "eosio.assert.abi.json", isReorderable: true)
+            let resut = try abieos?.jsonToHex(contract: nil, name: "", type: "chain_params", json: json, abi: "eosio.assert.abi.json")
             XCTAssertTrue(hex == resut)
         } catch {
             print(error)
@@ -145,7 +145,7 @@ class EosioSwiftCTests: XCTestCase {
         """
         let hex = "1686755CA99DE8E73E12000000000290AFC2D800EA3055000000405DA7ADBA0072CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB155624800A6823403EA3055000000572D3CCDCD0100AEAA4AC15CFD4500000000A8ED32323B00AEAA4AC15CFD4500000060D234CD3DA06806000000000004454F53000000001A746865206772617373686F70706572206C69657320686561767900"
         do {
-            let resut = try abieos?.jsonToHex(contract: nil, name: "", type: "transaction", json: json, abi: "transaction.abi.json", isReorderable: true)
+            let resut = try abieos?.jsonToHex(contract: nil, name: "", type: "transaction", json: json, abi: "transaction.abi.json")
             XCTAssertTrue(hex == resut)
         } catch {
             print(error)

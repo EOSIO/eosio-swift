@@ -66,6 +66,6 @@ Pod::Spec.new do |s|
 
   
   s.ios.dependency 'GRKOpenSSLFramework'
-  s.ios.dependency 'EosioSwiftFoundation', '~> 1.0'
+  s.ios.dependency 'EosioSwift', '~> 1.0'
   
 end

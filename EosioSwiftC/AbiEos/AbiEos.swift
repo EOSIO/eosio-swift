@@ -8,20 +8,20 @@
 
 import Foundation
 import AbiEos
-import EosioSwiftFoundation
+import EosioSwift
 
-public class AbiEos {
+public class AbiEos: EosioSerializationProviderProtocol {
     
     public class Error: EosioError { }
     
     private var context = abieos_create()
     private var abiJsonString = ""
     
-    var error: String? {
+    public var error: String? {
         return String(validatingUTF8: abieos_get_error(context))
     }
 
-    public init() {
+    required public init() {
         
     }
     
@@ -52,7 +52,7 @@ public class AbiEos {
         return abiString
     }
     
-    public func jsonToHex(contract: String?, name: String = "", type: String? = nil, json: String, abi: Any, isReorderable: Bool = false) throws -> String {
+    public func jsonToHex(contract: String?, name: String = "", type: String? = nil, json: String, abi: Any) throws -> String {
         
         let contract64 = name64(string: contract)
         abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
@@ -69,12 +69,8 @@ public class AbiEos {
         }
         
         var jsonToBinResult: Int32 = 0
-        if isReorderable {
-            jsonToBinResult = abieos_json_to_bin_reorderable(context, contract64, type, json)
-        } else {
-            jsonToBinResult = abieos_json_to_bin(context, contract64, type, json)
-        }
-        
+        jsonToBinResult = abieos_json_to_bin_reorderable(context, contract64, type, json)
+
         guard jsonToBinResult == 1 else {
             throw Error(EosioErrorCode.vaultError, reason: "Unable to pack json to bin. \(self.error ?? "")")
         }

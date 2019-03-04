@@ -11,6 +11,9 @@
 		6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F4E2320EFF0DF003D06D9 /* exampletx.json */; };
 		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
 		B4552B292193956D00564935 /* RIPEMD160.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B272193956D00564935 /* RIPEMD160.swift */; };
+		B466F09A222D90110082DC4E /* EosioTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F097222D90100082DC4E /* EosioTransactionTests.swift */; };
+		B466F09B222D90110082DC4E /* EosioTransactionAbisTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F098222D90100082DC4E /* EosioTransactionAbisTests.swift */; };
+		B466F09C222D90110082DC4E /* EosioTransactionActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F099222D90100082DC4E /* EosioTransactionActionTests.swift */; };
 		B467E0492228785800C8A67D /* abieos.h in Headers */ = {isa = PBXBuildFile; fileRef = B467E00D2228785600C8A67D /* abieos.h */; };
 		B467E04A2228785800C8A67D /* abi.abi.json in Resources */ = {isa = PBXBuildFile; fileRef = B467E00E2228785600C8A67D /* abi.abi.json */; };
 		B467E04B2228785800C8A67D /* abieos_exception.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B467E00F2228785700C8A67D /* abieos_exception.hpp */; };
@@ -96,6 +99,9 @@
 		6BFA74FF20EBF49E003CBCEB /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = Frameworks/boost.framework; sourceTree = "<group>"; };
 		A092362EF27F7355012BF26B /* Pods_EosioSwiftCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4552B272193956D00564935 /* RIPEMD160.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RIPEMD160.swift; sourceTree = "<group>"; };
+		B466F097222D90100082DC4E /* EosioTransactionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioTransactionTests.swift; sourceTree = "<group>"; };
+		B466F098222D90100082DC4E /* EosioTransactionAbisTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioTransactionAbisTests.swift; sourceTree = "<group>"; };
+		B466F099222D90100082DC4E /* EosioTransactionActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioTransactionActionTests.swift; sourceTree = "<group>"; };
 		B467E00D2228785600C8A67D /* abieos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abieos.h; sourceTree = "<group>"; };
 		B467E00E2228785600C8A67D /* abi.abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = abi.abi.json; sourceTree = "<group>"; };
 		B467E00F2228785700C8A67D /* abieos_exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = abieos_exception.hpp; sourceTree = "<group>"; };
@@ -334,6 +340,9 @@
 		B4EAD99421925E79009D3E04 /* EosioSwiftCTests */ = {
 			isa = PBXGroup;
 			children = (
+				B466F098222D90100082DC4E /* EosioTransactionAbisTests.swift */,
+				B466F099222D90100082DC4E /* EosioTransactionActionTests.swift */,
+				B466F097222D90100082DC4E /* EosioTransactionTests.swift */,
 				B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */,
 				B4EAD99721925E79009D3E04 /* Info.plist */,
 			);
@@ -543,14 +552,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-EosioSwiftCTests/Pods-EosioSwiftCTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/EosioSwiftFoundation/EosioSwiftFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/EosioSwift/EosioSwift.framework",
 				"${PODS_ROOT}/GRKOpenSSLFramework/OpenSSL-iOS/bin/openssl.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EosioSwiftFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EosioSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,6 +609,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B466F09A222D90110082DC4E /* EosioTransactionTests.swift in Sources */,
+				B466F09B222D90110082DC4E /* EosioTransactionAbisTests.swift in Sources */,
+				B466F09C222D90110082DC4E /* EosioTransactionActionTests.swift in Sources */,
 				B4EAD99621925E79009D3E04 /* EosioAbieosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

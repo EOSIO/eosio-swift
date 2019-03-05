@@ -1,9 +1,9 @@
 //
 //  ABIEOS.swift
-//  EOSAPI
+//  EosioSwiftAbieos
 //
 //  Created by Todd Bowden on 6/16/18.
-//  Copyright © 2018 Block One. All rights reserved.
+//  Copyright © 2018-2019 block.one. 
 //
 
 import Foundation

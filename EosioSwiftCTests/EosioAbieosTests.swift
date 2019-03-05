@@ -1,9 +1,9 @@
 //
 //  EosioSwiftCTests.swift
-//  EosioSwitfCTests
+//  EosioSwiftAbieosTests
 //
 //  Created by Steve McCoole on 11/6/18.
-//  Copyright © 2018 Block One. All rights reserved.
+//  Copyright © 2018-2019 block.one.
 //
 
 import Foundation

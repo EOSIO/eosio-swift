@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5972DB03CDC3134F4442713F /* Pods_EosioSwiftC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA02BAF0D58BDCF61775B43 /* Pods_EosioSwiftC.framework */; };
-		6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B7F4E2320EFF0DF003D06D9 /* exampletx.json */; };
 		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
 		B4552B292193956D00564935 /* RIPEMD160.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B272193956D00564935 /* RIPEMD160.swift */; };
 		B466F09A222D90110082DC4E /* EosioTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F097222D90100082DC4E /* EosioTransactionTests.swift */; };
@@ -89,7 +88,6 @@
 /* Begin PBXFileReference section */
 		26C5F8A98FD5A92B3377C4B0 /* Pods-EosioSwiftCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftCTests/Pods-EosioSwiftCTests.release.xcconfig"; sourceTree = "<group>"; };
 		4DA02BAF0D58BDCF61775B43 /* Pods_EosioSwiftC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B7F4E2320EFF0DF003D06D9 /* exampletx.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampletx.json; sourceTree = "<group>"; };
 		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftC.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftC.h */,
 				6BFA74BD20EBF456003CBCEB /* AbiEos */,
 				6BE39DD720C5DA1700EBBCA3 /* Crypto */,
-				6B7F4E2320EFF0DF003D06D9 /* exampletx.json */,
 				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
 			);
 			path = EosioSwiftC;
@@ -507,7 +504,6 @@
 				B467E04D2228785800C8A67D /* transaction.abi.json in Resources */,
 				B467E04A2228785800C8A67D /* abi.abi.json in Resources */,
 				B467E04F2228785800C8A67D /* eosio.assert.abi.json in Resources */,
-				6B7F4E2420EFF0E0003D06D9 /* exampletx.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

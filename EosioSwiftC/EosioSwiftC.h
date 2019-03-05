@@ -1,6 +1,6 @@
 //
 //  EosioSwiftC.h
-//  EosioSwiftC
+//  EosioSwiftAbieos
 //
 //  Created by Steve McCoole on 11/6/18.
 //  Copyright © 2018 Block One. All rights reserved.

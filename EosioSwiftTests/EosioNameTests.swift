@@ -1,9 +1,9 @@
 //
 //  EosioNameTests.swift
-//  EosioSwiftFoundationTests
+//  EosioSwiftTests
 //
 //  Created by Todd Bowden on 2/3/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright © 2018-2019 block.one.
 //
 
 import XCTest

@@ -30,7 +30,6 @@
 		8F6B04C522287A9E00215CD0 /* DictionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04BF22287A9E00215CD0 /* DictionaryExtensions.swift */; };
 		8F6B04C622287A9E00215CD0 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04C022287A9E00215CD0 /* ArrayExtensions.swift */; };
 		8F6B04CC22287B1D00215CD0 /* EncodableExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04C722287B1D00215CD0 /* EncodableExtensionTests.swift */; };
-		8F6B04CD22287B1D00215CD0 /* EosioSwiftFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04C822287B1D00215CD0 /* EosioSwiftFoundationTests.swift */; };
 		8F6B04CE22287B1D00215CD0 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04C922287B1D00215CD0 /* StringExtensionsTests.swift */; };
 		8F6B04CF22287B1D00215CD0 /* DataExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04CA22287B1D00215CD0 /* DataExtensionsTests.swift */; };
 		8F6B04D022287B1D00215CD0 /* EosioNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04CB22287B1D00215CD0 /* EosioNameTests.swift */; };
@@ -89,7 +88,6 @@
 		8F6B04BF22287A9E00215CD0 /* DictionaryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtensions.swift; sourceTree = "<group>"; };
 		8F6B04C022287A9E00215CD0 /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		8F6B04C722287B1D00215CD0 /* EncodableExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncodableExtensionTests.swift; sourceTree = "<group>"; };
-		8F6B04C822287B1D00215CD0 /* EosioSwiftFoundationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioSwiftFoundationTests.swift; sourceTree = "<group>"; };
 		8F6B04C922287B1D00215CD0 /* StringExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
 		8F6B04CA22287B1D00215CD0 /* DataExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtensionsTests.swift; sourceTree = "<group>"; };
 		8F6B04CB22287B1D00215CD0 /* EosioNameTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioNameTests.swift; sourceTree = "<group>"; };
@@ -202,7 +200,6 @@
 				8F6B04CA22287B1D00215CD0 /* DataExtensionsTests.swift */,
 				8F6B04C722287B1D00215CD0 /* EncodableExtensionTests.swift */,
 				8F6B04CB22287B1D00215CD0 /* EosioNameTests.swift */,
-				8F6B04C822287B1D00215CD0 /* EosioSwiftFoundationTests.swift */,
 				8F6B04C922287B1D00215CD0 /* StringExtensionsTests.swift */,
 				6B80D26D21FA6DDF00716A7B /* EosioSwiftTests.swift */,
 				B4A80E2C221F605D00C5134D /* EosioMockRpcProviderTests.swift */,
@@ -489,7 +486,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F6B04CE22287B1D00215CD0 /* StringExtensionsTests.swift in Sources */,
-				8F6B04CD22287B1D00215CD0 /* EosioSwiftFoundationTests.swift in Sources */,
 				B4A80E2D221F605D00C5134D /* EosioMockRpcProviderTests.swift in Sources */,
 				8F6B04CF22287B1D00215CD0 /* DataExtensionsTests.swift in Sources */,
 				8F6B04D022287B1D00215CD0 /* EosioNameTests.swift in Sources */,

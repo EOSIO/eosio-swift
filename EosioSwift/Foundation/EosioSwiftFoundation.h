@@ -1,9 +1,9 @@
 //
 //  EosioSwiftFoundation.h
-//  EosioSwiftFoundation
+//  EosioSwift
 //
 //  Created by Todd Bowden on 1/23/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright © 2018-2019 block.one.
 //
 
 #import <UIKit/UIKit.h>

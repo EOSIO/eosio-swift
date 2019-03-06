@@ -1,9 +1,9 @@
 //
 //  DictionaryExtensions.swift
-//  EosioSwiftFoundation
+//  EosioSwift
 //
 //  Created by Steve McCoole on 1/30/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright © 2018-2019 block.one. 
 //
 
 import Foundation

@@ -1,9 +1,9 @@
 //
 //  DataExtensionsTests.swift
-//  EosioSwiftFoundationTests
+//  EosioSwiftTests
 //
 //  Created by Farid Rahmani on 2/21/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright © 2018-2019 block.one.
 //
 
 import XCTest

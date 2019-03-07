@@ -22,10 +22,9 @@ public class EccRecoverKey {
     ///   - privateKey: The private key
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public func recoverPublicKey(privateKey: Data, curve: String) -> Data?  {
-        guard curve == "R1" || curve == "K1" else { return nil }
+    public func recoverPublicKey(privateKey: Data, curve: String) throws -> Data  {
         
-        guard let privKeyBN = BN_new() else { return nil }
+        let privKeyBN = BN_new()!
         let key = EC_KEY_new()
         let ctx = BN_CTX_new()
         
@@ -35,7 +34,7 @@ public class EccRecoverKey {
         } else if curve == "K1" {
             curveName = NID_secp256k1
         } else {
-            return nil
+            throw EosioError(.signingError, reason:  "\(curve) is not a valid curve" )
         }
         
         let group = EC_GROUP_new_by_curve_name(curveName)
@@ -58,7 +57,7 @@ public class EccRecoverKey {
             BN_free(yBN)
             recoveredPubKeyHex = "04" + xHex + yHex
         }
-        return Data(hexString: recoveredPubKeyHex)
+        return try Data(hex: recoveredPubKeyHex)
     }
     
     
@@ -70,7 +69,7 @@ public class EccRecoverKey {
     ///   - recid: The recovery id (0-3)
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: String = "R1") -> Data? {
+    public func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: String = "R1") throws -> Data {
         
         var curveName: Int32
         if curve == "R1" {
@@ -78,16 +77,19 @@ public class EccRecoverKey {
         } else if curve == "K1" {
             curveName = NID_secp256k1
         } else {
-            return nil
+            throw EosioError(.signingError, reason:  "\(curve) is not a valid curve" )
         }
         
+        
         var recoveredPubKeyHex = ""
-        signatureDer.withUnsafeBytes { (derBytes: UnsafePointer<UInt8>) -> Void in
+        try signatureDer.withUnsafeBytes { (derBytes: UnsafePointer<UInt8>) -> Void in
             let recoveredKey = EC_KEY_new_by_curve_name(curveName)
             var sig = ECDSA_SIG_new()
             var mutableDerBytes: UnsafePointer<UInt8>? = derBytes
             sig = d2i_ECDSA_SIG(&sig, &mutableDerBytes, signatureDer.count)
-            
+            guard sig != nil else {
+                throw EosioError(.signingError, reason:  "Signature \(signatureDer.hex) is not valid" )
+            }
             message.withUnsafeBytes { (messageBytes: UnsafePointer<UInt8>) -> Void in
                 
                 ECDSA_SIG_recover_key_GFp(recoveredKey, sig, messageBytes, Int32(message.count), Int32(recid), 1)
@@ -98,8 +100,6 @@ public class EccRecoverKey {
                 EC_POINT_get_affine_coordinates_GFp(group, recoveredPubKey, xBN, yBN, nil)
                 let xHex = String(cString: BN_bn2hex(xBN))
                 let yHex = String(cString: BN_bn2hex(yBN))
-                //print(xHex)
-                //print(yHex)
                 BN_free(xBN)
                 BN_free(yBN)
                 EC_GROUP_free(group)
@@ -107,7 +107,7 @@ public class EccRecoverKey {
             }
             ECDSA_SIG_free(sig)
         }
-        return Data(hexString: recoveredPubKeyHex)
+        return try Data(hex: recoveredPubKeyHex)
     }
     
     
@@ -122,10 +122,9 @@ public class EccRecoverKey {
     /// - Throws: If none of the possible recids recover the target public key
     public func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: String = "R1") throws -> Int {
         for i in 0...3 {
-            if let recoveredPublicKey = recoverPublicKey(signatureDer: signatureDer, message: message, recid: i, curve: curve) {
-                if recoveredPublicKey == targetPublicKey {
-                    return i
-                }
+            let recoveredPublicKey = try recoverPublicKey(signatureDer: signatureDer, message: message, recid: i, curve: curve)
+            if recoveredPublicKey == targetPublicKey {
+                return i
             }
         }
         throw EosioError(.signingError, reason:  "Unable to find recid for \(targetPublicKey.hex)" )

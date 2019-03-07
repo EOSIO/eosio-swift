@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2811B4DD2231679C0029BF6A /* EccRecoverKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811B4DC2231679C0029BF6A /* EccRecoverKey.swift */; };
+		2811B4E12231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811B4E02231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift */; };
 		2811D0282230814B0002E580 /* EosioSwiftEcc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2811D01E2230814B0002E580 /* EosioSwiftEcc.framework */; };
 		2811D02D2230814B0002E580 /* EosioSwiftEccTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */; };
 		2811D02F2230814B0002E580 /* EosioSwiftEcc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2811D0212230814B0002E580 /* EosioSwiftEcc.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -33,6 +34,7 @@
 		20ED742EACE49E1E18A2B39C /* Pods_EosioSwiftEcc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftEcc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		224D84CA70E1B57E4EAB5A9E /* Pods_EosioSwiftEccTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftEccTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2811B4DC2231679C0029BF6A /* EccRecoverKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EccRecoverKey.swift; sourceTree = "<group>"; };
+		2811B4E02231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftEccRecoverKeyTests.swift; sourceTree = "<group>"; };
 		2811D01E2230814B0002E580 /* EosioSwiftEcc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftEcc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2811D0212230814B0002E580 /* EosioSwiftEcc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftEcc.h; sourceTree = "<group>"; };
 		2811D0222230814B0002E580 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */,
+				2811B4E02231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift */,
 				2811D02E2230814B0002E580 /* Info.plist */,
 			);
 			path = EosioSwiftEccTests;
@@ -328,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2811B4E12231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift in Sources */,
 				2811D02D2230814B0002E580 /* EosioSwiftEccTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

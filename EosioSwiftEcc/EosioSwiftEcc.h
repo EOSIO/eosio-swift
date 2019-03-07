@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#include "recover.h"
 
 //! Project version number for EosioSwiftEcc.
 FOUNDATION_EXPORT double EosioSwiftEccVersionNumber;

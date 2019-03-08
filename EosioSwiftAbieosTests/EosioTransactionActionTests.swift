@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import EosioSwift
-@testable import EosioSwiftC
+@testable import EosioSwiftAbieos
 
 class EosioTransactionActionTests: XCTestCase {
     

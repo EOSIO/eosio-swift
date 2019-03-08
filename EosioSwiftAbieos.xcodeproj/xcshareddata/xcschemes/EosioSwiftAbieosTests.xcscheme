@@ -17,9 +17,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B4EAD99221925E79009D3E04"
-               BuildableName = "EosioSwiftCTests.xctest"
-               BlueprintName = "EosioSwiftCTests"
-               ReferencedContainer = "container:EosioSwiftC.xcodeproj">
+               BuildableName = "EosioSwiftAbieosTests.xctest"
+               BlueprintName = "EosioSwiftAbieosTests"
+               ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

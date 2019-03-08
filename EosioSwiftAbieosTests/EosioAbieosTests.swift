@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-import EosioSwiftC
+import EosioSwiftAbieos
 import EosioSwift
 
 class EosioSwiftCTests: XCTestCase {

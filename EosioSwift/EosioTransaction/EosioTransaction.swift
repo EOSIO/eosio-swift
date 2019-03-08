@@ -136,7 +136,12 @@ public class EosioTransaction: Codable {
      This method will prepare the transaction, fetching or calculating any needed values by calling the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)`. If any of these methods return an error this method will call the completion that error.
      */
     public func prepareTransaction(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
-        calculateExpiration()
+        
+        //Calculate transaction expiration
+        if expiration < Date() {
+            expiration = Date().addingTimeInterval(TimeInterval(self.taposConfig.expireSeconds))
+        }
+        
         getChainIdAndCalculateTapos { [weak self] (taposResult) in
             switch taposResult {
             case .failure(let error):
@@ -149,6 +154,7 @@ public class EosioTransaction: Codable {
             }
         }
     }
+    
     
     
     /**
@@ -193,12 +199,7 @@ public class EosioTransaction: Codable {
     }
     
     
-    /// Calculate the `expiration` using `taposConfig.expireSeconds` if current `expiration` is not valid
-    public func calculateExpiration() {
-        if expiration < Date() {
-            expiration = Date().addingTimeInterval(TimeInterval(self.taposConfig.expireSeconds))
-        }
-    }
+    
 
     
     /**
@@ -244,7 +245,7 @@ public class EosioTransaction: Codable {
     /**
      This method will get the chain `info`, set the `chainId` property then calculate the reference block num using the using the `taposConfig` property and call `calculateTapos(blockNum:, completion:)`. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match.  
     */
-    public func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    private func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         
         // if all the data is set just return true
         if refBlockNum > 0 && refBlockPrefix > 0  && chainId != "" {

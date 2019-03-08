@@ -32,3 +32,17 @@ class EosioSwiftTests: XCTestCase {
     }
 
 }
+
+final class MockSerializationProvider:EosioSerializationProviderProtocol{
+    var error: String?
+    
+    func jsonToHex(contract: String?, name: String, type: String?, json: String, abi: Any) throws -> String {
+        <#code#>
+    }
+    
+    func hexToJson(contract: String?, name: String, type: String?, hex: String, abi: Any) throws -> String {
+        <#code#>
+    }
+    
+    
+}

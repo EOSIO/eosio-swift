@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BE39DD920C5DA3600EBBCA3 /* base58.c */; };
 		7CC5E7D25A204FB93256544C /* Pods_EosioSwiftAbieosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60FB5F88B693619D1B0EF27B /* Pods_EosioSwiftAbieosTests.framework */; };
-		B4552B292193956D00564935 /* RIPEMD160.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4552B272193956D00564935 /* RIPEMD160.swift */; };
 		B466F09A222D90110082DC4E /* EosioTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F097222D90100082DC4E /* EosioTransactionTests.swift */; };
 		B466F09B222D90110082DC4E /* EosioTransactionAbisTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F098222D90100082DC4E /* EosioTransactionAbisTests.swift */; };
 		B466F09C222D90110082DC4E /* EosioTransactionActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F099222D90100082DC4E /* EosioTransactionActionTests.swift */; };
@@ -69,7 +67,6 @@
 		B467E07E2228785800C8A67D /* abieos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0472228785800C8A67D /* abieos.cpp */; };
 		B467E07F2228785800C8A67D /* fuzzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0482228785800C8A67D /* fuzzer.cpp */; };
 		B49A11EC219CB1830020736E /* EosioSwiftAbieos.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B49BA8222194BAC6005516C2 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49BA8212194BAC6005516C2 /* Base58.swift */; };
 		B4EAD99621925E79009D3E04 /* EosioAbieosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */; };
 		B4EAD99821925E79009D3E04 /* EosioSwiftAbieos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */; };
 		EAAB7D20EA1C1D562C170376 /* Pods_EosioSwiftAbieos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F489A7FF5BCE19B01E3A18 /* Pods_EosioSwiftAbieos.framework */; };
@@ -92,10 +89,6 @@
 		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftAbieos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftAbieos.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6BE39DD820C5DA3600EBBCA3 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
-		6BE39DD920C5DA3600EBBCA3 /* base58.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base58.c; sourceTree = "<group>"; };
-		6BE39DE720C713A200EBBCA3 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		B4552B272193956D00564935 /* RIPEMD160.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RIPEMD160.swift; sourceTree = "<group>"; };
 		B466F097222D90100082DC4E /* EosioTransactionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioTransactionTests.swift; sourceTree = "<group>"; };
 		B466F098222D90100082DC4E /* EosioTransactionAbisTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioTransactionAbisTests.swift; sourceTree = "<group>"; };
 		B466F099222D90100082DC4E /* EosioTransactionActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioTransactionActionTests.swift; sourceTree = "<group>"; };
@@ -155,7 +148,6 @@
 		B467E0462228785800C8A67D /* AbiEos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiEos.swift; sourceTree = "<group>"; };
 		B467E0472228785800C8A67D /* abieos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abieos.cpp; sourceTree = "<group>"; };
 		B467E0482228785800C8A67D /* fuzzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fuzzer.cpp; sourceTree = "<group>"; };
-		B49BA8212194BAC6005516C2 /* Base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
 		B4EAD99321925E79009D3E04 /* EosioSwiftAbieosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioSwiftAbieosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbieosTests.swift; sourceTree = "<group>"; };
 		B4EAD99721925E79009D3E04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -219,22 +211,9 @@
 			children = (
 				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */,
 				6BFA74BD20EBF456003CBCEB /* AbiEos */,
-				6BE39DD720C5DA1700EBBCA3 /* Crypto */,
 				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
 			);
 			path = EosioSwiftAbieos;
-			sourceTree = "<group>";
-		};
-		6BE39DD720C5DA1700EBBCA3 /* Crypto */ = {
-			isa = PBXGroup;
-			children = (
-				B4552B272193956D00564935 /* RIPEMD160.swift */,
-				6BE39DD920C5DA3600EBBCA3 /* base58.c */,
-				6BE39DD820C5DA3600EBBCA3 /* base58.h */,
-				6BE39DE720C713A200EBBCA3 /* module.modulemap */,
-				B49BA8212194BAC6005516C2 /* Base58.swift */,
-			);
-			path = Crypto;
 			sourceTree = "<group>";
 		};
 		6BFA74BD20EBF456003CBCEB /* AbiEos */ = {
@@ -546,15 +525,19 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/EosioSwift/EosioSwift.framework",
 				"${PODS_ROOT}/GRKOpenSSLFramework/OpenSSL-iOS/bin/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EosioSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -590,12 +573,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BE39DDC20C5DA3700EBBCA3 /* base58.c in Sources */,
 				B467E07D2228785800C8A67D /* AbiEos.swift in Sources */,
 				B467E07F2228785800C8A67D /* fuzzer.cpp in Sources */,
-				B49BA8222194BAC6005516C2 /* Base58.swift in Sources */,
 				B467E07E2228785800C8A67D /* abieos.cpp in Sources */,
-				B4552B292193956D00564935 /* RIPEMD160.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,7 +770,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieos/Crypto ${SRCROOT}/EosioSwiftAbieos/AbiEos ${SRCROOT}/EosioSwiftAbieos/Recover";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieos/AbiEos";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -844,7 +824,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieos/Crypto ${SRCROOT}/EosioSwiftAbieos/AbiEos ${SRCROOT}/EosioSwiftAbieos/Recover";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieos/AbiEos";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

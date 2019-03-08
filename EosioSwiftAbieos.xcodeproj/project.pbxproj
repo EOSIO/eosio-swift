@@ -68,7 +68,7 @@
 		B467E07D2228785800C8A67D /* AbiEos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B467E0462228785800C8A67D /* AbiEos.swift */; };
 		B467E07E2228785800C8A67D /* abieos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0472228785800C8A67D /* abieos.cpp */; };
 		B467E07F2228785800C8A67D /* fuzzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0482228785800C8A67D /* fuzzer.cpp */; };
-		B49A11EC219CB1830020736E /* EosioSwiftC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftC.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B49A11EC219CB1830020736E /* EosioSwiftAbieos.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B49BA8222194BAC6005516C2 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49BA8212194BAC6005516C2 /* Base58.swift */; };
 		B4EAD99621925E79009D3E04 /* EosioAbieosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */; };
 		B4EAD99821925E79009D3E04 /* EosioSwiftAbieos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */; };
@@ -90,7 +90,7 @@
 		5E7438CD06588B9A7691705B /* Pods-EosioSwiftAbieos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftAbieos.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftAbieos/Pods-EosioSwiftAbieos.release.xcconfig"; sourceTree = "<group>"; };
 		60FB5F88B693619D1B0EF27B /* Pods_EosioSwiftAbieosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftAbieosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftAbieos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftC.h; sourceTree = "<group>"; };
+		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftAbieos.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BE39DD820C5DA3600EBBCA3 /* base58.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base58.h; sourceTree = "<group>"; };
 		6BE39DD920C5DA3600EBBCA3 /* base58.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base58.c; sourceTree = "<group>"; };
@@ -217,7 +217,7 @@
 		6BE39DB320C5CCBB00EBBCA3 /* EosioSwiftAbieos */ = {
 			isa = PBXGroup;
 			children = (
-				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftC.h */,
+				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */,
 				6BFA74BD20EBF456003CBCEB /* AbiEos */,
 				6BE39DD720C5DA1700EBBCA3 /* Crypto */,
 				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
@@ -379,7 +379,7 @@
 				B467E0732228785800C8A67D /* ios.h in Headers */,
 				B467E0742228785800C8A67D /* ptz.h in Headers */,
 				B467E0602228785800C8A67D /* strfunc.h in Headers */,
-				B49A11EC219CB1830020736E /* EosioSwiftC.h in Headers */,
+				B49A11EC219CB1830020736E /* EosioSwiftAbieos.h in Headers */,
 				B467E0792228785800C8A67D /* tz.h in Headers */,
 				B467E06B2228785800C8A67D /* document.h in Headers */,
 				B467E0762228785800C8A67D /* julian.h in Headers */,

@@ -132,5 +132,16 @@ public extension String {
             throw EosioError(EosioErrorCode.parsingError, reason: "Cannot create json from data \(data.hexEncodedString())")
         }
     }
+    
+    /**
+     Returns Bool indicating whether the current string is a validly encode base58 string.
+     
+    */
+    var isValidBase58: Bool {
+        guard let _ = Data(base58Decoding: self) else {
+            return false
+        }
+        return true
+    }
 }
 

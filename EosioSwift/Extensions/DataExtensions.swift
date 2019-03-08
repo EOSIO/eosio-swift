@@ -90,4 +90,19 @@ public extension Data {
         return Data(bytes: hash)
     }
     
+    /**
+        Returns the current Data as a base58 encoded String.
+    */
+    public var base58EncodedString: String {
+        return String(base58Encoding: self)
+    }
+    
+    /**
+       Decodes the given base58 String and returns it as Data, if valid.
+       - Parameters:
+         - base58: A Base58 encoded string.
+    */
+    public static func decode(base58: String) -> Data? {
+        return Data(base58Decoding: base58)
+    }
 }

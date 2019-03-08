@@ -11,5 +11,6 @@ target 'EosioSwift' do
   end
 
   # Pods for EosioSwift
+  pod 'BigInt', '~> 3.1'
 
 end

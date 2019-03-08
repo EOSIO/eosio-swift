@@ -1,5 +1,5 @@
 //
-//  EosioSwiftCTests.swift
+//  EosioSwiftAbieosTests.swift
 //  EosioSwiftAbieosTests
 //
 //  Created by Steve McCoole on 11/6/18.
@@ -8,10 +8,10 @@
 
 import Foundation
 import XCTest
-import EosioSwiftC
+import EosioSwiftAbieos
 import EosioSwift
 
-class EosioSwiftCTests: XCTestCase {
+class EosioSwiftAbieosTests: XCTestCase {
 
     var abieos: AbiEos? = nil
     

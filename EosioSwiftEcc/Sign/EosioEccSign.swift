@@ -13,6 +13,7 @@ import openssl
 
 public class EosioEccSign {
     
+    let k1SignMaxAttempts = 100
     
     /// Sign data with a K1 key for validation on an eosio chain
     ///
@@ -35,12 +36,11 @@ public class EosioEccSign {
         
         var digest = data.sha256
         
-        let maxAttempts = 100
         var signature: Data?
         var signingError: Error?
         var attemptsRequired = 0
         
-        for i in 1...maxAttempts {
+        for i in 1...k1SignMaxAttempts {
             var der = Data(count: 100)
             var numBytes: Int32 = 0
             digest.withUnsafeBytes { (digestBytes: UnsafePointer<UInt8>) -> Void in
@@ -93,7 +93,7 @@ public class EosioEccSign {
             if let signingError = signingError {
                 throw signingError
             } else {
-                throw EosioError(.signingError, reason: "Unable to create canonical signature after \(maxAttempts) attempts")
+                throw EosioError(.signingError, reason: "Unable to create canonical signature after \(k1SignMaxAttempts) attempts")
             }
         }
     }

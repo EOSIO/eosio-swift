@@ -12,6 +12,9 @@
 		2811D0282230814B0002E580 /* EosioSwiftEcc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2811D01E2230814B0002E580 /* EosioSwiftEcc.framework */; };
 		2811D02D2230814B0002E580 /* EosioSwiftEccTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */; };
 		2811D02F2230814B0002E580 /* EosioSwiftEcc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2811D0212230814B0002E580 /* EosioSwiftEcc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		283311132232D249001EFDDA /* EcdsaSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283311122232D249001EFDDA /* EcdsaSignature.swift */; };
+		28331115223300E7001EFDDA /* EosioEccSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28331114223300E7001EFDDA /* EosioEccSign.swift */; };
+		28331117223301E3001EFDDA /* EosioSwiftEccSignTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28331116223301E3001EFDDA /* EosioSwiftEccSignTests.swift */; };
 		28AF06E3223166A700EB0463 /* recover.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28AF06E1223166A700EB0463 /* recover.cpp */; };
 		28AF06E4223166A700EB0463 /* recover.h in Headers */ = {isa = PBXBuildFile; fileRef = 28AF06E2223166A700EB0463 /* recover.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		682A8A7085AB4DAA8FDDC4A8 /* Pods_EosioSwiftEccTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224D84CA70E1B57E4EAB5A9E /* Pods_EosioSwiftEccTests.framework */; };
@@ -41,6 +44,9 @@
 		2811D0272230814B0002E580 /* EosioSwiftEccTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioSwiftEccTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftEccTests.swift; sourceTree = "<group>"; };
 		2811D02E2230814B0002E580 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		283311122232D249001EFDDA /* EcdsaSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EcdsaSignature.swift; sourceTree = "<group>"; };
+		28331114223300E7001EFDDA /* EosioEccSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioEccSign.swift; sourceTree = "<group>"; };
+		28331116223301E3001EFDDA /* EosioSwiftEccSignTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftEccSignTests.swift; sourceTree = "<group>"; };
 		28AF06E1223166A700EB0463 /* recover.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = recover.cpp; sourceTree = "<group>"; };
 		28AF06E2223166A700EB0463 /* recover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = recover.h; sourceTree = "<group>"; };
 		B841B0B75E42C0180581A650 /* Pods-EosioSwiftEccTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftEccTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftEccTests/Pods-EosioSwiftEccTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -114,6 +120,7 @@
 			children = (
 				2811D0212230814B0002E580 /* EosioSwiftEcc.h */,
 				2811B4DE22317CC90029BF6A /* Recover */,
+				2833111822330637001EFDDA /* Sign */,
 				2811D0222230814B0002E580 /* Info.plist */,
 			);
 			path = EosioSwiftEcc;
@@ -124,9 +131,19 @@
 			children = (
 				2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */,
 				2811B4E02231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift */,
+				28331116223301E3001EFDDA /* EosioSwiftEccSignTests.swift */,
 				2811D02E2230814B0002E580 /* Info.plist */,
 			);
 			path = EosioSwiftEccTests;
+			sourceTree = "<group>";
+		};
+		2833111822330637001EFDDA /* Sign */ = {
+			isa = PBXGroup;
+			children = (
+				283311122232D249001EFDDA /* EcdsaSignature.swift */,
+				28331114223300E7001EFDDA /* EosioEccSign.swift */,
+			);
+			path = Sign;
 			sourceTree = "<group>";
 		};
 		79448D659DABF57BC8533F6C /* Frameworks */ = {
@@ -326,7 +343,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28331115223300E7001EFDDA /* EosioEccSign.swift in Sources */,
 				2811B4DD2231679C0029BF6A /* EccRecoverKey.swift in Sources */,
+				283311132232D249001EFDDA /* EcdsaSignature.swift in Sources */,
 				28AF06E3223166A700EB0463 /* recover.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28331117223301E3001EFDDA /* EosioSwiftEccSignTests.swift in Sources */,
 				2811B4E12231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift in Sources */,
 				2811D02D2230814B0002E580 /* EosioSwiftEccTests.swift in Sources */,
 			);

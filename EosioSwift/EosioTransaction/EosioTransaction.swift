@@ -110,10 +110,10 @@ public class EosioTransaction: Codable {
     
     
     /**
-    This method will call `prepareTransaction(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If an error is encountered this method will call the completion with that error, otherwise the completion will be called with an `EosioTransactionRequest`.
+    This method will call `prepare(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If an error is encountered this method will call the completion with that error, otherwise the completion will be called with an `EosioTransactionRequest`.
     */
     public func toEosioTransactionRequest(completion: @escaping (EosioResult<EosioTransactionRequest, EosioError>) -> Void) {
-        prepareTransaction { [weak self] (result) in
+        prepare { [weak self] (result) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }
@@ -135,7 +135,7 @@ public class EosioTransaction: Codable {
     /**
      This method will prepare the transaction, fetching or calculating any needed values by calling the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)`. If any of these methods return an error this method will call the completion that error.
      */
-    public func prepareTransaction(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    public func prepare(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         
         //Calculate transaction expiration
         if expiration < Date() {
@@ -273,11 +273,12 @@ public class EosioTransaction: Codable {
                 guard strongSelf.chainId == info.chainId else {
                     return completion(.failure(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
-                var blocksBehind = UInt64(strongSelf.taposConfig.blocksBehind)
-                if blocksBehind > info.headBlockNum {
-                    blocksBehind = info.headBlockNum
+                
+                let blocksBehind = UInt64(strongSelf.taposConfig.blocksBehind)
+                var blockNum = info.headBlockNum - blocksBehind
+                if blockNum <= 0{
+                    blockNum = 1
                 }
-                let blockNum = info.headBlockNum - blocksBehind
                 strongSelf.getBlockAndSetTapos(blockNum: blockNum, completion: completion)
             }
         }

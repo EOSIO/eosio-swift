@@ -1,0 +1,325 @@
+//
+//  EosioTransactionTests.swift
+//  EosioSwiftTests
+//
+//  Created by Farid Rahmani on 3/8/19.
+//  Copyright © 2018-2019 block.one.
+//
+
+import XCTest
+@testable import EosioSwift
+
+class EosioTransactionTests: XCTestCase {
+    var transaction:EosioTransaction!
+    var rpcProvider = RPCProviderMock(endpoints: [EosioEndpoint("http://example.com")!], failoverRetries: 4)
+    
+    override func setUp() {
+        transaction = EosioTransaction()
+        transaction.rpcProvider = rpcProvider
+        transaction.serializationProviderType = SerializationProviderMock.self
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+    
+
+    func test_prepare_shouldSetExpirationDateCorrectly() {
+        transaction.prepare { (result) in
+            
+        }
+        XCTAssert(transaction.expiration.timeIntervalSinceNow >= 0)
+    }
+    
+    func test_prepare_withRPCProviderNotSet_shouldReturnError() {
+        transaction.rpcProvider = nil
+        transaction.prepare { (result) in
+            if case .success = result{
+                XCTFail()
+            }
+        }
+    }
+    
+    func test_prepare_shouldCallGetInfoFunctionOnRPCProvider() {
+        transaction.prepare { (result) in
+            XCTAssertTrue(self.rpcProvider.getInfoCalled)
+        }
+        
+    }
+    
+    func test_prepare_whenGetInfoMethodOfRPCProviderReturnsSuccess_shouldReturnSuccess() {
+        transaction.prepare { (result) in
+            guard case .success = result else{
+                XCTFail()
+                return
+            }
+        }
+        
+    }
+    
+    func test_prepare_whenGetInfoMethodOfRPCProviderReturnsFailure_shouldReturnFailure() {
+        rpcProvider.getInfoReturnsfailure = true
+        transaction.prepare { (result) in
+            guard case .failure = result else{
+                XCTFail()
+                return
+            }
+        }
+    }
+    
+    func test_prepare_shouldSetChainIdProperty() {
+        transaction.prepare { (result) in
+            XCTAssertEqual(self.transaction.chainId, self.rpcProvider.rpcInfo.chainId)
+        }
+    }
+    
+    func test_prepare_shouldCallGetBlockFunctionOfRPCProvider() {
+        transaction.prepare { (result) in
+            XCTAssertTrue(self.rpcProvider.getBlockCalled)
+        }
+    }
+    
+    func test_prepare_shouldCallGetBlockFunctionOfRPCProviderWithCorrectBlockNumber() {
+        var blockNum = rpcProvider.rpcInfo.headBlockNum - UInt64(transaction.taposConfig.blocksBehind)
+        if blockNum <= 0{
+            blockNum = 1
+        }
+        
+        transaction.prepare { (result) in
+            XCTAssertEqual(self.rpcProvider.blockNumberRequested, blockNum)
+        }
+        
+        
+    }
+    
+    func test_getBlockAndSetTapos_shouldCallGetBlockFunctionOfRPCProvider() {
+        transaction.getBlockAndSetTapos(blockNum: 324) { (result) in
+            XCTAssertTrue(self.rpcProvider.getBlockCalled)
+        }
+    }
+    
+    func test_getBlockAndSetTapos_shouldCallGetBlockFunctionOfRPCProviderWithCorrectBlockNumber() {
+        let blockNumber:UInt64 = 234
+        transaction.getBlockAndSetTapos(blockNum: blockNumber) { (result) in
+            XCTAssertEqual(self.rpcProvider.blockNumberRequested, blockNumber)
+        }
+    }
+    
+    func test_getBlockAndSetTapos_shouldSetRefBlockNum() {
+        transaction.getBlockAndSetTapos(blockNum: 345) { (result) in
+            XCTAssertEqual(self.transaction.refBlockNum, UInt16(self.rpcProvider.block.blockNum & 0xffff))
+        }
+    }
+    
+    func test_getBlockAndSetTapos_shouldSetRefBlockPrefix() {
+        transaction.getBlockAndSetTapos(blockNum: 345) { (result) in
+            XCTAssertEqual(self.transaction.refBlockPrefix, self.rpcProvider.block.refBlockPrefix)
+        }
+    }
+    
+    func test_getBlockAndSetTapos_whenRefBlockPrefixAndRefBlockNumAreNotZero_shouldNotCallGetBlockOnRPCProvider() {
+        transaction.refBlockNum = 9879
+        transaction.refBlockPrefix = 213
+        transaction.getBlockAndSetTapos(blockNum: 879) { (result) in
+            XCTAssertFalse(self.rpcProvider.getBlockCalled)
+        }
+        
+    }
+    
+    func test_getBlockAndSetTapos_whenGetBlockMethodOfRPCProviderReturnsFailure_shouldReturnFailure() {
+        rpcProvider.getBlockReturnsFailure = true
+        transaction.getBlockAndSetTapos(blockNum: 8678) { (result) in
+            guard case .failure = result else{
+                XCTFail()
+                return
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+}
+
+
+class RPCProviderMock: EosioRpcProviderProtocol {
+    var endpoints: [EosioEndpoint]
+    
+    var failoverRetries: Int
+    
+    var primaryEndpoint: EosioEndpoint = EosioEndpoint("https://example.com")!
+    
+    required init(endpoints: [EosioEndpoint], failoverRetries: Int) {
+        self.endpoints = endpoints
+        self.failoverRetries = failoverRetries
+    }
+    
+    func rpcRequest(request: EosioRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
+        
+        
+    }
+    
+    var getInfoCalled = false
+    var getInfoReturnsfailure = false
+    let rpcInfo = EosioRpcInfo(
+        serverVersion: "verion",
+        chainId: "chainId",
+        headBlockNum: 234,
+        lastIrreversibleBlockNum: 2342,
+        lastIrreversibleBlockId: "lastIrversible",
+        headBlockId: "headBlockId",
+        headBlockTime: "headtime",
+        headBlockProducer: "producer",
+        virtualBlockCpuLimit: 234,
+        virtualBlockNetLimit: 234,
+        blockCpuLimit: 334,
+        blockNetLimit: 897,
+        serverVersionString: "server version")
+    
+    func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {
+        getInfoCalled = true
+        if getInfoReturnsfailure{
+            let error = EosioError(.transactionError, reason: "Failed for test propose")
+            completion(.failure(error))
+            
+            
+        }else{
+            completion(.success(rpcInfo))
+        }
+    }
+    
+    var getBlockCalled = false
+    var getBlockReturnsFailure = false
+    var blockNumberRequested:UInt64!
+    let block = EosioRpcBlock(
+        timestamp: "timestatmp",
+        producer: "producer",
+        confirmed: 8,
+        previous: "prev",
+        transactionMroot: "root",
+        actionMroot: "action",
+        scheduleVersion: 9,
+        newProducers: nil,
+        headerExtensions: ["extension"],
+        producerSignature: "signature",
+        transactions: [
+            EosioRpcTransactionInfo(
+                status: "status",
+                cpuUsageUs: 89,
+                netUsageWords: 8,
+                trx: EosioRpcTrx(
+                    id: "lkj",
+                    signatures: ["kljl"],
+                    compression: "lkj",
+                    packedContextFreeData: "lkj",
+                    contextFreeData: ["kljl"],
+                    packedTrx: "lkj",
+                    transaction: EosioRpcTransaction()
+            )
+            )
+        ],
+        blockExtensions: ["lkjl"],
+        id: "klj",
+        blockNum: 89,
+        refBlockPrefix: 0980
+    )
+    
+    func getBlock(blockNum: UInt64, completion: @escaping (EosioResult<EosioRpcBlock, EosioError>) -> Void) {
+        getBlockCalled = true
+        blockNumberRequested = blockNum
+        let result:EosioResult = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.networkError, reason: "Some reason"))
+        completion(result)
+        
+    }
+    
+    func getBlockHeaderState(blockNum: UInt64, completion: @escaping (EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void) {
+        
+    }
+    
+    func getBlockHeaderState(blockId: String, completion: @escaping (EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void) {
+        
+    }
+    
+    func getAccount(account: EosioName, completion: @escaping (EosioResult<EosioRpcAccount, EosioError>) -> Void) {
+        
+    }
+    
+    func getRawAbi(account: EosioName, completion: @escaping (EosioResult<EosioRpcRawAbi, EosioError>) -> Void) {
+        
+    }
+    
+    func getRawCodeAndAbi(account: EosioName, completion: @escaping (EosioResult<EosioRpcRawCodeAbi, EosioError>) -> Void) {
+        
+    }
+    
+    func getTableRows(parameters: EosioRpcTableRowsRequest, completion: @escaping (EosioResult<EosioRpcTableRows, EosioError>) -> Void) {
+        
+    }
+    
+    func getRequiredKeys(parameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void) {
+        
+    }
+    
+    func getCurrencyStats(code: String, symbol: String, completion: @escaping (EosioResult<EosioRpcCurrencyStats, EosioError>) -> Void) {
+        
+    }
+    
+    func getProducers(parameters: EosioRpcProducersRequest, completion: @escaping (EosioResult<EosioRpcProducers, EosioError>) -> Void) {
+        
+    }
+    
+    func pushTransaction(transaction: EosioTransaction, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
+        
+    }
+    
+    func pushTransactions(transactions: [EosioTransaction], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
+        
+    }
+    
+    func getHistoryActions(parameters: EosioRpcHistoryActionsRequest, completion: @escaping (EosioResult<EosioRpcHistoryActions, EosioError>) -> Void) {
+        
+    }
+    
+    func getHistoryTransaction(transactionId: String, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
+        
+    }
+    
+    func getHistoryKeyAccounts(publicKey: String, completion: @escaping (EosioResult<EosioRpcKeyAccounts, EosioError>) -> Void) {
+        
+    }
+    
+    func getHistoryControlledAccounts(controllingAccount: EosioName, completion: @escaping (EosioResult<EosioRpcControllingAccounts, EosioError>) -> Void) {
+        
+    }
+    
+    
+}
+
+final class SerializationProviderMock: EosioSerializationProviderProtocol {
+    var error: String?
+    
+    func jsonToHex(contract: String?, name: String, type: String?, json: String, abi: Any) throws -> String {
+        return ""
+    }
+    
+    func hexToJson(contract: String?, name: String, type: String?, hex: String, abi: Any) throws -> String {
+        return ""
+    }
+    
+    
+}
+
+class AbiProviderMockup:EosioAbiProviderProtocol{
+    var getAbisCalled = false
+    func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName : Data], EosioError>) -> Void) {
+        getAbisCalled = true
+    }
+    var getAbiCalled = false
+    func getAbi(chainId: String, account: EosioName, completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
+        getAbiCalled = true
+    }
+    
+    
+}

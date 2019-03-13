@@ -110,10 +110,10 @@ public class EosioTransaction: Codable {
     
     
     /**
-    This method will call `prepareTransaction(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If an error is encountered this method will call the completion with that error, otherwise the completion will be called with an `EosioTransactionRequest`.
+    This method will call `prepare(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If an error is encountered this method will call the completion with that error, otherwise the completion will be called with an `EosioTransactionRequest`.
     */
     public func toEosioTransactionRequest(completion: @escaping (EosioResult<EosioTransactionRequest, EosioError>) -> Void) {
-        prepareTransaction { [weak self] (result) in
+        prepare { [weak self] (result) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }
@@ -135,8 +135,13 @@ public class EosioTransaction: Codable {
     /**
      This method will prepare the transaction, fetching or calculating any needed values by calling the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)`. If any of these methods return an error this method will call the completion that error.
      */
-    public func prepareTransaction(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
-        calculateExpiration()
+    public func prepare(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        
+        //Calculate transaction expiration
+        if expiration < Date() {
+            expiration = Date().addingTimeInterval(TimeInterval(self.taposConfig.expireSeconds))
+        }
+        
         getChainIdAndCalculateTapos { [weak self] (taposResult) in
             switch taposResult {
             case .failure(let error):
@@ -149,6 +154,7 @@ public class EosioTransaction: Codable {
             }
         }
     }
+    
     
     
     /**
@@ -193,12 +199,7 @@ public class EosioTransaction: Codable {
     }
     
     
-    /// Calculate the `expiration` using `taposConfig.expireSeconds` if current `expiration` is not valid
-    public func calculateExpiration() {
-        if expiration < Date() {
-            expiration = Date().addingTimeInterval(TimeInterval(self.taposConfig.expireSeconds))
-        }
-    }
+    
 
     
     /**
@@ -244,7 +245,7 @@ public class EosioTransaction: Codable {
     /**
      This method will get the chain `info`, set the `chainId` property then calculate the reference block num using the using the `taposConfig` property and call `calculateTapos(blockNum:, completion:)`. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match.  
     */
-    public func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    private func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         
         // if all the data is set just return true
         if refBlockNum > 0 && refBlockPrefix > 0  && chainId != "" {
@@ -272,11 +273,12 @@ public class EosioTransaction: Codable {
                 guard strongSelf.chainId == info.chainId else {
                     return completion(.failure(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
-                var blocksBehind = UInt64(strongSelf.taposConfig.blocksBehind)
-                if blocksBehind > info.headBlockNum {
-                    blocksBehind = info.headBlockNum
+                
+                let blocksBehind = UInt64(strongSelf.taposConfig.blocksBehind)
+                var blockNum = info.headBlockNum - blocksBehind
+                if blockNum <= 0{
+                    blockNum = 1
                 }
-                let blockNum = info.headBlockNum - blocksBehind
                 strongSelf.getBlockAndSetTapos(blockNum: blockNum, completion: completion)
             }
         }

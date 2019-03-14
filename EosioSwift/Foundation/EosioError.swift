@@ -31,6 +31,8 @@ public enum EosioErrorCode : String, Codable {
     case deserializationError = "deserializationError"
     case dataCodingError = "dataCodingError"
     case missingDataError = "missingDataError"
+    case eosioKeyError = "eosioKeyError"
+    case eosioSignatureError = "eosioSignatureError"
 
     //general catch all
     case unexpectedError = "unexpectedError"

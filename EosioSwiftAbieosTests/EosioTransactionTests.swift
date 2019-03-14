@@ -134,24 +134,18 @@ class EosioTransactionTests: XCTestCase {
         wait(for: [expect], timeout: 3)
     }
     
-    
-    func testCalculateExpiration() {
-        transaction.calculateExpiration()
-        XCTAssert(transaction.expiration > Date())
-    }
-
-    
-    func testGetChainIdAndCalculateTapos() {
-        let expect = expectation(description: "testGetChainIdAndCalculateTapos")
+    func testPrepare() {
+        let expect = expectation(description: "testPrepare")
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
             return XCTFail()
         }
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
-        transaction.getChainIdAndCalculateTapos { [weak self] (result) in
+        transaction.prepare { [weak self] (result) in
             guard let self = self else {
                 XCTFail()
                 return
             }
+            XCTAssert(self.transaction.expiration > Date())
             switch result {
             case .failure(let error):
                 print(error)

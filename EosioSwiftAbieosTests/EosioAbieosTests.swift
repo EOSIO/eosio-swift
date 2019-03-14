@@ -13,15 +13,7 @@ import EosioSwift
 
 class EosioSwiftAbieosTests: XCTestCase {
 
-    var abieos: AbiEos? = nil
-    
-    override func setUp() {
-        abieos = AbiEos()
-    }
-
-    override func tearDown() {
-        abieos = nil
-    }
+    var abieos: AbiEos? = AbiEos()
 
     func testJsonToHexManifest() {
         let json = """

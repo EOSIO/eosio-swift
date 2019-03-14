@@ -16,7 +16,7 @@ class EosioTransactionTests: XCTestCase {
     override func setUp() {
         transaction = EosioTransaction()
         transaction.rpcProvider = rpcProvider
-        transaction.serializationProviderType = SerializationProviderMock.self
+        transaction.serializationProvider = SerializationProviderMock()
     }
     
     override func tearDown() {

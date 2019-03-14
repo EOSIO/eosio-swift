@@ -15,9 +15,9 @@ public class EosioTransaction: Codable {
     public var rpcProvider: EosioRpcProviderProtocol?
     public var abiProvider: EosioAbiProviderProtocol?
     public var signatureProvider: EosioSignatureProviderProtocol?
-    public var serializationProviderType: EosioSerializationProviderProtocol.Type? {
+    public var serializationProvider: EosioSerializationProviderProtocol? {
         didSet {
-            abis.serializationProviderType = serializationProviderType
+            abis.serializationProvider = serializationProvider
         }
     }
     
@@ -99,10 +99,9 @@ public class EosioTransaction: Codable {
             throw EosioError(.serializationError, reason: "expiration is not set")
         }
         var eosioTransactionRequest = EosioTransactionRequest()
-        guard let serializerType = self.serializationProviderType else {
-            preconditionFailure("A serializationProviderTpe must be set!")
+        guard let serializer = self.serializationProvider else {
+            preconditionFailure("A serializationProvider must be set!")
         }
-        let serializer = serializerType.init()
         let json = try self.toJson()
         eosioTransactionRequest.packedTrx = try serializer.jsonToHex(contract: nil, name: "", type: "transaction", json: json, abi: "transaction.abi.json")
         return eosioTransactionRequest
@@ -167,11 +166,11 @@ public class EosioTransaction: Codable {
         guard missingAbis.count == 0 else {
             throw EosioError(.serializationError, reason: "Cannot serialize action data. Abis missing for \(missingAbis).")
         }
-        guard let serializerType = self.serializationProviderType else {
-            preconditionFailure("A serializationProviderType must be set!")
+        guard let serializer = self.serializationProvider else {
+            preconditionFailure("A serializationProvider must be set!")
         }
         for action in actions {
-            try action.serializeData(abi: abis.jsonAbi(name: action.account), serializationProviderType: serializerType)
+            try action.serializeData(abi: abis.jsonAbi(name: action.account), serializationProvider: serializer)
         }
     }
     

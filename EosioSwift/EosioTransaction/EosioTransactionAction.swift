@@ -145,12 +145,11 @@ public extension EosioTransaction {
         /// - Parameter abi: the abi as a json string
          /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
         /// - Throws: if the data cannot be serialized
-        public func serializeData(abi: String, serializationProviderType: EosioSerializationProviderProtocol.Type) throws {
+        public func serializeData(abi: String, serializationProvider: EosioSerializationProviderProtocol) throws {
             if isDataSerialized { return }
             guard let json = dataJson else {
                 throw EosioError(.serializationError, reason: "Cannot convert data to json")
             }
-            let serializationProvider = serializationProviderType.init()
             let hex = try serializationProvider.jsonToHex(contract: account.string, name: name.string, type: nil, json: json, abi: abi)
             guard let binaryData = Data(hexString: hex) else {
                 throw EosioError(.serializationError, reason: "Cannot decode hex \(hex)")
@@ -164,12 +163,11 @@ public extension EosioTransaction {
         /// - Parameter abi: the abi as a json string
         /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
         /// - Throws: if the data cannot be deserialized
-        public func deserializeData(abi: String, serializationProviderType: EosioSerializationProviderProtocol.Type) throws {
+        public func deserializeData(abi: String, serializationProvider: EosioSerializationProviderProtocol) throws {
             if data.count > 0 { return }
             guard let dataHex = dataHex else {
                 throw EosioError(.parsingError, reason: "Serialized data not set for action \(account)::\(name)")
             }
-            let serializationProvider = serializationProviderType.init()
             let json = try serializationProvider.hexToJson(contract: account.string, name: name.string, type: nil, hex: dataHex, abi: abi)
             data = try json.jsonToDictionary()
         }

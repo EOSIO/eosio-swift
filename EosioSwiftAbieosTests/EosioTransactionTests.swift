@@ -13,17 +13,14 @@ import XCTest
 class EosioTransactionTests: XCTestCase {
     
     var transaction: EosioTransaction!
-    var serializationType: EosioSerializationProviderProtocol.Type!
     
     override func setUp() {
         transaction = EosioTransaction()
-        serializationType = AbiEos.self
-        transaction.serializationProviderType = serializationType
+        transaction.serializationProvider = AbiEos()
     }
     
     override func tearDown() {
         transaction = nil
-        serializationType = nil
     }
     
     func testSerializeActionData() {
@@ -134,24 +131,18 @@ class EosioTransactionTests: XCTestCase {
         wait(for: [expect], timeout: 3)
     }
     
-    
-    func testCalculateExpiration() {
-        transaction.calculateExpiration()
-        XCTAssert(transaction.expiration > Date())
-    }
-
-    
-    func testGetChainIdAndCalculateTapos() {
-        let expect = expectation(description: "testGetChainIdAndCalculateTapos")
+    func testPrepare() {
+        let expect = expectation(description: "testPrepare")
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
             return XCTFail()
         }
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
-        transaction.getChainIdAndCalculateTapos { [weak self] (result) in
+        transaction.prepare { [weak self] (result) in
             guard let self = self else {
                 XCTFail()
                 return
             }
+            XCTAssert(self.transaction.expiration > Date())
             switch result {
             case .failure(let error):
                 print(error)
@@ -245,7 +236,7 @@ class EosioTransactionTests: XCTestCase {
     
     func getTokenAbiJson() -> String? {
         let hex = Data(base64Encoded: tokenAbiB64)!.hexEncodedString()
-        let serializer = serializationType.init()
+        let serializer = AbiEos()
         return try? serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hex, abi: "abi.abi.json")
     }
     

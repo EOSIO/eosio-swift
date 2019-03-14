@@ -15,19 +15,15 @@ import XCTest
 class EosioTransactionAbisTests: XCTestCase {
     
     var abis: EosioTransaction.Abis!
-    var serializerType: EosioSerializationProviderProtocol.Type!
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         abis = EosioTransaction.Abis()
-        serializerType = AbiEos.self
-        abis.serializationProviderType = serializerType
+        abis.serializationProvider = AbiEos()
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        abis.serializationProviderType = nil
-        serializerType = nil
         abis = nil
     }
     

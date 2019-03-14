@@ -38,6 +38,13 @@ public class AbiEos: EosioSerializationProviderProtocol {
         return String(validatingUTF8: abieos_name_to_string(context, name64))
     }
     
+    private func refreshContext() {
+        if let _ = context {
+            abieos_destroy(context)
+        }
+        context = abieos_create()
+    }
+    
     private func getAbiJsonString(contract:String?, name: String, abi: Any) throws -> String {
         var abiString = abi as? String ?? ""
         if abiString.suffix(8) == "abi.json" {
@@ -53,6 +60,8 @@ public class AbiEos: EosioSerializationProviderProtocol {
     }
     
     public func jsonToHex(contract: String?, name: String = "", type: String? = nil, json: String, abi: Any) throws -> String {
+        
+        refreshContext()
         
         let contract64 = name64(string: contract)
         abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
@@ -83,6 +92,9 @@ public class AbiEos: EosioSerializationProviderProtocol {
     
     
     public func hexToJson(contract: String?, name: String = "", type: String? = nil, hex: String, abi: Any) throws -> String {
+        
+        refreshContext()
+        
         let contract64 = name64(string: contract)
         abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
         

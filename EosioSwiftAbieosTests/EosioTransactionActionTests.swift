@@ -39,7 +39,7 @@ class EosioTransactionActionTests: XCTestCase {
             return XCTFail()
         }
         // serialize the data struct
-        try? action.serializeData(abi: tokenAbiJson, serializationProviderType: AbiEos.self)
+        try? action.serializeData(abi: tokenAbiJson, serializationProvider: AbiEos())
         guard let hexData = action.dataHex else {
             return XCTFail()
         }
@@ -75,7 +75,7 @@ class EosioTransactionActionTests: XCTestCase {
             return XCTFail()
         }
         
-        try? action.deserializeData(abi: tokenAbiJson, serializationProviderType: AbiEos.self)
+        try? action.deserializeData(abi: tokenAbiJson, serializationProvider: AbiEos())
         
         XCTAssertTrue(action.data["from"] as? String == "todd")
         XCTAssertTrue(action.data["to"] as? String   == "brandon")

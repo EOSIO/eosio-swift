@@ -1,0 +1,34 @@
+{
+  "name": "EosioSwift",
+  "version": "1.0",
+  "summary": "Open source library to build native blockchain applications.",
+  "homepage": "https://github.com/EOSIO/eosio-swift/tree/master",
+  "license": {
+    "type": "Block One Proprietary",
+    "text": "              Copyright (C) 2018-2019 Block One.  All rights reserved.\n"
+  },
+  "authors": {
+    "Steve McCoole": "steve.mccoole@objectpartners.com"
+  },
+  "source": {
+    "git": "https://github.com/EOSIO/eosio-swift.git",
+    "tag": "1.0"
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "source_files": "EosioSwift/**/*.swift",
+  "pod_target_xcconfig": {
+    "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+    "CLANG_ENABLE_MODULES": "YES",
+    "SWIFT_COMPILATION_MODE": "wholemodule",
+    "ENABLE_BITCODE": "YES"
+  },
+  "ios": {
+    "dependencies": {
+      "BigInt": [
+
+      ]
+    }
+  }
+}

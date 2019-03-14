@@ -1,0 +1,27 @@
+PODS:
+  - BigInt (3.1.0):
+    - SipHash (~> 1.2)
+  - EosioSwift (1.0):
+    - BigInt
+  - SipHash (1.2.2)
+
+DEPENDENCIES:
+  - EosioSwift (from `../eosio-swift`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BigInt
+    - SipHash
+
+EXTERNAL SOURCES:
+  EosioSwift:
+    :path: "../eosio-swift"
+
+SPEC CHECKSUMS:
+  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
+  EosioSwift: bc21a9418eca9caa877fdc65e96a5bf4bb8e07ab
+  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
+
+PODFILE CHECKSUM: 09e658415ff98d30af3d574ef21b925e5e4ec814
+
+COCOAPODS: 1.5.3

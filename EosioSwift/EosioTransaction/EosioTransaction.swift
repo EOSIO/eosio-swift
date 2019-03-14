@@ -55,6 +55,27 @@ public class EosioTransaction: Codable {
         case transactionExtensions
     }
     
+    
+    /// Deserialize a serialized transaction and return a `EosioTransaction` object.
+    ///
+    /// - Parameters:
+    ///   - serializedTransaction: A serialized transaction
+    ///   - serializationProvider: A serializationProvider, will be set as the serializationProvider for the `EosioTransaction`
+    /// - Returns: An `EosioTransaction`
+    /// - Throws: If the transaction cannot be deserialized
+    static public func deserialize(_ serializedTransaction: Data, serializationProvider: EosioSerializationProviderProtocol) throws -> EosioTransaction {
+        let json = try serializationProvider.hexToJson(contract: nil, name: "", type: "transaction", hex: serializedTransaction.hex, abi: "transaction.abi.json")
+        guard let data = json.data(using: .utf8) else {
+            throw EosioError(.parsingError, reason: "Cannot create json from data")
+        }
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        let transaction = try jsonDecoder.decode(EosioTransaction.self, from: data)
+        transaction.serializationProvider = serializationProvider
+        return transaction
+    }
+    
+    
     /// Returns an array of action accounts that do not have an abi in `abis`
     public var actionAccountsMissingAbis: [EosioName] {
         let accounts = actions.compactMap { (action) -> EosioName in
@@ -83,11 +104,11 @@ public class EosioTransaction: Codable {
     
     
     /**
-     Serializes the transaction and returns a `EosioTransactionRequest` struct with the `packedTrx` property set. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
-     - Returns: A `EosioTransactionRequest` struct
+     Serializes the transaction and returns a `Data` object. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the async version method of this method which will attempt to get the necessary data first.
+     - Returns: A `Data` object
      - Throws: If any of the necessary data is missing, or transaction cannot be serialized.
      */
-    public func toEosioTransactionRequest() throws -> EosioTransactionRequest {
+    public func serializeTransaction() throws -> Data {
         try serializeActionData()
         guard refBlockNum > 0 else {
             throw EosioError(.serializationError, reason: "refBlockNum is not set")
@@ -98,20 +119,18 @@ public class EosioTransaction: Codable {
         guard expiration > Date(timeIntervalSince1970: 0) else {
             throw EosioError(.serializationError, reason: "expiration is not set")
         }
-        var eosioTransactionRequest = EosioTransactionRequest()
         guard let serializer = self.serializationProvider else {
             preconditionFailure("A serializationProvider must be set!")
         }
         let json = try self.toJson()
-        eosioTransactionRequest.packedTrx = try serializer.jsonToHex(contract: nil, name: "", type: "transaction", json: json, abi: "transaction.abi.json")
-        return eosioTransactionRequest
+        return try Data(hex: serializer.jsonToHex(contract: nil, name: "", type: "transaction", json: json, abi: "transaction.abi.json"))
     }
     
     
     /**
-    This method will call `prepare(completion:)` before attemping to create an `EosioTransactionRequest` by calling `toEosioTransactionRequest()`. If an error is encountered this method will call the completion with that error, otherwise the completion will be called with an `EosioTransactionRequest`.
-    */
-    public func toEosioTransactionRequest(completion: @escaping (EosioResult<EosioTransactionRequest, EosioError>) -> Void) {
+     This method will call `prepare(completion:)` before attemping to create a serialized transaction. If an error is encountered this method will call the completion with that error, otherwise the completion will be called with a serialized transaction.
+     */
+    public func serializeTransaction(completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
         prepare { [weak self] (result) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
@@ -121,8 +140,8 @@ public class EosioTransaction: Codable {
                 completion(.failure(error))
             case .success:
                 do {
-                    let eosioTransactionRequest = try strongSelf.toEosioTransactionRequest()
-                    return completion(.success(eosioTransactionRequest))
+                    let serializedTransaction = try strongSelf.serializeTransaction()
+                    return completion(.success(serializedTransaction))
                 } catch {
                     return completion(.failure(error.eosioError))
                 }

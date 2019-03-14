@@ -13,17 +13,14 @@ import XCTest
 class EosioTransactionTests: XCTestCase {
     
     var transaction: EosioTransaction!
-    var serializationType: EosioSerializationProviderProtocol.Type!
     
     override func setUp() {
         transaction = EosioTransaction()
-        serializationType = AbiEos.self
-        transaction.serializationProviderType = serializationType
+        transaction.serializationProvider = AbiEos()
     }
     
     override func tearDown() {
         transaction = nil
-        serializationType = nil
     }
     
     func testSerializeActionData() {
@@ -239,7 +236,7 @@ class EosioTransactionTests: XCTestCase {
     
     func getTokenAbiJson() -> String? {
         let hex = Data(base64Encoded: tokenAbiB64)!.hexEncodedString()
-        let serializer = serializationType.init()
+        let serializer = AbiEos()
         return try? serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hex, abi: "abi.abi.json")
     }
     

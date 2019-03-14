@@ -10,13 +10,12 @@ import Foundation
 
 
 
-
 public struct EosioTransactionSignatureRequest: Codable {
-    public var transaction = EosioTransactionRequest()
+    public var serializedTransaction = Data()
     public var chainId = ""
-    public var endpoints: [String]?
-    public var publicKeys: [String]?
+    public var publicKeys = [String]()
     public var abis = [BinaryAbi]()
+    public var isModificationAllowed = true
     
     public struct BinaryAbi: Codable {
         public var accountName = ""
@@ -29,8 +28,14 @@ public struct EosioTransactionSignatureRequest: Codable {
 
 
 public struct EosioTransactionSignatureResponse: Codable {
-    public var signedTransaction: EosioTransactionRequest?
+    public var signedTransaction: SignedTransaction?
     public var error: EosioError?
+    
+    public struct SignedTransaction: Codable {
+        public var serializedTransaction = Data()
+        public var signatures = [String]()
+        public init() { }
+    }
     
     public init() { }
     
@@ -38,9 +43,6 @@ public struct EosioTransactionSignatureResponse: Codable {
         self.error = error
     }
     
-    public init(signedTransaction: EosioTransactionRequest) {
-        self.signedTransaction = signedTransaction
-    }
 }
 
 

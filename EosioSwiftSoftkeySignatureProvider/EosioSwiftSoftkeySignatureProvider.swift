@@ -8,6 +8,7 @@
 
 import Foundation
 import EosioSwift
+import EosioSwiftEcc
 public final class EosioSwiftSoftkeySignatureProvider {
     //Public-Private key pairs in String format
     private var stringKeyPairs = [String:String]()
@@ -42,6 +43,22 @@ public final class EosioSwiftSoftkeySignatureProvider {
 
 extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol{
     public func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
+        var response = EosioTransactionSignatureResponse()
+        do{
+            var signatures = [String]()
+            
+            for (publicKey, privateKey) in dataKeyPairs{
+                let data = try EosioEccSign.signWithK1(publicKey: publicKey, privateKey: privateKey, data: request.serializedTransaction)
+                signatures.append(data.toEosioK1Signature)
+            }
+            var signedTransaction = EosioTransactionSignatureResponse.SignedTransaction()
+            signedTransaction.signatures = signatures
+            response.signedTransaction = signedTransaction
+            completion(response)
+        }catch let error{
+            response.error = error as? EosioError
+            completion(response)
+        }
         
     }
     

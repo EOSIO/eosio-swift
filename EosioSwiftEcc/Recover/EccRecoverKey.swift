@@ -16,26 +16,31 @@ public class EccRecoverKey {
         
     }
     
+    public enum CurveType{
+        case r1
+        case k1
+    }
+    
     /// Recover a public key from the private key
     ///
     /// - Parameters:
     ///   - privateKey: The private key
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public func recoverPublicKey(privateKey: Data, curve: String) throws -> Data  {
+    public func recoverPublicKey(privateKey: Data, curve: CurveType) throws -> Data  {
         
         let privKeyBN = BN_new()!
         let key = EC_KEY_new()
         let ctx = BN_CTX_new()
         
         var curveName: Int32
-        if curve == "R1" {
+        switch curve {
+        case .r1:
             curveName = NID_X9_62_prime256v1
-        } else if curve == "K1" {
+        case .k1:
             curveName = NID_secp256k1
-        } else {
-            throw EosioError(.signingError, reason:  "\(curve) is not a valid curve" )
         }
+        
         
         let group = EC_GROUP_new_by_curve_name(curveName)
         EC_KEY_set_group(key, group)

@@ -150,7 +150,7 @@ public extension EosioTransaction {
             guard let json = dataJson else {
                 throw EosioError(.serializationError, reason: "Cannot convert data to json")
             }
-            let hex = try serializationProvider.jsonToHex(contract: account.string, name: name.string, type: nil, json: json, abi: abi)
+            let hex = try serializationProvider.serialize(contract: account.string, name: name.string, type: nil, json: json, abi: abi)
             guard let binaryData = Data(hexString: hex) else {
                 throw EosioError(.serializationError, reason: "Cannot decode hex \(hex)")
             }
@@ -168,7 +168,7 @@ public extension EosioTransaction {
             guard let dataHex = dataHex else {
                 throw EosioError(.parsingError, reason: "Serialized data not set for action \(account)::\(name)")
             }
-            let json = try serializationProvider.hexToJson(contract: account.string, name: name.string, type: nil, hex: dataHex, abi: abi)
+            let json = try serializationProvider.deserialize(contract: account.string, name: name.string, type: nil, hex: dataHex, abi: abi)
             data = try json.jsonToDictionary()
         }
         

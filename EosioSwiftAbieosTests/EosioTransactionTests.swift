@@ -91,9 +91,9 @@ class EosioTransactionTests: XCTestCase {
             transaction.refBlockNum = 100
             transaction.refBlockPrefix = 123456
             transaction.expiration = Date(yyyyMMddTHHmmss: "2009-01-03T18:15:05.000")!
-            let eosioTransactionRequest = try transaction.toEosioTransactionRequest()
-            XCTAssertTrue(eosioTransactionRequest.packedTrx == "29AB5F49640040E20100000000000100A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B7300")
-            print(try transaction.toJson(prettyPrinted: true))
+            let serializedTransaction = try transaction.serializeTransaction()
+            let expectedData = try Data(hex: "29AB5F49640040E20100000000000100A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B7300")
+            XCTAssertEqual(serializedTransaction, expectedData)
         } catch {
             print(error)
             XCTFail()
@@ -117,17 +117,30 @@ class EosioTransactionTests: XCTestCase {
             return XCTFail()
         }
         
+        var data : Data?
+        do {
+            data = try Data(hex: "29E24FA20070BF291B86000000000200A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B730000000000EA30557015D289DEAA32DD0100000000009012CD00000000A8ED32322900000000009012CD00000000009012CD0300000857219DE8AD00001057219DE8AD00001857219DE8AD00")
+        } catch {
+            XCTFail()
+        }
+        
+        guard let expectedData = data else {
+            XCTFail()
+            return
+        }
+        
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
-        transaction.toEosioTransactionRequest { (result) in
+        transaction.serializeTransaction(completion: { result in
             switch result {
             case .failure(let error):
                 print(error)
                 XCTFail()
-            case .success(let transactionRequest):
-                XCTAssertEqual(transactionRequest.packedTrx, "29E24FA20070BF291B86000000000200A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B730000000000EA30557015D289DEAA32DD0100000000009012CD00000000A8ED32322900000000009012CD00000000009012CD0300000857219DE8AD00001057219DE8AD00001857219DE8AD00")
+            case .success(let serializedTransaction):
+
+                XCTAssertEqual(serializedTransaction, expectedData)
                 expect.fulfill()
             }
-        }
+        })
         wait(for: [expect], timeout: 3)
     }
     
@@ -237,7 +250,7 @@ class EosioTransactionTests: XCTestCase {
     func getTokenAbiJson() -> String? {
         let hex = Data(base64Encoded: tokenAbiB64)!.hexEncodedString()
         let serializer = AbiEos()
-        return try? serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hex, abi: "abi.abi.json")
+        return try? serializer.deserializeAbi(contract: nil, name: "", type: "abi_def", hex: hex)
     }
     
     

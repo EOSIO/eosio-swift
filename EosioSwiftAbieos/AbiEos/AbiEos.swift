@@ -45,26 +45,32 @@ public class AbiEos: EosioSerializationProviderProtocol {
         context = abieos_create()
     }
     
-    private func getAbiJsonString(contract:String?, name: String, abi: Any) throws -> String {
-        var abiString = abi as? String ?? ""
-        if abiString.suffix(8) == "abi.json" {
-            let path = Bundle(for: AbiEos.self).url(forResource: abiString, withExtension: nil)?.path ?? ""
-            abiString = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
-        } else if let abiDict = abi as? [String:Any] {
-            abiString = jsonString(dictionary: abiDict) ?? ""
-        }
+    private func getAbiJsonFile(fileName: String) throws -> String {
+        var abiString = ""
+        let path = Bundle(for: AbiEos.self).url(forResource: fileName, withExtension: nil)?.path ?? ""
+        abiString = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
         guard abiString != "" else {
-            throw Error(EosioErrorCode.vaultError, reason: "Json to hex -- No ABI provided for \(contract ?? "") \(name)")
+            throw Error(EosioErrorCode.vaultError, reason: "Json to hex -- No ABI file found for \(fileName)")
         }
         return abiString
     }
     
-    public func jsonToHex(contract: String?, name: String = "", type: String? = nil, json: String, abi: Any) throws -> String {
+    public func serializeTransaction(contract: String?, name: String = "", type: String? = nil, json: String) throws -> String {
+        let transactionJson = try getAbiJsonFile(fileName: "transaction.abi.json")
+        return try serialize(contract: contract, name: name, type: type, json: json, abi: transactionJson)
+    }
+    
+    public func serializeAbi(contract: String?, name: String = "", type: String? = nil, json: String) throws -> String {
+        let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
+        return try serialize(contract: contract, name: name, type: type, json: json, abi: abiJson)
+    }
+    
+    public func serialize(contract: String?, name: String = "", type: String? = nil, json: String, abi: String) throws -> String {
         
         refreshContext()
         
         let contract64 = name64(string: contract)
-        abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
+        abiJsonString = abi
         
         // set the abi
         let setAbiResult = abieos_set_abi(context, contract64, abiJsonString)
@@ -90,13 +96,22 @@ public class AbiEos: EosioSerializationProviderProtocol {
         return hex
     }
     
+    public func deserializeTransaction(contract: String?, name: String = "", type: String? = nil, hex: String) throws -> String {
+        let transactionJson = try getAbiJsonFile(fileName: "transaction.abi.json")
+        return try deserialize(contract: contract, name: name, type: type, hex: hex, abi: transactionJson)
+    }
     
-    public func hexToJson(contract: String?, name: String = "", type: String? = nil, hex: String, abi: Any) throws -> String {
+    public func deserializeAbi(contract: String?, name: String = "", type: String? = nil, hex: String) throws -> String {
+        let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
+        return try deserialize(contract: contract, name: name, type: type, hex: hex, abi: abiJson)
+    }
+    
+    public func deserialize(contract: String?, name: String = "", type: String? = nil, hex: String, abi: String) throws -> String {
         
         refreshContext()
         
         let contract64 = name64(string: contract)
-        abiJsonString = try getAbiJsonString(contract: contract, name: name, abi: abi)
+        abiJsonString = abi
         
         // set the abi
         let setAbiResult = abieos_set_abi(context, contract64, abiJsonString)

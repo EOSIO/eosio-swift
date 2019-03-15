@@ -9,14 +9,9 @@
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftEcc'
   s.version          = '1.0'
-  s.summary          = 'A library for signing a transaction using Elliptical Curve Cryptography. '
+  s.summary          = 'Elliptical Curve Cryptography (ECC) functions for EOSIO. '
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
+ 
 
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-ecc'
   s.license      = {

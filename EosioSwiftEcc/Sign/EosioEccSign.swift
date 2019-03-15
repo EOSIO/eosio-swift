@@ -13,8 +13,8 @@ import openssl
 
 public class EosioEccSign {
     
-    let k1SignMaxAttempts = 100
-    private init(){}
+    static let k1SignMaxAttempts = 100
+    
     /// Sign data with a K1 key for validation on an eosio chain
     ///
     /// - Parameters:

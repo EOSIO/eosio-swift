@@ -14,7 +14,7 @@ import openssl
 public class EosioEccSign {
     
     let k1SignMaxAttempts = 100
-    
+    private init(){}
     /// Sign data with a K1 key for validation on an eosio chain
     ///
     /// - Parameters:
@@ -23,7 +23,7 @@ public class EosioEccSign {
     ///   - data: The data to sign
     /// - Returns: A signature (header byte + r + s)
     /// - Throws: If the data cannot be signed or the public key cannot be recovered, or another error is encountered
-    public func signWithK1(publicKey: Data, privateKey: Data, data: Data) throws -> Data {
+    public class func signWithK1(publicKey: Data, privateKey: Data, data: Data) throws -> Data {
         let privKeyBN = BN_new()!
         let key = EC_KEY_new()
         let group = EC_GROUP_new_by_curve_name(NID_secp256k1);

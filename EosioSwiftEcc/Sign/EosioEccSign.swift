@@ -57,11 +57,10 @@ public class EosioEccSign {
             guard let sig = EcdsaSignature(der: der, requireLowS: true, curve: "K1") else { continue }
             
             // Get recovery id (recid)
-            let recover = EccRecoverKey()
             var recid = 0
             do {
-                recid = try recover.recid(signatureDer: sig.der, message: data.sha256, targetPublicKey: publicKey, curve: "K1")
-                let recPubKey = try recover.recoverPublicKey(signatureDer: sig.der, message: data.sha256, recid: recid)
+                recid = try EccRecoverKey.recid(signatureDer: sig.der, message: data.sha256, targetPublicKey: publicKey, curve: .k1)
+                let recPubKey = try EccRecoverKey.recoverPublicKey(signatureDer: sig.der, message: data.sha256, recid: recid)
                 guard recPubKey.count == 65 else { continue }
             } catch {
                 signingError = EosioError(.signingError, reason: error.eosioError.localizedDescription)

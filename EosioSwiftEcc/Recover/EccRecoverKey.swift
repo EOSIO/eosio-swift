@@ -127,7 +127,7 @@ public class EccRecoverKey {
     /// - Throws: If none of the possible recids recover the target public key
     public class func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: CurveType = .r1) throws -> Int {
         for i in 0...3 {
-            let recoveredPublicKey = try EosrecoverPublicKey(signatureDer: signatureDer, message: message, recid: i, curve: curve)
+            let recoveredPublicKey = try recoverPublicKey(signatureDer: signatureDer, message: message, recid: i, curve: curve)
             if recoveredPublicKey == targetPublicKey {
                 return i
             }

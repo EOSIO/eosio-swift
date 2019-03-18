@@ -27,7 +27,7 @@ public class EccRecoverKey {
     ///   - privateKey: The private key
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public func recoverPublicKey(privateKey: Data, curve: CurveType) throws -> Data  {
+    public class func recoverPublicKey(privateKey: Data, curve: CurveType) throws -> Data  {
         
         let privKeyBN = BN_new()!
         let key = EC_KEY_new()
@@ -74,16 +74,16 @@ public class EccRecoverKey {
     ///   - recid: The recovery id (0-3)
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: String = "R1") throws -> Data {
+    public class func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: CurveType = .r1) throws -> Data {
         
         var curveName: Int32
-        if curve == "R1" {
+        switch curve {
+        case .r1:
             curveName = NID_X9_62_prime256v1
-        } else if curve == "K1" {
+        case .k1:
             curveName = NID_secp256k1
-        } else {
-            throw EosioError(.signingError, reason:  "\(curve) is not a valid curve" )
         }
+        
         
         
         var recoveredPubKeyHex = ""
@@ -125,7 +125,7 @@ public class EccRecoverKey {
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The recovery id (0-3)
     /// - Throws: If none of the possible recids recover the target public key
-    public func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: String = "R1") throws -> Int {
+    public class func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: CurveType = .r1) throws -> Int {
         for i in 0...3 {
             let recoveredPublicKey = try recoverPublicKey(signatureDer: signatureDer, message: message, recid: i, curve: curve)
             if recoveredPublicKey == targetPublicKey {

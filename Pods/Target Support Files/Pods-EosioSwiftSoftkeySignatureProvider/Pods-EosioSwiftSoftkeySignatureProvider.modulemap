@@ -1,6 +1,0 @@
-framework module Pods_EosioSwiftSoftkeySignatureProvider {
-  umbrella header "Pods-EosioSwiftSoftkeySignatureProvider-umbrella.h"
-
-  export *
-  module * { export * }
-}

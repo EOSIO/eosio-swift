@@ -21,8 +21,8 @@ public class EosioTransaction: Codable {
         }
     }
     
-    public var taposConfig = EosioTransaction.TaposConfig()
-    public struct TaposConfig {
+    public var config = EosioTransaction.Config()
+    public struct Config {
         public var blocksBehind: UInt = 3
         public var expireSeconds: UInt = 60 * 5
     }
@@ -154,13 +154,8 @@ public class EosioTransaction: Codable {
      This method will prepare the transaction, fetching or calculating any needed values by calling the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)`. If any of these methods return an error this method will call the completion that error.
      */
     public func prepare(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
-        
-        //Calculate transaction expiration
-        if expiration < Date() {
-            expiration = Date().addingTimeInterval(TimeInterval(self.taposConfig.expireSeconds))
-        }
-        
-        getChainIdAndCalculateTapos { [weak self] (taposResult) in
+                
+        getInfoAndSetValues { [weak self] (taposResult) in
             switch taposResult {
             case .failure(let error):
                 completion(.failure(error))
@@ -261,12 +256,12 @@ public class EosioTransaction: Codable {
     
     
     /**
-     This method will get the chain `info`, set the `chainId` property then calculate the reference block num using the using the `taposConfig` property and call `calculateTapos(blockNum:, completion:)`. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match.  
+     Get the chain info, set the `chainId` and `expiration`,  then calculate the reference block num using the using the `config` property and call `getBlockAndSetTapos(blockNum:, completion:)`. If the `chainId` is already set this method will validate against the `chainId` retreived from the `rpcProvider` and return a error if they do not do not match.
     */
-    private func getChainIdAndCalculateTapos(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    private func getInfoAndSetValues(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         
         // if all the data is set just return true
-        if refBlockNum > 0 && refBlockPrefix > 0  && chainId != "" {
+        if refBlockNum > 0 && refBlockPrefix > 0  && chainId != "" && expiration > Date(timeIntervalSince1970: 0) {
             return completion(.success(true))
         }
         
@@ -292,9 +287,17 @@ public class EosioTransaction: Codable {
                     return completion(.failure(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
                 
-                let blocksBehind = UInt64(strongSelf.taposConfig.blocksBehind)
+                // if expiration not set, set by adding config.expireSeconds to head block time
+                if strongSelf.expiration <= Date(timeIntervalSince1970: 0) {
+                    guard let headBlockTime = Date(yyyyMMddTHHmmss: info.headBlockTime) else {
+                        return completion(.failure(EosioError(.transactionError, reason:"Invalid head block time \(info.headBlockTime)")))
+                    }
+                    strongSelf.expiration = headBlockTime.addingTimeInterval(TimeInterval(strongSelf.config.expireSeconds))
+                }
+                
+                let blocksBehind = UInt64(strongSelf.config.blocksBehind)
                 var blockNum = info.headBlockNum - blocksBehind
-                if blockNum <= 0{
+                if blockNum <= 0 {
                     blockNum = 1
                 }
                 strongSelf.getBlockAndSetTapos(blockNum: blockNum, completion: completion)
@@ -304,7 +307,7 @@ public class EosioTransaction: Codable {
     
     
     /**
-     This method will get the `block` specified by `blockNum` and set `refBlockNum` and `refBlockPrefix`. If `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require an `rpcProvider` to get the data for these values. If the `rpcProvider` is not set or another error is encountered this method will call the completion with an error.
+     Get the `block` specified by `blockNum` and set `refBlockNum` and `refBlockPrefix`. If `refBlockNum`, and `refBlockPrefix` already have valid values this method will call the completion with `true`. If these properties do not have valid values, this method will require an `rpcProvider` to get the data for these values. If the `rpcProvider` is not set or another error is encountered this method will call the completion with an error.
      */
     public func getBlockAndSetTapos(blockNum: UInt64, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         // if the only data needed was the chainId, return now

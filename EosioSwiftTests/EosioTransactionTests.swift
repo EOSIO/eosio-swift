@@ -26,9 +26,8 @@ class EosioTransactionTests: XCTestCase {
 
     func test_prepare_shouldSetExpirationDateCorrectly() {
         transaction.prepare { (result) in
-            
+            XCTAssert(self.transaction.expiration >= Date(timeIntervalSince1970: 0))
         }
-        XCTAssert(transaction.expiration.timeIntervalSinceNow >= 0)
     }
     
     func test_prepare_withRPCProviderNotSet_shouldReturnError() {
@@ -80,8 +79,8 @@ class EosioTransactionTests: XCTestCase {
     }
     
     func test_prepare_shouldCallGetBlockFunctionOfRPCProviderWithCorrectBlockNumber() {
-        var blockNum = rpcProvider.rpcInfo.headBlockNum - UInt64(transaction.taposConfig.blocksBehind)
-        if blockNum <= 0{
+        var blockNum = rpcProvider.rpcInfo.headBlockNum - UInt64(transaction.config.blocksBehind)
+        if blockNum <= 0 {
             blockNum = 1
         }
         
@@ -170,7 +169,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         lastIrreversibleBlockNum: 2342,
         lastIrreversibleBlockId: "lastIrversible",
         headBlockId: "headBlockId",
-        headBlockTime: "headtime",
+        headBlockTime: "2009-01-03T18:15:05.000",
         headBlockProducer: "producer",
         virtualBlockCpuLimit: 234,
         virtualBlockNetLimit: 234,

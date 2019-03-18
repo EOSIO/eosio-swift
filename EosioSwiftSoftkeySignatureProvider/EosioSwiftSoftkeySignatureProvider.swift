@@ -10,7 +10,7 @@ import Foundation
 import EosioSwift
 import EosioSwiftEcc
 public final class EosioSwiftSoftkeySignatureProvider {
-    //Public-Private key pairs in String format
+    //Private key pairs in String format
     private var stringKeyPairs = [String:String]()
     
     //Public-Private key pairs in Data format
@@ -23,15 +23,18 @@ public final class EosioSwiftSoftkeySignatureProvider {
         - Returns: An EosioSwiftSoftkeySignatureProvider object or nil if all the keys in the given `keyPairs` dictionary are not valid keys.
      
      */
-    init?(keyPairs:[String : String]) {
-        stringKeyPairs = keyPairs
+    init?(privateKeys:[String]) {
+        
         do{
-            for (publicKey, privateKey) in keyPairs{
-                let publicKeyData = try Data(eosioPublicKey: publicKey)
+            for privateKey in privateKeys{
                 let privateKeyData = try Data(eosioPrivateKey: privateKey)
+                let publicKeyData = try EccRecoverKey.recoverPublicKey(privateKey: privateKeyData, curve: .k1)
+                let publicKeyString = publicKeyData.toEosioK1PublicKey
                 self.dataKeyPairs[publicKeyData] = privateKeyData
+                self.stringKeyPairs[publicKeyString] = privateKey
             }
-        }catch{
+        }catch let e{
+            print(e.localizedDescription)
             return nil
         }
     }
@@ -41,7 +44,8 @@ public final class EosioSwiftSoftkeySignatureProvider {
     
 }
 
-extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol{
+extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
+    
     public func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var response = EosioTransactionSignatureResponse()
         do{

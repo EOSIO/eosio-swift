@@ -25,16 +25,16 @@ public final class EosioSwiftSoftkeySignatureProvider {
      */
     init?(privateKeys:[String]) {
         
-        do{
-            for privateKey in privateKeys{
+        do {
+            for privateKey in privateKeys {
                 let privateKeyData = try Data(eosioPrivateKey: privateKey)
                 let publicKeyData = try EccRecoverKey.recoverPublicKey(privateKey: privateKeyData, curve: .k1)
                 let publicKeyString = publicKeyData.toEosioK1PublicKey
                 self.dataKeyPairs[publicKeyData] = privateKeyData
                 self.stringKeyPairs[publicKeyString] = privateKey
             }
-        }catch let e{
-            print(e.localizedDescription)
+        } catch {
+            print("Invalid key or unsupported key type.")
             return nil
         }
     }
@@ -48,7 +48,7 @@ extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
     
     public func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var response = EosioTransactionSignatureResponse()
-        do{
+        do {
             var signatures = [String]()
             
             for (publicKey, privateKey) in dataKeyPairs{
@@ -57,9 +57,10 @@ extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
             }
             var signedTransaction = EosioTransactionSignatureResponse.SignedTransaction()
             signedTransaction.signatures = signatures
+            signedTransaction.serializedTransaction = request.serializedTransaction
             response.signedTransaction = signedTransaction
             completion(response)
-        }catch let error{
+        } catch let error {
             response.error = error as? EosioError
             completion(response)
         }

@@ -19,8 +19,8 @@ public final class EosioSwiftSoftkeySignatureProvider {
     /**
         Initializes EosiosSwiftSoftkeySignatureProvider using the public-private key pairs in the given dictionary.
         - Parameters:
-            - keyPairs: A dictionary of public and private key pairs, with the public key as dictionary key and the associated private key as it's value in the dicationary.
-        - Returns: An EosioSwiftSoftkeySignatureProvider object or nil if all the keys in the given `keyPairs` dictionary are not valid keys.
+            - privateKeys: An `String` array of private keys.
+        - Returns: An EosioSwiftSoftkeySignatureProvider object or nil if all the keys in the given `privateKeys` array are not valid keys.
      
      */
     init?(privateKeys:[String]) {

@@ -55,14 +55,14 @@ public class AbiEos: EosioSerializationProviderProtocol {
         return abiString
     }
     
-    public func serializeTransaction(contract: String?, name: String = "", type: String? = nil, json: String) throws -> String {
+    public func serializeTransaction(json: String) throws -> String {
         let transactionJson = try getAbiJsonFile(fileName: "transaction.abi.json")
-        return try serialize(contract: contract, name: name, type: type, json: json, abi: transactionJson)
+        return try serialize(contract: nil, name: "", type: "transaction", json: json, abi: transactionJson)
     }
     
-    public func serializeAbi(contract: String?, name: String = "", type: String? = nil, json: String) throws -> String {
+    public func serializeAbi(json: String) throws -> String {
         let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
-        return try serialize(contract: contract, name: name, type: type, json: json, abi: abiJson)
+        return try serialize(contract: nil, name: "", type: "abi_def", json: json, abi: abiJson)
     }
     
     public func serialize(contract: String?, name: String = "", type: String? = nil, json: String, abi: String) throws -> String {
@@ -96,14 +96,14 @@ public class AbiEos: EosioSerializationProviderProtocol {
         return hex
     }
     
-    public func deserializeTransaction(contract: String?, name: String = "", type: String? = nil, hex: String) throws -> String {
+    public func deserializeTransaction(hex: String) throws -> String {
         let transactionJson = try getAbiJsonFile(fileName: "transaction.abi.json")
-        return try deserialize(contract: contract, name: name, type: type, hex: hex, abi: transactionJson)
+        return try deserialize(contract: nil, name: "", type: "transaction", hex: hex, abi: transactionJson)
     }
     
-    public func deserializeAbi(contract: String?, name: String = "", type: String? = nil, hex: String) throws -> String {
+    public func deserializeAbi(hex: String) throws -> String {
         let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
-        return try deserialize(contract: contract, name: name, type: type, hex: hex, abi: abiJson)
+        return try deserialize(contract: nil, name: "", type: "abi_def", hex: hex, abi: abiJson)
     }
     
     public func deserialize(contract: String?, name: String = "", type: String? = nil, hex: String, abi: String) throws -> String {

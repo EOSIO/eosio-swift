@@ -254,7 +254,7 @@ class EosioTransactionTests: XCTestCase {
     func getTokenAbiJson() -> String? {
         let hex = Data(base64Encoded: tokenAbiB64)!.hexEncodedString()
         let serializer = AbiEos()
-        return try? serializer.deserializeAbi(contract: nil, name: "", type: "abi_def", hex: hex)
+        return try? serializer.deserializeAbi(hex: hex)
     }
     
     

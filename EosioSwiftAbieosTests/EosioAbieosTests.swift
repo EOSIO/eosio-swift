@@ -23,7 +23,7 @@ class EosioSwiftAbieosTests: XCTestCase {
         """
 
         do {
-            let result = try abieos?.deserializeTransaction(contract: nil, name: "", type: "transaction", hex: hex)
+            let result = try abieos?.deserializeTransaction(hex: hex)
             XCTAssertTrue(json == result)
         } catch {
             XCTFail()
@@ -36,7 +36,7 @@ class EosioSwiftAbieosTests: XCTestCase {
         {"version":"eosio::abi/1.0","types":[{"new_type_name":"account_name","type":"name"}],"structs":[{"name":"transfer","base":"","fields":[{"name":"from","type":"account_name"},{"name":"to","type":"account_name"},{"name":"quantity","type":"asset"},{"name":"memo","type":"string"}]},{"name":"create","base":"","fields":[{"name":"issuer","type":"account_name"},{"name":"maximum_supply","type":"asset"}]},{"name":"issue","base":"","fields":[{"name":"to","type":"account_name"},{"name":"quantity","type":"asset"},{"name":"memo","type":"string"}]},{"name":"account","base":"","fields":[{"name":"balance","type":"asset"}]},{"name":"currency_stats","base":"","fields":[{"name":"supply","type":"asset"},{"name":"max_supply","type":"asset"},{"name":"issuer","type":"account_name"}]}],"actions":[{"name":"transfer","type":"transfer","ricardian_contract":"---\ntitle: Token Transfer\nsummary: Transfer tokens from one account to another.\nicon: https://cdn.testnet.dev.b1ops.net/token-transfer.png#ce51ef9f9eeca3434e85507e0ed49e76fff1265422bded0255f3196ea59c8b0c\n---\n\n## Transfer Terms & Conditions\n\nI, {{from}}, certify the following to be true to the best of my knowledge:\n\n1. I certify that {{quantity}} is not the proceeds of fraudulent or violent activities.\n2. I certify that, to the best of my knowledge, {{to}} is not supporting initiation of violence against others.\n3. I have disclosed any contractual terms & conditions with respect to {{quantity}} to {{to}}.\n\nI understand that funds transfers are not reversible after the {{$transaction.delay_sec}} seconds or other delay as configured by {{from}}'s permissions.\n\nIf this action fails to be irreversibly confirmed after receiving goods or services from '{{to}}', I agree to either return the goods or services or resend {{quantity}} in a timely manner."},{"name":"issue","type":"issue","ricardian_contract":""},{"name":"create","type":"create","ricardian_contract":""}],"tables":[{"name":"accounts","index_type":"i64","key_names":["currency"],"key_types":["uint64"],"type":"account"},{"name":"stat","index_type":"i64","key_names":["currency"],"key_types":["uint64"],"type":"currency_stats"}],"ricardian_clauses":[],"error_messages":[],"abi_extensions":[],"variants":[]}
         """
         do {
-            let result = try abieos?.deserializeAbi(contract: nil, name: "", type: "abi_def", hex: hex)
+            let result = try abieos?.deserializeAbi(hex: hex)
             XCTAssertTrue(json.replacingOccurrences(of: "\n", with: "\\n") == result)
         } catch {
             print(error)
@@ -78,7 +78,7 @@ class EosioSwiftAbieosTests: XCTestCase {
         """
         let hex = "1686755CA99DE8E73E12000000000290AFC2D800EA3055000000405DA7ADBA0072CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB155624800A6823403EA3055000000572D3CCDCD0100AEAA4AC15CFD4500000000A8ED32323B00AEAA4AC15CFD4500000060D234CD3DA06806000000000004454F53000000001A746865206772617373686F70706572206C69657320686561767900"
         do {
-            let resut = try abieos?.serializeTransaction(contract: nil, name: "", type: "transaction", json: json)
+            let resut = try abieos?.serializeTransaction(json: json)
             XCTAssertTrue(hex == resut)
         } catch {
             print(error)

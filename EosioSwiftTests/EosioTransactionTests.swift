@@ -17,6 +17,7 @@ class EosioTransactionTests: XCTestCase {
         transaction = EosioTransaction()
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = SerializationProviderMock()
+        transaction.signatureProvider = SignatureProviderMock()
     }
     
     override func tearDown() {
@@ -136,14 +137,53 @@ class EosioTransactionTests: XCTestCase {
     }
     
     
+    func test_sign_publicKeys_shouldSucceed() {
+        transaction.sign(publicKeys: ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"]) { (result) in
+            XCTAssertEqual(self.transaction.signatures, ["SIG_K1_EsykzHxjT3BN8nUvwsiLVddddDi6WRuYaen7sfmJxE88EjLMp4kvSRjQE1iXuRfuwiaSUJLi1xFHjUVhfbBYJDVE27uGFU8R3E1Er"])
+        }
+    }
     
+    func test_sign_publicKeys_shouldFail() {
+        transaction.sign(publicKeys: ["PUB_K1_badkey"]) { (result) in
+            guard case .failure = result else {
+                return XCTFail()
+            }
+        }
+    }
     
+    func test_sign_availableKeys_shouldSucceed() {
+        transaction.sign(availableKeys: ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"]) { (result) in
+            XCTAssertEqual(self.transaction.signatures, ["SIG_K1_EsykzHxjT3BN8nUvwsiLVddddDi6WRuYaen7sfmJxE88EjLMp4kvSRjQE1iXuRfuwiaSUJLi1xFHjUVhfbBYJDVE27uGFU8R3E1Er"])
+        }
+    }
     
+    func test_sign_availableKeys_shouldFail() {
+        transaction.sign(availableKeys: ["PUB_K1_badkey"]) { (result) in
+            guard case .failure = result else {
+                return XCTFail()
+            }
+        }
+    }
+    
+    func test_sign_shouldSucceed() {
+        transaction.sign() { (result) in
+            XCTAssertEqual(self.transaction.signatures, ["SIG_K1_EsykzHxjT3BN8nUvwsiLVddddDi6WRuYaen7sfmJxE88EjLMp4kvSRjQE1iXuRfuwiaSUJLi1xFHjUVhfbBYJDVE27uGFU8R3E1Er"])
+        }
+    }
+    
+    func test_signAndbroadcast_shouldSucceed() {
+        transaction.signAndBroadcast { (result) in
+            XCTAssertEqual(self.transaction.signatures, ["SIG_K1_EsykzHxjT3BN8nUvwsiLVddddDi6WRuYaen7sfmJxE88EjLMp4kvSRjQE1iXuRfuwiaSUJLi1xFHjUVhfbBYJDVE27uGFU8R3E1Er"])
+            XCTAssertEqual(self.transaction.transactionId, "mocktransactionid")
+        }
+    }
     
 }
 
 
 class RPCProviderMock: EosioRpcProviderProtocol {
+
+    
     var endpoints: [EosioEndpoint]
     
     var failoverRetries: Int
@@ -215,7 +255,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
                     packedContextFreeData: "lkj",
                     contextFreeData: ["kljl"],
                     packedTrx: "lkj",
-                    transaction: EosioRpcTransaction()
+                    transaction: EosioRpcTransaction(tranactionId: "mocktransactionid")
             )
             )
         ],
@@ -269,11 +309,11 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         
     }
     
-    func pushTransaction(transaction: EosioTransaction, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
+    func pushTransaction(transaction: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
         
     }
     
-    func pushTransactions(transactions: [EosioTransaction], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
+    func pushTransactions(transactions: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
         
     }
     
@@ -333,6 +373,33 @@ class AbiProviderMockup:EosioAbiProviderProtocol{
     var getAbiCalled = false
     func getAbi(chainId: String, account: EosioName, completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
         getAbiCalled = true
+    }
+    
+    
+}
+
+
+class SignatureProviderMock: EosioSignatureProviderProtocol {
+    
+    func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
+        var transactionSignatureResponse = EosioTransactionSignatureResponse()
+        
+        if request.publicKeys.contains("PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y") {
+            var signedTransaction = EosioTransactionSignatureResponse.SignedTransaction()
+            signedTransaction.signatures = ["SIG_K1_EsykzHxjT3BN8nUvwsiLVddddDi6WRuYaen7sfmJxE88EjLMp4kvSRjQE1iXuRfuwiaSUJLi1xFHjUVhfbBYJDVE27uGFU8R3E1Er"]
+            transactionSignatureResponse.signedTransaction = signedTransaction
+        } else {
+            transactionSignatureResponse.error = EosioError(EosioErrorCode.signatureProviderError, reason: "Key not available")
+        }
+
+        completion(transactionSignatureResponse)
+    }
+
+    
+    func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void) {
+        var availableKeysResponse = EosioAvailableKeysResponse()
+        availableKeysResponse.keys = ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"]
+        completion(availableKeysResponse)
     }
     
     

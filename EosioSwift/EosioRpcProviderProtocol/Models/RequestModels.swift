@@ -47,6 +47,11 @@ public struct EosioRpcRequiredKeysRequest: Codable {
     var transactionJson: String
     var availableKeys: [String]
     
+    init(availableKeys: [String], transactionJson: String) {
+        self.availableKeys = availableKeys
+        self.transactionJson = transactionJson
+    }
+    
     enum CodingKeys: String, CodingKey {
         case transactionJson = "transaction"
         case availableKeys = "available_keys"
@@ -70,4 +75,13 @@ public struct EosioRpcHistoryActionsRequest: Codable {
     var offset: Int32 = -20
     var accountName: EosioName
 }
+
+
+public struct EosioRpcPushTransactionRequest: Codable {
+    var signatures = [String]()
+    var compression = 0
+    var packedContextFreeData = ""
+    var packedTrx = ""
+}
+
 

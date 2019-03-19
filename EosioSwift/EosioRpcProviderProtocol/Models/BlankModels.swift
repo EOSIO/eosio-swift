@@ -32,19 +32,11 @@ public struct EosioRpcCurrencyBalance: Codable {
     
 }
 
-public struct EosioRpcRequiredKeys: Codable {
-    
-}
-
 public struct EosioRpcCurrencyStats: Codable {
     
 }
 
 public struct EosioRpcProducers: Codable {
-    
-}
-
-public struct EosioRpcTransaction: Codable {
     
 }
 

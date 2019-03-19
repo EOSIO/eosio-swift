@@ -55,7 +55,7 @@ class EosioTransactionActionTests: XCTestCase {
         // deserialize the hex data back to json
         let hexData = "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73"
         let abieos = AbiEos()
-        guard let json1 = try? abieos.hexToJson(contract: "eosio.token", name: "transfer", hex: hexData, abi: tokenAbiJson) else {
+        guard let json1 = try? abieos.deserialize(contract: "eosio.token", name: "transfer", hex: hexData, abi: tokenAbiJson) else {
             return XCTFail()
         }
         let json2 = """
@@ -257,7 +257,7 @@ class EosioTransactionActionTests: XCTestCase {
     func getTokenAbiJson() -> String? {
         let hex = Data(base64Encoded: tokenAbiB64)!.hexEncodedString()
         let abieos = AbiEos()
-        return try? abieos.hexToJson(contract: nil, type: "abi_def", hex: hex, abi: "abi.abi.json")
+        return try? abieos.deserializeAbi(hex: hex)
     }
     
     

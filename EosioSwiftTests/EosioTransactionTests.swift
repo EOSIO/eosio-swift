@@ -299,11 +299,11 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 final class SerializationProviderMock: EosioSerializationProviderProtocol {
     var error: String?
   
-    func serializeAbi(contract: String?, name: String, type: String?, json: String) throws -> String {
+    func serializeAbi(json: String) throws -> String {
         return ""
     }
     
-    func serializeTransaction(contract: String?, name: String, type: String?, json: String) throws -> String {
+    func serializeTransaction(json: String) throws -> String {
         return ""
     }
     
@@ -311,11 +311,11 @@ final class SerializationProviderMock: EosioSerializationProviderProtocol {
         return ""
     }
     
-    func deserializeAbi(contract: String?, name: String, type: String?, hex: String) throws -> String {
+    func deserializeAbi(hex: String) throws -> String {
         return ""
     }
     
-    func deserializeTransaction(contract: String?, name: String, type: String?, hex: String) throws -> String {
+    func deserializeTransaction(hex: String) throws -> String {
         return ""
     }
     

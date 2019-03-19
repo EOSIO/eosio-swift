@@ -16,9 +16,9 @@ public protocol EosioSerializationProviderProtocol {
     func serialize(contract: String?, name: String, type: String?, json: String, abi: String) throws  -> String
     func deserialize(contract: String?, name: String, type: String?, hex: String, abi: String) throws  -> String
     
-    func serializeTransaction(contract: String?, name: String, type: String?, json: String) throws  -> String
-    func deserializeTransaction(contract: String?, name: String, type: String?, hex: String) throws  -> String
+    func serializeTransaction(json: String) throws  -> String
+    func deserializeTransaction(hex: String) throws  -> String
     
-    func serializeAbi(contract: String?, name: String, type: String?, json: String) throws  -> String
-    func deserializeAbi(contract: String?, name: String, type: String?, hex: String) throws  -> String
+    func serializeAbi(json: String) throws  -> String
+    func deserializeAbi(hex: String) throws  -> String
 }

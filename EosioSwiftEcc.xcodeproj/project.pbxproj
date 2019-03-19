@@ -10,7 +10,6 @@
 		2811B4DD2231679C0029BF6A /* EccRecoverKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811B4DC2231679C0029BF6A /* EccRecoverKey.swift */; };
 		2811B4E12231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811B4E02231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift */; };
 		2811D0282230814B0002E580 /* EosioSwiftEcc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2811D01E2230814B0002E580 /* EosioSwiftEcc.framework */; };
-		2811D02D2230814B0002E580 /* EosioSwiftEccTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */; };
 		2811D02F2230814B0002E580 /* EosioSwiftEcc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2811D0212230814B0002E580 /* EosioSwiftEcc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		283311132232D249001EFDDA /* EcdsaSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283311122232D249001EFDDA /* EcdsaSignature.swift */; };
 		28331115223300E7001EFDDA /* EosioEccSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28331114223300E7001EFDDA /* EosioEccSign.swift */; };
@@ -42,7 +41,6 @@
 		2811D0212230814B0002E580 /* EosioSwiftEcc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftEcc.h; sourceTree = "<group>"; };
 		2811D0222230814B0002E580 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2811D0272230814B0002E580 /* EosioSwiftEccTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioSwiftEccTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftEccTests.swift; sourceTree = "<group>"; };
 		2811D02E2230814B0002E580 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		283311122232D249001EFDDA /* EcdsaSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EcdsaSignature.swift; sourceTree = "<group>"; };
 		28331114223300E7001EFDDA /* EosioEccSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioEccSign.swift; sourceTree = "<group>"; };
@@ -129,7 +127,6 @@
 		2811D02B2230814B0002E580 /* EosioSwiftEccTests */ = {
 			isa = PBXGroup;
 			children = (
-				2811D02C2230814B0002E580 /* EosioSwiftEccTests.swift */,
 				2811B4E02231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift */,
 				28331116223301E3001EFDDA /* EosioSwiftEccSignTests.swift */,
 				2811D02E2230814B0002E580 /* Info.plist */,
@@ -356,7 +353,6 @@
 			files = (
 				28331117223301E3001EFDDA /* EosioSwiftEccSignTests.swift in Sources */,
 				2811B4E12231A2F80029BF6A /* EosioSwiftEccRecoverKeyTests.swift in Sources */,
-				2811D02D2230814B0002E580 /* EosioSwiftEccTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

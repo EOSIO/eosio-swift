@@ -19,8 +19,6 @@ class EosioSwiftEccsignTests: XCTestCase {
     
     let message = "Hello World".data(using: .utf8)!
 
-    let recover = EccRecoverKey()
-    let sign = EosioEccSign()
     
     
     func test_signWithK1() {
@@ -28,14 +26,14 @@ class EosioSwiftEccsignTests: XCTestCase {
             let publicKey = try Data(hex: publicKeyHex)
             let privateKey = try Data(hex: privateKeyHex)
             for _ in 1...10 {
-                let sig = try sign.signWithK1(publicKey: publicKey, privateKey: privateKey, data: message)
+                let sig = try EosioEccSign.signWithK1(publicKey: publicKey, privateKey: privateKey, data: message)
                 guard sig.count == 65 else {
                     return XCTFail()
                 }
                 let derSig = EcdsaSignature(r: sig[1...32], s: sig[33...64]).der
                 let recid = Int(sig[0] - 31)
                 
-                let recoveredPubKey = try recover.recoverPublicKey(signatureDer: derSig, message: message.sha256, recid: recid, curve: "K1")
+                let recoveredPubKey = try EccRecoverKey.recoverPublicKey(signatureDer: derSig, message: message.sha256, recid: recid, curve: .k1)
                 XCTAssertEqual(recoveredPubKey.hex, publicKeyHex)
             }
             

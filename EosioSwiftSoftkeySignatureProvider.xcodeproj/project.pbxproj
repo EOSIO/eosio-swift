@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07228DBCF2A74D8682494F73 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC8196E8FF6EB3AFCA612AC8 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */; };
 		8F7712DA223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7712D0223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.framework */; };
 		8F7712DF223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7712DE223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests.swift */; };
 		8F7712E1223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F7712D3223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F7712EB223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7712EA223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift */; };
-		D2D4D43F0E17C2AB9DA72C76 /* Pods_EosioSwiftSoftkeySignatureProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA733628EF7B672D93498A5 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */; };
+		D66CA12724978929CD4C44F8 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C691B04A17015F0672411FE3 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */; };
+		EED8F31AEB5AFC4072BB105A /* Pods_EosioSwiftSoftkeySignatureProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61AAA1DD888114FBBE8CD32 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,10 +26,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		286F6E20C5BE9B2B3C6C57AA /* Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProvider/Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig"; sourceTree = "<group>"; };
-		4728D2C636FCCDCA3C19523B /* Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6BA733628EF7B672D93498A5 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftSoftkeySignatureProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B513BB7EC8E694A85DFFF3A /* Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig"; sourceTree = "<group>"; };
+		2951A303FC6E33936EB10245 /* Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProvider/Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig"; sourceTree = "<group>"; };
+		3B31701B050DCDDABEC39BF6 /* Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5B2AB32A8525A2CCFB4EE0FD /* Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig"; sourceTree = "<group>"; };
 		8F7712D0223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftSoftkeySignatureProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7712D3223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftSoftkeySignatureProvider.h; sourceTree = "<group>"; };
 		8F7712D4223ACCAF004256D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,8 +36,9 @@
 		8F7712DE223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftSoftkeySignatureProviderTests.swift; sourceTree = "<group>"; };
 		8F7712E0223ACCAF004256D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F7712EA223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftSoftkeySignatureProvider.swift; sourceTree = "<group>"; };
-		AF49FE9C0E712B05F068631D /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProvider/Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig"; sourceTree = "<group>"; };
-		FC8196E8FF6EB3AFCA612AC8 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftSoftkeySignatureProviderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C691B04A17015F0672411FE3 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftSoftkeySignatureProviderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D61AAA1DD888114FBBE8CD32 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftSoftkeySignatureProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D879CC4D54E46205FAEFDBB6 /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProvider/Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2D4D43F0E17C2AB9DA72C76 /* Pods_EosioSwiftSoftkeySignatureProvider.framework in Frameworks */,
+				EED8F31AEB5AFC4072BB105A /* Pods_EosioSwiftSoftkeySignatureProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,31 +55,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7712DA223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.framework in Frameworks */,
-				07228DBCF2A74D8682494F73 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework in Frameworks */,
+				D66CA12724978929CD4C44F8 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		192C3D20C3957C84E7BA5EFD /* Pods */ = {
+		05415C6D0B9EA4E51B446421 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				286F6E20C5BE9B2B3C6C57AA /* Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig */,
-				AF49FE9C0E712B05F068631D /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */,
-				4728D2C636FCCDCA3C19523B /* Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig */,
-				7B513BB7EC8E694A85DFFF3A /* Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		663D7F427EFB9B8F6C50B009 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6BA733628EF7B672D93498A5 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */,
-				FC8196E8FF6EB3AFCA612AC8 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */,
+				D61AAA1DD888114FBBE8CD32 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */,
+				C691B04A17015F0672411FE3 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6B7389EA43B7DE9E05067166 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2951A303FC6E33936EB10245 /* Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig */,
+				D879CC4D54E46205FAEFDBB6 /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */,
+				3B31701B050DCDDABEC39BF6 /* Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig */,
+				5B2AB32A8525A2CCFB4EE0FD /* Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		8F7712C6223ACCAF004256D3 = {
@@ -88,8 +88,8 @@
 				8F7712D2223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider */,
 				8F7712DD223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests */,
 				8F7712D1223ACCAF004256D3 /* Products */,
-				192C3D20C3957C84E7BA5EFD /* Pods */,
-				663D7F427EFB9B8F6C50B009 /* Frameworks */,
+				6B7389EA43B7DE9E05067166 /* Pods */,
+				05415C6D0B9EA4E51B446421 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,7 +139,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F7712E4223ACCAF004256D3 /* Build configuration list for PBXNativeTarget "EosioSwiftSoftkeySignatureProvider" */;
 			buildPhases = (
-				B92E60454555CB3929B922EA /* [CP] Check Pods Manifest.lock */,
+				E8CF9EF8E5CC1197C087BBA8 /* [CP] Check Pods Manifest.lock */,
 				8F7712CB223ACCAF004256D3 /* Headers */,
 				8F7712CC223ACCAF004256D3 /* Sources */,
 				8F7712CD223ACCAF004256D3 /* Frameworks */,
@@ -158,11 +158,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F7712E7223ACCAF004256D3 /* Build configuration list for PBXNativeTarget "EosioSwiftSoftkeySignatureProviderTests" */;
 			buildPhases = (
-				28353A1518E5A2C093A3ADB3 /* [CP] Check Pods Manifest.lock */,
+				74477581F9692009DA9E3617 /* [CP] Check Pods Manifest.lock */,
 				8F7712D5223ACCAF004256D3 /* Sources */,
 				8F7712D6223ACCAF004256D3 /* Frameworks */,
 				8F7712D7223ACCAF004256D3 /* Resources */,
-				F9DF5BC9556C9C9966636535 /* [CP] Embed Pods Frameworks */,
+				124D0DF12A5AC2EE3F28A02B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -229,51 +229,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		28353A1518E5A2C093A3ADB3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EosioSwiftSoftkeySignatureProviderTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B92E60454555CB3929B922EA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EosioSwiftSoftkeySignatureProvider-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F9DF5BC9556C9C9966636535 /* [CP] Embed Pods Frameworks */ = {
+		124D0DF12A5AC2EE3F28A02B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -301,6 +257,50 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		74477581F9692009DA9E3617 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EosioSwiftSoftkeySignatureProviderTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E8CF9EF8E5CC1197C087BBA8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EosioSwiftSoftkeySignatureProvider-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -457,7 +457,7 @@
 		};
 		8F7712E5223ACCAF004256D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 286F6E20C5BE9B2B3C6C57AA /* Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig */;
+			baseConfigurationReference = 2951A303FC6E33936EB10245 /* Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
@@ -486,7 +486,7 @@
 		};
 		8F7712E6223ACCAF004256D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF49FE9C0E712B05F068631D /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */;
+			baseConfigurationReference = D879CC4D54E46205FAEFDBB6 /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
@@ -514,9 +514,9 @@
 		};
 		8F7712E8223ACCAF004256D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4728D2C636FCCDCA3C19523B /* Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig */;
+			baseConfigurationReference = 3B31701B050DCDDABEC39BF6 /* Pods-EosioSwiftSoftkeySignatureProviderTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 835J8XM54U;
 				INFOPLIST_FILE = EosioSwiftSoftkeySignatureProviderTests/Info.plist;
@@ -534,9 +534,9 @@
 		};
 		8F7712E9223ACCAF004256D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B513BB7EC8E694A85DFFF3A /* Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig */;
+			baseConfigurationReference = 5B2AB32A8525A2CCFB4EE0FD /* Pods-EosioSwiftSoftkeySignatureProviderTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 835J8XM54U;
 				INFOPLIST_FILE = EosioSwiftSoftkeySignatureProviderTests/Info.plist;

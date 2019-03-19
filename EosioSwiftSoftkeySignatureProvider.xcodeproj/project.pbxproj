@@ -459,6 +459,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 286F6E20C5BE9B2B3C6C57AA /* Pods-EosioSwiftSoftkeySignatureProvider.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -487,6 +488,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AF49FE9C0E712B05F068631D /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;

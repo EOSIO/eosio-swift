@@ -298,15 +298,30 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
 final class SerializationProviderMock: EosioSerializationProviderProtocol {
     var error: String?
-    
-    func jsonToHex(contract: String?, name: String, type: String?, json: String, abi: Any) throws -> String {
+  
+    func serializeAbi(json: String) throws -> String {
         return ""
     }
     
-    func hexToJson(contract: String?, name: String, type: String?, hex: String, abi: Any) throws -> String {
+    func serializeTransaction(json: String) throws -> String {
         return ""
     }
     
+    func serialize(contract: String?, name: String, type: String?, json: String, abi: String) throws -> String {
+        return ""
+    }
+    
+    func deserializeAbi(hex: String) throws -> String {
+        return ""
+    }
+    
+    func deserializeTransaction(hex: String) throws -> String {
+        return ""
+    }
+    
+    func deserialize(contract: String?, name: String, type: String?, hex: String, abi: String) throws -> String {
+        return ""
+    }
     
 }
 

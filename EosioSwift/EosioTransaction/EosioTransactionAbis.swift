@@ -23,7 +23,7 @@ public extension EosioTransaction {
             guard let serializer = self.serializationProvider else {
                 preconditionFailure("A serializationProvider must be set!")
             }
-            let _ = try serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hex, abi: "abi.abi.json")
+            let _ = try serializer.deserializeAbi(hex: hex)
         }
         
         
@@ -120,7 +120,7 @@ public extension EosioTransaction {
                 guard let serializer = self.serializationProvider else {
                     preconditionFailure("A serializationProvider must be set!")
                 }
-                return try serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hex, abi: "abi.abi.json")
+                return try serializer.deserializeAbi(hex: hex)
             })
         }
         
@@ -134,7 +134,7 @@ public extension EosioTransaction {
             guard let serializer = self.serializationProvider else {
                 preconditionFailure("A serializationProvider must be set!")
             }
-            return try serializer.hexToJson(contract: nil, name: "", type: "abi_def", hex: hexAbi, abi: "abi.abi.json")
+            return try serializer.deserializeAbi(hex: hexAbi)
         }
         
     

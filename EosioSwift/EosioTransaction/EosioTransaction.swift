@@ -64,7 +64,7 @@ public class EosioTransaction: Codable {
     /// - Returns: An `EosioTransaction`
     /// - Throws: If the transaction cannot be deserialized
     static public func deserialize(_ serializedTransaction: Data, serializationProvider: EosioSerializationProviderProtocol) throws -> EosioTransaction {
-        let json = try serializationProvider.hexToJson(contract: nil, name: "", type: "transaction", hex: serializedTransaction.hex, abi: "transaction.abi.json")
+        let json = try serializationProvider.deserializeTransaction(hex: serializedTransaction.hex)
         guard let data = json.data(using: .utf8) else {
             throw EosioError(.parsingError, reason: "Cannot create json from data")
         }
@@ -123,7 +123,7 @@ public class EosioTransaction: Codable {
             preconditionFailure("A serializationProvider must be set!")
         }
         let json = try self.toJson()
-        return try Data(hex: serializer.jsonToHex(contract: nil, name: "", type: "transaction", json: json, abi: "transaction.abi.json"))
+        return try Data(hex: serializer.serializeTransaction(json: json))
     }
     
     

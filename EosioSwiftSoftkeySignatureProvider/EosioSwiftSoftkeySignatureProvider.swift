@@ -23,20 +23,20 @@ public final class EosioSwiftSoftkeySignatureProvider {
         - Returns: An EosioSwiftSoftkeySignatureProvider object or nil if all the keys in the given `privateKeys` array are not valid keys.
      
      */
-    init?(privateKeys:[String]) {
-        
-        do {
-            for privateKey in privateKeys {
-                let privateKeyData = try Data(eosioPrivateKey: privateKey)
-                let publicKeyData = try EccRecoverKey.recoverPublicKey(privateKey: privateKeyData, curve: .k1)
-                let publicKeyString = publicKeyData.toEosioK1PublicKey
-                self.dataKeyPairs[publicKeyData] = privateKeyData
-                self.stringKeyPairs[publicKeyString] = privateKey
+    init(privateKeys:[String]) throws {
+        for privateKey in privateKeys {
+            let (_, version, _) = try privateKey.eosioComponents()
+            if version != "K1" {
+                throw EosioError(.eosioKeyError, reason: "Unsupported key type. Only K1 key types are supported in this version of the library. Key: \(privateKey) Type: \(version)")
             }
-        } catch {
-            print("Invalid key or unsupported key type.")
-            return nil
+            let privateKeyData = try Data(eosioPrivateKey: privateKey)
+            let publicKeyData = try EccRecoverKey.recoverPublicKey(privateKey: privateKeyData, curve: .k1)
+            let publicKeyString = publicKeyData.toEosioK1PublicKey
+            self.dataKeyPairs[publicKeyData] = privateKeyData
+            self.stringKeyPairs[publicKeyString] = privateKey
         }
+        
+        
     }
     
     
@@ -60,7 +60,7 @@ extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
             signedTransaction.serializedTransaction = request.serializedTransaction
             response.signedTransaction = signedTransaction
             completion(response)
-        } catch let error {
+        } catch {
             response.error = error as? EosioError
             completion(response)
         }

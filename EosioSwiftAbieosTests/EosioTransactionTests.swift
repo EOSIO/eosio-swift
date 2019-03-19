@@ -150,12 +150,16 @@ class EosioTransactionTests: XCTestCase {
             return XCTFail()
         }
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
+        guard let expDate = Date(yyyyMMddTHHmmss: "2019-02-21T18:31:41.500") else {
+            return XCTFail()
+        }
         transaction.prepare { [weak self] (result) in
             guard let self = self else {
                 XCTFail()
                 return
             }
-            XCTAssert(self.transaction.expiration > Date())
+            print("expiration date: \(self.transaction.expiration)")
+            XCTAssert(self.transaction.expiration > expDate)
             switch result {
             case .failure(let error):
                 print(error)

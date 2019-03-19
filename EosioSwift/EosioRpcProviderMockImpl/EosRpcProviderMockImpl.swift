@@ -80,11 +80,11 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
         
     }
     
-    public func pushTransaction(transaction: EosioTransaction, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
+    public func pushTransaction(transaction: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
         
     }
     
-    public func pushTransactions(transactions: [EosioTransaction], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
+    public func pushTransactions(transactions: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
         
     }
     

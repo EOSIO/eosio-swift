@@ -53,10 +53,10 @@ public protocol EosioRpcProviderProtocol {
     func getProducers(parameters: EosioRpcProducersRequest, completion: @escaping(EosioResult<EosioRpcProducers, EosioError>) -> Void)
     
     /** Calls `/v1/chain/push_transaction` */
-    func pushTransaction(transaction: EosioTransaction, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void)
+    func pushTransaction(transaction: EosioRpcPushTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void)
     
     /** Calls `/v1/chain/push_transaction` */
-    func pushTransactions(transactions: [EosioTransaction], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void)
+    func pushTransactions(transactions: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void)
     
     /** Calls `/v1/history/get_actions` */
     func getHistoryActions(parameters: EosioRpcHistoryActionsRequest, completion: @escaping(EosioResult<EosioRpcHistoryActions, EosioError>) -> Void)

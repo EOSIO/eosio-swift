@@ -26,11 +26,9 @@ public class EosioTransaction: Codable {
         public var blocksBehind: UInt = 3
         public var expireSeconds: UInt = 60 * 5
     }
+    public var allowSignatureProviderToModifyTransaction = true
     
     public let abis = Abis()
-    
-    public var transactionId: String?
-    public var blockNum: UInt64?
     
     public var expiration = Date(timeIntervalSince1970: 0)
     public var refBlockNum:  UInt16 = 0
@@ -41,6 +39,10 @@ public class EosioTransaction: Codable {
     public var contextFreeActions = [String]()
     public var actions = [Action]()
     public var transactionExtensions = [String]()
+    
+    public private(set) var serializedTransaction: Data?
+    public private(set) var signatures: [String]?
+    public private(set) var transactionId: String?
     
     /// Coding keys
     enum CodingKeys: String, CodingKey {
@@ -333,4 +335,170 @@ public class EosioTransaction: Codable {
             }
         })
     }
+    
+    
+    /// Sign a transaction by getting the available keys from the signatureProvider then calling `sign(availableKeys:, completion:)`
+    public func sign(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        guard let signatureProvider = signatureProvider else {
+            return completion(.failure(EosioError(.signingError, reason: "No signature provider available")))
+        }
+        signatureProvider.getAvailableKeys { [weak self] (response) in
+            guard let availableKeys = response.keys else {
+                return completion(.failure(response.error ?? EosioError(.signingError, reason: "Unable to get available keys from signature provider")))
+            }
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            strongSelf.sign(availableKeys: availableKeys, completion: completion)
+        }
+    }
+    
+    
+    /// Sign a transaction by getting the required keys using  the rpcProvider then calling `sign(publicKeys:, completion:)`
+    public func sign(availableKeys: [String],  completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        guard let rpcProvider = rpcProvider else {
+            return completion(.failure(EosioError(.signingError, reason: "No rpc provider available")))
+        }
+    
+        do {
+            let requiredKeysRequest = EosioRpcRequiredKeysRequest(availableKeys: availableKeys, transactionJson: try self.toJson())
+            rpcProvider.getRequiredKeys(parameters: requiredKeysRequest) { (response) in
+                switch response {
+                case .failure(let error):
+                    completion(.failure(error))
+                case .success(let requiredKeys):
+                    self.sign(publicKeys: requiredKeys.requiredKeys, completion: completion)
+                }
+            }
+        } catch {
+            return completion(.failure(error.eosioError))
+        }
+    }
+    
+    
+    /// Serialize the transaction then sign with the public keys. If successful, set the `signatures` and return `true`, otherwise return an error.
+    public func sign(publicKeys: [String],  completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        self.serializeTransaction() { [weak self] (result) in
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let serializedTransaction):
+                strongSelf.sign(serializedTransaction: serializedTransaction, publicKeys: publicKeys, completion: completion)
+            }
+        }
+    }
+    
+    /// Serialize the transaction then sign with the public keys. If successful, set the `signatures` and return `true`, otherwise return an error.
+    private func sign(serializedTransaction: Data, publicKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        guard let signatureProvider = signatureProvider else {
+            return completion(.failure(EosioError(.signingError, reason: "No signature provider available")))
+        }
+        var transactionSignatureRequest = EosioTransactionSignatureRequest()
+        transactionSignatureRequest.serializedTransaction = serializedTransaction
+        transactionSignatureRequest.publicKeys = publicKeys
+        transactionSignatureRequest.chainId = self.chainId
+        var binaryAbis = [EosioTransactionSignatureRequest.BinaryAbi]()
+        for (name, hexAbi) in abis.hexAbis() {
+            var binaryAbi = EosioTransactionSignatureRequest.BinaryAbi()
+            binaryAbi.accountName = name.string
+            binaryAbi.abi = hexAbi
+            binaryAbis.append(binaryAbi)
+        }
+        transactionSignatureRequest.abis = binaryAbis
+        
+        signatureProvider.signTransaction(request: transactionSignatureRequest) { [weak self] (transactionSignatureResponse) in
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            guard let signedTransaction = transactionSignatureResponse.signedTransaction else {
+                return completion(.failure(transactionSignatureResponse.error ?? EosioError(.signingError, reason: "Signature provider error")))
+            }
+            strongSelf.process(signedTransaction: signedTransaction, originalSerializedTransaction: serializedTransaction, completion: completion)
+        }
+    }
+    
+    /// Process a signed transaction
+    private func process(signedTransaction: EosioTransactionSignatureResponse.SignedTransaction, originalSerializedTransaction: Data, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        if signedTransaction.serializedTransaction == originalSerializedTransaction {
+            self.serializedTransaction = signedTransaction.serializedTransaction
+            self.signatures = signedTransaction.signatures
+            return completion(.success(true))
+        }
+        
+        guard allowSignatureProviderToModifyTransaction else {
+            return completion(.failure(EosioError(.signingError, reason: "Signature provider is not allowed to modify transaction")))
+        }
+        
+        // deserialize the signed transaction and set properties
+        guard let serializer = self.serializationProvider else {
+            preconditionFailure("A serializationProviderType must be set!")
+        }
+        do {
+            let modifiedTransaction = try EosioTransaction.deserialize(signedTransaction.serializedTransaction, serializationProvider: serializer)
+            // update properties to match deserialized modified transaction
+            self.expiration = modifiedTransaction.expiration
+            self.refBlockNum = modifiedTransaction.refBlockNum
+            self.refBlockPrefix = modifiedTransaction.refBlockPrefix
+            self.maxNetUsageWords = modifiedTransaction.maxNetUsageWords
+            self.maxCpuUsageMs = modifiedTransaction.maxCpuUsageMs
+            self.delaySec = modifiedTransaction.delaySec
+            self.contextFreeActions = modifiedTransaction.contextFreeActions
+            self.actions = modifiedTransaction.actions
+            self.transactionExtensions = modifiedTransaction.transactionExtensions
+            
+            // set the serializedTransaction and signatures
+            self.serializedTransaction = signedTransaction.serializedTransaction
+            self.signatures = signedTransaction.signatures
+            return completion(.success(true))
+        } catch {
+             return completion(.failure(error.eosioError))
+        }
+        
+    }
+    
+    
+    /// Broadcast a signed transaction. If successful, set the `transactionId` and return `true`, otherwise return an error.
+    public func broadcast(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        guard let serializedTransaction = serializedTransaction, let signatures = signatures, signatures.count > 0 else {
+            return completion(.failure(EosioError(.transactionError, reason: "Transaction must be signed before broadcast")))
+        }
+        guard let rpcProvider = rpcProvider else {
+            return completion(.failure(EosioError(.transactionError, reason: "No rpc provider available")))
+        }
+        var pushTransactionRequest = EosioRpcPushTransactionRequest()
+        pushTransactionRequest.packedTrx = serializedTransaction.hex
+        pushTransactionRequest.signatures = signatures
+        rpcProvider.pushTransaction(transaction: pushTransactionRequest) { [weak self] (response) in
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            switch response {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let pushTransactionResponse):
+                strongSelf.transactionId = pushTransactionResponse.tranactionId
+                return completion(.success(true))
+            }
+        }
+    }
+    
+    
+    /// Sign a transaction, then broadcast
+    public func signAndBroadcast(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        sign { [weak self] (result) in
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success:
+                strongSelf.broadcast(completion: completion)
+            }
+        }
+    }
+    
 }

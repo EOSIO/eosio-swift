@@ -190,3 +190,33 @@ public struct EosioRpcRawAbi: Codable {
     }
 }
 
+
+public struct EosioRpcRequiredKeys: Codable {
+    public var requiredKeys: [String]
+   
+    
+    enum CodingKeys: String, CodingKey {
+        case requiredKeys = "required_keys"
+    }
+    
+    public init(requiredKeys: [String]) {
+        self.requiredKeys = requiredKeys
+    }
+}
+
+
+
+public struct EosioRpcTransaction: Codable {
+    public var tranactionId: String
+    
+    enum CodingKeys: String, CodingKey {
+        case tranactionId = "trandaction_id"
+    }
+    
+    public init(tranactionId: String) {
+        self.tranactionId = tranactionId
+    }
+}
+
+
+

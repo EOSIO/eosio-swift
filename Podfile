@@ -8,6 +8,7 @@ target 'EosioSwift' do
   target 'EosioSwiftTests' do
     inherit! :search_paths
     # Pods for Testing
+    pod 'OHHTTPStubs/Swift'
   end
 
   # Pods for EosioSwift

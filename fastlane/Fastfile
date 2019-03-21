@@ -110,6 +110,12 @@ lane :tests do
   run_tests(scheme: "EosioSwiftTests",
   devices: ["iPhone 5s"],
   xcpretty_args:"--report junit")
+
+  xcov(
+  scheme: "EosioSwiftTests",
+  output_directory: "code_coverage_report",
+  json_report: true
+)
 end
 
 

@@ -17,13 +17,13 @@ public final class EosioSwiftSoftkeySignatureProvider {
     private var dataKeyPairs = [Data:Data]()
     
     /**
-        Initializes EosiosSwiftSoftkeySignatureProvider using the public-private key pairs in the given dictionary.
+        Initializes EosiosSwiftSoftkeySignatureProvider using the private keys in the given array.
         - Parameters:
             - privateKeys: An `String` array of private keys.
-        - Returns: An EosioSwiftSoftkeySignatureProvider object or nil if all the keys in the given `privateKeys` array are not valid keys.
-     
+        - Returns: An EosioSwiftSoftkeySignatureProvider object.
+        - Throws:  Throws an error if all the keys in the given `privateKeys` array are not valid keys.
      */
-    init(privateKeys:[String]) throws {
+    public init(privateKeys:[String]) throws {
         for privateKey in privateKeys {
             let (_, version, _) = try privateKey.eosioComponents()
             if version != "K1" {

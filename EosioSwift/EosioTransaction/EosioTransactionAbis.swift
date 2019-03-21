@@ -77,7 +77,7 @@ public extension EosioTransaction {
         /// - Throws: If the abi is not available or not valid
         public func hashAbi(name: EosioName) throws -> String {
             guard let abi = abis[name] else {
-                throw EosioError(.missingDataError, reason: "No abi available for \(name)")
+                throw EosioError(.abiProviderError, reason: "No abi available for \(name)")
             }
             return abi.sha256.hex
         }
@@ -98,7 +98,7 @@ public extension EosioTransaction {
         /// - Throws: If the abi is not available or not valid
         public func hexAbi(name: EosioName) throws -> String {
             guard let hexAbi = abis[name]?.hex else {
-                throw EosioError(.missingDataError, reason: "No abi available for \(name)")
+                throw EosioError(.abiProviderError, reason: "No abi available for \(name)")
             }
             return hexAbi
         }

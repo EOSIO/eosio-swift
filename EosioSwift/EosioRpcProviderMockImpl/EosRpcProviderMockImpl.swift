@@ -30,7 +30,7 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
     
     public func rpcRequest(request: EosioRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
         // For now all calls to rpcRequest will return a failure
-        completion(EosioResult.failure(EosioError(EosioErrorCode.networkError, reason: "Mock Implementation: rpcRequest not implemented.")))
+        completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Mock Implementation: rpcRequest not implemented.")))
     }
     
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {

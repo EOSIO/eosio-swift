@@ -220,7 +220,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {
         getInfoCalled = true
         if getInfoReturnsfailure{
-            let error = EosioError(.transactionError, reason: "Failed for test propose")
+            let error = EosioError(.eosioTransactionError, reason: "Failed for test propose")
             completion(.failure(error))
             
             
@@ -268,7 +268,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     func getBlock(blockNum: UInt64, completion: @escaping (EosioResult<EosioRpcBlock, EosioError>) -> Void) {
         getBlockCalled = true
         blockNumberRequested = blockNum
-        let result:EosioResult = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.networkError, reason: "Some reason"))
+        let result:EosioResult = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
         completion(result)
         
     }

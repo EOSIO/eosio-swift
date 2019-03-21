@@ -40,7 +40,7 @@ public extension Data {
         base64 = base64 + String(repeating: "=", count: base64.count % 4)
         
         guard let data = Data(base64Encoded: base64) else {
-            throw EosioError(.dataCodingError, reason: "\(base64) is not a valid base64 string")
+            throw EosioError(.serializeError, reason: "\(base64) is not a valid base64 string")
         }
         self = data
     }
@@ -51,7 +51,7 @@ public extension Data {
     /// - Throws: If the string is not a valid hex string
     public init(hex: String) throws {
         guard let data = Data(hexString: hex) else {
-            throw EosioError(.dataCodingError, reason: "\(hex) is not a valid hex string")
+            throw EosioError(.serializeError, reason: "\(hex) is not a valid hex string")
         }
         self = data
     }

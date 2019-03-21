@@ -19,7 +19,7 @@ public extension String {
             
         } else if components.count == 1 {  // legacy format
             guard self.count > 3 else {
-                throw EosioError(.eosioKeyError, reason: "\(self) is not a valid eosio key")
+                throw EosioError(.signatureProviderError, reason: "\(self) is not a valid eosio key")
             }
             let eos = "EOS"
             let prefix = String(self.prefix(eos.count))
@@ -31,7 +31,7 @@ public extension String {
             }
             
         } else {
-            throw EosioError(.eosioKeyError, reason: "\(self) is not a valid eosio key")
+            throw EosioError(.signatureProviderError, reason: "\(self) is not a valid eosio key")
         }
     }
 }
@@ -75,7 +75,7 @@ public extension Data {
         if curve.uppercased() == "K1" {
             return self.toEosioK1PublicKey
         }
-        throw EosioError(.eosioKeyError, reason: "Curve \(curve) is not supported")
+        throw EosioError(.signatureProviderError, reason: "Curve \(curve) is not supported")
     }
     
     /// Returns an eosio signature as a string formatted SIG_R1_xxxxxxxxxxxxxxxxxxx
@@ -101,13 +101,13 @@ public extension Data {
     public init(eosioR1Signature: String) throws {
         let components = try eosioR1Signature.eosioComponents()
         guard components.prefix == "SIG" else {
-            throw EosioError(.eosioSignatureError, reason: "\(eosioR1Signature) does not begin with SIG")
+            throw EosioError(.signatureProviderError, reason: "\(eosioR1Signature) does not begin with SIG")
         }
         guard components.version == "R1" else {
-            throw EosioError(.eosioSignatureError, reason: "\(eosioR1Signature) is not of type R1")
+            throw EosioError(.signatureProviderError, reason: "\(eosioR1Signature) is not of type R1")
         }
         guard let sigAndChecksum = Data.decode(base58: components.body) else {
-            throw EosioError(.eosioSignatureError, reason: "\(components.body) is not a valid base58 string")
+            throw EosioError(.signatureProviderError, reason: "\(components.body) is not a valid base58 string")
         }
         // get the key, checksum and hash
         let sig = sigAndChecksum.prefix(sigAndChecksum.count-4)
@@ -116,7 +116,7 @@ public extension Data {
         
         //if the checksum and hash to not match, throw an error
         guard checksum == hash.prefix(4) else {
-            throw EosioError(.eosioSignatureError, reason: "Checksum \(checksum) is not equal to hash \(hash.prefix(4))")
+            throw EosioError(.signatureProviderError, reason: "Checksum \(checksum) is not equal to hash \(hash.prefix(4))")
         }
         // all done, set self to the key
         self = sig
@@ -126,19 +126,19 @@ public extension Data {
     public init(eosioSignature: String) throws {
         let components = try eosioSignature.eosioComponents()
         guard let sigAndChecksum = Data.decode(base58: components.body) else {
-            throw EosioError(.eosioSignatureError, reason: "\(components.body) is not a valid base58 string")
+            throw EosioError(.signatureProviderError, reason: "\(components.body) is not a valid base58 string")
         }
         // get the sig, checksum and hash
         let sig = sigAndChecksum.prefix(sigAndChecksum.count-4)
         let checksum = sigAndChecksum.suffix(4)
         guard let versionData = components.version.data(using: .utf8) else {
-            throw EosioError(.eosioSignatureError, reason: "\(components.version) is not a valid signature type")
+            throw EosioError(.signatureProviderError, reason: "\(components.version) is not a valid signature type")
         }
         let hash = RIPEMD160.hash(message: sig + versionData)
         
         //if the checksum and hash to not match, throw an error
         guard checksum == hash.prefix(4) else {
-            throw EosioError(.eosioSignatureError, reason: "Checksum \(checksum) is not equal to hash \(hash.prefix(4))")
+            throw EosioError(.signatureProviderError, reason: "Checksum \(checksum) is not equal to hash \(hash.prefix(4))")
         }
         // all done, set self to the sig
         self = sig
@@ -148,13 +148,13 @@ public extension Data {
     /// Create a Data object in compressed ANSI X9.63 format from an eosio public key
     public init(eosioPublicKey: String) throws {
         guard eosioPublicKey.count > 0 else {
-            throw EosioError(.eosioKeyError, reason: "Empty string is not a valid eosio key")
+            throw EosioError(.signatureProviderError, reason: "Empty string is not a valid eosio key")
         }
         let components = try eosioPublicKey.eosioComponents()
         
         // decode the basse58 string into Data with the last 4 bytes being the checksum, throw error if not a valid b58 string
         guard let keyAndChecksum = Data.decode(base58: components.body) else {
-            throw EosioError(.eosioKeyError, reason: "\(components.body) is not valid base 58")
+            throw EosioError(.signatureProviderError, reason: "\(components.body) is not valid base 58")
         }
         
         // get the key, checksum and hash
@@ -168,7 +168,7 @@ public extension Data {
         
         //if the checksum and hash to not match, throw an error
         guard checksum == hash.prefix(4) else {
-            throw EosioError(.eosioKeyError, reason: "Public key: \(key.hex) with checksum: \(checksum.hex) does not match \(hash.prefix(4).hex)")
+            throw EosioError(.signatureProviderError, reason: "Public key: \(key.hex) with checksum: \(checksum.hex) does not match \(hash.prefix(4).hex)")
         }
         // all done, set self to the key
         self = key
@@ -177,16 +177,16 @@ public extension Data {
     /// Create a Data object from an eosio private key
     public init(eosioPrivateKey: String) throws {
         guard eosioPrivateKey.count > 0 else {
-            throw EosioError(.eosioKeyError, reason: "Empty string is not an EOS private key")
+            throw EosioError(.signatureProviderError, reason: "Empty string is not an EOS private key")
         }
         let components = try eosioPrivateKey.eosioComponents()
         
         // decode the basse58 string into Data with the last 4 bytes being the checksum, throw error if not a valid b58 string
         guard let keyAndChecksum = Data.decode(base58: components.body) else {
-            throw EosioError(.eosioKeyError, reason: "\(components.body) is not valid base 58")
+            throw EosioError(.signatureProviderError, reason: "\(components.body) is not valid base 58")
         }
         guard keyAndChecksum.count > 4 else {
-            throw EosioError(.eosioKeyError, reason: "\(components.body) is not valid key")
+            throw EosioError(.signatureProviderError, reason: "\(components.body) is not valid key")
         }
         
         // get the key, checksum and hash
@@ -201,22 +201,22 @@ public extension Data {
             keyToHash = key
             hash = keyToHash.sha256.sha256
         } else {
-            throw EosioError(.eosioKeyError, reason: "\(eosioPrivateKey) is not valid key")
+            throw EosioError(.signatureProviderError, reason: "\(eosioPrivateKey) is not valid key")
         }
         
         // if the checksum and hash to not match, throw an error
         guard checksum == hash.prefix(4) else {
-            throw EosioError(.eosioKeyError, reason: "Private key: \(key.hex) with checksum: \(checksum.hex) does not match \(hash.prefix(4).hex)")
+            throw EosioError(.signatureProviderError, reason: "Private key: \(key.hex) with checksum: \(checksum.hex) does not match \(hash.prefix(4).hex)")
         }
         
         if key.count == 33 {
             guard key.prefix(1) == Data(bytes: [0x80]) else {
-                throw EosioError(.eosioKeyError, reason: "33 byte private key: \(key.hex) does not begin with 80")
+                throw EosioError(.signatureProviderError, reason: "33 byte private key: \(key.hex) does not begin with 80")
             }
             key = key.suffix(key.count-1)
         }
         guard key.count == 32 else {
-            throw EosioError(.eosioKeyError, reason: "Private key: \(key.hex) should be 32 bytes")
+            throw EosioError(.signatureProviderError, reason: "Private key: \(key.hex) should be 32 bytes")
         }
         self = key
     }

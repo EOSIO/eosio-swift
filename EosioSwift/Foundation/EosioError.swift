@@ -11,45 +11,38 @@ import Foundation
 
 public enum EosioErrorCode : String, Codable {
     
-    case biometricsDisabled = "biometricsDisabled"
-    case keychainError = "keychainError"
-    case manifestError = "manifestError"
-    case metadataError = "metadataError"
-    case networkError = "networkError"
-    case parsingError = "parsingError"
-    case resourceIntegrityError = "resourceIntegrityError"
-    case resourceRetrievalError = "resourceRetrievalError"
-    case signingError = "signingError"
-    case transactionError = "transactionError"
-    case vaultError = "vaultError"
-    case whitelistingError = "whitelistingError"
-    case malformedRequestError = "malformedRequestError"
-    case domainError = "domainError"
-    case eosioNameError = "eosioNameError"
-    case signatureProviderError = "signatureProviderError"
-    case serializationError = "serializationError"
-    case deserializationError = "deserializationError"
-    case dataCodingError = "dataCodingError"
-    case missingDataError = "missingDataError"
-    case eosioKeyError = "eosioKeyError"
-    case eosioSignatureError = "eosioSignatureError"
+    case eosioTransactionError = "Error was encountered while preparing the Transaction."
+    case rpcProviderError = "Error was was encountered in RpcProvider."
+    case getInfoError = "Error was returned by getInfo() method."
+    case getBlockError = "Error was encountered from getBlock() method of RPCProvider."
+    case getRequiredKeysError = "Error was returned by getRequiredKeys() method."
+    case getRawAbiError = "Error was returned by getRawAbi() method."
+    case pushTransactionError = "Error was encountered while pushing the transaction."
+    case signatureProviderError = "Error was was encountered in SignatureProvider"
+    case getAvailableKeysError = "Error was returned by getAvailableKeys() method."
+    case signTransactionError = "Error was encountered while signing the transaction."
+    case abiProviderError = "Error was was encountered in AbiProviderError."
+    case getAbiError = "Error was returned by getAbi() method."
+    case serializationProviderError = "Error was was encountered in SerializationProvider."
+    case serializeError = "Error was encountered while serializing the transaction."
+    case deserializeError = "Error was encountered while deserializing transaction."
+    
+    //non provider errors (added as these are encoundered in Eosio Extensions and Foundation
+    case eosioNameError = "Error was encountered in EosioName."
 
     //general catch all
-    case unexpectedError = "unexpectedError"
+    case unexpectedError = "UnexpectedError"
 }
 
 open class EosioError: Error, CustomStringConvertible, Codable {
     
     public var errorCode: EosioErrorCode
     public var reason: String
-    public var context: String
     public var originalError: NSError?
-    public var isReturnable = true // can this error be returned to a requesting app?
     
     enum CodingKeys: String, CodingKey {
         case errorCode
         case reason
-        case context
     }
     /**
         Returns a JSON string representation of the error object.
@@ -59,8 +52,7 @@ open class EosioError: Error, CustomStringConvertible, Codable {
             "errorType" : "EosioError",
             "errorInfo" : [
                 "errorCode": self.errorCode.rawValue,
-                "reason": self.reason,
-                "contextualInfo": context
+                "reason": self.reason
             ]
             ] as [String : Any]
         
@@ -78,11 +70,9 @@ open class EosioError: Error, CustomStringConvertible, Codable {
         return self.localizedDescription
     }
     
-    public init (_ errorCode: EosioErrorCode, reason: String, context: String = "", originalError: NSError? = nil, isReturnable: Bool = true) {
-        self.context = context
+    public init (_ errorCode: EosioErrorCode, reason: String, originalError: NSError? = nil) {
         self.errorCode = errorCode
         self.reason = reason
-        self.isReturnable = isReturnable
         self.originalError = originalError
     }
 }
@@ -90,7 +80,7 @@ open class EosioError: Error, CustomStringConvertible, Codable {
 extension EosioError: LocalizedError {
     
     public var errorDescription: String? {
-        return "\(self.errorCode.rawValue): \(self.reason)" + (context.count > 0 ? "\n context: \(self.context)" : "")
+        return "\(self.errorCode.rawValue): \(self.reason)"
         
     }
 }

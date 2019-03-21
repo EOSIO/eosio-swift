@@ -1,4 +1,4 @@
-# Contributing to eosio-swift-softkey-signature-provider
+# Contributing to EOSIO SDK for Swift Softkey Signature Provider
 
 Interested in contributing? That's awesome! Here are some guidelines to get started quickly and easily:
 
@@ -6,7 +6,7 @@ Interested in contributing? That's awesome! Here are some guidelines to get star
   - [Bug Reports](#bug-reports)
   - [Feature Requests](#feature-requests)
   - [Change Requests](#change-requests)
-- [Working on eosio-swift-softkey-signature-provider](#working-on-friendlyname)
+- [Working on EOSIO SDK for Swift Softkey Signature Provider](#working-on)
   - [Feature Branches](#feature-branches)
   - [Submitting Pull Requests](#submitting-pull-requests)
   - [Testing and Quality Assurance](#testing-and-quality-assurance)
@@ -98,11 +98,11 @@ Examples of unacceptable behavior include:
 - Publishing others’ private information, such as a physical or electronic address, without explicit permission
 - Other conduct which could reasonably be considered inappropriate in a professional setting
 
+
+
 ## Contributor License & Acknowledgments
 
-This repository contains a notice of a license (MIT), and in accordance with [GitHub’s Terms of Service](https://help.github.com/articles/github-terms-of-service/), whenever you make a contribution to this project, you license your contribution under the same terms, and you agree that you have the right to license your contribution under those terms. 
-
-Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
+Whenever you make a contribution to this project, you license your contribution under the same terms as set out in LICENSE, and you represent and warrant that you have the right to license your contribution under those terms.  Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
 
 ```
 Developer Certificate of Origin

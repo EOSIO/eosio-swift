@@ -13,6 +13,7 @@ steps:
       LANG: "en_US.UTF-8"
     artifact_paths:
       - "build/reports/junit.xml"
+      - "code_coverage_report/*"
   - wait
   - command: "echo 'Success!!'"
     label: ":trophy: Success"

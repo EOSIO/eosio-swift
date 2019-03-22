@@ -86,11 +86,11 @@ public extension String {
      */
     func jsonToDictionary() throws -> [String:Any] {
         guard let data = self.data(using: .utf8) else {
-            throw EosioError(.parsingError, reason: "Cannot create json from data")
+            throw EosioError(.deserializeError, reason: "Cannot create json from data")
         }
         
         guard let result = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments), let dict = result as? [String:Any] else {
-            throw EosioError(.parsingError, reason: "Cannot create dictionary from json")
+            throw EosioError(.deserializeError, reason: "Cannot create dictionary from json")
         }
         return dict
     }
@@ -129,7 +129,7 @@ public extension String {
         if let string = String(data: data, encoding: .utf8) {
             self = string
         } else {
-            throw EosioError(EosioErrorCode.parsingError, reason: "Cannot create json from data \(data.hexEncodedString())")
+            throw EosioError(.serializeError, reason: "Cannot create json from data \(data.hexEncodedString())")
         }
     }
     

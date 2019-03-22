@@ -68,7 +68,7 @@ public class EosioTransaction: Codable {
     static public func deserialize(_ serializedTransaction: Data, serializationProvider: EosioSerializationProviderProtocol) throws -> EosioTransaction {
         let json = try serializationProvider.deserializeTransaction(hex: serializedTransaction.hex)
         guard let data = json.data(using: .utf8) else {
-            throw EosioError(.parsingError, reason: "Cannot create json from data")
+            throw EosioError(.deserializeError, reason: "Cannot create json from data")
         }
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -113,13 +113,13 @@ public class EosioTransaction: Codable {
     public func serializeTransaction() throws -> Data {
         try serializeActionData()
         guard refBlockNum > 0 else {
-            throw EosioError(.serializationError, reason: "refBlockNum is not set")
+            throw EosioError(.serializeError, reason: "refBlockNum is not set")
         }
         guard refBlockPrefix > 0 else {
-            throw EosioError(.serializationError, reason: "refBlockPrefix is not set")
+            throw EosioError(.serializeError, reason: "refBlockPrefix is not set")
         }
         guard expiration > Date(timeIntervalSince1970: 0) else {
-            throw EosioError(.serializationError, reason: "expiration is not set")
+            throw EosioError(.serializeError, reason: "expiration is not set")
         }
         guard let serializer = self.serializationProvider else {
             preconditionFailure("A serializationProvider must be set!")
@@ -180,7 +180,7 @@ public class EosioTransaction: Codable {
     public func serializeActionData() throws {
         let missingAbis = actionAccountsMissingAbis
         guard missingAbis.count == 0 else {
-            throw EosioError(.serializationError, reason: "Cannot serialize action data. Abis missing for \(missingAbis).")
+            throw EosioError(.serializeError, reason: "Cannot serialize action data. Abis missing for \(missingAbis).")
         }
         guard let serializer = self.serializationProvider else {
             preconditionFailure("A serializationProvider must be set!")
@@ -231,10 +231,10 @@ public class EosioTransaction: Codable {
             self.abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
         }
         guard let abiProvider = self.abiProvider else {
-            return completion(.failure(EosioError(.transactionError, reason:"No abi provider available")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason:"No abi provider available")))
         }
         guard chainId != "" else {
-            return completion(.failure(EosioError(.transactionError, reason:"Chain id is not set")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason:"Chain id is not set")))
         }
         abiProvider.getAbis(chainId: chainId, accounts: missingAbis) { [weak self] (response) in
             guard let strongSelf = self else {
@@ -269,13 +269,13 @@ public class EosioTransaction: Codable {
         
         // if no rpcProvider available, return error
         guard let rpcProvider = rpcProvider else {
-            return completion(.failure(EosioError(.transactionError, reason: "No rpc provider available")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
         
         // get chain info
         rpcProvider.getInfo { [weak self] (infoResponse) in
             guard let strongSelf = self else {
-                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+                return completion(.failure(EosioError(.getInfoError, reason: "self does not exist")))
             }
             switch infoResponse {
             case .failure(let error):
@@ -286,13 +286,13 @@ public class EosioTransaction: Codable {
                 }
                 // return an error if provided chainId does not match info chainID
                 guard strongSelf.chainId == info.chainId else {
-                    return completion(.failure(EosioError(.transactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
+                    return completion(.failure(EosioError(.eosioTransactionError, reason:"Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
                 
                 // if expiration not set, set by adding config.expireSeconds to head block time
                 if strongSelf.expiration <= Date(timeIntervalSince1970: 0) {
                     guard let headBlockTime = Date(yyyyMMddTHHmmss: info.headBlockTime) else {
-                        return completion(.failure(EosioError(.transactionError, reason:"Invalid head block time \(info.headBlockTime)")))
+                        return completion(.failure(EosioError(.eosioTransactionError, reason:"Invalid head block time \(info.headBlockTime)")))
                     }
                     strongSelf.expiration = headBlockTime.addingTimeInterval(TimeInterval(strongSelf.config.expireSeconds))
                 }
@@ -318,11 +318,11 @@ public class EosioTransaction: Codable {
         }
         // if no rpcProvider available, return error
         guard let rpcProvider = rpcProvider else {
-            return completion(.failure(EosioError(.transactionError, reason: "No rpc provider available")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
         rpcProvider.getBlock(blockNum: blockNum, completion: { [weak self] (blockResponse) in
             guard let strongSelf = self else {
-                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+                return completion(.failure(EosioError(.getBlockError, reason: "self does not exist")))
             }
             switch blockResponse {
             case .failure(let error):
@@ -340,11 +340,11 @@ public class EosioTransaction: Codable {
     /// Sign a transaction by getting the available keys from the signatureProvider then calling `sign(availableKeys:, completion:)`
     public func sign(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let signatureProvider = signatureProvider else {
-            return completion(.failure(EosioError(.signingError, reason: "No signature provider available")))
+            return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
         }
         signatureProvider.getAvailableKeys { [weak self] (response) in
             guard let availableKeys = response.keys else {
-                return completion(.failure(response.error ?? EosioError(.signingError, reason: "Unable to get available keys from signature provider")))
+                return completion(.failure(response.error ?? EosioError(.signatureProviderError, reason: "Unable to get available keys from signature provider")))
             }
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
@@ -357,7 +357,7 @@ public class EosioTransaction: Codable {
     /// Sign a transaction by getting the required keys using  the rpcProvider then calling `sign(publicKeys:, completion:)`
     public func sign(availableKeys: [String],  completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let rpcProvider = rpcProvider else {
-            return completion(.failure(EosioError(.signingError, reason: "No rpc provider available")))
+            return completion(.failure(EosioError(.signatureProviderError, reason: "No rpc provider available")))
         }
     
         do {
@@ -394,7 +394,7 @@ public class EosioTransaction: Codable {
     /// Serialize the transaction then sign with the public keys. If successful, set the `signatures` and return `true`, otherwise return an error.
     private func sign(serializedTransaction: Data, publicKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let signatureProvider = signatureProvider else {
-            return completion(.failure(EosioError(.signingError, reason: "No signature provider available")))
+            return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
         }
         var transactionSignatureRequest = EosioTransactionSignatureRequest()
         transactionSignatureRequest.serializedTransaction = serializedTransaction
@@ -414,7 +414,7 @@ public class EosioTransaction: Codable {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }
             guard let signedTransaction = transactionSignatureResponse.signedTransaction else {
-                return completion(.failure(transactionSignatureResponse.error ?? EosioError(.signingError, reason: "Signature provider error")))
+                return completion(.failure(transactionSignatureResponse.error ?? EosioError(.signatureProviderError, reason: "Signature provider error")))
             }
             strongSelf.process(signedTransaction: signedTransaction, originalSerializedTransaction: serializedTransaction, completion: completion)
         }
@@ -429,7 +429,7 @@ public class EosioTransaction: Codable {
         }
         
         guard allowSignatureProviderToModifyTransaction else {
-            return completion(.failure(EosioError(.signingError, reason: "Signature provider is not allowed to modify transaction")))
+            return completion(.failure(EosioError(.signatureProviderError, reason: "Signature provider is not allowed to modify transaction")))
         }
         
         // deserialize the signed transaction and set properties
@@ -463,10 +463,10 @@ public class EosioTransaction: Codable {
     /// Broadcast a signed transaction. If successful, set the `transactionId` and return `true`, otherwise return an error.
     public func broadcast(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let serializedTransaction = serializedTransaction, let signatures = signatures, signatures.count > 0 else {
-            return completion(.failure(EosioError(.transactionError, reason: "Transaction must be signed before broadcast")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason: "Transaction must be signed before broadcast")))
         }
         guard let rpcProvider = rpcProvider else {
-            return completion(.failure(EosioError(.transactionError, reason: "No rpc provider available")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
         var pushTransactionRequest = EosioRpcPushTransactionRequest()
         pushTransactionRequest.packedTrx = serializedTransaction.hex

@@ -69,11 +69,11 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
                     let declaredHash = abiResponse.abiHash.lowercased()
                     guard computedHash == declaredHash else {
                         let errorReason = "Computed hash of abi for \(account) \(computedHash) does not match declared hash \(declaredHash)"
-                        return completion(.failure(EosioError(.resourceIntegrityError, reason: errorReason)))
+                        return completion(.failure(EosioError(.getRawAbiError, reason: errorReason)))
                     }
                     guard account.string == abiResponse.accountName else {
                         let errorReason = "Requested account \(account) does not match declared account \(abiResponse.accountName)"
-                        return completion(.failure(EosioError(.resourceIntegrityError, reason: errorReason)))
+                        return completion(.failure(EosioError(.getRawAbiError, reason: errorReason)))
                     }
                     self.cacheAbi(abi, chainId: chainId, account: account)
                     return completion(.success(abi))

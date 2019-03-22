@@ -1,8 +1,27 @@
 # EOSIO SDK for Swift ABIEOS Serialization Provider
+[![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
+![Lagnuage C++/Swift](https://img.shields.io/badge/Language-C%2B%2B%2FSwift-yellow.svg)
+![](https://img.shields.io/badge/Deployment%20Target-iOS%2012-blue.svg)
+
+EOSIO blockchain stores data in binary format only. This library allows you to convert JSON to Binary (and vice-versa). 
+
+## Basic Usage
+
+```
+let abieos: AbiEos? = AbiEos()
+let hex = "1686755CA99DE8E73E1200" // some binary data
+let json = "{"name": "John"}" // some JSON
+
+let jsonToBinaryTransaction = try? abieos?.serializeTransaction(json: json)
+let binaryToJsonTransaction = try? abieos?.deserializeTransaction(hex: hex)
+```
+
+
+## Contents of the library
 
 A Framework that encapsulates all of the C and C++ code for binary <-> JSON conversion using ABIs. Compatible with languages which can interface to C.
 
-## Overview
+## Installation
 
 This project now can be used as a cocoapod.  
 
@@ -10,7 +29,7 @@ OpenSSL is pulled in as a Pod dependancy using GRKOpenSSLFramework cocoapod.
 
 A physical framework folder is now incorporated into the project. 
 
-To build this project, you must do a pod install, then open the created workspace and build the framework there to confirm that it will compile and create a framework binary.
+To build this project, you must do a `pod install`, then open the created workspace and build the framework there to confirm that it will compile and create a framework binary.
 
 If you are using Xcode 10 and seeing some warnings when running pod install, it may be necessary to run: `gem update xcodeproj`
 

@@ -1,4 +1,4 @@
-# EOSIO SDK for Swift ABIEOS Serialization Provider
+# EOSIO SDK for Swift ABIEOS Serialization Provider ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
 A Framework that encapsulates all of the C and C++ code for binary <-> JSON conversion using ABIs. Compatible with languages which can interface to C.
 

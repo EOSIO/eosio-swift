@@ -1,4 +1,4 @@
-# EOSIO SDK for Swift
+# EOSIO SDK for Swift ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
 ## Overview
 

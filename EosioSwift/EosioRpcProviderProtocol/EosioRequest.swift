@@ -13,7 +13,7 @@ public protocol EosioRequestConvertible {
     ///
     /// - Returns: A `EosioRequest`.
     /// - Throws: Any error thrown while constructing the `EosioRequest`.
-    func asEosioRequestRequest() throws -> EosioRequest
+    func asEosioRequest() throws -> EosioRequest
 }
 
 public class EosioRequest {
@@ -34,8 +34,22 @@ public class EosioRequest {
         self.headers![forHTTPHeaderField] = value
     }
     
-    public func getUrlRequest() -> URLRequest {
-        let urlRequest = URLRequest(url: self.url)
+    public func asUrlRequest() throws -> URLRequest {
+        
+        var urlRequest = URLRequest(url: self.url)
+        
+        urlRequest.httpMethod = self.method.rawValue
+        
+        if let theParameters = parameters {
+           urlRequest.httpBody = try JSONSerialization.data(withJSONObject: theParameters, options: [])
+        }
+        
+        if let theHeaders = headers {
+            for header in theHeaders {
+                urlRequest.setValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
+        
         return urlRequest
     }
 }

@@ -78,7 +78,7 @@ public enum EosioRpcRouter : EosioRequestConvertible {
         }
     }
 
-    public func asEosioRequestRequest() throws -> EosioRequest {
+    public func asEosioRequest() throws -> EosioRequest {
 
         var request: EosioRequest?
 

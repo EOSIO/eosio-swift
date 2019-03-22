@@ -1,4 +1,4 @@
-# Contributing to EosioSwiftAbieos
+# Contributing to EOSIO SDK for Swift ABIEOS Serialization Provider
 
 Interested in contributing? That's awesome! Here are some guidelines to get started quickly and easily:
 
@@ -57,7 +57,7 @@ Change requests cover both architectural and functional changes to how EosioSwif
 1. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure this shouldn't really be
    a [bug report](#bug-reports) or a [feature request](#feature-requests)?  Is it really one idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than what's already there?
 
-## Working on EosioSwiftAbieos
+## Working on EOSIO SDK for Swift ABIEOS Serialization Provider
 
 Code contributions are welcome and encouraged! If you are looking for a good place to start, check out the [good first issue](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/labels/good%20first%20issue) label in GitHub issues.
 
@@ -98,11 +98,11 @@ Examples of unacceptable behavior include:
 - Publishing others’ private information, such as a physical or electronic address, without explicit permission
 - Other conduct which could reasonably be considered inappropriate in a professional setting
 
+
+
 ## Contributor License & Acknowledgments
 
-This repository contains a notice of a license (MIT), and in accordance with [GitHub’s Terms of Service](https://help.github.com/articles/github-terms-of-service/), whenever you make a contribution to this project, you license your contribution under the same terms, and you agree that you have the right to license your contribution under those terms. 
-
-Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
+Whenever you make a contribution to this project, you license your contribution under the same terms as set out in LICENSE, and you represent and warrant that you have the right to license your contribution under those terms.  Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
 
 ```
 Developer Certificate of Origin

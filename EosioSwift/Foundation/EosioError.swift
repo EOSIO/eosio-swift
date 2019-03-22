@@ -11,24 +11,24 @@ import Foundation
 
 public enum EosioErrorCode : String, Codable {
     
-    case eosioTransactionError = "Error was encountered while preparing the Transaction."
-    case rpcProviderError = "Error was was encountered in RpcProvider."
-    case getInfoError = "Error was returned by getInfo() method."
-    case getBlockError = "Error was encountered from getBlock() method of RPCProvider."
-    case getRequiredKeysError = "Error was returned by getRequiredKeys() method."
-    case getRawAbiError = "Error was returned by getRawAbi() method."
-    case pushTransactionError = "Error was encountered while pushing the transaction."
-    case signatureProviderError = "Error was was encountered in SignatureProvider"
-    case getAvailableKeysError = "Error was returned by getAvailableKeys() method."
-    case signTransactionError = "Error was encountered while signing the transaction."
-    case abiProviderError = "Error was was encountered in AbiProviderError."
-    case getAbiError = "Error was returned by getAbi() method."
-    case serializationProviderError = "Error was was encountered in SerializationProvider."
-    case serializeError = "Error was encountered while serializing the transaction."
-    case deserializeError = "Error was encountered while deserializing transaction."
+    case eosioTransactionError = "EosioTransactionError"
+    case rpcProviderError = "RpcProviderError"
+    case getInfoError = "GetInfoError"
+    case getBlockError = "GetBlockError"
+    case getRequiredKeysError = "GetRequiredKeysError"
+    case getRawAbiError = "GetRawAbiError"
+    case pushTransactionError = "PushTransactionError"
+    case signatureProviderError = "SignatureProviderErrorr"
+    case getAvailableKeysError = "GetAvailableKeysError"
+    case signTransactionError = "SignTransactionError."
+    case abiProviderError = "AbiProviderError"
+    case getAbiError = "GetAbiError"
+    case serializationProviderError = "SerializationProviderError"
+    case serializeError = "SerializeError"
+    case deserializeError = "DeserializeError"
     
     //non provider errors (added as these are encoundered in Eosio Extensions and Foundation
-    case eosioNameError = "Error was encountered in EosioName."
+    case eosioNameError = "EosioNameError"
 
     //general catch all
     case unexpectedError = "UnexpectedError"
@@ -67,7 +67,44 @@ open class EosioError: Error, CustomStringConvertible, Codable {
     }
     
     public var description: String {
-        return self.localizedDescription
+        
+        switch self.errorCode {
+            case .eosioTransactionError:
+                return NSLocalizedString("Error was encountered while preparing the Transaction.", comment: "Error in transaction processing flow.")
+            case .rpcProviderError:
+                return NSLocalizedString("Error was was encountered in RpcProvider.", comment: "Error in rpc processing flow.")
+            case .getInfoError:
+                return NSLocalizedString("Error was returned by getInfo() method.", comment: "Error in RPC processing flow.")
+            case .getBlockError:
+                return NSLocalizedString("Error was encountered from getBlock() method of RPCProvider.", comment: "Error in RPC processing flow.")
+            case .getRequiredKeysError:
+                    return NSLocalizedString("Error was returned by getRequiredKeys() method.", comment: "Error in RPC processing flow.")
+            case .getRawAbiError:
+                return NSLocalizedString("Error was returned by getRawAbi() method.", comment: "Error in RPC processing flow.")
+            case .pushTransactionError:
+                return NSLocalizedString("Error was encountered while pushing the transaction.", comment: "Error in RPC processing flow.")
+            case .signatureProviderError:
+                return NSLocalizedString("Error was was encountered in SignatureProvider.", comment: "Error in SignatureProvider processing flow.")
+            case .getAvailableKeysError:
+                return NSLocalizedString("Error was returned by getAvailableKeys() method.", comment: "Error in SignatureProviderError processing flow.")
+            case .signTransactionError:
+                return NSLocalizedString("Error was encountered while signing the transaction.", comment: "Error in SignatureProviderError processing flow.")
+            case .abiProviderError:
+                return NSLocalizedString("Error was was encountered in AbiProviderError.", comment: "Error in AbiProvider  processing flow.")
+            case .getAbiError:
+                return NSLocalizedString("Error was returned by getAbi() method.", comment: "Error in AbiProvider processing flow.")
+            case .serializationProviderError:
+                return NSLocalizedString("Error was was encountered in SerializationProvider.", comment: "Error in SerializationProvider processing flow.")
+            case .serializeError:
+                return NSLocalizedString("Error was encountered while serializing the transaction.", comment: "Error in SerializationProvider processing flow.")
+            case .deserializeError:// = "Error was encountered while deserializing transaction."
+                return NSLocalizedString("Error was encountered while deserializing transaction.", comment: "Error in SerializationProvider processing flow.")
+            case .eosioNameError: //= "Error was encountered in EosioName."
+                return NSLocalizedString("Error was encountered in EosioName.", comment: "Error in EosioName processing flow.")
+            case .unexpectedError: //= "UnexpectedError"
+                return NSLocalizedString("Unexpected Error was encountered.", comment: "Unexpected Error")
+        }
+        
     }
     
     public init (_ errorCode: EosioErrorCode, reason: String, originalError: NSError? = nil) {

@@ -220,7 +220,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {
         getInfoCalled = true
         if getInfoReturnsfailure{
-            let error = EosioError(.eosioTransactionError, reason: "Failed for test propose")
+            let error = EosioError(.getInfoError, reason: "Failed for test propose")
             completion(.failure(error))
             
             

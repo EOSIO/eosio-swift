@@ -1,4 +1,4 @@
-# Contributing to EosioSwift
+# Contributing to EOSIO SDK for Swift
 
 Interested in contributing? That's awesome! Here are some guidelines to get started quickly and easily:
 
@@ -6,7 +6,7 @@ Interested in contributing? That's awesome! Here are some guidelines to get star
 - [Bug Reports](#bug-reports)
 - [Feature Requests](#feature-requests)
 - [Change Requests](#change-requests)
-- [Working on EosioSwift](#working-on-EosioSwift)
+- [Working on EOSIO SDK for Swift](#working-on-EOSIO-SDK-for-Swift)
 - [Feature Branches](#feature-branches)
 - [Submitting Pull Requests](#submitting-pull-requests)
 - [Testing and Quality Assurance](#testing-and-quality-assurance)
@@ -57,7 +57,7 @@ Change requests cover both architectural and functional changes to how EosioSwif
 1. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure this shouldn't really be
 a [bug report](#bug-reports) or a [feature request](#feature-requests)?  Is it really one idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than what's already there?
 
-## Working on EosioSwift
+## Working on EOSIO SDK for Swift
 
 Code contributions are welcome and encouraged! If you are looking for a good place to start, check out the [good first issue](https://github.com/EOSIO/eosio-swift/labels/good%20first%20issue) label in GitHub issues.
 
@@ -100,9 +100,7 @@ Examples of unacceptable behavior include:
 
 ## Contributor License & Acknowledgments
 
-This repository contains a notice of a license (MIT), and in accordance with [GitHub’s Terms of Service](https://help.github.com/articles/github-terms-of-service/), whenever you make a contribution to this project, you license your contribution under the same terms, and you agree that you have the right to license your contribution under those terms. 
-
-Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
+Whenever you make a contribution to this project, you license your contribution under the same terms as set out in LICENSE, and you represent and warrant that you have the right to license your contribution under those terms.  Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
 
 ```
 Developer Certificate of Origin
@@ -122,26 +120,26 @@ Developer's Certificate of Origin 1.1
 By making a contribution to this project, I certify that:
 
 (a) The contribution was created in whole or in part by me and I
-have the right to submit it under the open source license
-indicated in the file; or
+    have the right to submit it under the open source license
+    indicated in the file; or
 
 (b) The contribution is based upon previous work that, to the best
-of my knowledge, is covered under an appropriate open source
-license and I have the right under that license to submit that
-work with modifications, whether created in whole or in part
-by me, under the same open source license (unless I am
-permitted to submit under a different license), as indicated
-in the file; or
+    of my knowledge, is covered under an appropriate open source
+    license and I have the right under that license to submit that
+    work with modifications, whether created in whole or in part
+    by me, under the same open source license (unless I am
+    permitted to submit under a different license), as indicated
+    in the file; or
 
 (c) The contribution was provided directly to me by some other
-person who certified (a), (b) or (c) and I have not modified
-it.
+    person who certified (a), (b) or (c) and I have not modified
+    it.
 
 (d) I understand and agree that this project and the contribution
-are public and that a record of the contribution (including all
-personal information I submit with it, including my sign-off) is
-maintained indefinitely and may be redistributed consistent with
-this project or the open source license(s) involved.
+    are public and that a record of the contribution (including all
+    personal information I submit with it, including my sign-off) is
+    maintained indefinitely and may be redistributed consistent with
+    this project or the open source license(s) involved.
 ```
 
 ## References

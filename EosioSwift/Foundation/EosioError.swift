@@ -20,7 +20,7 @@ public enum EosioErrorCode : String, Codable {
     case pushTransactionError = "PushTransactionError"
     case signatureProviderError = "SignatureProviderErrorr"
     case getAvailableKeysError = "GetAvailableKeysError"
-    case signTransactionError = "SignTransactionError."
+    case signTransactionError = "SignTransactionError"
     case abiProviderError = "AbiProviderError"
     case getAbiError = "GetAbiError"
     case serializationProviderError = "SerializationProviderError"

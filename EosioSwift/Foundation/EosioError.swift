@@ -26,11 +26,13 @@ public enum EosioErrorCode : String, Codable {
     case serializationProviderError = "SerializationProviderError"
     case serializeError = "SerializeError"
     case deserializeError = "DeserializeError"
-    
-    //non provider errors (added as these are encoundered in Eosio Extensions and Foundation
-    case eosioNameError = "EosioNameError"
 
-    //general catch all
+    // non provider errors (added as these are encoundered in Eosio Extensions and Foundation)
+    case eosioNameError = "EosioNameError"
+    case keyManagementError = "KeyManagementError"
+    case keySigningError = "KeySigningError"
+
+    // general catch all
     case unexpectedError = "UnexpectedError"
 }
 

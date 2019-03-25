@@ -1,4 +1,4 @@
-![Swift Logo](https://github.com/EOSIO/eosio-swift/img/swift-logo.png)
+![Swift Logo](https://raw.githubusercontent.com/EOSIO/eosio-swift/master/img/swift-logo.png?token=AFzwEFrT-riFWTsx7qop866qtgizC7X1ks5conQgwA%3D%3D)
 # EOSIO SDK for Swift
 
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
@@ -9,7 +9,7 @@ This library is a required dependency and contains fundamental classes that powe
 
 * [Softkey Signature Provider](https://github.com/EOSIO/eosio-swift-softkey-signature-provider) (sign transactions)
 * [ABIEOS Serialization Provider](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider) (broadcast to blockchain)
-* [Vault](https://github.com/EOSIO) (Manage keys)
+* [Vault](https://github.com/EOSIO) (manage keys)
 
 
 ## Basic Usage
@@ -29,7 +29,6 @@ transaction.signatureProvider = yourSignatureProvider
 
 // then you call
 transaction.signAndBroadcast()
-
 ```
 
 To learn how to use the library refer to [Example App](https://github.com/EOSIO/eosio-reference-ios-authenticator-app).

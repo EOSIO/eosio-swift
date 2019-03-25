@@ -103,6 +103,10 @@ open class EosioError: Error, CustomStringConvertible, Codable {
                 return NSLocalizedString("Error was encountered while deserializing transaction.", comment: "Error in SerializationProvider processing flow.")
             case .eosioNameError: //= "Error was encountered in EosioName."
                 return NSLocalizedString("Error was encountered in EosioName.", comment: "Error in EosioName processing flow.")
+            case .keyManagementError:
+                return NSLocalizedString("Error was encountered in managing a key.", comment: "Error was encountered in managing a key.")
+            case .keySigningError:
+            return NSLocalizedString("Error was encountered signing with a key.", comment: "Error was encountered signing with a key.")
             case .unexpectedError: //= "UnexpectedError"
                 return NSLocalizedString("Unexpected Error was encountered.", comment: "Unexpected Error")
         }

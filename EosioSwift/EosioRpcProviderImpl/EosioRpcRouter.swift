@@ -13,7 +13,7 @@ public enum EosioRpcRouter : EosioRequestConvertible {
     static let apiVersion = "v1"
     
     //implemented
-    case getInfo(parameters: Codable, endpoint: EosioEndpoint)
+    case getInfo(endpoint: EosioEndpoint)
     case getBlock(parameters: Codable, endpoint: EosioEndpoint)
     case getBlockHeaderState(parameters: Codable, endpoint: EosioEndpoint)
     case getRawAbi(parameters: Codable, endpoint: EosioEndpoint)
@@ -86,20 +86,21 @@ public enum EosioRpcRouter : EosioRequestConvertible {
         switch self {
             
         //NOTE: remaining enums will need to be added but the patterns for them may be different
-        case let .getInfo(parameters, endpoint), let .getBlock(parameters, endpoint),
-            let .getBlockHeaderState(parameters, endpoint), let .getRawAbi(parameters, endpoint),
-            let .getRequiredKeys(parameters, endpoint), let .pushTransaction(parameters, endpoint):
+        case let .getBlock(parameters, endpoint), let .getBlockHeaderState(parameters, endpoint), let .getRawAbi(parameters, endpoint), let .getRequiredKeys(parameters, endpoint), let .pushTransaction(parameters, endpoint):
             
             let url = endpoint.baseUrl!.appendingPathComponent(path)
             request = EosioRequest(url: url, parameters: parameters, method: method)
-
+        
+        case let .getInfo(endpoint) :
+            let url = endpoint.baseUrl!.appendingPathComponent(path)
+            request = EosioRequest(url: url, parameters: nil, method: method)
         default:
             break
         }
 
         guard let finalRequest = request else {
             // NOTE: This error code will change once the new EosioError changes are merged!
-            throw EosioError(.networkError, reason: "Unable to create EosioRequest")
+            throw EosioError(.rpcProviderError, reason: "Unable to create EosioRequest")
         }
         
         return finalRequest

@@ -84,4 +84,12 @@ public struct EosioRpcPushTransactionRequest: Codable {
     var packedTrx = ""
 }
 
+public struct EosioGetBlockRequest: Codable {
+    var block_num_or_id: UInt64 = 0
+}
+
+public struct EosioGetRawAbiRequest: Codable {
+    var account = ""
+}
+
 

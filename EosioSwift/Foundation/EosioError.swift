@@ -106,7 +106,7 @@ open class EosioError: Error, CustomStringConvertible, Codable {
             case .keyManagementError:
                 return NSLocalizedString("Error was encountered in managing a key.", comment: "Error was encountered in managing a key.")
             case .keySigningError:
-            return NSLocalizedString("Error was encountered signing with a key.", comment: "Error was encountered signing with a key.")
+                return NSLocalizedString("Error was encountered signing with a key.", comment: "Error was encountered signing with a key.")
             case .unexpectedError: //= "UnexpectedError"
                 return NSLocalizedString("Unexpected Error was encountered.", comment: "Unexpected Error")
         }

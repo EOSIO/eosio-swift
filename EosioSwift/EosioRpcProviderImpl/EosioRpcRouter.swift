@@ -99,7 +99,7 @@ public enum EosioRpcRouter : EosioRequestConvertible {
 
         guard let finalRequest = request else {
             // NOTE: This error code will change once the new EosioError changes are merged!
-            throw EosioError(.networkError, reason: "Unable to create EosioRequest")
+            throw EosioError(.rpcProviderError, reason: "Unable to create EosioRequest")
         }
         
         return finalRequest

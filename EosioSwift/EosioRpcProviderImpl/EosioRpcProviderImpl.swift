@@ -42,12 +42,12 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
                         
                         if response.statusCode == 200 {
                             
-                            let eosioResponse = EosioResponse(data: data, statusCode: response.statusCode, httpResponse: response)
-                            
+                            let eosioResponse = EosioResponse(data: data, httpResponse: response)
                             completion(EosioResult.success(eosioResponse))
+                            
                         } else {
                             
-                            completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "HTTP status code: \(response.statusCode)")))
+                            completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Unexpected HTTP status code: \(response.statusCode)")))
                         }
                         
                     } else {

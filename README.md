@@ -16,15 +16,14 @@ let signRequest = createSignatureRequest()
 signProvider.signTransaction(request: signRequest){ (response) in 
     ...
 }
-
 ```
 
 ## Contents of the library
 
 This library is an example implementation of EosioSignatureProviderProtocol. It implements the following methods:
 
-* `signatureProvider.signTransaction(request: signatureRequest)` signs transactions
-* `signatureProvider.getAvailableKeys()` requests supporting app to share available public keys that could be used for signature
+* `signatureProvider.signTransaction(request: signatureRequest)` signs an EosioTransaction.
+* `signatureProvider.getAvailableKeys()` returns an array, containing the public keys associated with the private keys that the object was initialized with.
 
 
 ## Installation

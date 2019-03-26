@@ -63,7 +63,7 @@ public class EosioEccSign {
                 let recPubKey = try EccRecoverKey.recoverPublicKey(signatureDer: sig.der, message: data.sha256, recid: recid)
                 guard recPubKey.count == 65 else { continue }
             } catch {
-                signingError = EosioError(.signingError, reason: error.eosioError.localizedDescription)
+                signingError = EosioError(.keySigningError, reason: error.eosioError.localizedDescription)
                 continue
             }
             let headerByte: UInt8 = 27 + 4 + UInt8(recid)
@@ -92,7 +92,7 @@ public class EosioEccSign {
             if let signingError = signingError {
                 throw signingError
             } else {
-                throw EosioError(.signingError, reason: "Unable to create canonical signature after \(k1SignMaxAttempts) attempts")
+                throw EosioError(.keySigningError, reason: "Unable to create canonical signature after \(k1SignMaxAttempts) attempts")
             }
         }
     }

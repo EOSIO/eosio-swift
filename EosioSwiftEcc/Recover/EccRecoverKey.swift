@@ -93,7 +93,7 @@ public class EccRecoverKey {
             var mutableDerBytes: UnsafePointer<UInt8>? = derBytes
             sig = d2i_ECDSA_SIG(&sig, &mutableDerBytes, signatureDer.count)
             guard sig != nil else {
-                throw EosioError(.signingError, reason:  "Signature \(signatureDer.hex) is not valid" )
+                throw EosioError(.keySigningError, reason:  "Signature \(signatureDer.hex) is not valid" )
             }
             message.withUnsafeBytes { (messageBytes: UnsafePointer<UInt8>) -> Void in
                 
@@ -132,7 +132,7 @@ public class EccRecoverKey {
                 return i
             }
         }
-        throw EosioError(.signingError, reason:  "Unable to find recid for \(targetPublicKey.hex)" )
+        throw EosioError(.keySigningError, reason:  "Unable to find recid for \(targetPublicKey.hex)" )
     }
     
     

@@ -40,9 +40,15 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
                     
                     if let response = response as? HTTPURLResponse {
                         
-                        let eosioResponse = EosioResponse(data: data, statusCode: response.statusCode, httpResponse: response)
-                        
-                        completion(EosioResult.success(eosioResponse))
+                        if response.statusCode == 200 {
+                            
+                            let eosioResponse = EosioResponse(data: data, statusCode: response.statusCode, httpResponse: response)
+                            
+                            completion(EosioResult.success(eosioResponse))
+                        } else {
+                            
+                            completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "HTTP status code: \(response.statusCode)")))
+                        }
                         
                     } else {
                         

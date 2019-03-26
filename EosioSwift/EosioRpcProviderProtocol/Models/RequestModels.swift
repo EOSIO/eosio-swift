@@ -84,12 +84,35 @@ public struct EosioRpcPushTransactionRequest: Codable {
     var packedTrx = ""
 }
 
-public struct EosioGetBlockRequest: Codable {
+public struct EosioBlockRequest: Codable {
     var block_num_or_id: UInt64 = 0
 }
 
-public struct EosioGetRawAbiRequest: Codable {
-    var account = ""
+public struct EosioRawAbiRequest: Codable {
+    var account: EosioName
 }
 
+public struct EosioBlockHeaderStateRequest: Codable {
+    var block_num_or_id: String = ""
+}
 
+public struct EosioAccountRequest: Codable {
+    var account: EosioName
+}
+
+public struct EosioCurrencyStatsRequest: Codable {
+    var code: String = ""
+    var symbol: String = ""
+}
+
+public struct EosioHistoryTransactionRequest: Codable {
+    var transactionId: String = ""
+}
+
+public struct EosioHistoryKeyAccountsRequest: Codable {
+    var publicKey: String = ""
+}
+
+public struct EosioHistoryControlledAccountsRequest: Codable {
+    var controllingAccount: EosioName
+}

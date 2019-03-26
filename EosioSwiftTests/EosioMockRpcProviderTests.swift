@@ -42,6 +42,7 @@ class EosioMockRpcProviderTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
     
+    /*
     func testGetBlock() {
         let expect = expectation(description: "testGetBlock")
         rpcProvider?.getBlock(blockNum: 25260032) { response in
@@ -104,6 +105,7 @@ class EosioMockRpcProviderTests: XCTestCase {
             XCTFail()
         }
     }
+    */
     
 }
 

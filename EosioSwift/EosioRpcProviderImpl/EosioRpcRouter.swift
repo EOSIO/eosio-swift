@@ -14,23 +14,23 @@ public enum EosioRpcRouter : EosioRequestConvertible {
     
     //implemented
     case getInfo(endpoint: EosioEndpoint)
-    case getBlock(parameters: Codable, endpoint: EosioEndpoint)
-    case getBlockHeaderState(parameters: Codable, endpoint: EosioEndpoint)
-    case getRawAbi(parameters: Codable, endpoint: EosioEndpoint)
-    case getRequiredKeys(parameters: Codable, endpoint: EosioEndpoint)
-    case pushTransaction(parameters: Codable, endpoint: EosioEndpoint)
+    case getBlock(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getBlockHeaderState(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getRawAbi(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getRequiredKeys(requestParameters: Codable, endpoint: EosioEndpoint)
+    case pushTransaction(requestParameters: Codable, endpoint: EosioEndpoint)
     
     // no implementation yet in EosioRpcProviderProtocolImpl for these (will need to change some of these patterns as well)
-    case getAccount(parameters: Codable, endpoint: EosioEndpoint)
-    case getRawCodeAndAbi(parameters: Codable, endpoint: EosioEndpoint)
-    case getTableRows(parameters: Codable, endpoint: EosioEndpoint)
-    case getCurrencyStats(parameters: Codable, endpoint: EosioEndpoint)
-    case getProducers(parameters: Codable, endpoint: EosioEndpoint)
-    case pushTransactions(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryActions(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryTransaction(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryKeyAccounts(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryControlledAccounts(parameters: Codable, endpoint: EosioEndpoint)
+    case getAccount(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getRawCodeAndAbi(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getTableRows(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getCurrencyStats(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getProducers(requestParameters: Codable, endpoint: EosioEndpoint)
+    case pushTransactions(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getHistoryActions(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getHistoryTransaction(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getHistoryKeyAccounts(requestParameters: Codable, endpoint: EosioEndpoint)
+    case getHistoryControlledAccounts(requestParameters: Codable, endpoint: EosioEndpoint)
 
     var method: EosioHttpMethod {
         switch self {
@@ -86,20 +86,19 @@ public enum EosioRpcRouter : EosioRequestConvertible {
         switch self {
             
         //NOTE: remaining enums will need to be added but the patterns for them may be different
-        case let .getBlock(parameters, endpoint), let .getBlockHeaderState(parameters, endpoint), let .getRawAbi(parameters, endpoint), let .getRequiredKeys(parameters, endpoint), let .pushTransaction(parameters, endpoint):
+        case let .getBlock(requestParameters, endpoint), let .getBlockHeaderState(requestParameters, endpoint), let .getRawAbi(requestParameters, endpoint), let .getRequiredKeys(requestParameters, endpoint), let .pushTransaction(requestParameters, endpoint):
             
             let url = endpoint.baseUrl!.appendingPathComponent(path)
-            request = EosioRequest(url: url, parameters: parameters, method: method)
+            request = EosioRequest(url: url, requestParameters: requestParameters, method: method)
         
         case let .getInfo(endpoint) :
             let url = endpoint.baseUrl!.appendingPathComponent(path)
-            request = EosioRequest(url: url, parameters: nil, method: method)
+            request = EosioRequest(url: url, requestParameters: nil, method: method)
         default:
             break
         }
 
         guard let finalRequest = request else {
-            // NOTE: This error code will change once the new EosioError changes are merged!
             throw EosioError(.rpcProviderError, reason: "Unable to create EosioRequest")
         }
         

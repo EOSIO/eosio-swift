@@ -23,114 +23,105 @@ public protocol EosioRpcProviderProtocol {
     func getInfo(completion: @escaping(EosioResult<EosioRpcInfo, EosioError>) -> Void)
     
     /** Calls `/v1/chain/get_block` */
-    func getBlock(blockNum: UInt64, completion: @escaping(EosioResult<EosioRpcBlock, EosioError>) -> Void)
-    
+    func getBlock(requestParameters: EosioBlockRequest, completion: @escaping(EosioResult<EosioRpcBlock, EosioError>) -> Void)
+
     /** Calls `/v1/chain/get_raw_abi` */
-    func getRawAbi(account: EosioName, completion: @escaping(EosioResult<EosioRpcRawAbi, EosioError>) -> Void)
-    
+    func getRawAbi(requestParameters: EosioRawAbiRequest, completion: @escaping(EosioResult<EosioRpcRawAbi, EosioError>) -> Void)
+
     /** Calls `/v1/chain/get_required_keys` */
-    func getRequiredKeys(parameters: EosioRpcRequiredKeysRequest, completion: @escaping(EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void)
+    func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping(EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void)
     
     /** Calls `/v1/chain/push_transaction` */
-    func pushTransaction(transaction: EosioRpcPushTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void)
+    func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void)
     
     /** Calls `/v1/chain/get_block_header_state` */
-    func getBlockHeaderState(blockNum: UInt64, completion: @escaping(EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void)
-    
-    /** Calls `/v1/chain/get_block_header_state` */
-    func getBlockHeaderState(blockId: String, completion: @escaping(EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void)
+     func getBlockHeaderState(requestParameters: EosioBlockHeaderStateRequest, completion: @escaping(EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void)
     
     /** Calls `/v1/chain/get_account` */
-    func getAccount(account: EosioName, completion: @escaping(EosioResult<EosioRpcAccount, EosioError>) -> Void)
+    func getAccount(requestParameters: EosioAccountRequest, completion: @escaping(EosioResult<EosioRpcAccount, EosioError>) -> Void)
     
     /** Calls `/v1/chain/get_raw_code_and_abi` */
-    func getRawCodeAndAbi(account: EosioName, completion: @escaping(EosioResult<EosioRpcRawCodeAbi, EosioError>) -> Void)
+    func getRawCodeAndAbi(requestParameters: EosioRawAbiRequest, completion: @escaping(EosioResult<EosioRpcRawCodeAbi, EosioError>) -> Void)
     
     /** Calls `/v1/chain/get_table_rows` */
-    func getTableRows(parameters: EosioRpcTableRowsRequest, completion: @escaping(EosioResult<EosioRpcTableRows, EosioError>) -> Void)
+    func getTableRows(requestParameters: EosioRpcTableRowsRequest, completion: @escaping(EosioResult<EosioRpcTableRows, EosioError>) -> Void)
     
     /** Calls `/v1/chain/get_currency_stats` */
-    func getCurrencyStats(code: String, symbol: String, completion: @escaping(EosioResult<EosioRpcCurrencyStats, EosioError>) -> Void)
+    func getCurrencyStats(requestParameters: EosioCurrencyStatsRequest, symbol: String, completion: @escaping(EosioResult<EosioRpcCurrencyStats, EosioError>) -> Void)
     
     /** Calls `/v1/chain/get_producers` */
-    func getProducers(parameters: EosioRpcProducersRequest, completion: @escaping(EosioResult<EosioRpcProducers, EosioError>) -> Void)
+    func getProducers(requestParameters: EosioRpcProducersRequest, completion: @escaping(EosioResult<EosioRpcProducers, EosioError>) -> Void)
     
     /** Calls `/v1/chain/push_transaction` */
-    func pushTransactions(transactions: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void)
+    func pushTransactions(requestParameters: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void)
     
     /** Calls `/v1/history/get_actions` */
-    func getHistoryActions(parameters: EosioRpcHistoryActionsRequest, completion: @escaping(EosioResult<EosioRpcHistoryActions, EosioError>) -> Void)
+    func getHistoryActions(requestParameters: EosioRpcHistoryActionsRequest, completion: @escaping(EosioResult<EosioRpcHistoryActions, EosioError>) -> Void)
     
     /** Calls `/v1/history/get_transaction` */
-    func getHistoryTransaction(transactionId: String, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void)
+    func getHistoryTransaction(requestParameters: EosioHistoryTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void)
     
     /** Calls `/v1/history/get_key_accounts` */
-    func getHistoryKeyAccounts(publicKey: String, completion: @escaping (EosioResult<EosioRpcKeyAccounts, EosioError>) -> Void)
-    
+    func getHistoryKeyAccounts(requestParameters: EosioHistoryKeyAccountsRequest, completion: @escaping (EosioResult<EosioRpcKeyAccounts, EosioError>) -> Void)
+   
     /** Calls `/v1/history/get_controlled_accounts` */
-    func getHistoryControlledAccounts(controllingAccount: EosioName, completion: @escaping (EosioResult<EosioRpcControllingAccounts, EosioError>) -> Void)
-    
+    func getHistoryControlledAccounts(requestParameters: EosioHistoryControlledAccountsRequest, completion: @escaping (EosioResult<EosioRpcControllingAccounts, EosioError>) -> Void)
 }
 
 /** to allow optional functions in a pure swift protocol (not using @objc)
     override these empty implementations if needed */
 extension EosioRpcProviderProtocol {
-    public func getBlockHeaderState(blockNum: UInt64, completion: @escaping(EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void) {
+    public func getBlockHeaderState(requestParameters: EosioBlockHeaderStateRequest, completion: @escaping(EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getBlockHeaderState() not implemented.")))
     }
     
-    public func getBlockHeaderState(blockId: String, completion: @escaping(EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void) {
-        
-        completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getBlockHeaderState() not implemented.")))
-    }
-    
-    public func getAccount(account: EosioName, completion: @escaping(EosioResult<EosioRpcAccount, EosioError>) -> Void) {
+    public func getAccount(requestParameters: EosioAccountRequest, completion: @escaping(EosioResult<EosioRpcAccount, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getAccount() not implemented.")))
     }
     
-    public func getRawCodeAndAbi(account: EosioName, completion: @escaping(EosioResult<EosioRpcRawCodeAbi, EosioError>) -> Void) {
+    public func getRawCodeAndAbi(requestParameters: EosioRawAbiRequest, completion: @escaping(EosioResult<EosioRpcRawCodeAbi, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getRawCodeAndAbi() not implemented.")))
     }
     
-    public func getTableRows(parameters: EosioRpcTableRowsRequest, completion: @escaping(EosioResult<EosioRpcTableRows, EosioError>) -> Void) {
+    public func getTableRows(requestParameters: EosioRpcTableRowsRequest, completion: @escaping(EosioResult<EosioRpcTableRows, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getTableRows() not implemented.")))
     }
     
-    public func getCurrencyStats(code: String, symbol: String, completion: @escaping(EosioResult<EosioRpcCurrencyStats, EosioError>) -> Void) {
+    public func getCurrencyStats(requestParameters: EosioCurrencyStatsRequest, symbol: String, completion: @escaping(EosioResult<EosioRpcCurrencyStats, EosioError>) -> Void) {
         
-        completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getCurrencyStats() not implemented.")))
+         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getCurrencyStats() not implemented.")))
     }
     
-    public func getProducers(parameters: EosioRpcProducersRequest, completion: @escaping(EosioResult<EosioRpcProducers, EosioError>) -> Void) {
+    public func getProducers(requestParameters: EosioRpcProducersRequest, completion: @escaping(EosioResult<EosioRpcProducers, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getProducers() not implemented.")))
     }
     
-    public func pushTransactions(transactions: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
+    public func pushTransactions(requestParameters: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
         
         completion([EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: pushTransactions() not implemented."))])
     }
     
-    public func getHistoryActions(parameters: EosioRpcHistoryActionsRequest, completion: @escaping(EosioResult<EosioRpcHistoryActions, EosioError>) -> Void) {
+    public func getHistoryActions(requestParameters: EosioRpcHistoryActionsRequest, completion: @escaping(EosioResult<EosioRpcHistoryActions, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getHistoryActions() not implemented.")))
     }
     
-    public func getHistoryTransaction(transactionId: String, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
+    public func getHistoryTransaction(requestParameters: EosioHistoryTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getHistoryTransaction() not implemented.")))
     }
     
-    public func getHistoryKeyAccounts(publicKey: String, completion: @escaping (EosioResult<EosioRpcKeyAccounts, EosioError>) -> Void) {
+    public func getHistoryKeyAccounts(requestParameters: EosioHistoryKeyAccountsRequest, completion: @escaping (EosioResult<EosioRpcKeyAccounts, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getHistoryKeyAccounts() not implemented.")))
     }
     
-    public func getHistoryControlledAccounts(controllingAccount: EosioName, completion: @escaping (EosioResult<EosioRpcControllingAccounts, EosioError>) -> Void) {
+    public func getHistoryControlledAccounts(requestParameters: EosioHistoryControlledAccountsRequest, completion: @escaping (EosioResult<EosioRpcControllingAccounts, EosioError>) -> Void) {
         
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No Implementation: getHistoryControlledAccounts() not implemented.")))
     }

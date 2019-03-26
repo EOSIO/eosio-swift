@@ -19,14 +19,14 @@ public protocol EosioRequestConvertible {
 public class EosioRequest {
     public var url: URL
     public var method: EosioHttpMethod
-    public var parameters: Codable?
+    public var requestParameters: Codable?
     public var headers: [String:String]?
     
-    init(url: URL, parameters: Codable? = nil, method: EosioHttpMethod = EosioHttpMethod.post,
+    init(url: URL, requestParameters: Codable? = nil, method: EosioHttpMethod = EosioHttpMethod.post,
          headers: [String:String]? = ["Content-Type":"application/json; charset=utf-8"]) {
         self.url = url
         self.method = method
-        self.parameters = parameters
+        self.requestParameters = requestParameters
         self.headers = headers
     }
     
@@ -40,9 +40,12 @@ public class EosioRequest {
         
         urlRequest.httpMethod = self.method.rawValue
         
-        if let theParameters = parameters {
-           urlRequest.httpBody = try JSONSerialization.data(withJSONObject: theParameters, options: [])
+        /*
+        if let theRequestParameters = requestParameters {
+            let encoder = JSONEncoder()
+            urlRequest.httpBody = try encoder.encode(theRequestParameters)
         }
+        */
         
         if let theHeaders = headers {
             for header in theHeaders {

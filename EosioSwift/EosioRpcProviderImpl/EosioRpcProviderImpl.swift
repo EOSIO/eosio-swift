@@ -68,7 +68,8 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
     
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {
         
-        if let request = try? EosioRpcRouter.getInfo(endpoint: self.primaryEndpoint).asEosioRequest() {
+        do {
+           let request = try EosioRpcRouter.getInfo(endpoint: self.primaryEndpoint).asEosioRequest()
             
             self.rpcRequest(request: request, completion: { result in
                 
@@ -79,18 +80,18 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
                     completion(EosioResult.failure(error))
                 }
             })
-           
-        } else {
             
-            completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "EosioRequest: could not create EosioRequest.")))
+        } catch let error as EosioError{
+            error.errorCode = EosioErrorCode.getInfoError
+            completion(EosioResult.failure(error))
+        } catch {
+            completion(EosioResult.failure(EosioError(EosioErrorCode.getBlockError, reason: "EosioRequest: could not create EosioRequest.")))
         }
     }
-    
-    public func getBlock(blockNum: UInt64, completion: @escaping (EosioResult<EosioRpcBlock, EosioError>) -> Void) {
+
+    public func getBlock(requestParameters: EosioBlockRequest, completion: @escaping (EosioResult<EosioRpcBlock, EosioError>) -> Void) {
         
-        let parameters = EosioGetBlockRequest(block_num_or_id: blockNum)
-        
-        if let request = try? EosioRpcRouter.getBlock(parameters: parameters, endpoint: self.primaryEndpoint).asEosioRequest() {
+        if let request = try? EosioRpcRouter.getBlock(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
             
             self.rpcRequest(request: request, completion: { result in
                 
@@ -108,11 +109,9 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
         }
     }
     
-    public func getRawAbi(account: EosioName, completion: @escaping (EosioResult<EosioRpcRawAbi, EosioError>) -> Void) {
+    public func getRawAbi(requestParameters: EosioRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbi, EosioError>) -> Void) {
         
-        let parameters = EosioGetRawAbiRequest(account: account.string)
-        
-        if let request = try? EosioRpcRouter.getRawAbi(parameters: parameters, endpoint: self.primaryEndpoint).asEosioRequest() {
+        if let request = try? EosioRpcRouter.getRawAbi(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
             
             self.rpcRequest(request: request, completion: { result in
                 
@@ -131,9 +130,9 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
         
     }
     
-    public func getRequiredKeys(parameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void) {
+    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void) {
         
-        if let request = try? EosioRpcRouter.getRequiredKeys(parameters: parameters, endpoint: self.primaryEndpoint).asEosioRequest() {
+        if let request = try? EosioRpcRouter.getRequiredKeys(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
             
             self.rpcRequest(request: request, completion: { result in
                 
@@ -152,9 +151,9 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
         
     }
     
-    public func pushTransaction(transaction: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
+    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
         
-        if let request = try? EosioRpcRouter.pushTransaction(parameters: transaction, endpoint: self.primaryEndpoint).asEosioRequest() {
+        if let request = try? EosioRpcRouter.pushTransaction(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
             
             self.rpcRequest(request: request, completion: { result in
                 

@@ -1,27 +1,27 @@
 # EOSIO SDK for Swift Softkey Signature Provider
 
-Using this Software Development Kit (SDK) you can sign transactions using `K1` type private key.
+Using this framework, you can sign an `EosioTransactionRequest` using `K1` type private keys.
 
 ## Basic Usage
+
 ```
-do{
-    let signProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["K1privatKeyString"])
-    let publicKey = try Data(eosioPublicKey:publicKeyString)
-    let privateKey = try Data(eosioPrivateKey: privateKeyString)
-    let serializedTransaction = "some transaction".data(using: .utf8)!
-    let sig = try EosioEccSign.signWithK1(publicKey: publicKey, privateKey: privateKey, data: serializedTransaction)
-    let recoveredPubKey = try recoverPublicKey(signature: sig, message: serializedTransaction)
-    let signReq = createSignatureRequest(transactionString: "some transaction")
-    
-    signProvider.signTransaction(request: signReq) { (response) in
-        let yourSignature = response.signedTransaction?.signatures.first
-    }   
- }catch{}
+let signProvider = try? EosioSwiftSoftkeySignatureProvider(privateKeys: privateKeysArray)
+let publicKeysArray = signProvider?.getAvailableKeys() // Returns the public keys.
+```
+
+To sign a `EosioTransaction`, you should first create an `EosioTransactionSignatureRequest` object and call `signTransaction(request:completion:)` function with the request:
+
+```
+let signRequest = createSignatureRequest()
+signProvider.signTransaction(request: signRequest){ (response) in 
+    ...
+}
+
 ```
 
 ## Contents of the library
 
-Implementation of the following methods:
+This library is an example implementation of EosioSignatureProviderProtocol. It implements the following methods:
 
 * `signatureProvider.signTransaction(request: signatureRequest)` signs transactions
 * `signatureProvider.getAvailableKeys()` requests supporting app to share available public keys that could be used for signature

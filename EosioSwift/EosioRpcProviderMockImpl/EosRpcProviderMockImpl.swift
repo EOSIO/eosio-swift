@@ -195,7 +195,7 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
     }
     
     private func responseFromJson(json: String) -> EosioResponse {
-        let response = EosioResponse(data: json.data(using: .utf8), statusCode: 200, httpResponse: nil)
+        let response = EosioResponse(data: json.data(using: .utf8), httpResponse: nil)
         return response
     }
 }

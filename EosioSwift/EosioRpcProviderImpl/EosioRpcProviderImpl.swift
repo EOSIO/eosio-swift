@@ -63,7 +63,7 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
             completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "EosioRequest: could not convert to URLRequest")))
         }
         
-       
+
     }
     
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {

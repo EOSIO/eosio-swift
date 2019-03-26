@@ -8,17 +8,48 @@
 
 import Foundation
 
+public protocol EosioRequestConvertible {
+    /// Returns a `EosioRequest` or throws if an `Error` was encoutered.
+    ///
+    /// - Returns: A `EosioRequest`.
+    /// - Throws: Any error thrown while constructing the `EosioRequest`.
+    func asEosioRequest() throws -> EosioRequest
+}
+
 public class EosioRequest {
-    public var function: String
+    public var url: URL
     public var method: EosioHttpMethod
     public var parameters: Codable?
     public var headers: [String:String]?
     
-    init(function: String, parameters: Codable? = nil, method: EosioHttpMethod = EosioHttpMethod.post,
+    init(url: URL, parameters: Codable? = nil, method: EosioHttpMethod = EosioHttpMethod.post,
          headers: [String:String]? = ["Content-Type":"application/json; charset=utf-8"]) {
-        self.function = function
+        self.url = url
         self.method = method
         self.parameters = parameters
         self.headers = headers
+    }
+    
+    public func setValue(value: String, forHTTPHeaderField: String) {
+        self.headers![forHTTPHeaderField] = value
+    }
+    
+    public func asUrlRequest() throws -> URLRequest {
+        
+        var urlRequest = URLRequest(url: self.url)
+        
+        urlRequest.httpMethod = self.method.rawValue
+        
+        if let theParameters = parameters {
+           urlRequest.httpBody = try JSONSerialization.data(withJSONObject: theParameters, options: [])
+        }
+        
+        if let theHeaders = headers {
+            for header in theHeaders {
+                urlRequest.setValue(header.value, forHTTPHeaderField: header.key)
+            }
+        }
+        
+        return urlRequest
     }
 }

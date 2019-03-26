@@ -119,10 +119,10 @@ public extension EosioTransaction {
                 if let ds = Data(hexString: dataString) {
                     dataSerialized = ds
                 } else {
-                    throw EosioError(.parsingError, reason: "\(dataString) is not a valid hex string")
+                    throw EosioError(.eosioTransactionError, reason: "\(dataString) is not a valid hex string")
                 }
             } else {
-                throw EosioError(.parsingError, reason: "Data property is not set for action \(account)::\(name)")
+                throw EosioError(.eosioTransactionError, reason: "Data property is not set for action \(account)::\(name)")
             }
         }
         
@@ -148,11 +148,11 @@ public extension EosioTransaction {
         public func serializeData(abi: String, serializationProvider: EosioSerializationProviderProtocol) throws {
             if isDataSerialized { return }
             guard let json = dataJson else {
-                throw EosioError(.serializationError, reason: "Cannot convert data to json")
+                throw EosioError(.serializeError, reason: "Cannot convert data to json")
             }
             let hex = try serializationProvider.serialize(contract: account.string, name: name.string, type: nil, json: json, abi: abi)
             guard let binaryData = Data(hexString: hex) else {
-                throw EosioError(.serializationError, reason: "Cannot decode hex \(hex)")
+                throw EosioError(.serializeError, reason: "Cannot decode hex \(hex)")
             }
             self.dataSerialized = binaryData
         }
@@ -166,7 +166,7 @@ public extension EosioTransaction {
         public func deserializeData(abi: String, serializationProvider: EosioSerializationProviderProtocol) throws {
             if data.count > 0 { return }
             guard let dataHex = dataHex else {
-                throw EosioError(.parsingError, reason: "Serialized data not set for action \(account)::\(name)")
+                throw EosioError(.deserializeError, reason: "Serialized data not set for action \(account)::\(name)")
             }
             let json = try serializationProvider.deserialize(contract: account.string, name: name.string, type: nil, hex: dataHex, abi: abi)
             data = try json.jsonToDictionary()

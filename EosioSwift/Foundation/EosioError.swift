@@ -11,45 +11,40 @@ import Foundation
 
 public enum EosioErrorCode : String, Codable {
     
-    case biometricsDisabled = "biometricsDisabled"
-    case keychainError = "keychainError"
-    case manifestError = "manifestError"
-    case metadataError = "metadataError"
-    case networkError = "networkError"
-    case parsingError = "parsingError"
-    case resourceIntegrityError = "resourceIntegrityError"
-    case resourceRetrievalError = "resourceRetrievalError"
-    case signingError = "signingError"
-    case transactionError = "transactionError"
-    case vaultError = "vaultError"
-    case whitelistingError = "whitelistingError"
-    case malformedRequestError = "malformedRequestError"
-    case domainError = "domainError"
-    case eosioNameError = "eosioNameError"
-    case signatureProviderError = "signatureProviderError"
-    case serializationError = "serializationError"
-    case deserializationError = "deserializationError"
-    case dataCodingError = "dataCodingError"
-    case missingDataError = "missingDataError"
-    case eosioKeyError = "eosioKeyError"
-    case eosioSignatureError = "eosioSignatureError"
+    case eosioTransactionError = "EosioTransactionError"
+    case rpcProviderError = "RpcProviderError"
+    case getInfoError = "GetInfoError"
+    case getBlockError = "GetBlockError"
+    case getRequiredKeysError = "GetRequiredKeysError"
+    case getRawAbiError = "GetRawAbiError"
+    case pushTransactionError = "PushTransactionError"
+    case signatureProviderError = "SignatureProviderErrorr"
+    case getAvailableKeysError = "GetAvailableKeysError"
+    case signTransactionError = "SignTransactionError"
+    case abiProviderError = "AbiProviderError"
+    case getAbiError = "GetAbiError"
+    case serializationProviderError = "SerializationProviderError"
+    case serializeError = "SerializeError"
+    case deserializeError = "DeserializeError"
 
-    //general catch all
-    case unexpectedError = "unexpectedError"
+    // non provider errors (added as these are encoundered in Eosio Extensions and Foundation)
+    case eosioNameError = "EosioNameError"
+    case keyManagementError = "KeyManagementError"
+    case keySigningError = "KeySigningError"
+
+    // general catch all
+    case unexpectedError = "UnexpectedError"
 }
 
 open class EosioError: Error, CustomStringConvertible, Codable {
     
     public var errorCode: EosioErrorCode
     public var reason: String
-    public var context: String
     public var originalError: NSError?
-    public var isReturnable = true // can this error be returned to a requesting app?
     
     enum CodingKeys: String, CodingKey {
         case errorCode
         case reason
-        case context
     }
     /**
         Returns a JSON string representation of the error object.
@@ -59,8 +54,7 @@ open class EosioError: Error, CustomStringConvertible, Codable {
             "errorType" : "EosioError",
             "errorInfo" : [
                 "errorCode": self.errorCode.rawValue,
-                "reason": self.reason,
-                "contextualInfo": context
+                "reason": self.reason
             ]
             ] as [String : Any]
         
@@ -75,14 +69,53 @@ open class EosioError: Error, CustomStringConvertible, Codable {
     }
     
     public var description: String {
-        return self.localizedDescription
+        
+        switch self.errorCode {
+            case .eosioTransactionError:
+                return NSLocalizedString("Error was encountered while preparing the Transaction.", comment: "Error in transaction processing flow.")
+            case .rpcProviderError:
+                return NSLocalizedString("Error was was encountered in RpcProvider.", comment: "Error in rpc processing flow.")
+            case .getInfoError:
+                return NSLocalizedString("Error was returned by getInfo() method.", comment: "Error in RPC processing flow.")
+            case .getBlockError:
+                return NSLocalizedString("Error was encountered from getBlock() method of RPCProvider.", comment: "Error in RPC processing flow.")
+            case .getRequiredKeysError:
+                    return NSLocalizedString("Error was returned by getRequiredKeys() method.", comment: "Error in RPC processing flow.")
+            case .getRawAbiError:
+                return NSLocalizedString("Error was returned by getRawAbi() method.", comment: "Error in RPC processing flow.")
+            case .pushTransactionError:
+                return NSLocalizedString("Error was encountered while pushing the transaction.", comment: "Error in RPC processing flow.")
+            case .signatureProviderError:
+                return NSLocalizedString("Error was was encountered in SignatureProvider.", comment: "Error in SignatureProvider processing flow.")
+            case .getAvailableKeysError:
+                return NSLocalizedString("Error was returned by getAvailableKeys() method.", comment: "Error in SignatureProviderError processing flow.")
+            case .signTransactionError:
+                return NSLocalizedString("Error was encountered while signing the transaction.", comment: "Error in SignatureProviderError processing flow.")
+            case .abiProviderError:
+                return NSLocalizedString("Error was was encountered in AbiProviderError.", comment: "Error in AbiProvider  processing flow.")
+            case .getAbiError:
+                return NSLocalizedString("Error was returned by getAbi() method.", comment: "Error in AbiProvider processing flow.")
+            case .serializationProviderError:
+                return NSLocalizedString("Error was was encountered in SerializationProvider.", comment: "Error in SerializationProvider processing flow.")
+            case .serializeError:
+                return NSLocalizedString("Error was encountered while serializing the transaction.", comment: "Error in SerializationProvider processing flow.")
+            case .deserializeError:// = "Error was encountered while deserializing transaction."
+                return NSLocalizedString("Error was encountered while deserializing transaction.", comment: "Error in SerializationProvider processing flow.")
+            case .eosioNameError: //= "Error was encountered in EosioName."
+                return NSLocalizedString("Error was encountered in EosioName.", comment: "Error in EosioName processing flow.")
+            case .keyManagementError:
+                return NSLocalizedString("Error was encountered in managing a key.", comment: "Error was encountered in managing a key.")
+            case .keySigningError:
+                return NSLocalizedString("Error was encountered signing with a key.", comment: "Error was encountered signing with a key.")
+            case .unexpectedError: //= "UnexpectedError"
+                return NSLocalizedString("Unexpected Error was encountered.", comment: "Unexpected Error")
+        }
+        
     }
     
-    public init (_ errorCode: EosioErrorCode, reason: String, context: String = "", originalError: NSError? = nil, isReturnable: Bool = true) {
-        self.context = context
+    public init (_ errorCode: EosioErrorCode, reason: String, originalError: NSError? = nil) {
         self.errorCode = errorCode
         self.reason = reason
-        self.isReturnable = isReturnable
         self.originalError = originalError
     }
 }
@@ -90,7 +123,7 @@ open class EosioError: Error, CustomStringConvertible, Codable {
 extension EosioError: LocalizedError {
     
     public var errorDescription: String? {
-        return "\(self.errorCode.rawValue): \(self.reason)" + (context.count > 0 ? "\n context: \(self.context)" : "")
+        return "\(self.errorCode.rawValue): \(self.reason)"
         
     }
 }

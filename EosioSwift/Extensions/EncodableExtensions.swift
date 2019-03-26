@@ -21,7 +21,7 @@ public extension Encodable {
     public func toJsonString(convertToSnakeCase: Bool = false, prettyPrinted: Bool = false) throws -> String  {
         let jsonData = try self.toJsonData(convertToSnakeCase: convertToSnakeCase, prettyPrinted: prettyPrinted)
         guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-            throw EosioError(.parsingError, reason: "json data is not utf8 format")
+            throw EosioError(.deserializeError, reason: "json data is not utf8 format")
         }
         return jsonString
     }

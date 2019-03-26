@@ -39,8 +39,10 @@ class EosioTransactionActionTests: XCTestCase {
         do {
             try _ = makeTransferActionWithError()
             XCTFail()
+        } catch let error as EosioError {
+            XCTAssertTrue(error.reason == "eosio.token6 is not a valid eosio name.")
         } catch {
-            XCTAssertTrue(error.localizedDescription == "eosioNameError: eosio.token6 is not a valid eosio name.")
+            XCTFail()
         }
     }
 

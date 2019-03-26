@@ -1,16 +1,63 @@
 # EOSIO SDK for Swift ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
-## Overview
+[![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
+[![Swift 4.2](https://img.shields.io/badge/Language-Swift_4.2-orange.svg)](https://swift.org)
+![](https://img.shields.io/badge/Deployment%20Target-iOS%2012-blue.svg)
 
-## Contributing
+This library is a required dependency and contains fundamental classes that power following libraries:
 
-[Contributing Guide](./CONTRIBUTING.md)
+* [Softkey Signature Provider](https://github.com/EOSIO/eosio-swift-softkey-signature-provider) (sign transactions)
+* [ABIEOS Serialization Provider](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider) (broadcast to blockchain)
+* [Vault](https://github.com/EOSIO) (Manage keys)
 
-[Code of Conduct](./CONTRIBUTING.md#conduct)
+
+## Basic Usage
+
+To communicate with blockchain you need to build a `transaction` class instance. It has 3 necessary components:
+
+* `RPCProvider` (communicate with `nodeos`)
+* `serializationProvider` (convert `JSON` to `binary` and vice-versa)
+* `signatureProvider` (add a signature)
+
+```
+var transaction = EosioTransaction()
+
+transaction.rpcProvider = yourRPCProvider
+transaction.serializationProvider = yourSerializationProvider
+transaction.signatureProvider = yourSignatureProvider
+
+// then you call
+transaction.signAndBroadcast()
+
+```
+
+To learn how to use the library refer to [Example App](https://github.com/EOSIO/eosio-reference-ios-authenticator-app).
+
+## Contents of the library
+
+`Transaction class`
+
+* creates, signs and broadcasts transactions
+
+`Remote Procedure Call (RPC) provider`
+
+* communicates with `nodeos` (aka blockchain endpoint) with convenient methods
+
+`EosioAbiProvider`
+
+* wraps `Remote Procedure Call (RPC) provider` with convenience methods
+
+As well the following: `EosioAbiProviderProtocol`, `EosioRpcProviderProtocol`, `EosioSerializationProviderProtocol` and  `EosioSignatureProviderProtocol`
+
+## Installation
+It hasn't been decided if this library is going to be destributed as a `pod` with all other dependencies included. Or people would have to install other dependencies (like `eosio-swift-softkey-signature-provider`) separately and store them in the same folder.
+
+## Want to contribute?
+Here are [Contribution Guidelines](https://github.com/EOSIO/eosio-swift/blob/master/CONTRIBUTING.md) and [Code of Conduct](./CONTRIBUTING.md#conduct)
 
 ## License
+[MIT](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
 
-[MIT](./LICENSE)
 
 ## Important
 

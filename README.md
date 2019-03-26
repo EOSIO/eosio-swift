@@ -1,5 +1,6 @@
 ![Swift Logo](https://raw.githubusercontent.com/EOSIO/eosio-swift/master/img/swift-logo.png?token=AFzwEFrT-riFWTsx7qop866qtgizC7X1ks5conQgwA%3D%3D)
-# EOSIO SDK for Swift
+# EOSIO SDK for Swift ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
+
 
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
 [![Swift 4.2](https://img.shields.io/badge/Language-Swift_4.2-orange.svg)](https://swift.org)

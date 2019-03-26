@@ -22,7 +22,7 @@ signProvider.signTransaction(request: signRequest){ (response) in
 
 This library is an example implementation of `EosioSignatureProviderProtocol`. It implements the following methods:
 
-* `signTransaction(request:)` signs an `EosioTransaction`.
+* `signTransaction(request:completion:)` signs an `EosioTransaction`.
 * `getAvailableKeys()` returns an array, containing the public keys associated with the private keys that the object is initialized with.
 
 

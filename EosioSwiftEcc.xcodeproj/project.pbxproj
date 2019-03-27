@@ -14,6 +14,7 @@
 		283311132232D249001EFDDA /* EcdsaSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283311122232D249001EFDDA /* EcdsaSignature.swift */; };
 		28331115223300E7001EFDDA /* EosioEccSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28331114223300E7001EFDDA /* EosioEccSign.swift */; };
 		28331117223301E3001EFDDA /* EosioSwiftEccSignTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28331116223301E3001EFDDA /* EosioSwiftEccSignTests.swift */; };
+		28678783224BD16700343976 /* EllipticCurveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28678782224BD16700343976 /* EllipticCurveType.swift */; };
 		28AF06E3223166A700EB0463 /* recover.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28AF06E1223166A700EB0463 /* recover.cpp */; };
 		28AF06E4223166A700EB0463 /* recover.h in Headers */ = {isa = PBXBuildFile; fileRef = 28AF06E2223166A700EB0463 /* recover.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		682A8A7085AB4DAA8FDDC4A8 /* Pods_EosioSwiftEccTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224D84CA70E1B57E4EAB5A9E /* Pods_EosioSwiftEccTests.framework */; };
@@ -45,6 +46,7 @@
 		283311122232D249001EFDDA /* EcdsaSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EcdsaSignature.swift; sourceTree = "<group>"; };
 		28331114223300E7001EFDDA /* EosioEccSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioEccSign.swift; sourceTree = "<group>"; };
 		28331116223301E3001EFDDA /* EosioSwiftEccSignTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftEccSignTests.swift; sourceTree = "<group>"; };
+		28678782224BD16700343976 /* EllipticCurveType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipticCurveType.swift; sourceTree = "<group>"; };
 		28AF06E1223166A700EB0463 /* recover.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = recover.cpp; sourceTree = "<group>"; };
 		28AF06E2223166A700EB0463 /* recover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = recover.h; sourceTree = "<group>"; };
 		B841B0B75E42C0180581A650 /* Pods-EosioSwiftEccTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftEccTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftEccTests/Pods-EosioSwiftEccTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				2811D0212230814B0002E580 /* EosioSwiftEcc.h */,
+				28678782224BD16700343976 /* EllipticCurveType.swift */,
 				2811B4DE22317CC90029BF6A /* Recover */,
 				2833111822330637001EFDDA /* Sign */,
 				2811D0222230814B0002E580 /* Info.plist */,
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28331115223300E7001EFDDA /* EosioEccSign.swift in Sources */,
+				28678783224BD16700343976 /* EllipticCurveType.swift in Sources */,
 				2811B4DD2231679C0029BF6A /* EccRecoverKey.swift in Sources */,
 				283311132232D249001EFDDA /* EcdsaSignature.swift in Sources */,
 				28AF06E3223166A700EB0463 /* recover.cpp in Sources */,

@@ -54,7 +54,7 @@ public class EosioEccSign {
             
             guard der.count >= 70 else { continue }
             
-            guard let sig = EcdsaSignature(der: der, requireLowS: true, curve: "K1") else { continue }
+            guard let sig = EcdsaSignature(der: der, requireLowS: true, curve: EllipticCurveType.k1) else { continue }
             
             // Get recovery id (recid)
             var recid = 0

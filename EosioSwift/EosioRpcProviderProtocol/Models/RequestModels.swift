@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public struct EosioRpcTableRowsRequest: Codable {
     var scope: String = "inita"
     var code: String = "currency"
@@ -84,4 +83,35 @@ public struct EosioRpcPushTransactionRequest: Codable {
     var packedTrx = ""
 }
 
+public struct EosioRpcBlockRequest: Codable {
+    var block_num_or_id: UInt64 = 0
+}
 
+public struct EosioRpcRawAbiRequest: Codable {
+    var account: EosioName
+}
+
+public struct EosioRpcBlockHeaderStateRequest: Codable {
+    var block_num_or_id: String = ""
+}
+
+public struct EosioRpcAccountRequest: Codable {
+    var account: EosioName
+}
+
+public struct EosioRpcCurrencyStatsRequest: Codable {
+    var code: String = ""
+    var symbol: String = ""
+}
+
+public struct EosioRpcHistoryTransactionRequest: Codable {
+    var transactionId: String = ""
+}
+
+public struct EosioRpcHistoryKeyAccountsRequest: Codable {
+    var publicKey: String = ""
+}
+
+public struct EosioRpcHistoryControlledAccountsRequest: Codable {
+    var controllingAccount: EosioName
+}

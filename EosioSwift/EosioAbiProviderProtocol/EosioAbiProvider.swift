@@ -60,7 +60,9 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
         if let abi = getCachedAbi(chainId: chainId, account: account) {
             return completion(.success(abi))
         }
-        rpcProvider.getRawAbi(account: account) { (response) in
+        
+        let requestParameters = EosioRpcRawAbiRequest(account: account)
+        rpcProvider.getRawAbi(requestParameters: requestParameters) { (response) in
             switch response {
             case .success(let abiResponse):
                 do {

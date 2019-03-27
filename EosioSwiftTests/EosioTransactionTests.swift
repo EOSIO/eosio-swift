@@ -195,14 +195,14 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         self.failoverRetries = failoverRetries
     }
     
-    func rpcRequest(request: EosioRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
+    func rpcRequest(request: URLRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
         
         
     }
     
     var getInfoCalled = false
     var getInfoReturnsfailure = false
-    let rpcInfo = EosioRpcInfo(
+    let rpcInfo = EosioRpcInfoResponse(
         serverVersion: "verion",
         chainId: "chainId",
         headBlockNum: 234,
@@ -217,7 +217,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         blockNetLimit: 897,
         serverVersionString: "server version")
     
-    func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {
+    func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
         getInfoCalled = true
         if getInfoReturnsfailure{
             let error = EosioError(.getInfoError, reason: "Failed for test propose")
@@ -232,7 +232,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     var getBlockCalled = false
     var getBlockReturnsFailure = false
     var blockNumberRequested:UInt64!
-    let block = EosioRpcBlock(
+    let block = EosioRpcBlockResponse(
         timestamp: "timestatmp",
         producer: "producer",
         confirmed: 8,
@@ -244,18 +244,18 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         headerExtensions: ["extension"],
         producerSignature: "signature",
         transactions: [
-            EosioRpcTransactionInfo(
+            EosioRpcTransactionInfoResponse(
                 status: "status",
                 cpuUsageUs: 89,
                 netUsageWords: 8,
-                trx: EosioRpcTrx(
+                trx: EosioRpcTrxResponse(
                     id: "lkj",
                     signatures: ["kljl"],
                     compression: "lkj",
                     packedContextFreeData: "lkj",
                     contextFreeData: ["kljl"],
                     packedTrx: "lkj",
-                    transaction: EosioRpcTransaction(tranactionId: "mocktransactionid")
+                    transaction: EosioRpcTransactionResponse(tranactionId: "mocktransactionid")
             )
             )
         ],
@@ -265,75 +265,27 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         refBlockPrefix: 0980
     )
     
-    func getBlock(blockNum: UInt64, completion: @escaping (EosioResult<EosioRpcBlock, EosioError>) -> Void) {
+    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
         getBlockCalled = true
-        blockNumberRequested = blockNum
+        blockNumberRequested = requestParameters.block_num_or_id
         let result:EosioResult = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
         completion(result)
         
     }
     
-    func getBlockHeaderState(blockNum: UInt64, completion: @escaping (EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void) {
+     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
+        
+    }
+
+
+    
+    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
         
     }
     
-    func getBlockHeaderState(blockId: String, completion: @escaping (EosioResult<EosioRpcBlockHeaderState, EosioError>) -> Void) {
+    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
         
     }
-    
-    func getAccount(account: EosioName, completion: @escaping (EosioResult<EosioRpcAccount, EosioError>) -> Void) {
-        
-    }
-    
-    func getRawAbi(account: EosioName, completion: @escaping (EosioResult<EosioRpcRawAbi, EosioError>) -> Void) {
-        
-    }
-    
-    func getRawCodeAndAbi(account: EosioName, completion: @escaping (EosioResult<EosioRpcRawCodeAbi, EosioError>) -> Void) {
-        
-    }
-    
-    func getTableRows(parameters: EosioRpcTableRowsRequest, completion: @escaping (EosioResult<EosioRpcTableRows, EosioError>) -> Void) {
-        
-    }
-    
-    func getRequiredKeys(parameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void) {
-        
-    }
-    
-    func getCurrencyStats(code: String, symbol: String, completion: @escaping (EosioResult<EosioRpcCurrencyStats, EosioError>) -> Void) {
-        
-    }
-    
-    func getProducers(parameters: EosioRpcProducersRequest, completion: @escaping (EosioResult<EosioRpcProducers, EosioError>) -> Void) {
-        
-    }
-    
-    func pushTransaction(transaction: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
-        
-    }
-    
-    func pushTransactions(transactions: [EosioRpcPushTransactionRequest], completion: @escaping ([EosioResult<EosioRpcTransaction, EosioError>]) -> Void) {
-        
-    }
-    
-    func getHistoryActions(parameters: EosioRpcHistoryActionsRequest, completion: @escaping (EosioResult<EosioRpcHistoryActions, EosioError>) -> Void) {
-        
-    }
-    
-    func getHistoryTransaction(transactionId: String, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
-        
-    }
-    
-    func getHistoryKeyAccounts(publicKey: String, completion: @escaping (EosioResult<EosioRpcKeyAccounts, EosioError>) -> Void) {
-        
-    }
-    
-    func getHistoryControlledAccounts(controllingAccount: EosioName, completion: @escaping (EosioResult<EosioRpcControllingAccounts, EosioError>) -> Void) {
-        
-    }
-    
-    
 }
 
 final class SerializationProviderMock: EosioSerializationProviderProtocol {

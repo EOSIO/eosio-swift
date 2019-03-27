@@ -8,29 +8,36 @@
 
 import Foundation
 
+public protocol EosioRequestConvertible {
+    /// Returns a `URLRequest` or throws if an `Error` was encoutered.
+    ///
+    /// - Returns: A `URLRequest`.
+    /// - Throws: Any error thrown while constructing the `URLRequest`.
+    func asUrlRequest() throws -> URLRequest
+}
+
 public enum EosioRpcRouter : EosioRequestConvertible {
     
     static let apiVersion = "v1"
     
     //implemented
-    case getInfo(parameters: Codable, endpoint: EosioEndpoint)
-    case getBlock(parameters: Codable, endpoint: EosioEndpoint)
-    case getBlockHeaderState(parameters: Codable, endpoint: EosioEndpoint)
-    case getRawAbi(parameters: Codable, endpoint: EosioEndpoint)
-    case getRequiredKeys(parameters: Codable, endpoint: EosioEndpoint)
-    case pushTransaction(parameters: Codable, endpoint: EosioEndpoint)
+    case getInfo(endpoint: EosioEndpoint)
+    case getBlock(requestParameters: EosioRpcBlockRequest, endpoint: EosioEndpoint)
+    case getRawAbi(requestParameters: EosioRpcRawAbiRequest, endpoint: EosioEndpoint)
+    case getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, endpoint: EosioEndpoint)
+    case pushTransaction(requestParameters: EosioRpcPushTransactionRequest, endpoint: EosioEndpoint)
     
-    // no implementation yet in EosioRpcProviderProtocolImpl for these (will need to change some of these patterns as well)
-    case getAccount(parameters: Codable, endpoint: EosioEndpoint)
-    case getRawCodeAndAbi(parameters: Codable, endpoint: EosioEndpoint)
-    case getTableRows(parameters: Codable, endpoint: EosioEndpoint)
-    case getCurrencyStats(parameters: Codable, endpoint: EosioEndpoint)
-    case getProducers(parameters: Codable, endpoint: EosioEndpoint)
-    case pushTransactions(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryActions(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryTransaction(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryKeyAccounts(parameters: Codable, endpoint: EosioEndpoint)
-    case getHistoryControlledAccounts(parameters: Codable, endpoint: EosioEndpoint)
+    // no implementation yet in EosioRpcProviderProtocolImpl
+    case getBlockHeaderState(requestParameters: EosioRpcBlockHeaderStateRequest, endpoint: EosioEndpoint)
+    case getAccount(requestParameters: EosioRpcAccountRequest, endpoint: EosioEndpoint)
+    case getRawCodeAndAbi(requestParameters: EosioRpcRawAbiRequest, endpoint: EosioEndpoint)
+    case getTableRows(requestParameters: EosioRpcTableRowsRequest, endpoint: EosioEndpoint)
+    case getCurrencyStats(requestParameters: EosioRpcCurrencyStatsRequest, endpoint: EosioEndpoint)
+    case getProducers(requestParameters: EosioRpcProducersRequest, endpoint: EosioEndpoint)
+    case getHistoryActions(requestParameters: EosioRpcHistoryActionsRequest, endpoint: EosioEndpoint)
+    case getHistoryTransaction(requestParameters: EosioRpcHistoryTransactionRequest, endpoint: EosioEndpoint)
+    case getHistoryKeyAccounts(requestParameters: EosioRpcHistoryKeyAccountsRequest, endpoint: EosioEndpoint)
+    case getHistoryControlledAccounts(requestParameters: EosioRpcHistoryControlledAccountsRequest, endpoint: EosioEndpoint)
 
     var method: EosioHttpMethod {
         switch self {
@@ -65,8 +72,6 @@ public enum EosioRpcRouter : EosioRequestConvertible {
             return "\(EosioRpcRouter.apiVersion)/chain/get_currency_stats"
         case .getProducers:
             return "\(EosioRpcRouter.apiVersion)/chain/get_producers"
-        case .pushTransactions:
-            return "\(EosioRpcRouter.apiVersion)/chain/push_transactions"
         case .getHistoryActions:
             return "\(EosioRpcRouter.apiVersion)/history/get_actions"
         case .getHistoryTransaction:
@@ -78,31 +83,61 @@ public enum EosioRpcRouter : EosioRequestConvertible {
         }
     }
 
-    public func asEosioRequest() throws -> EosioRequest {
+    public func asUrlRequest() throws -> URLRequest {
 
-        var request: EosioRequest?
-
-        // Handle getting the proper parameters and endpoint
+        var url: URL?
+        var urlRequest: URLRequest?
+        var parameters: Data?
+        let encoder = JSONEncoder()
+        
+        // Handle getting the proper parameters and endpoint (only the 5 that we use are implemented for now)
         switch self {
             
-        //NOTE: remaining enums will need to be added but the patterns for them may be different
-        case let .getInfo(parameters, endpoint), let .getBlock(parameters, endpoint),
-            let .getBlockHeaderState(parameters, endpoint), let .getRawAbi(parameters, endpoint),
-            let .getRequiredKeys(parameters, endpoint), let .pushTransaction(parameters, endpoint):
+            case let .getBlock(requestParameters, endpoint) :
+                 url = endpoint.baseUrl!.appendingPathComponent(path)
+                 parameters = try encoder.encode(requestParameters)
             
-            let url = endpoint.baseUrl!.appendingPathComponent(path)
-            request = EosioRequest(url: url, parameters: parameters, method: method)
-
+            case let .getRawAbi(requestParameters, endpoint) :
+                 url = endpoint.baseUrl!.appendingPathComponent(path)
+                 parameters = try encoder.encode(requestParameters)
+            
+            case let .getRequiredKeys(requestParameters, endpoint) :
+                url = endpoint.baseUrl!.appendingPathComponent(path)
+                parameters = try encoder.encode(requestParameters)
+            
+            case let .pushTransaction(requestParameters, endpoint):
+                url = endpoint.baseUrl!.appendingPathComponent(path)
+                parameters = try encoder.encode(requestParameters)
+        
+            case let .getInfo(endpoint) :
+                let url = endpoint.baseUrl!.appendingPathComponent(path)
+                urlRequest = try self.createRequest(url: url, parameters: nil)
+            
         default:
             break
         }
 
-        guard let finalRequest = request else {
-            // NOTE: This error code will change once the new EosioError changes are merged!
-            throw EosioError(.rpcProviderError, reason: "Unable to create EosioRequest")
+        urlRequest = try self.createRequest(url: url, parameters: parameters)
+        guard let finalRequest = urlRequest else {
+            throw EosioError(.rpcProviderError, reason: "Unable to create URLRequest")
         }
         
         return finalRequest
+    }
+    
+    private func createRequest(url: URL?, parameters: Data?) throws -> URLRequest {
+        
+        if let theUrl = url {
+            var urlRequest = URLRequest(url: theUrl)
+            urlRequest.httpMethod = self.method.rawValue
+            if let theParameters = parameters {
+                urlRequest.httpBody = theParameters
+            }
+            return urlRequest
+            
+        } else {
+            throw EosioError(EosioErrorCode.rpcProviderError, reason: "Failed to create URL with path")
+        }
     }
 }
 

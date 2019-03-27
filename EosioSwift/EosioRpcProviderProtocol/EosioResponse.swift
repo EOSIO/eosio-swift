@@ -11,7 +11,6 @@ import Foundation
 
 public class EosioResponse {
     public var data: Data?
-    public var statusCode: Int
     public var httpResponse: HTTPURLResponse?
     
     var string: String? {
@@ -19,9 +18,8 @@ public class EosioResponse {
         return String(data: data, encoding: .utf8)
     }
     
-    init(data: Data? = nil, statusCode: Int = 0, httpResponse: HTTPURLResponse? = nil) {
+    init(data: Data? = nil, httpResponse: HTTPURLResponse? = nil) {
         self.data = data
-        self.statusCode = statusCode
         self.httpResponse = httpResponse
     }
     

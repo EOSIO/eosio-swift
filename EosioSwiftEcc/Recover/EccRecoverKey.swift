@@ -16,18 +16,13 @@ public class EccRecoverKey {
         
     }
     
-    public enum CurveType{
-        case r1
-        case k1
-    }
-    
     /// Recover a public key from the private key
     ///
     /// - Parameters:
     ///   - privateKey: The private key
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public class func recoverPublicKey(privateKey: Data, curve: CurveType) throws -> Data  {
+    public class func recoverPublicKey(privateKey: Data, curve: EllipticCurveType) throws -> Data  {
         
         let privKeyBN = BN_new()!
         let key = EC_KEY_new()
@@ -74,7 +69,7 @@ public class EccRecoverKey {
     ///   - recid: The recovery id (0-3)
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public class func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: CurveType = .r1) throws -> Data {
+    public class func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: EllipticCurveType = .r1) throws -> Data {
         
         var curveName: Int32
         switch curve {
@@ -125,7 +120,7 @@ public class EccRecoverKey {
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The recovery id (0-3)
     /// - Throws: If none of the possible recids recover the target public key
-    public class func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: CurveType = .r1) throws -> Int {
+    public class func recid(signatureDer: Data, message: Data, targetPublicKey: Data, curve: EllipticCurveType = .r1) throws -> Int {
         for i in 0...3 {
             let recoveredPublicKey = try recoverPublicKey(signatureDer: signatureDer, message: message, recid: i, curve: curve)
             if recoveredPublicKey == targetPublicKey {

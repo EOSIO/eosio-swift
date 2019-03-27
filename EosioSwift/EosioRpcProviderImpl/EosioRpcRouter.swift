@@ -40,12 +40,7 @@ public enum EosioRpcRouter : EosioRequestConvertible {
     case getHistoryControlledAccounts(requestParameters: EosioRpcHistoryControlledAccountsRequest, endpoint: EosioEndpoint)
 
     var method: EosioHttpMethod {
-        switch self {
-        case .getInfo:
-            return .get
-        default:
             return .post
-        }
     }
     
     var path: String {

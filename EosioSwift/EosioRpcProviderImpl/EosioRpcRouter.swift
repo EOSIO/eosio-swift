@@ -27,7 +27,7 @@ public enum EosioRpcRouter : EosioRequestConvertible {
     case getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, endpoint: EosioEndpoint)
     case pushTransaction(requestParameters: EosioRpcPushTransactionRequest, endpoint: EosioEndpoint)
     
-    // no implementation yet in EosioRpcProviderProtocolImpl )
+    // no implementation yet in EosioRpcProviderProtocolImpl
     case getBlockHeaderState(requestParameters: EosioRpcBlockHeaderStateRequest, endpoint: EosioEndpoint)
     case getAccount(requestParameters: EosioRpcAccountRequest, endpoint: EosioEndpoint)
     case getRawCodeAndAbi(requestParameters: EosioRpcRawAbiRequest, endpoint: EosioEndpoint)
@@ -90,7 +90,7 @@ public enum EosioRpcRouter : EosioRequestConvertible {
         var parameters: Data?
         let encoder = JSONEncoder()
         
-        // Handle getting the proper parameters and endpoint
+        // Handle getting the proper parameters and endpoint (only the 5 that we use are implemented for now)
         switch self {
             
             case let .getBlock(requestParameters, endpoint) :
@@ -106,10 +106,6 @@ public enum EosioRpcRouter : EosioRequestConvertible {
                 parameters = try encoder.encode(requestParameters)
             
             case let .pushTransaction(requestParameters, endpoint):
-                url = endpoint.baseUrl!.appendingPathComponent(path)
-                parameters = try encoder.encode(requestParameters)
-            
-            case let .getBlockHeaderState(requestParameters, endpoint) :
                 url = endpoint.baseUrl!.appendingPathComponent(path)
                 parameters = try encoder.encode(requestParameters)
         

@@ -9,6 +9,7 @@
 import Foundation
 
 public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
+    
     public var endpoints: [EosioEndpoint]
     
     public var failoverRetries: Int
@@ -24,53 +25,41 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
         self.session = URLSession(configuration: self.primaryEndpoint.configuration)
     }
    
-    public func rpcRequest(request: EosioRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
-        
-        if let urlRequest = try? request.asUrlRequest() {
+    public func rpcRequest(request: URLRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
             
-            self.session.dataTask(with: urlRequest) { (data, response, error) in
+        self.session.dataTask(with: request) { (data, response, error) in
                 
-                if let theError = error {
+            if let theError = error {
                     
-                    let eosioError = EosioError(EosioErrorCode.rpcProviderError, reason: "Error returned from rpcRequest call.", originalError: theError as NSError)
+                let eosioError = EosioError(EosioErrorCode.rpcProviderError, reason: "Error returned from rpcRequest call.", originalError: theError as NSError)
                     
-                    completion(EosioResult.failure(eosioError))
+                completion(EosioResult.failure(eosioError))
                     
-                } else {
+            } else {
                     
-                    if let response = response as? HTTPURLResponse {
+                if let response = response as? HTTPURLResponse {
                         
-                        if response.statusCode == 200 {
+                    if response.statusCode == 200 {
                             
-                            let eosioResponse = EosioResponse(data: data, httpResponse: response)
-                            completion(EosioResult.success(eosioResponse))
+                        let eosioResponse = EosioResponse(data: data, httpResponse: response)
+                        completion(EosioResult.success(eosioResponse))
                             
-                        } else {
-                            
-                            completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Unexpected HTTP status code: \(response.statusCode)")))
-                        }
-                        
                     } else {
-                        
-                        completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No valid http response recieved.")))
+                            
+                        completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Unexpected HTTP status code: \(response.statusCode)")))
                     }
+                        
+                } else {
+                    completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "No valid http response recieved.")))
                 }
-                
-            }.resume()
-
-        } else {
-            
-            completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "EosioRequest: could not convert to URLRequest")))
-        }
-        
-
+            }
+        }.resume()
     }
     
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {
+    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
         
         do {
-           let request = try EosioRpcRouter.getInfo(endpoint: self.primaryEndpoint).asEosioRequest()
-            
+            let request = try EosioRpcRouter.getInfo(endpoint: self.primaryEndpoint).asUrlRequest()
             self.rpcRequest(request: request, completion: { result in
                 
                 switch result {
@@ -89,9 +78,11 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
         }
     }
 
-    public func getBlock(requestParameters: EosioBlockRequest, completion: @escaping (EosioResult<EosioRpcBlock, EosioError>) -> Void) {
+    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
         
-        if let request = try? EosioRpcRouter.getBlock(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
+        do {
+            
+            let request = try EosioRpcRouter.getBlock(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asUrlRequest()
             
             self.rpcRequest(request: request, completion: { result in
                 
@@ -103,15 +94,19 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
                 }
             })
             
-        } else {
-            
-            completion(EosioResult.failure(EosioError(EosioErrorCode.getBlockError, reason: "EosioRequest: could not create EosioRequest.")))
+        } catch let error as EosioError {
+            error.errorCode = EosioErrorCode.getBlockError
+            completion(EosioResult.failure(error))
+        } catch {
+            completion(EosioResult.failure(EosioError(EosioErrorCode.getBlockError, reason: "EosioRequest: could not create URLRequest.")))
         }
     }
     
-    public func getRawAbi(requestParameters: EosioRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbi, EosioError>) -> Void) {
+    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
         
-        if let request = try? EosioRpcRouter.getRawAbi(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
+        do {
+            
+            let request = try EosioRpcRouter.getRawAbi(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asUrlRequest()
             
             self.rpcRequest(request: request, completion: { result in
                 
@@ -123,16 +118,46 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
                 }
             })
             
-        } else {
+        } catch let error as EosioError {
+            error.errorCode = EosioErrorCode.getRawAbiError
+            completion(EosioResult.failure(error))
             
-            completion(EosioResult.failure(EosioError(EosioErrorCode.getRawAbiError, reason: "EosioRequest: could not create EosioRequest.")))
+        } catch {
+            completion(EosioResult.failure(EosioError(EosioErrorCode.getRawAbiError, reason: "EosioRequest: could not create URLRequest.")))
+        }
+    }
+    
+    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
+        
+        do {
+            
+            let request = try EosioRpcRouter.getRequiredKeys(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asUrlRequest()
+            
+            self.rpcRequest(request: request, completion: { result in
+                
+                switch result {
+                case .success(let response):
+                    completion(response.decodeJson())
+                case .failure(let error):
+                    completion(EosioResult.failure(error))
+                }
+            })
+            
+        } catch let error as EosioError {
+            error.errorCode = EosioErrorCode.getRequiredKeysError
+            completion(EosioResult.failure(error))
+            
+        } catch {
+            completion(EosioResult.failure(EosioError(EosioErrorCode.getRequiredKeysError, reason: "EosioRequest: could not create URLRequest.")))
         }
         
     }
     
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void) {
+    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
         
-        if let request = try? EosioRpcRouter.getRequiredKeys(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
+        do {
+            
+            let request = try EosioRpcRouter.pushTransaction(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asUrlRequest()
             
             self.rpcRequest(request: request, completion: { result in
                 
@@ -144,31 +169,12 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
                 }
             })
             
-        } else {
+        } catch let error as EosioError {
+            error.errorCode = EosioErrorCode.pushTransactionError
+            completion(EosioResult.failure(error))
             
-            completion(EosioResult.failure(EosioError(EosioErrorCode.getRequiredKeysError, reason: "EosioRequest: could not create EosioRequest.")))
+        } catch {
+            completion(EosioResult.failure(EosioError(EosioErrorCode.pushTransactionError, reason: "EosioRequest: could not create URLRequest.")))
         }
-        
-    }
-    
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
-        
-        if let request = try? EosioRpcRouter.pushTransaction(requestParameters: requestParameters, endpoint: self.primaryEndpoint).asEosioRequest() {
-            
-            self.rpcRequest(request: request, completion: { result in
-                
-                switch result {
-                case .success(let response):
-                    completion(response.decodeJson())
-                case .failure(let error):
-                    completion(EosioResult.failure(error))
-                }
-            })
-            
-        } else {
-            
-            completion(EosioResult.failure(EosioError(EosioErrorCode.getRequiredKeysError, reason: "EosioRequest: could not create EosioRequest.")))
-        }
-        
     }
 }

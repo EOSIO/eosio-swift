@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct EosioRpcInfo: Codable {
+public struct EosioRpcInfoResponse: Codable {
     public var serverVersion: String
     public var chainId: String
     public var headBlockNum: UInt64
@@ -59,14 +59,14 @@ public struct EosioRpcInfo: Codable {
     }
 }
 
-public struct EosioRpcTrx: Codable {
+public struct EosioRpcTrxResponse: Codable {
     public var id: String
     public var signatures: [String]
     public var compression: String
     public var packedContextFreeData: String
     public var contextFreeData: [String]
     public var packedTrx: String
-    public var transaction: EosioRpcTransaction
+    public var transaction: EosioRpcTransactionResponse
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -79,7 +79,7 @@ public struct EosioRpcTrx: Codable {
     }
     
     public init(id: String, signatures: [String], compression: String, packedContextFreeData: String,
-                contextFreeData: [String], packedTrx: String, transaction: EosioRpcTransaction) {
+                contextFreeData: [String], packedTrx: String, transaction: EosioRpcTransactionResponse) {
         self.id = id
         self.signatures = signatures
         self.compression = compression
@@ -91,11 +91,11 @@ public struct EosioRpcTrx: Codable {
     }
 }
 
-public struct EosioRpcTransactionInfo: Codable {
+public struct EosioRpcTransactionInfoResponse: Codable {
     public var status: String
     public var cpuUsageUs: UInt
     public var netUsageWords: UInt
-    public var trx: EosioRpcTrx
+    public var trx: EosioRpcTrxResponse
     
     enum CodingKeys: String, CodingKey {
         case status
@@ -104,7 +104,7 @@ public struct EosioRpcTransactionInfo: Codable {
         case trx
     }
     
-    public init(status: String, cpuUsageUs: UInt, netUsageWords: UInt, trx: EosioRpcTrx) {
+    public init(status: String, cpuUsageUs: UInt, netUsageWords: UInt, trx: EosioRpcTrxResponse) {
         self.status = status
         self.cpuUsageUs = cpuUsageUs
         self.netUsageWords = netUsageWords
@@ -112,7 +112,7 @@ public struct EosioRpcTransactionInfo: Codable {
     }
 }
 
-public struct EosioRpcBlock: Codable {
+public struct EosioRpcBlockResponse: Codable {
     public var timestamp: String
     public var producer: String
     public var confirmed: UInt
@@ -123,7 +123,7 @@ public struct EosioRpcBlock: Codable {
     public var newProducers: String?
     public var headerExtensions: [String]
     public var producerSignature: String
-    public var transactions: [EosioRpcTransactionInfo]
+    public var transactions: [EosioRpcTransactionInfoResponse]
     public var blockExtensions: [String]
     public var id: String
     public var blockNum: UInt64
@@ -149,7 +149,7 @@ public struct EosioRpcBlock: Codable {
     
     public init(timestamp: String, producer: String, confirmed: UInt, previous: String, transactionMroot: String,
                 actionMroot: String, scheduleVersion: UInt, newProducers: String?, headerExtensions: [String],
-                producerSignature: String, transactions: [EosioRpcTransactionInfo], blockExtensions: [String],
+                producerSignature: String, transactions: [EosioRpcTransactionInfoResponse], blockExtensions: [String],
                 id: String, blockNum: UInt64, refBlockPrefix: UInt64) {
         self.timestamp = timestamp
         self.producer = producer
@@ -169,7 +169,7 @@ public struct EosioRpcBlock: Codable {
     }
 }
 
-public struct EosioRpcRawAbi: Codable {
+public struct EosioRpcRawAbiResponse: Codable {
     public var accountName: String
     public var codeHash: String
     public var abiHash: String
@@ -190,8 +190,10 @@ public struct EosioRpcRawAbi: Codable {
     }
 }
 
-
-public struct EosioRpcRequiredKeys: Codable {
+public struct EosioRpcRawCodeAbiResponse: Codable {
+    //TODO: implement
+}
+public struct EosioRpcRequiredKeysResponse: Codable {
     public var requiredKeys: [String]
    
     
@@ -205,8 +207,7 @@ public struct EosioRpcRequiredKeys: Codable {
 }
 
 
-
-public struct EosioRpcTransaction: Codable {
+public struct EosioRpcTransactionResponse : Codable {
     public var tranactionId: String
     
     enum CodingKeys: String, CodingKey {
@@ -216,6 +217,44 @@ public struct EosioRpcTransaction: Codable {
     public init(tranactionId: String) {
         self.tranactionId = tranactionId
     }
+}
+
+public struct EosioRpcHistoryActionsResponse: Codable {
+     //TODO: fill in impl
+}
+
+public struct EosioRpcBlockHeaderStateResponse: Codable {
+    
+    //TODO: fill in impl
+    
+}
+
+public struct EosioRpcAccountResponse: Codable {
+    //TODO: fill in impl
+}
+
+public struct EosioRpcTableRowsResponse: Codable {
+     //TODO: fill in impl
+}
+
+public struct EosioRpcCurrencyStatsResponse: Codable {
+    //TODO: fill in impl
+}
+
+public struct EosioRpcProducersResponse: Codable {
+    //TODO: fill in impl
+}
+
+public struct EosioRpcHistoryTransactionResponse: Codable {
+    //TODO: fill in impl
+}
+
+public struct EosioRpcHistoryKeyAccountsResponse: Codable {
+   //TODO: fill in impl
+}
+
+public struct EosioRpcControllingAccountsResponse: Codable {
+   //TODO: fill in impl
 }
 
 

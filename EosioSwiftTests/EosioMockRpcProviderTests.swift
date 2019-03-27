@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-import EosioSwift
+@testable import EosioSwift
 
 class EosioMockRpcProviderTests: XCTestCase {
     
@@ -42,10 +42,12 @@ class EosioMockRpcProviderTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
     
-    /*
+    
     func testGetBlock() {
         let expect = expectation(description: "testGetBlock")
-        rpcProvider?.getBlock(blockNum: 25260032) { response in
+        
+        let requestParameters = EosioRpcBlockRequest(block_num_or_id: 25260032)
+        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success(let infoResponse):
                 XCTAssertTrue(infoResponse.blockNum == 25260032)
@@ -59,12 +61,13 @@ class EosioMockRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
-    
+
     func testGetRawAbiToken() {
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio.token")
-            rpcProvider?.getRawAbi(account: name) { response in
+            let requestParameters = EosioRpcRawAbiRequest(account: name)
+            rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let infoResponse):
                     XCTAssertTrue(infoResponse.accountName == "eosio.token")
@@ -87,7 +90,8 @@ class EosioMockRpcProviderTests: XCTestCase {
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio")
-            rpcProvider?.getRawAbi(account: name) { response in
+            let requestParameters = EosioRpcRawAbiRequest(account: name)
+            rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let infoResponse):
                     XCTAssertTrue(infoResponse.accountName == "eosio")
@@ -105,7 +109,5 @@ class EosioMockRpcProviderTests: XCTestCase {
             XCTFail()
         }
     }
-    */
-    
 }
 

@@ -61,7 +61,7 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
             return completion(.success(abi))
         }
         
-        let requestParameters = EosioRawAbiRequest(account: account)
+        let requestParameters = EosioRpcRawAbiRequest(account: account)
         rpcProvider.getRawAbi(requestParameters: requestParameters) { (response) in
             switch response {
             case .success(let abiResponse):

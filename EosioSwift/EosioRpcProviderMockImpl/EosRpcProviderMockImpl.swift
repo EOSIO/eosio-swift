@@ -29,31 +29,31 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
         self.currentEndpoint = endpoints[0]
     }
     
-    public func rpcRequest(request: EosioRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
+    public func rpcRequest(request: URLRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
         // For now all calls to rpcRequest will return a failure
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Mock Implementation: rpcRequest not implemented.")))
     }
     
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfo, EosioError>) -> Void) {
+    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
         let resp = createInfoResponse()
         completion(resp.decodeJson())
     }
     
-    public func getBlock(requestParameters: EosioBlockRequest, completion: @escaping (EosioResult<EosioRpcBlock, EosioError>) -> Void) {
+    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
         let resp = createBlockResponse()
         completion(resp.decodeJson())
     }
     
-    public func getRawAbi(requestParameters: EosioRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbi, EosioError>) -> Void) {
+    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
         let resp = createRawAbiResponse(account: requestParameters.account)
         completion(resp.decodeJson())
     }
     
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeys, EosioError>) -> Void) {
+    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
         
     }
     
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransaction, EosioError>) -> Void) {
+    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
         
     }
     

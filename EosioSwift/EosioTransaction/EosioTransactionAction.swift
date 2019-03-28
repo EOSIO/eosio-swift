@@ -190,7 +190,7 @@ extension EosioTransaction.Action {
         /// - Parameters:
         ///   - actor: actor as EosioName
         ///   - permission: permission as EosioName
-        init(actor: EosioName, permission: EosioName) {
+        public init(actor: EosioName, permission: EosioName) {
             self.actor = actor
             self.permission = permission
         }
@@ -202,7 +202,7 @@ extension EosioTransaction.Action {
         ///   - actor: actor as String
         ///   - permission: permission as String
         /// - Throws: if the strings are not valid EosioNames
-        init(actor: String, permission: String) throws {
+        public init(actor: String, permission: String) throws {
             try self.init(actor: EosioName(actor), permission: EosioName(permission))
         }
         

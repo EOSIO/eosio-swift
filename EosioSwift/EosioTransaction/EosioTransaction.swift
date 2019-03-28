@@ -58,6 +58,9 @@ public class EosioTransaction: Codable {
     }
     
     
+    public init() {  }
+    
+    
     /// Deserialize a serialized transaction and return a `EosioTransaction` object.
     ///
     /// - Parameters:

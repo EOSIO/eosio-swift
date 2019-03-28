@@ -50,7 +50,7 @@ public class AbiEos: EosioSerializationProviderProtocol {
         let path = Bundle(for: AbiEos.self).url(forResource: fileName, withExtension: nil)?.path ?? ""
         abiString = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
         guard abiString != "" else {
-            throw Error(EosioErrorCode.vaultError, reason: "Json to hex -- No ABI file found for \(fileName)")
+            throw Error(.serializationProviderError, reason: "Json to hex -- No ABI file found for \(fileName)")
         }
         return abiString
     }
@@ -75,23 +75,23 @@ public class AbiEos: EosioSerializationProviderProtocol {
         // set the abi
         let setAbiResult = abieos_set_abi(context, contract64, abiJsonString)
         guard setAbiResult == 1 else {
-            throw Error(EosioErrorCode.vaultError, reason: "Json to hex -- Unable to set ABI. \(self.error ?? "")")
+            throw Error(.serializationProviderError, reason: "Json to hex -- Unable to set ABI. \(self.error ?? "")")
         }
                 
         // get the type name for the action
         guard let type = type ?? getType(action: name, contract: contract64) else {
-            throw Error(EosioErrorCode.vaultError, reason: "Unable find type for action \(name). \(self.error ?? "")")
+            throw Error(.serializationProviderError, reason: "Unable find type for action \(name). \(self.error ?? "")")
         }
         
         var jsonToBinResult: Int32 = 0
         jsonToBinResult = abieos_json_to_bin_reorderable(context, contract64, type, json)
 
         guard jsonToBinResult == 1 else {
-            throw Error(EosioErrorCode.vaultError, reason: "Unable to pack json to bin. \(self.error ?? "")")
+            throw Error(.serializationProviderError, reason: "Unable to pack json to bin. \(self.error ?? "")")
         }
         
         guard let hex = String(validatingUTF8: abieos_get_bin_hex(context)) else {
-            throw Error(EosioErrorCode.vaultError, reason: "Unable to convert binary to hex")
+            throw Error(.serializationProviderError, reason: "Unable to convert binary to hex")
         }
         return hex
     }
@@ -116,22 +116,22 @@ public class AbiEos: EosioSerializationProviderProtocol {
         // set the abi
         let setAbiResult = abieos_set_abi(context, contract64, abiJsonString)
         guard setAbiResult == 1 else {
-            throw Error(EosioErrorCode.vaultError, reason: "Hex to json -- Unable to set ABI. \(self.error ?? "")")
+            throw Error(.serializationProviderError, reason: "Hex to json -- Unable to set ABI. \(self.error ?? "")")
         }
         
         // get the type name for the action
         guard let type = type ?? getType(action: name, contract: contract64) else {
-            throw Error(EosioErrorCode.vaultError, reason: "Unable find type for action \(name). \(self.error ?? "")")
+            throw Error(.serializationProviderError, reason: "Unable find type for action \(name). \(self.error ?? "")")
         }
      
         if let json = abieos_hex_to_json(context, contract64, type, hex) {
             if let string = String(validatingUTF8: json) {
                 return string
             } else {
-                throw Error(EosioErrorCode.vaultError, reason: "Unable to convert c string json to String.)")
+                throw Error(.serializationProviderError, reason: "Unable to convert c string json to String.)")
             }
         } else {
-            throw Error(EosioErrorCode.vaultError, reason: "Unable to unpack hex to json. \(self.error ?? "")")
+            throw Error(.serializationProviderError, reason: "Unable to unpack hex to json. \(self.error ?? "")")
         }
         
     }

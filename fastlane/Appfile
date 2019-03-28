@@ -1,0 +1,6 @@
+app_identifier("one.block.eosio") # The bundle identifier of your app
+apple_id("automation@block.one") # Your Apple email address
+
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

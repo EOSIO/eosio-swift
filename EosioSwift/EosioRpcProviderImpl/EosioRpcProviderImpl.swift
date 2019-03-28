@@ -76,34 +76,34 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
     }
     
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
-        self.doRequestAndDecode(request: EosioRpcRouter.getInfo(endpoint: self.primaryEndpoint),
+        self.doRequestAndDecode(request: EosioRpcRouter.getInfoRequest(endpoint: self.primaryEndpoint),
                                 errorCode: EosioErrorCode.getInfoError,
                                 returnCompletion: completion)
     }
 
     public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
-        self.doRequestAndDecode(request: EosioRpcRouter.getBlock(requestParameters: requestParameters,
+        self.doRequestAndDecode(request: EosioRpcRouter.getBlockRequest(requestParameters: requestParameters,
                                                                  endpoint: self.primaryEndpoint),
                                 errorCode: EosioErrorCode.getBlockError,
                                 returnCompletion: completion)
     }
     
     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
-        self.doRequestAndDecode(request: EosioRpcRouter.getRawAbi(requestParameters: requestParameters,
+        self.doRequestAndDecode(request: EosioRpcRouter.getRawAbiRequest(requestParameters: requestParameters,
                                                                   endpoint: self.primaryEndpoint),
                                 errorCode: EosioErrorCode.getRawAbiError,
                                 returnCompletion: completion)
     }
     
     public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
-        self.doRequestAndDecode(request: EosioRpcRouter.getRequiredKeys(requestParameters: requestParameters,
+        self.doRequestAndDecode(request: EosioRpcRouter.getRequiredKeysRequest(requestParameters: requestParameters,
                                                                         endpoint: self.primaryEndpoint),
                                 errorCode: EosioErrorCode.getRequiredKeysError,
                                 returnCompletion: completion)
     }
     
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
-        self.doRequestAndDecode(request: EosioRpcRouter.pushTransaction(requestParameters: requestParameters,
+        self.doRequestAndDecode(request: EosioRpcRouter.pushTransactionRequest(requestParameters: requestParameters,
                                                                         endpoint: self.primaryEndpoint),
                                 errorCode: EosioErrorCode.pushTransactionError,
                                 returnCompletion: completion)

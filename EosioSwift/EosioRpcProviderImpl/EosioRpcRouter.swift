@@ -21,23 +21,23 @@ public enum EosioRpcRouter : EosioRequestConvertible {
     static let apiVersion = "v1"
     
     //implemented
-    case getInfo(endpoint: EosioEndpoint)
-    case getBlock(requestParameters: EosioRpcBlockRequest, endpoint: EosioEndpoint)
-    case getRawAbi(requestParameters: EosioRpcRawAbiRequest, endpoint: EosioEndpoint)
-    case getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, endpoint: EosioEndpoint)
-    case pushTransaction(requestParameters: EosioRpcPushTransactionRequest, endpoint: EosioEndpoint)
+    case getInfoRequest(endpoint: EosioEndpoint)
+    case getBlockRequest(requestParameters: EosioRpcBlockRequest, endpoint: EosioEndpoint)
+    case getRawAbiRequest(requestParameters: EosioRpcRawAbiRequest, endpoint: EosioEndpoint)
+    case getRequiredKeysRequest(requestParameters: EosioRpcRequiredKeysRequest, endpoint: EosioEndpoint)
+    case pushTransactionRequest(requestParameters: EosioRpcPushTransactionRequest, endpoint: EosioEndpoint)
     
     // no implementation yet in EosioRpcProviderProtocolImpl
-    case getBlockHeaderState(requestParameters: EosioRpcBlockHeaderStateRequest, endpoint: EosioEndpoint)
-    case getAccount(requestParameters: EosioRpcAccountRequest, endpoint: EosioEndpoint)
-    case getRawCodeAndAbi(requestParameters: EosioRpcRawAbiRequest, endpoint: EosioEndpoint)
-    case getTableRows(requestParameters: EosioRpcTableRowsRequest, endpoint: EosioEndpoint)
-    case getCurrencyStats(requestParameters: EosioRpcCurrencyStatsRequest, endpoint: EosioEndpoint)
-    case getProducers(requestParameters: EosioRpcProducersRequest, endpoint: EosioEndpoint)
-    case getHistoryActions(requestParameters: EosioRpcHistoryActionsRequest, endpoint: EosioEndpoint)
-    case getHistoryTransaction(requestParameters: EosioRpcHistoryTransactionRequest, endpoint: EosioEndpoint)
-    case getHistoryKeyAccounts(requestParameters: EosioRpcHistoryKeyAccountsRequest, endpoint: EosioEndpoint)
-    case getHistoryControlledAccounts(requestParameters: EosioRpcHistoryControlledAccountsRequest, endpoint: EosioEndpoint)
+    case getBlockHeaderStateRequest(requestParameters: EosioRpcBlockHeaderStateRequest, endpoint: EosioEndpoint)
+    case getAccountRequest(requestParameters: EosioRpcAccountRequest, endpoint: EosioEndpoint)
+    case getRawCodeAndAbiRequest(requestParameters: EosioRpcRawAbiRequest, endpoint: EosioEndpoint)
+    case getTableRowsRequest(requestParameters: EosioRpcTableRowsRequest, endpoint: EosioEndpoint)
+    case getCurrencyStatsRequest(requestParameters: EosioRpcCurrencyStatsRequest, endpoint: EosioEndpoint)
+    case getProducersRequest(requestParameters: EosioRpcProducersRequest, endpoint: EosioEndpoint)
+    case getHistoryActionsRequest(requestParameters: EosioRpcHistoryActionsRequest, endpoint: EosioEndpoint)
+    case getHistoryTransactionRequest(requestParameters: EosioRpcHistoryTransactionRequest, endpoint: EosioEndpoint)
+    case getHistoryKeyAccountsRequest(requestParameters: EosioRpcHistoryKeyAccountsRequest, endpoint: EosioEndpoint)
+    case getHistoryControlledAccountsRequest(requestParameters: EosioRpcHistoryControlledAccountsRequest, endpoint: EosioEndpoint)
 
     var method: EosioHttpMethod {
             return .post
@@ -45,35 +45,35 @@ public enum EosioRpcRouter : EosioRequestConvertible {
     
     var path: String {
         switch self {
-        case .getInfo:
+        case .getInfoRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_info"
-        case .getBlock:
+        case .getBlockRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_block"
-        case .getBlockHeaderState:
+        case .getBlockHeaderStateRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_block_header_state"
-        case .getRawAbi:
+        case .getRawAbiRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_raw_abi"
-        case .getRequiredKeys:
+        case .getRequiredKeysRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_required_keys"
-        case .pushTransaction:
+        case .pushTransactionRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/push_transaction"
-        case .getAccount:
+        case .getAccountRequest:
             return "\(EosioRpcRouter.apiVersion)chain/get_account"
-        case .getRawCodeAndAbi:
+        case .getRawCodeAndAbiRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_raw_code_and_abi"
-        case .getTableRows:
+        case .getTableRowsRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_table_rows"
-        case .getCurrencyStats:
+        case .getCurrencyStatsRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_currency_stats"
-        case .getProducers:
+        case .getProducersRequest:
             return "\(EosioRpcRouter.apiVersion)/chain/get_producers"
-        case .getHistoryActions:
+        case .getHistoryActionsRequest:
             return "\(EosioRpcRouter.apiVersion)/history/get_actions"
-        case .getHistoryTransaction:
+        case .getHistoryTransactionRequest:
             return "\(EosioRpcRouter.apiVersion)/history/get_transaction"
-        case .getHistoryKeyAccounts:
+        case .getHistoryKeyAccountsRequest:
             return "\(EosioRpcRouter.apiVersion)history/get_key_accounts"
-        case .getHistoryControlledAccounts:
+        case .getHistoryControlledAccountsRequest:
             return "\(EosioRpcRouter.apiVersion)/history/get_controlled_accounts"
         }
     }
@@ -88,23 +88,23 @@ public enum EosioRpcRouter : EosioRequestConvertible {
         // Handle getting the proper parameters and endpoint (only the 5 that we use are implemented for now)
         switch self {
             
-            case let .getBlock(requestParameters, endpoint) :
+            case let .getBlockRequest(requestParameters, endpoint) :
                  url = endpoint.baseUrl!.appendingPathComponent(path)
                  parameters = try encoder.encode(requestParameters)
             
-            case let .getRawAbi(requestParameters, endpoint) :
+            case let .getRawAbiRequest(requestParameters, endpoint) :
                  url = endpoint.baseUrl!.appendingPathComponent(path)
                  parameters = try encoder.encode(requestParameters)
             
-            case let .getRequiredKeys(requestParameters, endpoint) :
+            case let .getRequiredKeysRequest(requestParameters, endpoint) :
                 url = endpoint.baseUrl!.appendingPathComponent(path)
                 parameters = try encoder.encode(requestParameters)
             
-            case let .pushTransaction(requestParameters, endpoint):
+            case let .pushTransactionRequest(requestParameters, endpoint):
                 url = endpoint.baseUrl!.appendingPathComponent(path)
                 parameters = try encoder.encode(requestParameters)
         
-            case let .getInfo(endpoint) :
+            case let .getInfoRequest(endpoint) :
                 let url = endpoint.baseUrl!.appendingPathComponent(path)
                 urlRequest = try self.createRequest(url: url, parameters: nil)
             

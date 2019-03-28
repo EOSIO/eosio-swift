@@ -27,7 +27,7 @@ public final class EosioSwiftSoftkeySignatureProvider {
         for privateKey in privateKeys {
             let (_, version, _) = try privateKey.eosioComponents()
             if version != "K1" {
-                throw EosioError(.eosioKeyError, reason: "Unsupported key type. Only K1 key types are supported in this version of the library. Key: \(privateKey) Type: \(version)")
+                throw EosioError(EosioErrorCode.keyManagementError, reason: "Unsupported key type. Only K1 key types are supported in this version of the library. Key: \(privateKey) Type: \(version)")
             }
             let privateKeyData = try Data(eosioPrivateKey: privateKey)
             let publicKeyData = try EccRecoverKey.recoverPublicKey(privateKey: privateKeyData, curve: .k1)

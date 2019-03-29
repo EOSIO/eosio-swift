@@ -39,7 +39,7 @@ public class EosioRpcProviderImpl :  EosioRpcProviderProtocol {
                     
                 if let response = response as? HTTPURLResponse {
                         
-                    if response.statusCode == 200 {
+                    if response.statusCode >= 200 && response.statusCode <= 299 {
                             
                         let eosioResponse = EosioResponse(data: data, httpResponse: response)
                         completion(EosioResult.success(eosioResponse))

@@ -382,7 +382,7 @@ public class EosioTransaction: Codable {
         }
     
         do {
-            let requiredKeysRequest = EosioRpcRequiredKeysRequest(availableKeys: availableKeys, transactionJson: try self.toJson())
+            let requiredKeysRequest = EosioRpcRequiredKeysRequest(availableKeys: availableKeys, transaction: self)
             rpcProvider.getRequiredKeys(requestParameters: requiredKeysRequest) { (response) in
                 switch response {
                 case .failure(let error):

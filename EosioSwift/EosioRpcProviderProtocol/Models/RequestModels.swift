@@ -43,16 +43,16 @@ public struct EosioRpcCurrencyBalanceRequest: Codable {
 }
 
 public struct EosioRpcRequiredKeysRequest: Codable {
-    var transactionJson: String
+    var transaction: EosioTransaction
     var availableKeys: [String]
     
-    init(availableKeys: [String], transactionJson: String) {
+    init(availableKeys: [String], transaction: EosioTransaction) {
         self.availableKeys = availableKeys
-        self.transactionJson = transactionJson
+        self.transaction = transaction
     }
     
     enum CodingKeys: String, CodingKey {
-        case transactionJson = "transaction"
+        case transaction = "transaction"
         case availableKeys = "available_keys"
     }
 }
@@ -88,7 +88,7 @@ public struct EosioRpcBlockRequest: Codable {
 }
 
 public struct EosioRpcRawAbiRequest: Codable {
-    var account: EosioName
+    var account_name: EosioName
 }
 
 public struct EosioRpcBlockHeaderStateRequest: Codable {

@@ -66,7 +66,7 @@ class EosioMockRpcProviderTests: XCTestCase {
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio.token")
-            let requestParameters = EosioRpcRawAbiRequest(account: name)
+            let requestParameters = EosioRpcRawAbiRequest(account_name: name)
             rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let infoResponse):
@@ -90,7 +90,7 @@ class EosioMockRpcProviderTests: XCTestCase {
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio")
-            let requestParameters = EosioRpcRawAbiRequest(account: name)
+            let requestParameters = EosioRpcRawAbiRequest(account_name: name)
             rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let infoResponse):

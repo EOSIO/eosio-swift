@@ -211,7 +211,7 @@ public struct EosioRpcTransactionResponse : Codable {
     public var tranactionId: String
     
     enum CodingKeys: String, CodingKey {
-        case tranactionId = "trandaction_id"
+        case tranactionId = "transaction_id"
     }
     
     public init(tranactionId: String) {

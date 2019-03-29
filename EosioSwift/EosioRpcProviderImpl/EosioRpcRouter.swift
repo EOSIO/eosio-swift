@@ -111,8 +111,8 @@ public enum EosioRpcRouter : EosioRequestConvertible {
                 parameters = try encoder.encode(requestParameters)
         
             case let .getInfoRequest(endpoint) :
-                let url = endpoint.baseUrl!.appendingPathComponent(path)
-                urlRequest = try self.createRequest(url: url, parameters: nil)
+                url = endpoint.baseUrl!.appendingPathComponent(path)
+                parameters = nil
             
         default:
             break

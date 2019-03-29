@@ -106,6 +106,7 @@ lane :tests do
   get_certificates
   get_provisioning_profile
   run_tests(scheme: "EosioSwiftEcc",
+  workspace: "EosioSwiftEcc.xcworkspace",
   devices: ["iPhone 5s"],
   code_coverage: true,
   output_directory: "code_coverage_report",

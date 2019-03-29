@@ -1,0 +1,130 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+
+def get_build_summary
+  current_commit = `git rev-parse HEAD`.strip
+  latest_tag = `git tag --sort=-creatordate`.strip.split("\n").first
+
+  is_latest = false
+  tag_commit = ""
+  changelog = ""
+  title = "Initial Build"
+
+  if latest_tag.nil? then
+    puts "No tags found"
+    latest_tag = "v0.0.0"
+  else
+    tag_commit = `git rev-list -n 1 #{latest_tag}`.strip
+    release = get_github_release(url: "EOSIO/ios-browser-app", version: "#{latest_tag}", api_token: ENV["GITHUB_API_TOKEN"])
+    unless release.nil? then
+      changelog = (release['body'] || "Releases version #{latest_tag}")
+      is_latest = current_commit == tag_commit
+      title = release['name']
+    end
+  end
+
+  puts "Build Summary:\n\tBuilding the newest tag? #{is_latest}\n\tLatest Tag (commit): #{latest_tag} (#{tag_commit})\n\tRelease Title: #{title}"
+
+  return {
+    is_latest: is_latest,
+    changelog: changelog,
+    latest_tag: latest_tag,
+    title: title
+  }
+
+end
+
+def get_pod(repo_name)
+  puts "cleaning #{repo_name} directory"
+  `rm -rf ../../#{repo_name}`
+  puts 'cloning #{repo_name}'
+  `git clone git@github.com:EOSIO/#{repo_name}.git ../../#{repo_name}`
+end
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :custom_lane do
+    # add actions here: https://docs.fastlane.tools/actions
+  end
+end
+
+lane :build do
+  puts 'copying frameworks to working directory'
+  `cp -R /Users/cicd/*.framework ../`
+
+  [
+    'eosio-swift'
+  ].each do |pod_name|
+    get_pod(pod_name)
+  end
+
+  cocoapods
+
+  build_summary = get_build_summary
+
+  increment_version_number(
+    version_number: "1.0"
+  )
+
+  increment_build_number build_number: (ENV["BUILDKITE_BUILD_NUMBER"] || 1)
+
+  get_certificates
+  get_provisioning_profile
+  build_app(scheme: "EosioSwiftEcc",
+            workspace: "EosioSwiftEcc.xcworkspace",
+            include_bitcode: false,
+            sdk: "iOS 12.1")
+end
+
+lane :tests do
+  puts 'copying frameworks to working directory'
+  `cp -R /Users/cicd/*.framework ../`
+
+  [
+    'eosio-swift'
+  ].each do |pod_name|
+    get_pod(pod_name)
+  end
+
+  cocoapods
+
+  get_certificates
+  get_provisioning_profile
+  run_tests(scheme: "EosioSwiftEcc",
+  devices: ["iPhone 5s"],
+  code_coverage: true,
+  output_directory: "code_coverage_report",
+  xcpretty_args:"--report junit"
+  )
+
+  xcov(
+  scheme: "EosioSwiftEcc",
+  output_directory: "code_coverage_report",
+  json_report: true
+)
+end
+
+
+lane :deploytestflight do
+  build_summary = get_build_summary
+
+  #We don't deploy this to Testflight
+
+  clear_derived_data
+
+end

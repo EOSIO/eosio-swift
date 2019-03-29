@@ -1,0 +1,21 @@
+steps:
+  - command: "source ~/.bash_profile && bundle install --path ci/bundle"
+    label: ":ruby: bundle install"
+    agents:
+      - "queue=vm-ios-agent"
+  - wait
+  - command: "source ~/.bash_profile && bundle install && bundle exec fastlane tests"
+    label: ":fastlane: Run Tests"
+    agents:
+      - "queue=vm-ios-agent"
+    env:
+      LC_ALL: "en_US.UTF-8"
+      LANG: "en_US.UTF-8"
+    artifact_paths:
+      - "build/reports/junit.xml"
+      - "code_coverage_report/*"
+  - wait
+  - command: "echo 'Success!!'"
+    label: ":trophy: Success"
+    agents:
+      - "queue=vm-ios-agent"

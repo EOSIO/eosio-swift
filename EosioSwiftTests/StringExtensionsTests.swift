@@ -20,7 +20,7 @@ class StringExtensionsTests: XCTestCase {
     }
     
     func test_initEncodeToJson_withValidJsonObject_shouldReturnCorrectJsonString() {
-        let jsonObject = ["Name" : "Tom", "JobTitle": "Software Developer"]
+        let jsonObject = ["name" : "Tom", "job_title": "Software Developer"]
         guard let jsonString = try? String(encodeToJson: jsonObject) else{
             return XCTFail()
         }

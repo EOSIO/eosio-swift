@@ -369,11 +369,7 @@ public class EosioTransaction: Codable {
             case .failure(let error):
                 completion(.failure(error))
             case .success:
-                do {
-                    strongSelf.signPreparedTransaction(availableKeys: availableKeys, completion: completion)
-                } catch {
-                    return completion(.failure(error.eosioError))
-                }
+                strongSelf.signPreparedTransaction(availableKeys: availableKeys, completion: completion)
             }
         }
     }

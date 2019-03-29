@@ -58,6 +58,9 @@ public class EosioTransaction: Codable {
     }
     
     
+    public init() {  }
+    
+    
     /// Deserialize a serialized transaction and return a `EosioTransaction` object.
     ///
     /// - Parameters:
@@ -356,8 +359,24 @@ public class EosioTransaction: Codable {
     }
     
     
-    /// Sign a transaction by getting the required keys using  the rpcProvider then calling `sign(publicKeys:, completion:)`
+    /// Sign a transaction by preparing the transaction and then calling `signPreparedTransaction(availableKeys:, completion:)`
     public func sign(availableKeys: [String],  completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        prepare { [weak self] (result) in
+            guard let strongSelf = self else {
+                return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
+            }
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success:
+                strongSelf.signPreparedTransaction(availableKeys: availableKeys, completion: completion)
+            }
+        }
+    }
+    
+    
+    /// Sign a transaction by getting the required keys using the rpcProvider then calling `sign(publicKeys:, completion:)`
+    private func signPreparedTransaction(availableKeys: [String],  completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let rpcProvider = rpcProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No rpc provider available")))
         }

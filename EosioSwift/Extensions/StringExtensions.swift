@@ -143,5 +143,18 @@ public extension String {
         }
         return true
     }
+    
+    
+    /// Returns true if the string contains all of the words in `words`
+    public func contains(words: String) -> Bool {
+        guard self.count > 0, words.count > 0 else { return false }
+        let components = self.components(separatedBy: " ")
+        for word in words.components(separatedBy: " ") {
+            if !components.contains(word) {
+                return false
+            }
+        }
+        return true
+    }
 }
 

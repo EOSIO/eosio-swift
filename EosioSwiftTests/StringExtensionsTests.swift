@@ -33,5 +33,11 @@ class StringExtensionsTests: XCTestCase {
     }
     
     
+    func test_containsWords() {
+        let string = "Hello world good day!"
+        XCTAssertTrue(string.contains(words: "Hello"))
+        XCTAssertTrue(string.contains(words: "Hello day!"))
+        XCTAssertFalse(string.contains(words: "Hello bad day!"))
+    }
     
 }

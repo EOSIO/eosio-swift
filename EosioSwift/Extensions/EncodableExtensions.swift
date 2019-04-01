@@ -45,11 +45,7 @@ public extension Encodable {
         if convertToSnakeCase {
             jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
         }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        jsonEncoder.dateEncodingStrategy = .formatted(formatter)
+        jsonEncoder.dateEncodingStrategy = .formatted(Date.asTransactionTimeStamp)
         return try jsonEncoder.encode(self)
     }
     

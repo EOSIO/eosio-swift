@@ -53,6 +53,7 @@
 		B4E8F6BE22320AC700FA7E63 /* Base58String.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F6BD22320AC700FA7E63 /* Base58String.swift */; };
 		B4E8F6C022320E3F00FA7E63 /* Base58Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F6BF22320E3F00FA7E63 /* Base58Tests.swift */; };
 		B4E8F6C222320EB700FA7E63 /* RIPEMD160Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F6C122320EB700FA7E63 /* RIPEMD160Tests.swift */; };
+		BBAC7BCE225266A40035CDBC /* DateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAC7BCD225266A40035CDBC /* DateExtensionTests.swift */; };
 		BBCA8F422241331C00B02372 /* EosioTransactionActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCA8F412241331C00B02372 /* EosioTransactionActionTests.swift */; };
 		D9EC085EBBCF1FFF1D2D012C /* Pods_EosioSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5835070C5F7998E17BF06017 /* Pods_EosioSwiftTests.framework */; };
 /* End PBXBuildFile section */
@@ -120,6 +121,7 @@
 		B4E8F6BD22320AC700FA7E63 /* Base58String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58String.swift; sourceTree = "<group>"; };
 		B4E8F6BF22320E3F00FA7E63 /* Base58Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58Tests.swift; sourceTree = "<group>"; };
 		B4E8F6C122320EB700FA7E63 /* RIPEMD160Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIPEMD160Tests.swift; sourceTree = "<group>"; };
+		BBAC7BCD225266A40035CDBC /* DateExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionTests.swift; sourceTree = "<group>"; };
 		BBCA8F412241331C00B02372 /* EosioTransactionActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionActionTests.swift; sourceTree = "<group>"; };
 		D3E4478EE834B70DDF06A7FA /* Pods_EosioSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7404A6D5764E579E57E1897 /* Pods-EosioSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftTests/Pods-EosioSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				8F77127C2232FD6D004256D3 /* EosioTransactionTests.swift */,
 				BBCA8F412241331C00B02372 /* EosioTransactionActionTests.swift */,
 				28DDAB092237030E008FB1CC /* EosioKeySignatureExtensionTests.swift */,
+				BBAC7BCD225266A40035CDBC /* DateExtensionTests.swift */,
 			);
 			path = EosioSwiftTests;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 			files = (
 				8F6B04CE22287B1D00215CD0 /* StringExtensionsTests.swift in Sources */,
 				B4A80E2D221F605D00C5134D /* EosioMockRpcProviderTests.swift in Sources */,
+				BBAC7BCE225266A40035CDBC /* DateExtensionTests.swift in Sources */,
 				8F77127D2232FD6D004256D3 /* EosioTransactionTests.swift in Sources */,
 				B4E8F6C222320EB700FA7E63 /* RIPEMD160Tests.swift in Sources */,
 				8F6B04CF22287B1D00215CD0 /* DataExtensionsTests.swift in Sources */,

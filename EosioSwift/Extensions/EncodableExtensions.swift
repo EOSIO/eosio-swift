@@ -45,7 +45,7 @@ public extension Encodable {
         if convertToSnakeCase {
             jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
         }
-        jsonEncoder.dateEncodingStrategy = .formatted(Date.asTransactionTimeStamp)
+        jsonEncoder.dateEncodingStrategy = .formatted(Date.asTransactionTimestamp)
         return try jsonEncoder.encode(self)
     }
     

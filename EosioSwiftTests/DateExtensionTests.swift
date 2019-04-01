@@ -20,7 +20,7 @@ class DateExtensionTests: XCTestCase {
         formatter.locale = Locale(identifier: "en_US_POSIX")
 
         // create a date with extension
-        let dateFormatterForJSONEncoder = Date.asTransactionTimeStamp
+        let dateFormatterForJSONEncoder = Date.asTransactionTimestamp
 
         // compare
         XCTAssertTrue(formatter.dateFormat == dateFormatterForJSONEncoder.dateFormat)

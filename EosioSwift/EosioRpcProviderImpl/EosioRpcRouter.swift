@@ -84,7 +84,7 @@ public enum EosioRpcRouter : EosioRequestConvertible {
         var urlRequest: URLRequest?
         var parameters: Data?
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(Date.asTransactionTimeStamp)
+        encoder.dateEncodingStrategy = .formatted(Date.asTransactionTimestamp)
         encoder.keyEncodingStrategy = .convertToSnakeCase
         
         // Handle getting the proper parameters and endpoint (only the 5 that we use are implemented for now)

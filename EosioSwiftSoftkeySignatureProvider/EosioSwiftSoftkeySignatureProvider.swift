@@ -80,20 +80,3 @@ extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
         
     }
 }
-
-
-
-extension Data {
-    
-    var compressedPublicKey: Data? {
-        guard self.count == 65 else { return nil }
-        let uncompressedKey = self
-        guard uncompressedKey[0] == 4 else { return nil }
-        let x = uncompressedKey[1...32]
-        let yLastByte = uncompressedKey[64]
-        let flag: UInt8 = 2 + (yLastByte % 2)
-        let compressedKey = Data(bytes: [flag]) + x
-        return compressedKey
-    }
-    
-}

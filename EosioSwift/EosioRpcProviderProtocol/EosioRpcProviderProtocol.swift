@@ -17,8 +17,6 @@ public protocol EosioRpcProviderProtocol {
     
     init(endpoints: [EosioEndpoint], failoverRetries: Int)
     
-    func rpcRequest(request: URLRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>)->Void)
-    
     /** Calls /v1/chain/get_info */
     func getInfo(completion: @escaping(EosioResult<EosioRpcInfoResponse, EosioError>) -> Void)
     

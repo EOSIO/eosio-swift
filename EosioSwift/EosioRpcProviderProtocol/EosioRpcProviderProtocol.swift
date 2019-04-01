@@ -11,11 +11,7 @@ import Foundation
 
 public protocol EosioRpcProviderProtocol {
     
-    var endpoints: [EosioEndpoint] { get }
-    var failoverRetries: Int { get }
-    var primaryEndpoint: EosioEndpoint { get }
     
-    init(endpoints: [EosioEndpoint], failoverRetries: Int)
     
     /** Calls /v1/chain/get_info */
     func getInfo(completion: @escaping(EosioResult<EosioRpcInfoResponse, EosioError>) -> Void)

@@ -9,32 +9,33 @@
 import Foundation
 
 public struct EosioRpcProvider:EosioRpcProviderProtocol {
+    let apiVersion = "v1"
     private let endPoint:URL
     public init(endPoint:URL){
         self.endPoint = endPoint
     }
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
-        call(rpc: "get_info", body: nil, callBack: completion)
+        call(rpc: apiVersion + "/chain/get_info", body: nil, callBack: completion)
         print("\(#function) called")
     }
     
     public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
-        call(rpc: "get_block", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: apiVersion + "/chain/get_block", body: requestParameters.toDictionary(), callBack: completion)
         print("\(#function) called")
     }
     
     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
-        call(rpc: "get_raw_abi", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: apiVersion + "chain/get_raw_abi", body: requestParameters.toDictionary(), callBack: completion)
         print("\(#function) called")
     }
     
     public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
-        call(rpc: "get_required_keys", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: apiVersion + "chain/get_required_keys", body: requestParameters.toDictionary(), callBack: completion)
         print("\(#function) called")
     }
     
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
-        call(rpc: "push_transaction", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: apiVersion + "chain/push_transaction", body: requestParameters.toDictionary(), callBack: completion)
         print("\(#function) called")
     }
     

@@ -10,7 +10,9 @@ import Foundation
 
 public struct EosioRpcProvider:EosioRpcProviderProtocol {
     private let endPoint:URL
-    
+    public init(endPoint:URL){
+        self.endPoint = endPoint
+    }
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
         call(rpc: "get_info", body: nil, callBack: completion)
     }

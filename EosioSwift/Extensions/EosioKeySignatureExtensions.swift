@@ -11,7 +11,7 @@ import Foundation
 public extension String {
     
     /// Returns a tuple breaking an eosio key foramttted xxx_xx_xxxxxxx into components
-    public func eosioComponents() throws -> (prefix: String, version: String, body: String) {
+    func eosioComponents() throws -> (prefix: String, version: String, body: String) {
         let components = self.components(separatedBy: "_")
         
         if components.count == 3 {
@@ -47,28 +47,40 @@ public extension Data {
         return self + hash.prefix(4)
     }
     
+    // Compresses public key
+    var toCompressedPublicKey: Data? {
+        guard self.count == 65 else { return nil }
+        let uncompressedKey = self
+        guard uncompressedKey[0] == 4 else { return nil }
+        let x = uncompressedKey[1...32]
+        let yLastByte = uncompressedKey[64]
+        let flag: UInt8 = 2 + (yLastByte % 2)
+        let compressedKey = Data(bytes: [flag]) + x
+        return compressedKey
+    }
+    
     /// Returns an eosio public key as a string formatted PUB_R1_xxxxxxxxxxxxxxxxxxx
-    public var toEosioR1PublicKey: String {
+    var toEosioR1PublicKey: String {
         let keyR1 = self + "R1".data(using: .utf8)!
         let check = RIPEMD160.hash(message: keyR1).prefix(4)
         return "PUB_R1_" + (self + check).base58EncodedString
     }
     
     /// Returns an eosio public key as a string formatted PUB_K1_xxxxxxxxxxxxxxxxxxx
-    public var toEosioK1PublicKey: String {
+    var toEosioK1PublicKey: String {
         let keyK1 = self + "K1".data(using: .utf8)!
         let check = RIPEMD160.hash(message: keyK1).prefix(4)
         return "PUB_K1_" + (self + check).base58EncodedString
     }
     
     /// Returns a legacy eosio public key as a string formatted EOSxxxxxxxxxxxxxxxxxxx
-    public var toEosioLegacyPublicKey: String {
+    var toEosioLegacyPublicKey: String {
         let check = RIPEMD160.hash(message: self).prefix(4)
         return "EOS" + (self + check).base58EncodedString
     }
     
     /// Returns an eosio public key as a string formatted PUB_`curve`_xxxxxxxxxxxxxxxxxxx
-    public func toEosioPublicKey(curve: String) throws -> String {
+    func toEosioPublicKey(curve: String) throws -> String {
         if curve.uppercased() == "R1" {
             return self.toEosioR1PublicKey
         }
@@ -79,26 +91,26 @@ public extension Data {
     }
     
     /// Returns an eosio signature as a string formatted SIG_R1_xxxxxxxxxxxxxxxxxxx
-    public var toEosioR1Signature: String {
+    var toEosioR1Signature: String {
         let r1 = Data(self) + "R1".data(using: .utf8)!
         let check = Data(RIPEMD160.hash(message: r1).prefix(4))
         return "SIG_R1_" + (Data(self) + check).base58EncodedString
     }
     
     /// Returns an eosio signature as a string formatted SIG_K1_xxxxxxxxxxxxxxxxxxx
-    public var toEosioK1Signature: String {
+    var toEosioK1Signature: String {
         let k1 = Data(self) + "K1".data(using: .utf8)!
         let check = Data(RIPEMD160.hash(message: k1).prefix(4))
         return "SIG_K1_" + (Data(self) + check).base58EncodedString
     }
 
     /// Returns an eosio private key as a string formatted PVT_R1_xxxxxxxxxxxxxxxxxxx
-    public var toEosioR1PrivateKey: String {
+    var toEosioR1PrivateKey: String {
         return "PVT_R1_" + self.addPrefix(0x80).append4ByteDoubleSha256Suffix.base58EncodedString
     }
     
     /// Init data signature from eosio R1 signature string
-    public init(eosioR1Signature: String) throws {
+    init(eosioR1Signature: String) throws {
         let components = try eosioR1Signature.eosioComponents()
         guard components.prefix == "SIG" else {
             throw EosioError(.signatureProviderError, reason: "\(eosioR1Signature) does not begin with SIG")
@@ -123,7 +135,7 @@ public extension Data {
     }
     
     /// Init data signature from eosio signature string
-    public init(eosioSignature: String) throws {
+    init(eosioSignature: String) throws {
         let components = try eosioSignature.eosioComponents()
         guard let sigAndChecksum = Data.decode(base58: components.body) else {
             throw EosioError(.signatureProviderError, reason: "\(components.body) is not a valid base58 string")
@@ -146,7 +158,7 @@ public extension Data {
     
 
     /// Create a Data object in compressed ANSI X9.63 format from an eosio public key
-    public init(eosioPublicKey: String) throws {
+    init(eosioPublicKey: String) throws {
         guard eosioPublicKey.count > 0 else {
             throw EosioError(.signatureProviderError, reason: "Empty string is not a valid eosio key")
         }
@@ -175,7 +187,7 @@ public extension Data {
     }
     
     /// Create a Data object from an eosio private key
-    public init(eosioPrivateKey: String) throws {
+    init(eosioPrivateKey: String) throws {
         guard eosioPrivateKey.count > 0 else {
             throw EosioError(.signatureProviderError, reason: "Empty string is not an EOS private key")
         }
@@ -220,7 +232,7 @@ public extension Data {
         }
         self = key
     }
-  
+
 }
 
 

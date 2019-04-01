@@ -105,6 +105,13 @@ class EosioKeySignatureExtensionTests: XCTestCase {
         }
         XCTAssertEqual(data.hex, signature0Hex)
     }
+
+    func test_compressedPublicKey() {
+        let compressedPublicKey = "02257784a3d0aceef73ea365ce01febaec1b671b971b9c9feb3f4901e7b773bd43"
+        let unCompressedPublicKey = "04257784a3d0aceef73ea365ce01febaec1b671b971b9c9feb3f4901e7b773bd4366c7451a736e2921b3dfeefc2855e984d287d58a0dfb995045f339a0e8a2fd7a"
+        let unCompressedKey = try! Data(hex: unCompressedPublicKey)
+        XCTAssertEqual(unCompressedKey.toCompressedPublicKey?.hex, compressedPublicKey)
+    }
     
     
 }

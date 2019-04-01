@@ -20,36 +20,39 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
     }
     
     public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
-        call(rpc: "get_block", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: "get_block", body: try? requestParameters.toJsonData(), callBack: completion)
         print("\(#function) called")
     }
     
     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
-        call(rpc: "get_raw_abi", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: "get_raw_abi", body: try? requestParameters.toJsonData(), callBack: completion)
         print("\(#function) called")
     }
     
     public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
-        call(rpc: "get_required_keys", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: "get_required_keys", body: try? requestParameters.toJsonData(), callBack: completion)
         print("\(#function) called")
     }
     
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
-        call(rpc: "push_transaction", body: requestParameters.toDictionary(), callBack: completion)
+        call(rpc: "push_transaction", body: try? requestParameters.toJsonData(), callBack: completion)
         print("\(#function) called")
     }
     
     
-    private func call<T:Codable>(rpc:String, body:[String: Any]?, callBack:@escaping (EosioResult<T, EosioError>)->Void){
+    private func call<T:Codable>(rpc:String, body:Data?, callBack:@escaping (EosioResult<T, EosioError>)->Void){
         let url = URL(string: apiVersion + "/chain/" + rpc, relativeTo: endPoint)!
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        if let body = body{
-            let jsonData = try? JSONSerialization.data(withJSONObject: body)
-            request.httpBody = jsonData
-        }
-        
+//        if let body = body{
+//            let encoder = JSONEncoder()
+//            encoder.dateEncodingStrategy = .formatted(Date.asTransactionTimeStamp)
+//            encoder.keyEncodingStrategy = .convertToSnakeCase
+//            let jsonData = try? encoder.encode(body) //JSONSerialization.data(withJSONObject: body)
+//            request.httpBody = jsonData
+//        }
+        request.httpBody = body
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error{

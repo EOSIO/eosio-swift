@@ -35,7 +35,7 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
     }
     
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
-        call(rpc: "push_transaction", body: try? requestParameters.toJsonData(), callBack: completion)
+        call(rpc: "push_transaction", body: try? requestParameters.toJsonData(convertToSnakeCase: true, prettyPrinted: false), callBack: completion)
         print("\(#function) called")
     }
     

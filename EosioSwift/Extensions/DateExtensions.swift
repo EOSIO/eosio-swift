@@ -29,7 +29,7 @@ public extension Date {
             - yyyyMMddTHHmmss: The timestamp string.
         - Returns: A `Date` object or `nil` if the timestamp string can't be converted to `Date`.
     */
-    public init?(yyyyMMddTHHmmss: String?) {
+    init?(yyyyMMddTHHmmss: String?) {
         guard let yyyyMMddTHHmmss = yyyyMMddTHHmmss else { return nil }
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
@@ -45,13 +45,24 @@ public extension Date {
     /**
         Returns a string representation of the `Date` object.
     */
-    public var yyyyMMddTHHmmss: String {
+    var yyyyMMddTHHmmss: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter.string(from: self)
     }
+
+    /**
+     Returns a DateFormatter instance customized for `JSONEncoder.dateEncodingStrategy`
+     */
+    static let asTransactionTimeStamp: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
     
 }
 

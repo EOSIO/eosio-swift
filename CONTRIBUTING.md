@@ -16,7 +16,7 @@ Interested in contributing? That's awesome! Here are some guidelines to get star
 
 ## Reporting An Issue
 
-If you're about to raise an issue because you think you've found a problem with EosioSwift, or you'd like to make a request for a new feature in the codebase, or any other reason… please read this first.
+If you're about to raise an issue because you think you've found a problem with EOSIO SDK for Swift, or you'd like to make a request for a new feature in the codebase, or any other reason… please read this first.
 
 The GitHub issue tracker is the preferred channel for [bug reports](#bug-reports), [feature requests](#feature-requests), and [submitting pull requests](#submitting-pull-requests), but please respect the following restrictions:
 
@@ -30,12 +30,9 @@ A bug is a _demonstrable problem_ that is caused by the code in the repository. 
 
 Guidelines for bug reports:
 
-1. **Use the GitHub issue search** &mdash; check if the issue has already been
-reported.
+1. **Use the GitHub issue search** &mdash; check if the issue has already been reported.
 
-1. **Check if the issue has been fixed** &mdash; look for [closed issues in the
-current milestone](https://github.com/EOSIO/eosio-swift/issues?q=is%3Aissue+is%3Aclosed) or try to reproduce it
-using the latest `develop` branch.
+1. **Check if the issue has been fixed** &mdash; look for [closed issues in the current milestone](https://github.com/EOSIO/eosio-swift/issues?q=is%3Aissue+is%3Aclosed) or try to reproduce it using the latest `develop` branch.
 
 A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment and relevant tests that demonstrate the failure.
 
@@ -43,19 +40,18 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 
 ### Feature Requests
 
-Feature requests are welcome. Before you submit one be sure to have:
+Feature requests are welcome. Before you submit one be sure to:
 
-1. **Use the GitHub search** and check the feature hasn't already been requested.
+1. **Use the GitHub search** and check that the feature hasn't already been requested.
 1. Take a moment to think about whether your idea fits with the scope and aims of the project.
-1. Remember, it's up to *you* to make a strong case to convince the project's leaders of the merits of this feature. Please provide as much detail and context as possible, this means explaining the use case and why it is likely to be common.
+1. Remember that it's up to *you* to make a strong case to convince the project's leaders of the merits of this feature. Please provide as much detail and context as possible. This means explaining the use case and why it is likely to be common.
 
 ### Change Requests
 
-Change requests cover both architectural and functional changes to how EosioSwift works. If you have an idea for a new or different dependency, a refactor, or an improvement to a feature, etc - please be sure to:
+Change requests cover both architectural and functional changes to how EOSIO SDK for Swift works. If you have an idea for a new or different dependency, a refactor, or an improvement to a feature, etc - please be sure to:
 
-1. **Use the GitHub search** and check someone else didn't get there first
-1. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure this shouldn't really be
-a [bug report](#bug-reports) or a [feature request](#feature-requests)?  Is it really one idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than what's already there?
+1. **Use the GitHub search** and check that someone else didn't get there first.
+1. Take a moment to think about the best way to make your case, and explain what you're thinking. Are you sure this shouldn't really be a [bug report](#bug-reports) or a [feature request](#feature-requests)? Is it really one idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than what's already there?
 
 ## Working on EOSIO SDK for Swift
 
@@ -68,7 +64,7 @@ Also, please follow these guidelines when submitting code:
 To get it out of the way:
 
 - **[develop](https://github.com/EOSIO/eosio-swift/tree/develop)** is the development branch. All work on the next release happens here so you should generally branch off `develop`. Do **NOT** use this branch for a production site.
-- **[master](https://github.com/EOSIO/eosio-swift/tree/master)** contains the latest release of EosioSwift. This branch may be used in production. Do **NOT** use this branch to work on EosioSwift's source.
+- **[master](https://github.com/EOSIO/eosio-swift/tree/master)** contains the latest release of EOSIO SDK for Swift. This branch may be used in production. Do **NOT** use this branch to work on EOSIO SDK for Swift's source.
 
 ### Submitting Pull Requests
 
@@ -78,7 +74,7 @@ Pull requests are awesome. If you're looking to raise a PR for something which d
 
 Never underestimate just how useful quality assurance is. If you're looking to get involved with the code base and don't know where to start, checking out and testing a pull request is one of the most useful things you could do.
 
-Essentially, [check out the latest develop branch](#working-on-EosioSwift), take it for a spin, and if you find anything odd, please follow the [bug report guidelines](#bug-reports) and let us know!
+Essentially, [check out the latest develop branch](#working-on-eosio-sdk-for-swift), take it for a spin, and if you find anything odd, please follow the [bug report guidelines](#bug-reports) and let us know!
 
 ## Conduct
 
@@ -100,7 +96,7 @@ Examples of unacceptable behavior include:
 
 ## Contributor License & Acknowledgments
 
-Whenever you make a contribution to this project, you license your contribution under the same terms as set out in LICENSE, and you represent and warrant that you have the right to license your contribution under those terms.  Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
+Whenever you make a contribution to this project, you license your contribution under the same terms as set out in LICENSE, and you represent and warrant that you have the right to license your contribution under those terms. Whenever you make a contribution to this project, you also certify in the terms of the Developer’s Certificate of Origin set out below:
 
 ```
 Developer Certificate of Origin

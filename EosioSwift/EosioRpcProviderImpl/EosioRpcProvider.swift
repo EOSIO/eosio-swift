@@ -15,22 +15,27 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
     }
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
         call(rpc: "get_info", body: nil, callBack: completion)
+        print("\(#function) called")
     }
     
     public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
         call(rpc: "get_block", body: requestParameters.toDictionary(), callBack: completion)
+        print("\(#function) called")
     }
     
     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
         call(rpc: "get_raw_abi", body: requestParameters.toDictionary(), callBack: completion)
+        print("\(#function) called")
     }
     
     public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
         call(rpc: "get_required_keys", body: requestParameters.toDictionary(), callBack: completion)
+        print("\(#function) called")
     }
     
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
         call(rpc: "push_transaction", body: requestParameters.toDictionary(), callBack: completion)
+        print("\(#function) called")
     }
     
     

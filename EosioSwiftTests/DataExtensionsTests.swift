@@ -10,8 +10,7 @@ import XCTest
 @testable import EosioSwift
 
 class DataExtensionsTests: XCTestCase {
-    
-    
+
     func test_hexEncodedString_shouldReturnCorrectHexEncodedString() {
         let hex = "this is some sample string".data(using: .utf8)!.hexEncodedString()
         XCTAssertEqual(hex, "7468697320697320736f6d652073616d706c6520737472696e67")
@@ -48,7 +47,6 @@ class DataExtensionsTests: XCTestCase {
         let hexString = hashedData.hexEncodedString()
         XCTAssertEqual(hexString, "b630face96ba9b661ed026eb740e8995abf73c0169e801878713c9dea049b972")
     }
-    
     
     
     

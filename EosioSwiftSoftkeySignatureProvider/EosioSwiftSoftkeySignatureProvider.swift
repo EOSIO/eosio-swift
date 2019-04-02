@@ -31,7 +31,7 @@ public final class EosioSwiftSoftkeySignatureProvider {
             }
             let privateKeyData = try Data(eosioPrivateKey: privateKey)
             let publicKeyData = try EccRecoverKey.recoverPublicKey(privateKey: privateKeyData, curve: .k1)
-            guard let compressedPublicKey = publicKeyData.compressedPublicKey else {
+            guard let compressedPublicKey = publicKeyData.toCompressedPublicKey else {
                 throw EosioError(EosioErrorCode.keyManagementError, reason: "Cannot compress key \(publicKeyData.hex)")
             }
             let publicKeyString = compressedPublicKey.toEosioK1PublicKey

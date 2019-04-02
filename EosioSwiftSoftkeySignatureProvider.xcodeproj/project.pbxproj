@@ -237,7 +237,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/EosioSwift/EosioSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/EosioSwiftEcc/EosioSwiftEcc.framework",
@@ -256,7 +256,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		74477581F9692009DA9E3617 /* [CP] Check Pods Manifest.lock */ = {

@@ -10,9 +10,9 @@ import Foundation
 
 public struct EosioRpcProvider:EosioRpcProviderProtocol {
     
-    private let endPoints:[URL]
-    public init(endPoints:[URL]){
-        self.endPoints = endPoints
+    private let endpoints:[URL]
+    public init(endpoints:[URL]){
+        self.endpoints = endpoints
     }
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
         call(rpc: "chain/get_info", body: nil, callBack: completion)
@@ -36,7 +36,7 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
     
     
     private func call<T:Codable>(rpc:String, body:Data?, callBack:@escaping (EosioResult<T, EosioError>)->Void) {
-        let url = URL(string: "v1/" + rpc, relativeTo: endPoints[0])!
+        let url = URL(string: "v1/" + rpc, relativeTo: endpoints[0])!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = body
@@ -48,19 +48,19 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
             }
             
             guard let httpResponse = response as? HTTPURLResponse else{
-                callBack(.failure(EosioError(.rpcProviderError, reason: "Server didn't respond.", originalError: nil)))
+                callBack(EosioResult.failure(EosioError(.rpcProviderError, reason: "Server didn't respond.", originalError: nil)))
                 return
             }
             
             guard (200...299).contains(httpResponse.statusCode) else{
-                callBack(EosioResult.failure(EosioError(.rpcProviderError, reason: "Server Error. Status Code: \(httpResponse.statusCode)")))
+                callBack(EosioResult.failure(EosioError(.rpcProviderError, reason: "Server Error. Status Code: \(httpResponse.statusCode) Response: \(httpResponse.description)")))
                 return
             }
             
             if let data = data{
                 let decoder = JSONDecoder()
                 guard let resource = try? decoder.decode(T.self, from: data) else{
-                    callBack(.failure(EosioError(.rpcProviderError, reason: "Error decoding returned data.")))
+                    callBack(EosioResult.failure(EosioError(.rpcProviderError, reason: "Error decoding returned data.")))
                     return
                 }
                 callBack(.success(resource))

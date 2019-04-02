@@ -42,7 +42,7 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
         //request.httpBody = body
         if let body = body {
             do {
-                let jsonData = try body.toJsonData(convertToSnakeCase: false)
+                let jsonData = try body.toJsonData(convertToSnakeCase: true)
                 request.httpBody = jsonData
             } catch {
                 callBack(EosioResult.failure(EosioError(.rpcProviderError, reason: "Error while encoding request parameters.", originalError: error as NSError)))

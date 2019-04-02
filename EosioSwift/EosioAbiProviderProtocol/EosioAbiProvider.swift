@@ -24,7 +24,9 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     }
     
     private func cacheAbi(_ abi: Data,  chainId: String, account: EosioName)  {
+        objc_sync_enter(self.abis)
         abis[chainId + account.string] = abi
+        objc_sync_exit(self.abis)
     }
     
     /**
@@ -33,21 +35,28 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     public func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName:Data], EosioError>) -> Void) {
         let accounts = Array(Set(accounts)) // remove any duplicate account names
         var responseAbis = [EosioName:Data]()
-        var hasReturnedError = false
+        var optionalError: EosioError? = nil
+        let dispatchGroup = DispatchGroup()
+
         for account in accounts {
+            dispatchGroup.enter()
             getAbi(chainId: chainId, account: account) { (response) in
                 switch response {
                 case .success(let abi):
                     responseAbis[account] = abi
-                    if responseAbis.count >= accounts.count {
-                        completion(.success(responseAbis))
-                    }
+                    dispatchGroup.leave()
                 case .failure(let error):
-                    if !hasReturnedError {
-                        hasReturnedError = true
-                        completion(.failure(error))
-                    }
+                    if optionalError == nil { optionalError = error }
+                    dispatchGroup.leave()
                 }
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            if let validError = optionalError {
+                completion(.failure(validError))
+            } else {
+                completion(.success(responseAbis))
             }
         }
     }

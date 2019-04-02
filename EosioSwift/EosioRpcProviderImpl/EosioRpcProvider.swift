@@ -15,34 +15,34 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
         self.endpoint = endpoint
     }
     public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
-        call(rpc: "chain/get_info", body: nil, callBack: completion)
+        call(rpc: "chain/get_info", requestParameters: nil, callBack: completion)
     }
     
     public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
-        call(rpc: "chain/get_block", body: requestParameters, callBack: completion)
+        call(rpc: "chain/get_block", requestParameters: requestParameters, callBack: completion)
     }
     
     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
-        call(rpc: "chain/get_raw_abi", body: requestParameters, callBack: completion)
+        call(rpc: "chain/get_raw_abi", requestParameters: requestParameters, callBack: completion)
     }
     
     public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
-        call(rpc: "chain/get_required_keys", body: requestParameters, callBack: completion)
+        call(rpc: "chain/get_required_keys", requestParameters: requestParameters, callBack: completion)
     }
     
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
-        call(rpc: "chain/push_transaction", body: requestParameters, callBack: completion)
+        call(rpc: "chain/push_transaction", requestParameters: requestParameters, callBack: completion)
     }
     
     
-    private func call<T:Codable>(rpc:String, body:Encodable?, callBack:@escaping (EosioResult<T, EosioError>)->Void) {
+    private func call<T:Codable>(rpc:String, requestParameters:Encodable?, callBack:@escaping (EosioResult<T, EosioError>)->Void) {
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         //request.httpBody = body
-        if let body = body {
+        if let requestParameters = requestParameters {
             do {
-                let jsonData = try body.toJsonData(convertToSnakeCase: true)
+                let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
                 request.httpBody = jsonData
             } catch {
                 callBack(EosioResult.failure(EosioError(.rpcProviderError, reason: "Error while encoding request parameters.", originalError: error as NSError)))

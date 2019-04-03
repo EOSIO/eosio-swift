@@ -32,6 +32,7 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
     
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
         call(rpc: "chain/push_transaction", requestParameters: requestParameters, callBack: completion)
+        
     }
     
     
@@ -39,7 +40,6 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        //request.httpBody = body
         if let requestParameters = requestParameters {
             do {
                 let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)

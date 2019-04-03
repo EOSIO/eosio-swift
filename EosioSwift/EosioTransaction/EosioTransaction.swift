@@ -500,7 +500,7 @@ public class EosioTransaction: Codable {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let pushTransactionResponse):
-                strongSelf.transactionId = pushTransactionResponse.tranactionId
+                strongSelf.transactionId = pushTransactionResponse.transactionId
                 return completion(.success(true))
             }
         }

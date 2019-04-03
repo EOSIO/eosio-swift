@@ -208,14 +208,14 @@ public struct EosioRpcRequiredKeysResponse: Codable {
 
 
 public struct EosioRpcTransactionResponse : Codable {
-    public var tranactionId: String
+    public var transactionId: String
     
     enum CodingKeys: String, CodingKey {
-        case tranactionId = "transaction_id"
+        case transactionId = "transaction_id"
     }
     
-    public init(tranactionId: String) {
-        self.tranactionId = tranactionId
+    public init(transactionId: String) {
+        self.transactionId = transactionId
     }
 }
 

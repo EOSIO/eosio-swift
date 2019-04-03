@@ -144,11 +144,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1F0355C6224485A400AC2AB3 /* EosioRpcProviderImpl */ = {
+		1F0355C6224485A400AC2AB3 /* EosioRpcProvider */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = EosioRpcProviderImpl;
+			path = EosioRpcProvider;
 			sourceTree = "<group>";
 		};
 		2848B2BF0EEBEBCC3A480AC7 /* Frameworks */ = {
@@ -208,7 +208,7 @@
 				8F6B04AF222879EC00215CD0 /* Foundation */,
 				28A7A3B822236650002386D3 /* EosioAbiProviderProtocol */,
 				B4A80E27221F0CD300C5134D /* EosioRpcProviderMockImpl */,
-				1F0355C6224485A400AC2AB3 /* EosioRpcProviderImpl */,
+				1F0355C6224485A400AC2AB3 /* EosioRpcProvider */,
 				B49EE50D221CC63700018D29 /* EosioRpcProviderProtocol */,
 				B466F0942229D99B0082DC4E /* EosioSerializationProviderProtocol */,
 				B4B69EBD2204B631009260A5 /* EosioSignatureProviderProtocol */,

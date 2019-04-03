@@ -255,7 +255,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
                     packedContextFreeData: "lkj",
                     contextFreeData: ["kljl"],
                     packedTrx: "lkj",
-                    transaction: EosioRpcTransactionResponse(tranactionId: "mocktransactionid")
+                    transaction: EosioRpcTransactionResponse(transactionId: "mocktransactionid")
             )
             )
         ],

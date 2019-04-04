@@ -156,7 +156,7 @@ class EosioRpcProviderTests: XCTestCase {
     }
         
     /**
-     * Test getRawAbi() protocol implementation with name.
+     * Test getRawAbi() protocol implementation with token.
      *
      */
     func testGetRawAbiToken() {

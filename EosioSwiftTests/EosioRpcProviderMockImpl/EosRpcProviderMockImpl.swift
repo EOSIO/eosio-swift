@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+@testable import EosioSwift
 
 public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
     
@@ -34,7 +34,7 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Mock Implementation: rpcRequest not implemented.")))
     }
     
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
+    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         let resp = createInfoResponse()
         completion(resp.decodeJson())
     }

@@ -217,7 +217,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         blockNetLimit: 897,
         serverVersionString: "server version")
     
-    func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
+    func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         getInfoCalled = true
         if getInfoReturnsfailure{
             let error = EosioError(.getInfoError, reason: "Failed for test propose")
@@ -265,7 +265,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         refBlockPrefix: 0980
     )
     
-    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
+    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         getBlockCalled = true
         blockNumberRequested = requestParameters.block_num_or_id
         let result:EosioResult = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))

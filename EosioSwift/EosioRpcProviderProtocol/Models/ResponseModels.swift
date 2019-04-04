@@ -8,20 +8,21 @@
 
 import Foundation
 
-public struct EosioRpcInfoResponse: Codable {
-    public var serverVersion: String
-    public var chainId: String
-    public var headBlockNum: UInt64
-    public var lastIrreversibleBlockNum: UInt64
-    public var lastIrreversibleBlockId: String
-    public var headBlockId: String
-    public var headBlockTime: String
-    public var headBlockProducer: String
-    public var virtualBlockCpuLimit: UInt64
-    public var virtualBlockNetLimit: UInt64
-    public var blockCpuLimit: UInt64
-    public var blockNetLimit: UInt64
-    public var serverVersionString: String
+public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, Codable {
+    
+    public let serverVersion: String
+    public let chainId: String
+    public let headBlockNum: UInt64
+    public let lastIrreversibleBlockNum: UInt64
+    public let lastIrreversibleBlockId: String
+    public let headBlockId: String
+    public let headBlockTime: String
+    public let headBlockProducer: String
+    public let virtualBlockCpuLimit: UInt64
+    public let virtualBlockNetLimit: UInt64
+    public let blockCpuLimit: UInt64
+    public let blockNetLimit: UInt64
+    public let serverVersionString: String
     
     enum CodingKeys: String, CodingKey {
         case serverVersion = "server_version"
@@ -39,10 +40,10 @@ public struct EosioRpcInfoResponse: Codable {
         case serverVersionString = "server_version_string"
     }
     
-    public init(serverVersion: String, chainId: String, headBlockNum: UInt64, lastIrreversibleBlockNum: UInt64,
-                lastIrreversibleBlockId: String, headBlockId: String, headBlockTime: String, headBlockProducer: String,
-                virtualBlockCpuLimit: UInt64, virtualBlockNetLimit: UInt64, blockCpuLimit: UInt64, blockNetLimit: UInt64,
-                serverVersionString: String) {
+    public init(serverVersion: String = "", chainId: String, headBlockNum: UInt64, lastIrreversibleBlockNum: UInt64,
+                lastIrreversibleBlockId: String, headBlockId: String, headBlockTime: String, headBlockProducer: String = "",
+                virtualBlockCpuLimit: UInt64 = 0, virtualBlockNetLimit: UInt64 = 0, blockCpuLimit: UInt64 = 0, blockNetLimit: UInt64 = 0,
+                serverVersionString: String = "") {
         self.serverVersion = serverVersion
         self.chainId = chainId
         self.headBlockNum = headBlockNum
@@ -92,10 +93,10 @@ public struct EosioRpcTrxResponse: Codable {
 }
 
 public struct EosioRpcTransactionInfoResponse: Codable {
-    public var status: String
-    public var cpuUsageUs: UInt
-    public var netUsageWords: UInt
-    public var trx: EosioRpcTrxResponse
+    public let status: String
+    public let cpuUsageUs: UInt
+    public let netUsageWords: UInt
+    public let trx: EosioRpcTrxResponse
     
     enum CodingKeys: String, CodingKey {
         case status
@@ -112,22 +113,23 @@ public struct EosioRpcTransactionInfoResponse: Codable {
     }
 }
 
-public struct EosioRpcBlockResponse: Codable {
-    public var timestamp: String
-    public var producer: String
-    public var confirmed: UInt
-    public var previous: String
-    public var transactionMroot: String
-    public var actionMroot: String
-    public var scheduleVersion: UInt
-    public var newProducers: String?
-    public var headerExtensions: [String]
-    public var producerSignature: String
-    public var transactions: [EosioRpcTransactionInfoResponse]
-    public var blockExtensions: [String]
-    public var id: String
-    public var blockNum: UInt64
-    public var refBlockPrefix: UInt64
+public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
+    
+    public let timestamp: String
+    public let producer: String
+    public let confirmed: UInt
+    public let previous: String
+    public let transactionMroot: String
+    public let actionMroot: String
+    public let scheduleVersion: UInt
+    public let newProducers: String?
+    public let headerExtensions: [String]
+    public let producerSignature: String
+    public let transactions: [EosioRpcTransactionInfoResponse]
+    public let blockExtensions: [String]
+    public let id: String
+    public let blockNum: UInt64
+    public let refBlockPrefix: UInt64
     
     enum CodingKeys: String, CodingKey {
         case timestamp
@@ -145,11 +147,12 @@ public struct EosioRpcBlockResponse: Codable {
         case id
         case blockNum = "block_num"
         case refBlockPrefix = "ref_block_prefix"
+        
     }
     
-    public init(timestamp: String, producer: String, confirmed: UInt, previous: String, transactionMroot: String,
-                actionMroot: String, scheduleVersion: UInt, newProducers: String?, headerExtensions: [String],
-                producerSignature: String, transactions: [EosioRpcTransactionInfoResponse], blockExtensions: [String],
+    public init(timestamp: String, producer: String = "", confirmed: UInt = 0, previous: String = "", transactionMroot: String = "",
+                actionMroot: String = "", scheduleVersion: UInt = 0, newProducers: String?, headerExtensions: [String] = [],
+                producerSignature: String = "", transactions: [EosioRpcTransactionInfoResponse] = [], blockExtensions: [String],
                 id: String, blockNum: UInt64, refBlockPrefix: UInt64) {
         self.timestamp = timestamp
         self.producer = producer
@@ -169,7 +172,7 @@ public struct EosioRpcBlockResponse: Codable {
     }
 }
 
-public struct EosioRpcRawAbiResponse: Codable {
+public struct EosioRpcRawAbiResponse:EosioRpcRawAbiResponseProtocol, Codable {
     public var accountName: String
     public var codeHash: String
     public var abiHash: String
@@ -193,7 +196,8 @@ public struct EosioRpcRawAbiResponse: Codable {
 public struct EosioRpcRawCodeAbiResponse: Codable {
     //TODO: implement
 }
-public struct EosioRpcRequiredKeysResponse: Codable {
+
+public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, Codable {
     public var requiredKeys: [String]
    
     
@@ -207,7 +211,7 @@ public struct EosioRpcRequiredKeysResponse: Codable {
 }
 
 
-public struct EosioRpcTransactionResponse : Codable {
+public struct EosioRpcTransactionResponse : EosioRpcTransactionResponseProtocol, Codable {
     public var transactionId: String
     
     enum CodingKeys: String, CodingKey {

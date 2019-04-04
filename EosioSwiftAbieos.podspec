@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
                          'Brandon Fancher' => 'brandon.fancher@block.one',
                          'Steve McCoole' => 'steve.mccoole@objectpartners.com',
                          'Ben Martell' => 'ben.martell@objectpartners.com' }
-  s.source           = { :git => 'https://github.com/EOSIO/eosio-swift-abieos-serialization-provider', :tag => "v" + s.version.to_s }
+  s.source           = { :git => 'https://github.com/EOSIO/eosio-swift-abieos-serialization-provider.git', :tag => "v" + s.version.to_s }
 
   s.swift_version         = '4.2'
   s.ios.deployment_target = '12.0'

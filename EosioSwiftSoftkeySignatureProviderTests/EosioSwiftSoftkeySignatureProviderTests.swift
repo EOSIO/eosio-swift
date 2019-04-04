@@ -80,8 +80,8 @@ class EosioSwiftSoftkeySignatureProviderTests: XCTestCase {
                 let fakeChainIdData = try! Data(hex: fakeChainId)
                 let zeros = Data(repeating: 0, count: 32)
                 let publicKey = try! self.recoverPublicKey(signature: Data(eosioSignature: signature), message: fakeChainIdData + serializedTransaction + zeros)
-                print(publicKey.compressedPublicKey!.toEosioK1PublicKey)
-                XCTAssertEqual(self.publicKeyString, publicKey.compressedPublicKey!.toEosioK1PublicKey)
+                print(publicKey.toCompressedPublicKey!.toEosioK1PublicKey)
+                XCTAssertEqual(self.publicKeyString, publicKey.toCompressedPublicKey!.toEosioK1PublicKey)
             }
             
             

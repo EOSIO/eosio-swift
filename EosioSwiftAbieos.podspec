@@ -36,7 +36,7 @@ Pod::Spec.new do |s|
 					            'EosioSwiftAbieos/AbiEos/transaction.abi.json',
 					            'EosioSwiftAbieos/AbiEos/abi.abi.json'
 
-  s.ios.resource_bundle = { 'EosioSwiftAbieos' => 'EosioSwiftAbieos/AbiEos/transaction.abi.json EosioSwiftAbieos/AbiEos/abi.abi.json EosioSwiftAbieos/AbiEos/eosio.assert.abi.json' }
+  s.ios.resource_bundle = { 'EosioSwiftAbieos' => 'EosioSwiftAbieos/AbiEos/*.abi.json' }
 
   s.resources = 'EosioSwiftAbieos/AbiEos/transaction.abi.json',
                 'EosioSwiftAbieos/AbiEos/abi.abi.json',
@@ -46,7 +46,7 @@ Pod::Spec.new do |s|
 
   s.libraries = "c++"
   s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/EosioSwiftAbieos/AbiEos',
- 						   'LIBRARY_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/** $(SRCROOT)/**', 
+ 						   'LIBRARY_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/** $(SRCROOT)/**',
  						   'HEADER_SEARCH_PATHS' => '$(SRCROOT)/** $(SRCROOT)/EosioSwiftAbieos/** $(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/** $(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/EosioSwiftAbieos/**', 
  						   'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
  						   'CLANG_CXX_LIBRARY' => 'libc++',

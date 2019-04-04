@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AbiEos
 import EosioSwift
 
 public class AbiEos: EosioSerializationProviderProtocol {

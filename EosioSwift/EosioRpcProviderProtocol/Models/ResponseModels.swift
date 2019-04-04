@@ -125,8 +125,6 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
     public let newProducers: String?
     public let headerExtensions: [String]
     public let producerSignature: String
-    public let transactions: [EosioRpcTransactionInfoResponse]
-    public let blockExtensions: [String]
     public let id: String
     public let blockNum: UInt64
     public let refBlockPrefix: UInt64
@@ -142,8 +140,6 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
         case newProducers = "new_producers"
         case headerExtensions = "header_extensions"
         case producerSignature = "producer_signature"
-        case transactions
-        case blockExtensions = "block_extensions"
         case id
         case blockNum = "block_num"
         case refBlockPrefix = "ref_block_prefix"
@@ -152,7 +148,7 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
     
     public init(timestamp: String, producer: String = "", confirmed: UInt = 0, previous: String = "", transactionMroot: String = "",
                 actionMroot: String = "", scheduleVersion: UInt = 0, newProducers: String?, headerExtensions: [String] = [],
-                producerSignature: String = "", transactions: [EosioRpcTransactionInfoResponse] = [], blockExtensions: [String],
+                producerSignature: String = "",
                 id: String, blockNum: UInt64, refBlockPrefix: UInt64) {
         self.timestamp = timestamp
         self.producer = producer
@@ -164,8 +160,6 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
         self.newProducers = newProducers
         self.headerExtensions = headerExtensions
         self.producerSignature = producerSignature
-        self.transactions = transactions
-        self.blockExtensions = blockExtensions
         self.id = id
         self.blockNum = blockNum
         self.refBlockPrefix = refBlockPrefix

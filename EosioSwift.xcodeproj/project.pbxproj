@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F9DCB7A22569A2600853105 /* EosioRpcProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9DCB7922569A2600853105 /* EosioRpcProviderTests.swift */; };
 		284C5E682224558800795392 /* EosioAbiProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284C5E672224558800795392 /* EosioAbiProviderTests.swift */; };
 		2856028F22182EFA00642377 /* EosioTransactionAbis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2856028E22182EFA00642377 /* EosioTransactionAbis.swift */; };
 		28A7A3B722236641002386D3 /* EosioAbiProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A7A3B622236641002386D3 /* EosioAbiProviderProtocol.swift */; };
@@ -68,6 +69,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F9DCB7922569A2600853105 /* EosioRpcProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioRpcProviderTests.swift; sourceTree = "<group>"; };
 		284C5E672224558800795392 /* EosioAbiProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbiProviderTests.swift; sourceTree = "<group>"; };
 		2856028E22182EFA00642377 /* EosioTransactionAbis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionAbis.swift; sourceTree = "<group>"; };
 		28A7A3B622236641002386D3 /* EosioAbiProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbiProviderProtocol.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				BBCA8F412241331C00B02372 /* EosioTransactionActionTests.swift */,
 				28DDAB092237030E008FB1CC /* EosioKeySignatureExtensionTests.swift */,
 				BBAC7BCD225266A40035CDBC /* DateExtensionTests.swift */,
+				1F9DCB7922569A2600853105 /* EosioRpcProviderTests.swift */,
 			);
 			path = EosioSwiftTests;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				B4A80E2D221F605D00C5134D /* EosioMockRpcProviderTests.swift in Sources */,
 				BBAC7BCE225266A40035CDBC /* DateExtensionTests.swift in Sources */,
 				8F77127D2232FD6D004256D3 /* EosioTransactionTests.swift in Sources */,
+				1F9DCB7A22569A2600853105 /* EosioRpcProviderTests.swift in Sources */,
 				B4E8F6C222320EB700FA7E63 /* RIPEMD160Tests.swift in Sources */,
 				8F6B04CF22287B1D00215CD0 /* DataExtensionsTests.swift in Sources */,
 				8F6B04D022287B1D00215CD0 /* EosioNameTests.swift in Sources */,

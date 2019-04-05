@@ -13,7 +13,7 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     
     private let rpcProvider: EosioRpcProviderProtocol
     private var abis = [String:Data]()
-    
+    private let lock = String()
     
     public init(rpcProvider: EosioRpcProviderProtocol) {
         self.rpcProvider = rpcProvider
@@ -24,9 +24,9 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     }
     
     private func cacheAbi(_ abi: Data,  chainId: String, account: EosioName)  {
-        objc_sync_enter(self.abis)
+        objc_sync_enter(self.lock)
         abis[chainId + account.string] = abi
-        objc_sync_exit(self.abis)
+        objc_sync_exit(self.lock)
     }
     
     /**

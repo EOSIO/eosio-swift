@@ -23,9 +23,9 @@ public class EosioResponse {
         self.httpResponse = httpResponse
     }
     
-    func decodeJson<T:Decodable>() -> EosioResult<T, EosioError> {
+    func decodeJson<T:Decodable>() -> T? {
         guard let data = data else {
-            return EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Empty data sent."))
+            return nil
         }
         let decoder = JSONDecoder()
         //decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -36,10 +36,10 @@ public class EosioResponse {
         
         do {
             let rpcResponse = try decoder.decode(T.self, from: data)
-            return EosioResult.success(rpcResponse)
+            return rpcResponse
         }
         catch {
-            return EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: error.localizedDescription))
+            return nil
         }
     }
 }

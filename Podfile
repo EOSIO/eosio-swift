@@ -11,7 +11,6 @@ target 'EosioSwiftAbieos' do
   end
 
   # Pods for EosioSwiftAbieos
-  pod 'GRKOpenSSLFramework'
   pod 'EosioSwift', :path => '../eosio-swift'
   
 end

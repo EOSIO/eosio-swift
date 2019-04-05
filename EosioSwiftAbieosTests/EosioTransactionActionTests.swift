@@ -26,7 +26,7 @@ class EosioTransactionActionTests: XCTestCase {
             try _ = makeTransferActionWithError()
             XCTFail()
         } catch {
-            XCTAssertTrue(error.localizedDescription == "eosioNameError: eosio.token6 is not a valid eosio name.")
+            XCTAssertTrue(error.localizedDescription == "EosioNameError: eosio.token6 is not a valid eosio name.")
         }
     }
     

@@ -5,7 +5,7 @@ target 'EosioSwift' do
 
   target 'EosioSwiftTests' do
     inherit! :search_paths
-    pod 'OHHTTPStubs/Swift', '~> 7.0'
+    pod 'OHHTTPStubs/Swift'
   end
 
   pod 'BigInt', '~> 3.1'

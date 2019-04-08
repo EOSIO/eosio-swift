@@ -20,6 +20,7 @@ if using_local_pods
 
     pod 'GRKOpenSSLFramework', '~> 1.0'
     pod 'EosioSwift', :path => '../eosio-swift'
+    pod 'SwiftLint'
   end
 else
   # Pull pods from sources above if not using local pods
@@ -34,5 +35,6 @@ else
 
     pod 'GRKOpenSSLFramework', '~> 1.0'
     pod 'EosioSwift', '~> 0.0.1'
-  end
+    pod 'SwiftLint'
+ end
 end

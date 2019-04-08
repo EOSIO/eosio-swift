@@ -4,14 +4,17 @@ PODS:
   - EosioSwift (0.0.1):
     - BigInt (~> 3.1)
   - SipHash (1.2.2)
+  - SwiftLint (0.31.0)
 
 DEPENDENCIES:
   - EosioSwift (from `../eosio-swift`)
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BigInt
     - SipHash
+    - SwiftLint
 
 EXTERNAL SOURCES:
   EosioSwift:
@@ -21,7 +24,8 @@ SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   EosioSwift: 33d2118ba27a073407b50fce5a54ecabe1b2fd85
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: 587ef63a5eda8616781525928b17ec91c722d295
+PODFILE CHECKSUM: cf36d2312b00d12148ff7cb5db438202b7f8e256
 
 COCOAPODS: 1.6.1

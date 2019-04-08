@@ -13,6 +13,7 @@ if using_local_pods
     use_frameworks!
 
     pod 'EosioSwift', :path => '../eosio-swift'
+    pod 'SwiftLint'
 
     target 'EosioSwiftAbieosTests' do
       inherit! :search_paths
@@ -25,6 +26,7 @@ else
     use_frameworks!
 
     pod 'EosioSwift', '~> 0.0.1'
+    pod 'SwiftLint'
 
     target 'EosioSwiftAbieosTests' do
       inherit! :search_paths

@@ -47,7 +47,7 @@ class EncodableExtensionTests: XCTestCase {
         XCTAssertTrue(dict["b_bb"] as? Int == -42)
         XCTAssertTrue(dict["cCcc"] as? UInt64 == 999999999)
         XCTAssertTrue(dict["ddDd"] as? Bool == true)
-        let dateString = dict["eeee"] as! String
+        let dateString = dict["eeee"] as? String ?? ""
         XCTAssertTrue(Date(yyyyMMddTHHmmss: dateString)! == Date(yyyyMMddTHHmmss: "2009-01-03T18:15:05.000")!)
         XCTAssertTrue(dict["ffff"] as? [String] == ["aa", "bbb", "cccc"])
         XCTAssertTrue(dict["g_Gg"] as? [Int] == [-7, 0, 7])

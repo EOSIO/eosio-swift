@@ -76,6 +76,12 @@ Never underestimate just how useful quality assurance is. If you're looking to g
 
 Essentially, [check out the latest develop branch](#working-on-eosio-sdk-for-swift), take it for a spin, and if you find anything odd, please follow the [bug report guidelines](#bug-reports) and let us know!
 
+### Code Style and Linting
+
+EOSIO SDK for Swift leverages [SwiftLint](https://github.com/realm/SwiftLint) for linting and code format autocorrection. SwiftLint will be installed when you run `pod install`. Then linting warnings and errors will be flagged inline in Xcode when you Build.
+
+Please be sure to resolve any linting issues introduced by your contributions prior to requesting a review on your PR. You may also autocorrect formatting using the `swiftlint autocorrect --format --path Example.swift` command. (Requires a `brew install swiftlint` first.)
+
 ## Conduct
 
 While contributing, please be respectful and constructive, so that participation in our project is a positive experience for everyone.

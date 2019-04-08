@@ -6,12 +6,13 @@
 //  Copyright © 2019 block.one. All rights reserved.
 //
 
+// swiftlint:disable line_length identifier_name
 import XCTest
 @testable import EosioSwift
 
 class EosioTransactionActionTests: XCTestCase {
 
-    var transaction:EosioTransaction!
+    var transaction: EosioTransaction!
     var rpcProvider = RPCProviderMock(endpoints: [EosioEndpoint("http://example.com")!], failoverRetries: 4)
     var action: EosioTransaction.Action!
     var authorization: EosioTransaction.Action.Authorization!
@@ -131,9 +132,9 @@ class EosioTransactionActionTests: XCTestCase {
         var ee: Date
         var ff: [String]
         var gg: [Int]
-        var hh: [String:EosioName]
-        var ii: [String:[String:Int]]
-        var jj: [[String:String]]
+        var hh: [String: EosioName]
+        var ii: [String: [String: Int]]
+        var jj: [[String: String]]
     }
 
     func makeTransferActionWithEosioNames() throws -> EosioTransaction.Action {
@@ -211,23 +212,21 @@ class EosioTransactionActionTests: XCTestCase {
             cc: 999999999,
             dd: true,
             ee: Date(yyyyMMddTHHmmss: "2009-01-03T18:15:05.000")!,
-            ff: ["aa","bbb","cccc"],
-            gg: [-7,0,7],
+            ff: ["aa", "bbb", "cccc"],
+            gg: [-7, 0, 7],
             hh: [
-                "a" : EosioName("aaa"),
+                "a": EosioName("aaa"),
                 "b": EosioName("bbb")],
             ii: [
-                "aa" : ["bb" : -7],
-                "cc" : ["dd" : 7],
-                ],
+                "aa": ["bb": -7],
+                "cc": ["dd": 7]
+            ],
             jj: [
-                ["aaa" : "bbb"],
-                ["ccc" : "ddd"]
+                ["aaa": "bbb"],
+                ["ccc": "ddd"]
             ]
         )
         return complexData
     }
 
-
 }
-

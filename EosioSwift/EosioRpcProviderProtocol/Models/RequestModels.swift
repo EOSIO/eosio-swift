@@ -13,14 +13,14 @@ public struct EosioRpcTableRowsRequest: Codable {
     var code: String = "currency"
     var table: String = "account"
     var tableKey: String?
-    var json : Bool
-    var lowerBound : String?
+    var json: Bool
+    var lowerBound: String?
     var upperBound: String?
-    var limit : Int = 10
-    var indexPosition : String = "1"
+    var limit: Int = 10
+    var indexPosition: String = "1"
     var keyType: String?
-    var encodeType : String = "dec"
-    
+    var encodeType: String = "dec"
+
     enum CodingKeys: String, CodingKey {
         case scope
         case code
@@ -45,12 +45,12 @@ public struct EosioRpcCurrencyBalanceRequest: Codable {
 public struct EosioRpcRequiredKeysRequest: Codable {
     var transaction: EosioTransaction
     var availableKeys: [String]
-    
+
     init(availableKeys: [String], transaction: EosioTransaction) {
         self.availableKeys = availableKeys
         self.transaction = transaction
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case transaction = "transaction"
         case availableKeys = "available_keys"
@@ -61,7 +61,7 @@ public struct EosioRpcProducersRequest: Codable {
     var limit: String
     var lowerBound: String
     var json: Bool
-    
+
     enum CodingKeys: String, CodingKey {
         case limit
         case lowerBound = "lower_bound"
@@ -75,7 +75,6 @@ public struct EosioRpcHistoryActionsRequest: Codable {
     var accountName: EosioName
 }
 
-
 public struct EosioRpcPushTransactionRequest: Codable {
     var signatures = [String]()
     var compression = 0
@@ -84,15 +83,15 @@ public struct EosioRpcPushTransactionRequest: Codable {
 }
 
 public struct EosioRpcBlockRequest: Codable {
-    var block_num_or_id: UInt64 = 0
+    var block_num_or_id: UInt64 = 0 // swiftlint:disable:this identifier_name
 }
 
 public struct EosioRpcRawAbiRequest: Codable {
-    var account_name: EosioName
+    var account_name: EosioName // swiftlint:disable:this identifier_name
 }
 
 public struct EosioRpcBlockHeaderStateRequest: Codable {
-    var block_num_or_id: String = ""
+    var block_num_or_id: String = "" // swiftlint:disable:this identifier_name
 }
 
 public struct EosioRpcAccountRequest: Codable {

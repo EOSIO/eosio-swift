@@ -8,34 +8,33 @@
 
 import Foundation
 
-
 public class EosioAbiProvider: EosioAbiProviderProtocol {
-    
+
     private let rpcProvider: EosioRpcProviderProtocol
-    private var abis = [String:Data]()
+    private var abis = [String: Data]()
     private let lock = String()
-    
+
     public init(rpcProvider: EosioRpcProviderProtocol) {
         self.rpcProvider = rpcProvider
     }
-    
+
     private func getCachedAbi(chainId: String, account: EosioName) -> Data? {
         return abis[chainId + account.string]
     }
-    
-    private func cacheAbi(_ abi: Data,  chainId: String, account: EosioName)  {
+
+    private func cacheAbi(_ abi: Data, chainId: String, account: EosioName) {
         objc_sync_enter(self.lock)
         abis[chainId + account.string] = abi
         objc_sync_exit(self.lock)
     }
-    
+
     /**
-    Return a map of Abis as Data for all of the given accounts, keyed by the account name. An Abi for each account must be returned, otherwise an EosioResult.failure type will be returned.
-    */
-    public func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName:Data], EosioError>) -> Void) {
+     Return a map of Abis as Data for all of the given accounts, keyed by the account name. An Abi for each account must be returned, otherwise an EosioResult.failure type will be returned.
+     */
+    public func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName: Data], EosioError>) -> Void) {
         let accounts = Array(Set(accounts)) // remove any duplicate account names
-        var responseAbis = [EosioName:Data]()
-        var optionalError: EosioError? = nil
+        var responseAbis = [EosioName: Data]()
+        var optionalError: EosioError?
         let dispatchGroup = DispatchGroup()
 
         for account in accounts {
@@ -60,16 +59,15 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
             }
         }
     }
-    
-    
+
     /**
-    Return the Abi as Data for the specified account name. An EosioResult.failure type will be returned if the specified Abi could not be found or decoded properly.
-    */
+     Return the Abi as Data for the specified account name. An EosioResult.failure type will be returned if the specified Abi could not be found or decoded properly.
+     */
     public func getAbi(chainId: String, account: EosioName, completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
         if let abi = getCachedAbi(chainId: chainId, account: account) {
             return completion(.success(abi))
         }
-        
+
         let requestParameters = EosioRpcRawAbiRequest(account_name: account)
         rpcProvider.getRawAbi(requestParameters: requestParameters) { (response) in
             switch response {
@@ -88,7 +86,7 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
                     }
                     self.cacheAbi(abi, chainId: chainId, account: account)
                     return completion(.success(abi))
-                    
+
                 } catch {
                     completion(.failure(error.eosioError))
                 }
@@ -97,6 +95,5 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
             }
         }
     }
-    
-    
+
 }

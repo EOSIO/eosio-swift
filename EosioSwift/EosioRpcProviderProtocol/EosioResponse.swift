@@ -8,22 +8,21 @@
 
 import Foundation
 
-
 public class EosioResponse {
     public var data: Data?
     public var httpResponse: HTTPURLResponse?
-    
+
     var string: String? {
         guard let data = data else { return nil }
         return String(data: data, encoding: .utf8)
     }
-    
+
     init(data: Data? = nil, httpResponse: HTTPURLResponse? = nil) {
         self.data = data
         self.httpResponse = httpResponse
     }
-    
-    func decodeJson<T:Decodable>() -> T? {
+
+    func decodeJson<T: Decodable>() -> T? {
         guard let data = data else {
             return nil
         }
@@ -33,12 +32,11 @@ public class EosioResponse {
             let jsonKey = CodingUserInfoKey(rawValue: "json")!
             decoder.userInfo[jsonKey] = json
         }
-        
+
         do {
             let rpcResponse = try decoder.decode(T.self, from: data)
             return rpcResponse
-        }
-        catch {
+        } catch {
             return nil
         }
     }

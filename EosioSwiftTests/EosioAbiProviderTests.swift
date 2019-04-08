@@ -10,15 +10,13 @@ import Foundation
 import XCTest
 import EosioSwift
 
-
 class EosioAbiProviderTests: XCTestCase {
-    
+
     var rpcProvider: EosioRpcProviderProtocol {
         let endpoint = EosioEndpoint("mock://endpoint")
         return EosioRpcProviderMockImpl(endpoints: [endpoint!], failoverRetries: 3)
     }
-    
-    
+
     func testGetAbi() {
         let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
         do {
@@ -36,10 +34,9 @@ class EosioAbiProviderTests: XCTestCase {
             print(error)
             XCTFail()
         }
-        
+
     }
-    
-    
+
     func testGetAbis() {
         let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
         do {
@@ -59,10 +56,9 @@ class EosioAbiProviderTests: XCTestCase {
             print(error)
             XCTFail()
         }
-        
+
     }
-    
-    
+
     func testGetAbisBadAccount() {
         let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
         do {
@@ -81,10 +77,7 @@ class EosioAbiProviderTests: XCTestCase {
             print(error)
             XCTFail()
         }
-        
-    }
-    
-    
-    
-}
 
+    }
+
+}

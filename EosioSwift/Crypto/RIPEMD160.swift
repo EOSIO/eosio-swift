@@ -368,7 +368,7 @@ public struct RIPEMD160 {
 }
 public extension RIPEMD160 {
     
-    public static func hash(message: Data) -> Data {
+    static func hash(message: Data) -> Data {
         var md = RIPEMD160()
         md.update(data: message)
         return md.finalize()

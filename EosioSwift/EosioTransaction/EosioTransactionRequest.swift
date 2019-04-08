@@ -13,16 +13,16 @@ public struct EosioTransactionRequest: Codable {
     public var compression: Int = 0
     public var packedContextFreeData = ""
     public var packedTrx =  ""
-    
+
     public var isSigned: Bool {
         return signatures.count > 0
     }
-    
+
     public var json: String? {
         return try? self.toJsonString(convertToSnakeCase: true, prettyPrinted: false)
     }
-    
+
     public init() {
-        
+
     }
 }

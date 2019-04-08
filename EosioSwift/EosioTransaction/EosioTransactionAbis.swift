@@ -9,13 +9,13 @@
 import Foundation
 
 public extension EosioTransaction {
-    
+
     /// Manages abis associated with an `EosioTransaction` instance
-    public class Abis {
-        
-        private var abis = [EosioName:Data]()
+    class Abis {
+
+        private var abis = [EosioName: Data]()
         public var serializationProvider: EosioSerializationProviderProtocol?
-        
+
         /// Validate an abi
         /// - Parameter hex: The abi as a hex string
         /// - Throws: If the abi is not valid
@@ -23,10 +23,9 @@ public extension EosioTransaction {
             guard let serializer = self.serializationProvider else {
                 preconditionFailure("A serializationProvider must be set!")
             }
-            let _ = try serializer.deserializeAbi(hex: hex)
+            _ = try serializer.deserializeAbi(hex: hex)
         }
-        
-        
+
         /// Add an abi encoded as base64
         /// - Parameters:
         ///   - name: The contract name
@@ -36,8 +35,7 @@ public extension EosioTransaction {
             let hex = try Data(base64: base64).hex
             try addAbi(name: name, hex: hex)
         }
-        
-        
+
         /// Add an abi encoded as hex
         /// - Parameters:
         ///   - name: The contract name
@@ -48,8 +46,7 @@ public extension EosioTransaction {
             try validateAbi(hex: hex)
             abis[name] = abi
         }
-        
-        
+
         /// Add an abi as Data
         /// - Parameters:
         ///   - name: The contract name
@@ -59,8 +56,7 @@ public extension EosioTransaction {
             try validateAbi(hex: data.hex)
             abis[name] = data
         }
-        
-        
+
         /// Array of contract names missing an abi
         /// - Parameter names: Contract names to look for
         /// - Returns: Contract names missing an abi
@@ -69,8 +65,7 @@ public extension EosioTransaction {
                 abis[name] == nil
             })
         }
-        
-        
+
         /// Get the hash of the abi for a contract name
         /// - Parameter name: The contract name
         /// - Returns: The sha256 hash of the abi
@@ -81,17 +76,15 @@ public extension EosioTransaction {
             }
             return abi.sha256.hex
         }
-        
-        
+
         /// Hash of abis
         /// - Returns: Dictionary of the sha256 hashes of the abis, keyed by contract name
-        public func hashAbis() -> [EosioName:String] {
+        public func hashAbis() -> [EosioName: String] {
             return abis.mapValues({ (data) -> String in
                 return data.sha256.hex
             })
         }
-        
-        
+
         /// Get the hex abi for a contract name
         /// - Parameter name: The contract name
         /// - Returns: The abi as hex
@@ -102,20 +95,18 @@ public extension EosioTransaction {
             }
             return hexAbi
         }
-        
-        
+
         /// The abis encoded as hex
         /// - Returns: Dictionary of the abis encoded as hex, keyed by contract name
-        public func hexAbis() -> [EosioName:String] {
+        public func hexAbis() -> [EosioName: String] {
             return abis.mapValues({ (data) -> String in
                 return data.hex
             })
         }
-        
-        
+
         /// The abis as json
         /// - Returns: Dictionary of the abis as json, keyed by contract name
-        public func jsonAbis() throws -> [EosioName:String] {
+        public func jsonAbis() throws -> [EosioName: String] {
             return try hexAbis().mapValues({ (hex) -> String in
                 guard let serializer = self.serializationProvider else {
                     preconditionFailure("A serializationProvider must be set!")
@@ -123,8 +114,7 @@ public extension EosioTransaction {
                 return try serializer.deserializeAbi(hex: hex)
             })
         }
-        
-        
+
         /// Get the json abi for a contract name
         /// - Parameter name: The contract name
         /// - Returns: The abi as json
@@ -136,8 +126,7 @@ public extension EosioTransaction {
             }
             return try serializer.deserializeAbi(hex: hexAbi)
         }
-        
-    
+
     }
 
 }

@@ -10,4 +10,5 @@ target 'EosioSwift' do
   end
 
   pod 'BigInt', '~> 3.1'
+  pod 'SwiftLint'
 end

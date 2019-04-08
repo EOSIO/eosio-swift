@@ -10,11 +10,11 @@ import XCTest
 @testable import EosioSwift
 
 class EosioNameTests: XCTestCase {
-    
+
     struct TestStruct: Codable {
         var name: EosioName
     }
-    
+
     func testValidEosioNames() {
         XCTAssertNotNil(try? EosioName("a"))
         XCTAssertNotNil(try? EosioName("ab"))
@@ -28,7 +28,7 @@ class EosioNameTests: XCTestCase {
         XCTAssertNotNil(try? EosioName("abcd.12345"))
         XCTAssertNotNil(try? EosioName("abcd.12345.z"))
     }
-        
+
     func testInvalidEosioNames() {
         XCTAssertNil(try? EosioName(""))
         XCTAssertNil(try? EosioName("."))
@@ -49,11 +49,10 @@ class EosioNameTests: XCTestCase {
         XCTAssertNil(try? EosioName("abc.!"))
         XCTAssertNil(try? EosioName("@"))
     }
-    
-    
+
     func testDeocdeEncodeEosioName() {
         let decoder = JSONDecoder()
-        
+
         let jsonValid = """
         {"name":"abc"}
         """
@@ -62,20 +61,20 @@ class EosioNameTests: XCTestCase {
         }
         XCTAssert(structValid.name.string == "abc")
         XCTAssert(try structValid.name == EosioName("abc"))
-        
+
         let jsonInvalid = """
         {"name":"abc."}
         """
         XCTAssertNil(
             try? decoder.decode(TestStruct.self, from: jsonInvalid.data(using: .utf8)!)
         )
-        
+
         let encoder = JSONEncoder()
-        
+
         guard let json = try? encoder.encode(structValid) else {
             return XCTFail()
         }
         XCTAssert(String(data: json, encoding: .utf8) == jsonValid)
     }
-    
+
 }

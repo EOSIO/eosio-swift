@@ -8,12 +8,11 @@
 
 import Foundation
 
-func ZAssert(_ test: Bool, message: String) -> Void {
-    
-    if(test) {
+func ZAssert(_ test: Bool, message: String) {
+    if test {
         return
     }
-    
+
     #if DEBUG
     print(message)
     let exception = NSException()
@@ -22,5 +21,4 @@ func ZAssert(_ test: Bool, message: String) -> Void {
     NSLog(message)
     return
     #endif
-    
 }

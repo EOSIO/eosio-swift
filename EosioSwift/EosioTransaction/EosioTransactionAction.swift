@@ -9,10 +9,10 @@
 import Foundation
 
 public extension EosioTransaction {
-    
+
     /// Action class for `EosioTransaction`
-    public class Action: Codable {
-        
+    class Action: Codable {
+
         /// Contract account name
         public private(set) var account: EosioName
         /// Contract action name
@@ -20,8 +20,8 @@ public extension EosioTransaction {
         /// Authorization (actor and permission)
         public private(set) var authorization: [Authorization]
         /// Action data
-        public private(set) var data: [String:Any]
-        
+        public private(set) var data: [String: Any]
+
         /// Action data as a json string
         public var dataJson: String? {
             return data.jsonString
@@ -36,7 +36,7 @@ public extension EosioTransaction {
         public var isDataSerialized: Bool {
             return dataSerialized != nil
         }
-        
+
         /// Coding keys
         enum CodingKeys: String, CodingKey {
             case account
@@ -44,8 +44,7 @@ public extension EosioTransaction {
             case authorization
             case data
         }
-        
-        
+
         /// Init Action struct with strings and an Encodable struct for data. Strings will be used to init EosioNames.
         ///
         /// - Parameters:
@@ -58,7 +57,6 @@ public extension EosioTransaction {
             try self.init(account: EosioName(account), name: EosioName(name), authorization: authorization, data: data)
         }
 
-        
         /// Init Action struct with `EosioName`s and an Encodable struct for data.
         ///
         /// - Parameters:
@@ -73,8 +71,7 @@ public extension EosioTransaction {
             self.authorization = authorization
             self.data = try data.toJsonString().jsonToDictionary()
         }
-        
-        
+
         /// Init Action struct with strings and serialized data. Strings will be used to init EosioNames.
         ///
         /// - Parameters:
@@ -86,8 +83,7 @@ public extension EosioTransaction {
         public convenience init(account: String, name: String, authorization: [Authorization], dataSerialized: Data) throws {
             try self.init(account: EosioName(account), name: EosioName(name), authorization: authorization, dataSerialized: dataSerialized)
         }
-        
-        
+
         /// Init Action struct with `EosioName`s and serialized data.
         ///
         /// - Parameters:
@@ -100,10 +96,9 @@ public extension EosioTransaction {
             self.name = name
             self.authorization = authorization
             self.dataSerialized = dataSerialized
-            self.data = [String:Any]()
+            self.data = [String: Any]()
         }
-        
-        
+
         /// Init with decoder. The data property must be a hex string.
         ///
         /// - Parameter decoder: the decoder
@@ -113,10 +108,10 @@ public extension EosioTransaction {
             account = try container.decode(EosioName.self, forKey: .account)
             name = try container.decode(EosioName.self, forKey: .name)
             authorization = try container.decode([Authorization].self, forKey: .authorization)
-            self.data = [String:Any]()
-            
+            self.data = [String: Any]()
+
             if let dataString = try? container.decode(String.self, forKey: .data) {
-                if let ds = Data(hexString: dataString) {
+                if let ds = Data(hexString: dataString) { // swiftlint:disable:this identifier_name
                     dataSerialized = ds
                 } else {
                     throw EosioError(.eosioTransactionError, reason: "\(dataString) is not a valid hex string")
@@ -125,8 +120,7 @@ public extension EosioTransaction {
                 throw EosioError(.eosioTransactionError, reason: "Data property is not set for action \(account)::\(name)")
             }
         }
-        
-        
+
         /// Encode this action using the Encodable protocol
         ///
         /// - Parameter encoder: the encoder
@@ -138,12 +132,11 @@ public extension EosioTransaction {
             try container.encode(authorization, forKey: .authorization)
             try container.encode(dataHex ?? "", forKey: .data)
         }
-        
-        
+
         /// Serialize the data from the `data` dictionary using serializationProvider and an abi, then set the `dataSerialized` property
         ///
         /// - Parameter abi: the abi as a json string
-         /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
+        /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
         /// - Throws: if the data cannot be serialized
         public func serializeData(abi: String, serializationProvider: EosioSerializationProviderProtocol) throws {
             if isDataSerialized { return }
@@ -156,8 +149,7 @@ public extension EosioTransaction {
             }
             self.dataSerialized = binaryData
         }
-        
-        
+
         /// Deserialize the data from the `dataSerialized` property using serializationProvider and an abi, then set the `data` dictionary
         ///
         /// - Parameter abi: the abi as a json string
@@ -171,20 +163,18 @@ public extension EosioTransaction {
             let json = try serializationProvider.deserialize(contract: account.string, name: name.string, type: nil, hex: dataHex, abi: abi)
             data = try json.jsonToDictionary()
         }
-        
+
     }
-    
+
 }
 
-
 extension EosioTransaction.Action {
-    
+
     /// Authorization struct for `EosioTransaction.Action`
     public struct Authorization: Codable, Equatable {
         public var actor: EosioName
         public var permission: EosioName
-        
-        
+
         /// Init Authorization with EosioNames
         ///
         /// - Parameters:
@@ -194,8 +184,7 @@ extension EosioTransaction.Action {
             self.actor = actor
             self.permission = permission
         }
-        
-        
+
         /// Init Authorization with strings
         ///
         /// - Parameters:
@@ -205,11 +194,7 @@ extension EosioTransaction.Action {
         public init(actor: String, permission: String) throws {
             try self.init(actor: EosioName(actor), permission: EosioName(permission))
         }
-        
+
     }
-    
+
 }
-
-
-
-

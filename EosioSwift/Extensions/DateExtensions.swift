@@ -9,10 +9,10 @@
 import Foundation
 
 public extension Date {
-    
+
     /**
-        Returns the current data and time as a timestamp.
-    */
+     Returns the current data and time as a timestamp.
+     */
     static func getFormattedTime() -> String {
         let now = Date()
         let dateFormatter = DateFormatter()
@@ -21,14 +21,14 @@ public extension Date {
         let timeString = dateFormatter.string(from: now)
         return timeString
     }
-    
+
     /**
-        Initializes a `Data` object from a timestamp string.
- 
-        - Parameters:
-            - yyyyMMddTHHmmss: The timestamp string.
-        - Returns: A `Date` object or `nil` if the timestamp string can't be converted to `Date`.
-    */
+     Initializes a `Data` object from a timestamp string.
+
+     - Parameters:
+     - yyyyMMddTHHmmss: The timestamp string.
+     - Returns: A `Date` object or `nil` if the timestamp string can't be converted to `Date`.
+     */
     init?(yyyyMMddTHHmmss: String?) {
         guard let yyyyMMddTHHmmss = yyyyMMddTHHmmss else { return nil }
         let formatter = DateFormatter()
@@ -41,10 +41,10 @@ public extension Date {
             return nil
         }
     }
-    
+
     /**
-        Returns a string representation of the `Date` object.
-    */
+     Returns a string representation of the `Date` object.
+     */
     var yyyyMMddTHHmmss: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
@@ -63,6 +63,5 @@ public extension Date {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
-    
-}
 
+}

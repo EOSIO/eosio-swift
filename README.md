@@ -171,7 +171,7 @@ Response structs for the alpha release are incomplete. Some responses will only 
 
 ## What's Next for the SDK?
 
-We're always looking for ways to improve EOSIO SDK for Swift. Here are a few ideas around how we'd like to see the library progress. Check out our [#enhancement Issues](issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for more.
+We're always looking for ways to improve EOSIO SDK for Swift. Here are a few ideas around how we'd like to see the library progress. Check out our [#enhancement Issues](/../../issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for more.
 
 * Implement a Transaction factory so that providers don't have to be set explicitly for every transaction
 * Improve RPC response marshalling; build out new and existing response structs

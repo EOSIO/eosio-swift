@@ -15,22 +15,26 @@ PODS:
   - OHHTTPStubs/Swift (6.1.0):
     - OHHTTPStubs/Default
   - SipHash (1.2.2)
+  - SwiftLint (0.31.0)
 
 DEPENDENCIES:
   - BigInt (~> 3.1)
   - OHHTTPStubs/Swift
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BigInt
     - OHHTTPStubs
     - SipHash
+    - SwiftLint
 
 SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: 26ad1ee717379ef9d08263f3216dd2aa2a0aedc6
+PODFILE CHECKSUM: 326d3ef674a91d777f9a3da718f8ac1c4d272aad
 
 COCOAPODS: 1.6.1

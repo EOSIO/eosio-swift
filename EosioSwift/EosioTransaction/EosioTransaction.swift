@@ -377,19 +377,14 @@ public class EosioTransaction: Codable {
         guard let rpcProvider = rpcProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No rpc provider available")))
         }
-
-        do {
-            let requiredKeysRequest = EosioRpcRequiredKeysRequest(availableKeys: availableKeys, transaction: self)
-            rpcProvider.getRequiredKeys(requestParameters: requiredKeysRequest) { (response) in
-                switch response {
-                case .failure(let error):
-                    completion(.failure(error))
-                case .success(let requiredKeys):
-                    self.sign(publicKeys: requiredKeys.requiredKeys, completion: completion)
-                }
+        let requiredKeysRequest = EosioRpcRequiredKeysRequest(availableKeys: availableKeys, transaction: self)
+        rpcProvider.getRequiredKeys(requestParameters: requiredKeysRequest) { (response) in
+            switch response {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let requiredKeys):
+                self.sign(publicKeys: requiredKeys.requiredKeys, completion: completion)
             }
-        } catch {
-            return completion(.failure(error.eosioError))
         }
     }
 

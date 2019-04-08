@@ -83,7 +83,7 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
             }
 
             guard (200...299).contains(httpResponse.statusCode) else{
-                callBack(nil, EosioError(.rpcProviderError, reason: "Server Error. Status Code: \(httpResponse.statusCode) Response: \(httpResponse.description)", originalError: nil))
+                callBack(nil, EosioError(.rpcProviderError, reason: "Server Error. Status Code: \(httpResponse.statusCode) Server Response: \(String(data:data ?? Data(), encoding: .utf8) ?? "nil")", originalError: nil))
                 return
             }
 

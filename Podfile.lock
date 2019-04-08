@@ -1,0 +1,31 @@
+PODS:
+  - BigInt (3.1.0):
+    - SipHash (~> 1.2)
+  - EosioSwift (1.0):
+    - BigInt
+  - GRKOpenSSLFramework (1.0.2.16)
+  - SipHash (1.2.2)
+
+DEPENDENCIES:
+  - EosioSwift (from `../eosio-swift`)
+  - GRKOpenSSLFramework
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BigInt
+    - GRKOpenSSLFramework
+    - SipHash
+
+EXTERNAL SOURCES:
+  EosioSwift:
+    :path: "../eosio-swift"
+
+SPEC CHECKSUMS:
+  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
+  EosioSwift: bc21a9418eca9caa877fdc65e96a5bf4bb8e07ab
+  GRKOpenSSLFramework: 35944e317e6336b2944ad70b059d84db6b2d8532
+  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
+
+PODFILE CHECKSUM: c5076e2ef2ebf3ec670e4c9e926586d531b41729
+
+COCOAPODS: 1.5.3

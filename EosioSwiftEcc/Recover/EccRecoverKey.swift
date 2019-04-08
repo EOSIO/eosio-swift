@@ -11,23 +11,23 @@ import EosioSwift
 import openssl
 
 public class EccRecoverKey {
-    
+
     public init() {
-        
+
     }
-    
+
     /// Recover a public key from the private key
     ///
     /// - Parameters:
     ///   - privateKey: The private key
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
-    public class func recoverPublicKey(privateKey: Data, curve: EllipticCurveType) throws -> Data  {
-        
+    public class func recoverPublicKey(privateKey: Data, curve: EllipticCurveType) throws -> Data {
+
         let privKeyBN = BN_new()!
         let key = EC_KEY_new()
         let ctx = BN_CTX_new()
-        
+
         var curveName: Int32
         switch curve {
         case .r1:
@@ -35,19 +35,18 @@ public class EccRecoverKey {
         case .k1:
             curveName = NID_secp256k1
         }
-        
-        
+
         let group = EC_GROUP_new_by_curve_name(curveName)
         EC_KEY_set_group(key, group)
-        
+
         var recoveredPubKeyHex = ""
         privateKey.withUnsafeBytes { (pkbytes: UnsafePointer<UInt8>) -> Void in
-        
+
             BN_bin2bn(pkbytes, Int32(privateKey.count), privKeyBN)
             EC_KEY_set_private_key(key, privKeyBN)
             let pubKeyPoint = EC_POINT_new(group)
             EC_POINT_mul(group, pubKeyPoint, privKeyBN, nil, nil, ctx)
-            
+
             let xBN = BN_new()!
             let yBN = BN_new()!
             EC_POINT_get_affine_coordinates_GFp(group, pubKeyPoint, xBN, yBN, nil)
@@ -59,8 +58,7 @@ public class EccRecoverKey {
         }
         return try Data(hex: recoveredPubKeyHex)
     }
-    
-    
+
     /// Recover a public key from a signature, message
     ///
     /// - Parameters:
@@ -70,7 +68,7 @@ public class EccRecoverKey {
     ///   - curve: The curve `K1` or `R1`
     /// - Returns: The public key
     public class func recoverPublicKey(signatureDer: Data, message: Data, recid: Int, curve: EllipticCurveType = .r1) throws -> Data {
-        
+
         var curveName: Int32
         switch curve {
         case .r1:
@@ -78,9 +76,7 @@ public class EccRecoverKey {
         case .k1:
             curveName = NID_secp256k1
         }
-        
-        
-        
+
         var recoveredPubKeyHex = ""
         try signatureDer.withUnsafeBytes { (derBytes: UnsafePointer<UInt8>) -> Void in
             let recoveredKey = EC_KEY_new_by_curve_name(curveName)
@@ -88,10 +84,10 @@ public class EccRecoverKey {
             var mutableDerBytes: UnsafePointer<UInt8>? = derBytes
             sig = d2i_ECDSA_SIG(&sig, &mutableDerBytes, signatureDer.count)
             guard sig != nil else {
-                throw EosioError(.keySigningError, reason:  "Signature \(signatureDer.hex) is not valid" )
+                throw EosioError(.keySigningError, reason: "Signature \(signatureDer.hex) is not valid" )
             }
             message.withUnsafeBytes { (messageBytes: UnsafePointer<UInt8>) -> Void in
-                
+
                 ECDSA_SIG_recover_key_GFp(recoveredKey, sig, messageBytes, Int32(message.count), Int32(recid), 1)
                 guard let recoveredPubKey = EC_KEY_get0_public_key(recoveredKey) else { return }
                 let xBN = BN_new()!
@@ -109,8 +105,7 @@ public class EccRecoverKey {
         }
         return try Data(hex: recoveredPubKeyHex)
     }
-    
-    
+
     /// Get the recovery id (recid) for a signature, message and target public key
     ///
     /// - Parameters:
@@ -127,8 +122,7 @@ public class EccRecoverKey {
                 return i
             }
         }
-        throw EosioError(.keySigningError, reason:  "Unable to find recid for \(targetPublicKey.hex)" )
+        throw EosioError(.keySigningError, reason: "Unable to find recid for \(targetPublicKey.hex)" )
     }
-    
-    
+
 }

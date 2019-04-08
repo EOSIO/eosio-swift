@@ -25,15 +25,14 @@ public struct EcdsaSignature {
         der = der + s
         return der
     }
-    
-    
+
     /// Init an EcdsaSignature
     ///
     /// - Parameters:
     ///   - der: A signature in der format
     ///   - requireLowS: Option to convert a high `s` to low `s`
     ///   - curve: The curve (`R1` or `K1`)
-    public init?(der: Data?, requireLowS: Bool = true, curve: EllipticCurveType = .r1) {
+    public init?(der: Data?, requireLowS: Bool = true, curve: EllipticCurveType = .r1) { // swiftlint:disable:this cyclomatic_complexity
         guard let der = der else { return nil }
         guard der.count > 8 else { return nil }
         guard der[0] == 0x30 else { return nil }
@@ -48,7 +47,7 @@ public struct EcdsaSignature {
         let sIndex = rLen+6
         s = der[sIndex..<sIndex+sLen].suffix(32)
         guard s.count == 32 else { return nil }
-        
+
         if requireLowS && curve == .r1 {
             // n for r1 curve. reference: http://www.secg.org/SEC2-Ver-1.0.pdf
             guard let r1n = BigUInt(hex: "FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551") else { return nil }
@@ -57,7 +56,7 @@ public struct EcdsaSignature {
                 self.s = (r1n - s).serialize()
             }
         }
-        
+
         if requireLowS && curve == .k1 {
             // n for k1 curve
             guard let k1n = BigUInt(hex: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140") else { return nil }
@@ -67,12 +66,12 @@ public struct EcdsaSignature {
             }
         }
     }
-    
-    public init(r:Data, s:Data) {
+
+    public init(r: Data, s: Data) {
         self.r = r
         self.s = s
     }
-    
+
 }
 
 fileprivate extension BigUInt {
@@ -81,6 +80,3 @@ fileprivate extension BigUInt {
         self = BigUInt(data)
     }
 }
-
-
-

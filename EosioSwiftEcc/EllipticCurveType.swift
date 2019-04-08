@@ -6,14 +6,13 @@
 //  Copyright (c) 2018-2019 block.one
 //
 
-
 import Foundation
 import EosioSwift
 
 public enum EllipticCurveType: String {
-    case r1 = "R1"
-    case k1 = "K1"
-    
+    case r1 = "R1" // swiftlint:disable:this identifier_name
+    case k1 = "K1" // swiftlint:disable:this identifier_name
+
     public init(_ curve: String) throws {
         switch curve.uppercased() {
         case "R1":

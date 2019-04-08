@@ -524,7 +524,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/EosioSwift/EosioSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
@@ -539,7 +539,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B3CA5472FB7A98FB2755F73C /* [CP] Check Pods Manifest.lock */ = {

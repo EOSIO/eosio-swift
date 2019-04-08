@@ -144,6 +144,7 @@
 				8F7712CC223ACCAF004256D3 /* Sources */,
 				8F7712CD223ACCAF004256D3 /* Frameworks */,
 				8F7712CE223ACCAF004256D3 /* Resources */,
+				3EDC3E1A225BD9FA00053C0C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -258,6 +259,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EosioSwiftSoftkeySignatureProviderTests/Pods-EosioSwiftSoftkeySignatureProviderTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3EDC3E1A225BD9FA00053C0C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		74477581F9692009DA9E3617 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

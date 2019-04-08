@@ -27,12 +27,11 @@ class EosioAbiProviderTests: XCTestCase {
                     XCTAssertEqual(abi.sha256.hex, "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
                 case .failure(let error):
                     print(error)
-                    XCTFail()
+                    XCTFail("Failed to get Abi from provider")
                 }
             })
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
 
     }
@@ -49,12 +48,11 @@ class EosioAbiProviderTests: XCTestCase {
                     XCTAssertEqual(abi[eosio]?.sha256.hex, "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
                 case .failure(let error):
                     print(error)
-                    XCTFail()
+                    XCTFail("Failed to get Abi from provider")
                 }
             })
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
 
     }
@@ -68,14 +66,13 @@ class EosioAbiProviderTests: XCTestCase {
             abiProvider.getAbis(chainId: "", accounts: [badAccount, eosioToken, eosio], completion: { (response) in
                 switch response {
                 case .success:
-                    XCTFail()
+                    XCTFail("getting Abi from provider succeeded despite being wrong")
                 case .failure(let error):
                     print(error)
                 }
             })
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
 
     }

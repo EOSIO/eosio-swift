@@ -34,7 +34,7 @@ class EosioTransactionTests: XCTestCase {
         transaction.rpcProvider = nil
         transaction.prepare { (result) in
             if case .success = result {
-                XCTFail()
+                XCTFail("Succeeded to prepare transaction despite rpc provider not being set")
             }
         }
     }
@@ -49,7 +49,7 @@ class EosioTransactionTests: XCTestCase {
     func test_prepare_whenGetInfoMethodOfRPCProviderReturnsSuccess_shouldReturnSuccess() {
         transaction.prepare { (result) in
             guard case .success = result else {
-                XCTFail()
+                XCTFail("Succeeded to prepare get_info transaction despite being malformed")
                 return
             }
         }
@@ -60,7 +60,7 @@ class EosioTransactionTests: XCTestCase {
         rpcProvider.getInfoReturnsfailure = true
         transaction.prepare { (result) in
             guard case .failure = result else {
-                XCTFail()
+                XCTFail("Succeeded to prepare get_info transaction despite being malformed")
                 return
             }
         }
@@ -128,7 +128,7 @@ class EosioTransactionTests: XCTestCase {
         rpcProvider.getBlockReturnsFailure = true
         transaction.getBlockAndSetTapos(blockNum: 8678) { (result) in
             guard case .failure = result else {
-                XCTFail()
+                XCTFail("Failed get_block")
                 return
             }
         }
@@ -143,7 +143,7 @@ class EosioTransactionTests: XCTestCase {
     func test_sign_publicKeys_shouldFail() {
         transaction.sign(publicKeys: ["PUB_K1_badkey"]) { (result) in
             guard case .failure = result else {
-                return XCTFail()
+                return XCTFail("Succeeded to sign transaction with K1 public key despite having a bad key")
             }
         }
     }
@@ -157,7 +157,7 @@ class EosioTransactionTests: XCTestCase {
     func test_sign_availableKeys_shouldFail() {
         transaction.sign(availableKeys: ["PUB_K1_badkey"]) { (result) in
             guard case .failure = result else {
-                return XCTFail()
+                return XCTFail("Succeeded to sign transaction despite having a bad key")
             }
         }
     }

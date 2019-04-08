@@ -51,7 +51,7 @@ class EosioRpcProviderTests: XCTestCase {
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success:
-                XCTFail()
+                XCTFail("Succeeded get_block call despite being malformed")
             case .failure(let err):
                 XCTAssertTrue(err.description == "Error was was encountered in RpcProvider.")
                 XCTAssertNotNil(err.originalError)
@@ -80,14 +80,14 @@ class EosioRpcProviderTests: XCTestCase {
             switch response {
             case .success(let infoResponse):
                 guard let rpcInfoResponse = infoResponse as? EosioRpcInfoResponse else {
-                    XCTFail()
+                    return XCTFail("No valid get_info response")
                 }
                 XCTAssertTrue(rpcInfoResponse.serverVersion == "0f6695cb")
                 XCTAssertTrue(rpcInfoResponse.headBlockNum == 25260035)
                 XCTAssertTrue(rpcInfoResponse.headBlockId == "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05")
             case .failure(let err):
                 print(err.description)
-                XCTFail()
+                XCTFail("Failed to complete get_info request")
             }
             expect.fulfill()
         }
@@ -113,14 +113,14 @@ class EosioRpcProviderTests: XCTestCase {
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
-                    XCTFail()
+                    return XCTFail("Failed to convert rpc response")
                 }
                 XCTAssertTrue(rpcBlockResponse.blockNum == 25260032)
                 XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2249927103)
                 XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
             case .failure(let err):
                 print(err.description)
-                XCTFail()
+                XCTFail("Failed get_block attempt")
             }
             expect.fulfill()
         }
@@ -148,21 +148,20 @@ class EosioRpcProviderTests: XCTestCase {
                 switch response {
                 case .success(let rawAbiResponse):
                     guard let rpcRawAbiResponse = rawAbiResponse as? EosioRpcRawAbiResponse else {
-                        XCTFail()
+                        return XCTFail("Failed to parse raw abi response")
                     }
                     XCTAssertTrue(rpcRawAbiResponse.accountName == "eosio")
                     XCTAssertTrue(rpcRawAbiResponse.codeHash == "add7914493bb911bbc179b19115032bbaae1f567f733391060edfaf79a6c8096")
                     XCTAssertTrue(rpcRawAbiResponse.abiHash == "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
                 case .failure(let err):
                     print(err.description)
-                    XCTFail()
+                    XCTFail("Failed to get raw abi")
                 }
                 expect.fulfill()
             }
             wait(for: [expect], timeout: 30)
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
     }
 
@@ -187,21 +186,20 @@ class EosioRpcProviderTests: XCTestCase {
                 switch response {
                 case .success(let rawAbiResponse):
                     guard let rpcRawAbiResponse = rawAbiResponse as? EosioRpcRawAbiResponse else {
-                        XCTFail()
+                        return XCTFail("Failed to parse raw abi response")
                     }
                     XCTAssertTrue(rpcRawAbiResponse.accountName == "eosio.token")
                     XCTAssertTrue(rpcRawAbiResponse.codeHash == "3e0cf4172ab025f9fff5f1db11ee8a34d44779492e1d668ae1dc2d129e865348")
                     XCTAssertTrue(rpcRawAbiResponse.abiHash == "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
                 case .failure(let err):
                     print(err.description)
-                    XCTFail()
+                    XCTFail("Failed to get raw abi")
                 }
                 expect.fulfill()
             }
             wait(for: [expect], timeout: 30)
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
     }
 
@@ -226,14 +224,13 @@ class EosioRpcProviderTests: XCTestCase {
             switch response {
             case .success(let requiredKeysResponse):
                 guard let rpcRequiredKeysResponse = requiredKeysResponse as? EosioRpcRequiredKeysResponse else {
-                    XCTFail()
+                    return XCTFail("Failed to parse rpc required key response")
                 }
                 XCTAssertTrue(rpcRequiredKeysResponse.requiredKeys.count == 1)
                 XCTAssertTrue(rpcRequiredKeysResponse.requiredKeys[0] == "EOS5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCvzbYpba")
 
             case .failure(let err):
-                print(err.description)
-                XCTFail()
+                XCTFail("\(err.description)")
             }
             expect.fulfill()
         }
@@ -261,8 +258,7 @@ class EosioRpcProviderTests: XCTestCase {
             case .success(let pushedTransactionResponse):
                 XCTAssertTrue(pushedTransactionResponse.transactionId == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")
             case .failure(let err):
-                print(err.description)
-                XCTFail()
+                XCTFail("\(err.description)")
             }
             expect.fulfill()
         }

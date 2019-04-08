@@ -6,6 +6,7 @@
 //  Copyright © 2018-2019 block.one.
 //
 
+// swiftlint:disable large_tuple
 import Foundation
 
 public extension String {

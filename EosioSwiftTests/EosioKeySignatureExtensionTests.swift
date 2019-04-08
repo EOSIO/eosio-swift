@@ -40,7 +40,7 @@ class EosioKeySignatureExtensionTests: XCTestCase {
 
     func test_Data_eosioPublicKey_legacy() {
         guard let data = try? Data(eosioPublicKey: publicKey) else {
-            return XCTFail()
+            return XCTFail("Failed to convert public key to Data()")
         }
         XCTAssertEqual(data.hex, publicKeyHex)
     }
@@ -53,14 +53,14 @@ class EosioKeySignatureExtensionTests: XCTestCase {
 
     func test_Data_eosioPublicKey_k1() {
         guard let data = try? Data(eosioPublicKey: publicKeyK1) else {
-            return XCTFail()
+            return XCTFail("Failed to convert public K1 key to Data()")
         }
         XCTAssertEqual(data.hex, publicKeyHex)
     }
 
     func test_toEosioK1PublicKey() {
-        let data = try? Data(hex: publicKeyK1Hex) ?? Data()
-        XCTAssertEqual(data.toEosioK1PublicKey, publicKeyK1)
+        let data = try? Data(hex: publicKeyK1Hex)
+        XCTAssertEqual(data?.toEosioK1PublicKey, publicKeyK1)
     }
 
     func test_Data_eosioPublicKey_invalidK1_shouldFail() {
@@ -72,14 +72,14 @@ class EosioKeySignatureExtensionTests: XCTestCase {
 
     func test_Data_eosioPrivateKey() {
         guard let data = try? Data(eosioPrivateKey: privateKey) else {
-            return XCTFail()
+            return XCTFail("Failed to convert private key to Data()")
         }
         XCTAssertEqual(data.hex, privateKeyHex)
     }
 
     func test_Data_eosioPrivateKeyK1() {
         guard let data = try? Data(eosioPrivateKey: privateKeyK1) else {
-            return XCTFail()
+            return XCTFail("Failed to convert public K1 key to Data()")
         }
         XCTAssertEqual(data.hex, privateKeyHex)
     }
@@ -90,13 +90,13 @@ class EosioKeySignatureExtensionTests: XCTestCase {
     }
 
     func test_toEosioK1Signature() {
-        let data = try? Data(hex: signature0Hex) ?? Data()
-        XCTAssertEqual(data.toEosioK1Signature, signature0K1)
+        let data = try? Data(hex: signature0Hex)
+        XCTAssertEqual(data?.toEosioK1Signature, signature0K1)
     }
 
     func test_Data_eosioSignature() {
         guard let data = try? Data(eosioSignature: signature0K1) else {
-            return XCTFail()
+            return XCTFail("Failed to convert EOSIO signature to Data()")
         }
         XCTAssertEqual(data.hex, signature0Hex)
     }
@@ -104,8 +104,8 @@ class EosioKeySignatureExtensionTests: XCTestCase {
     func test_compressedPublicKey() {
         let compressedPublicKey = "02257784a3d0aceef73ea365ce01febaec1b671b971b9c9feb3f4901e7b773bd43"
         let unCompressedPublicKey = "04257784a3d0aceef73ea365ce01febaec1b671b971b9c9feb3f4901e7b773bd4366c7451a736e2921b3dfeefc2855e984d287d58a0dfb995045f339a0e8a2fd7a"
-        let unCompressedKey = try? Data(hex: unCompressedPublicKey) ?? Data()
-        XCTAssertEqual(unCompressedKey.toCompressedPublicKey?.hex, compressedPublicKey)
+        let unCompressedKey = try? Data(hex: unCompressedPublicKey)
+        XCTAssertEqual(unCompressedKey?.toCompressedPublicKey?.hex, compressedPublicKey)
     }
 
 }

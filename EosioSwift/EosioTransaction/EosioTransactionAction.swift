@@ -38,7 +38,7 @@ public extension EosioTransaction {
         }
 
         /// Coding keys
-        enum CodingKeys: String, CodingKey {
+        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
             case account
             case name
             case authorization

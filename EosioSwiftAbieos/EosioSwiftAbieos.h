@@ -17,4 +17,4 @@ FOUNDATION_EXPORT const unsigned char EosioSwiftAbieosVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements
 // like #import <EosioSwiftAbiEos/PublicHeader.h>
-#import "abieos.h"
+#include "abieos.h"

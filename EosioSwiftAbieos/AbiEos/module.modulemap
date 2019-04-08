@@ -1,4 +1,0 @@
-module AbiEos {
-    header "abieos.h"
-    export *
-}

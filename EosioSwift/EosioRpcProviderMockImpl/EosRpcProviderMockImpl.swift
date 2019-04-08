@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+@testable import EosioSwift
 
 public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
     
@@ -34,26 +34,47 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
         completion(EosioResult.failure(EosioError(EosioErrorCode.rpcProviderError, reason: "Mock Implementation: rpcRequest not implemented.")))
     }
     
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
+    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         let resp = createInfoResponse()
-        completion(resp.decodeJson())
+        let res:EosioRpcInfoResponse? = resp.decodeJson()
+        var result:EosioResult<EosioRpcInfoResponseProtocol, EosioError>
+        if let res = res{
+            result = EosioResult.success(res)
+        }else{
+            result = EosioResult.failure(EosioError(.rpcProviderError, reason: "Can't parse data."))
+        }
+        completion(result)
     }
     
-    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
+    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         let resp = createBlockResponse()
-        completion(resp.decodeJson())
+        let res:EosioRpcBlockResponse? = resp.decodeJson()
+        var result:EosioResult<EosioRpcBlockResponseProtocol, EosioError>
+        if let res = res{
+            result = EosioResult.success(res)
+        }else{
+            result = EosioResult.failure(EosioError(.rpcProviderError, reason: "Can't get block"))
+        }
+        completion(result)
     }
     
-    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
+    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
         let resp = createRawAbiResponse(account: requestParameters.account_name)
-        completion(resp.decodeJson())
+        let res:EosioRpcRawAbiResponse? = resp.decodeJson()
+        var result: EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>
+        if let res = res{
+            result = EosioResult.success(res)
+        }else{
+            result = EosioResult.failure(EosioError(.rpcProviderError, reason: "GetRawAbi Error"))
+        }
+        completion(result)
     }
     
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
+    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
         
     }
     
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
+    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
         
     }
     

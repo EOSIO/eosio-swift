@@ -12,7 +12,7 @@ import XCTest
 import OHHTTPStubs
 
 class EosioRpcProviderTests: XCTestCase {
-
+    
     var rpcProvider: EosioRpcProviderProtocol? = nil
     
     override func setUp() {
@@ -24,7 +24,7 @@ class EosioRpcProviderTests: XCTestCase {
             print("\(request.url!) stubbed by \(stub.name!).")
         }
     }
-
+    
     override func tearDown() {
         super.tearDown()
         
@@ -77,9 +77,10 @@ class EosioRpcProviderTests: XCTestCase {
         rpcProvider?.getInfo(){ response in
             switch response {
             case .success(let infoResponse):
-                XCTAssertTrue(infoResponse.serverVersion == "0f6695cb")
-                XCTAssertTrue(infoResponse.headBlockNum == 25260035)
-                XCTAssertTrue(infoResponse.headBlockId == "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05")
+                let rpcInfoResponse = infoResponse as! EosioRpcInfoResponse
+                XCTAssertTrue(rpcInfoResponse.serverVersion == "0f6695cb")
+                XCTAssertTrue(rpcInfoResponse.headBlockNum == 25260035)
+                XCTAssertTrue(rpcInfoResponse.headBlockId == "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05")
             case .failure(let err):
                 print(err.description)
                 XCTFail()
@@ -106,10 +107,11 @@ class EosioRpcProviderTests: XCTestCase {
         let requestParameters = EosioRpcBlockRequest(block_num_or_id: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
             switch response {
-            case .success(let infoResponse):
-                XCTAssertTrue(infoResponse.blockNum == 25260032)
-                XCTAssertTrue(infoResponse.refBlockPrefix == 2249927103)
-                XCTAssertTrue(infoResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
+            case .success(let blockResponse):
+                let rpcBlockResponse = blockResponse as! EosioRpcBlockResponse
+                XCTAssertTrue(rpcBlockResponse.blockNum == 25260032)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2249927103)
+                XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
             case .failure(let err):
                 print(err.description)
                 XCTFail()
@@ -138,10 +140,11 @@ class EosioRpcProviderTests: XCTestCase {
             let requestParameters = EosioRpcRawAbiRequest(account_name: name)
             rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
-                case .success(let infoResponse):
-                    XCTAssertTrue(infoResponse.accountName == "eosio")
-                    XCTAssertTrue(infoResponse.codeHash == "add7914493bb911bbc179b19115032bbaae1f567f733391060edfaf79a6c8096")
-                    XCTAssertTrue(infoResponse.abiHash == "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
+                case .success(let rawAbiResponse):
+                    let rpcRawAbiResponse = rawAbiResponse as! EosioRpcRawAbiResponse
+                    XCTAssertTrue(rpcRawAbiResponse.accountName == "eosio")
+                    XCTAssertTrue(rpcRawAbiResponse.codeHash == "add7914493bb911bbc179b19115032bbaae1f567f733391060edfaf79a6c8096")
+                    XCTAssertTrue(rpcRawAbiResponse.abiHash == "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
                 case .failure(let err):
                     print(err.description)
                     XCTFail()
@@ -154,7 +157,7 @@ class EosioRpcProviderTests: XCTestCase {
             XCTFail()
         }
     }
-        
+    
     /**
      * Test getRawAbi() protocol implementation with token.
      *
@@ -175,9 +178,10 @@ class EosioRpcProviderTests: XCTestCase {
             rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let rawAbiResponse):
-                    XCTAssertTrue(rawAbiResponse.accountName == "eosio.token")
-                    XCTAssertTrue(rawAbiResponse.codeHash == "3e0cf4172ab025f9fff5f1db11ee8a34d44779492e1d668ae1dc2d129e865348")
-                    XCTAssertTrue(rawAbiResponse.abiHash == "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
+                    let rpcRawAbiResponse = rawAbiResponse as! EosioRpcRawAbiResponse
+                    XCTAssertTrue(rpcRawAbiResponse.accountName == "eosio.token")
+                    XCTAssertTrue(rpcRawAbiResponse.codeHash == "3e0cf4172ab025f9fff5f1db11ee8a34d44779492e1d668ae1dc2d129e865348")
+                    XCTAssertTrue(rpcRawAbiResponse.abiHash == "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
                 case .failure(let err):
                     print(err.description)
                     XCTFail()
@@ -211,8 +215,9 @@ class EosioRpcProviderTests: XCTestCase {
         rpcProvider?.getRequiredKeys(requestParameters: requestParameters) { response in
             switch response {
             case .success(let requiredKeysResponse):
-                XCTAssertTrue(requiredKeysResponse.requiredKeys.count == 1)
-                XCTAssertTrue(requiredKeysResponse.requiredKeys[0] == "EOS5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCvzbYpba")
+                let rpcRequiredKeysResponse = requiredKeysResponse as! EosioRpcRequiredKeysResponse
+                XCTAssertTrue(rpcRequiredKeysResponse.requiredKeys.count == 1)
+                XCTAssertTrue(rpcRequiredKeysResponse.requiredKeys[0] == "EOS5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCvzbYpba")
                 
             case .failure(let err):
                 print(err.description)
@@ -222,7 +227,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
- 
+    
     /**
      * Test pushTransaction() protocol implementation.
      *
@@ -275,7 +280,7 @@ class EosioRpcProviderTests: XCTestCase {
         
         return json
     }
-
+    
     private func createInfoResponseJson() -> String {
         let json = """
         {
@@ -355,7 +360,7 @@ class EosioRpcProviderTests: XCTestCase {
         return json
         
     }
-
+    
     private func createPushTransActionResponseJson() -> String {
         
         let json = """
@@ -364,6 +369,6 @@ class EosioRpcProviderTests: XCTestCase {
         }
         """
         return json
-       
+        
     }
 }

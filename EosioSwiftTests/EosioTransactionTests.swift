@@ -217,7 +217,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         blockNetLimit: 897,
         serverVersionString: "server version")
     
-    func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
+    func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         getInfoCalled = true
         if getInfoReturnsfailure{
             let error = EosioError(.getInfoError, reason: "Failed for test propose")
@@ -243,47 +243,30 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         newProducers: nil,
         headerExtensions: ["extension"],
         producerSignature: "signature",
-        transactions: [
-            EosioRpcTransactionInfoResponse(
-                status: "status",
-                cpuUsageUs: 89,
-                netUsageWords: 8,
-                trx: EosioRpcTrxResponse(
-                    id: "lkj",
-                    signatures: ["kljl"],
-                    compression: "lkj",
-                    packedContextFreeData: "lkj",
-                    contextFreeData: ["kljl"],
-                    packedTrx: "lkj",
-                    transaction: EosioRpcTransactionResponse(transactionId: "mocktransactionid")
-            )
-            )
-        ],
-        blockExtensions: ["lkjl"],
         id: "klj",
         blockNum: 89,
         refBlockPrefix: 0980
     )
     
-    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
+    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         getBlockCalled = true
         blockNumberRequested = requestParameters.block_num_or_id
-        let result:EosioResult = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
+        let result:EosioResult<EosioRpcBlockResponseProtocol, EosioError> = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
         completion(result)
         
     }
     
-     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
+     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
         
     }
 
 
     
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
+    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
         
     }
     
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
+    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
         
     }
 }

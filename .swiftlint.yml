@@ -1,0 +1,11 @@
+disabled_rules:
+  - type_body_length
+  - file_length
+line_length: 200
+identifier_name:
+  min-length: 4
+  max_length: 60
+  excluded:
+    - id
+    - tx
+    - trx

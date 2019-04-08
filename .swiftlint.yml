@@ -9,6 +9,7 @@ identifier_name:
   min-length: 4
   max_length: 60
   excluded:
+    - i
     - id
     - tx
     - trx

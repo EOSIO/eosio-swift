@@ -6,7 +6,7 @@
 //  Copyright (c) 2018-2019 block.one
 //
 
-
+// swiftlint:disable identifier_name
 import Foundation
 import EosioSwift
 import openssl

@@ -6,6 +6,8 @@
 //  Copyright (c) 2018-2019 block.one
 //
 
+// swiftlint:disable identifier_name shorthand_operator
+
 import Foundation
 import BigInt
 

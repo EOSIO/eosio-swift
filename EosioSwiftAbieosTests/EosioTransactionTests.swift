@@ -40,8 +40,7 @@ class EosioTransactionTests: XCTestCase {
 
             XCTAssertTrue(transaction.actionsWithoutSerializedData.count == 0)
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
 
     }
@@ -50,28 +49,27 @@ class EosioTransactionTests: XCTestCase {
         let expect = expectation(description: "testAsyncSerializeActionData")
         transaction.chainId = "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17"
         guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else {
-            return XCTFail()
+            return XCTFail("Failed to create transfer action")
         }
         guard let action2 = try? makeVoteProducerAction(voter: EosioName("todd")) else {
-            return XCTFail()
+            return XCTFail("Failed to create a vote action")
         }
         transaction.actions.append(action1)
         transaction.actions.append(action2)
 
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
-            return XCTFail()
+            return XCTFail("Failed to create Eosio endpoint")
         }
 
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         transaction.serializeActionData { [weak self] (result) in
             guard let self = self else {
-                XCTFail()
+                XCTFail("Self is not present")
                 return
             }
             switch result {
             case .failure(let error):
-                print(error)
-                XCTFail()
+                XCTFail("\(error)")
             case .success:
                 XCTAssertTrue(self.transaction.actionsWithoutSerializedData.count == 0)
                 XCTAssertEqual(self.transaction.actions[0].dataSerialized?.hex, "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73")
@@ -94,8 +92,7 @@ class EosioTransactionTests: XCTestCase {
             let expectedData = try Data(hex: "29AB5F49640040E20100000000000100A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B7300")
             XCTAssertEqual(serializedTransaction, expectedData)
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
     }
 
@@ -103,28 +100,28 @@ class EosioTransactionTests: XCTestCase {
         let expect = expectation(description: "testAsyncToEosioTransactionRequest")
         transaction.chainId = "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17"
         guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else {
-            return XCTFail()
+            return XCTFail("Failed to create transfer action")
         }
         guard let action2 = try? makeVoteProducerAction(voter: EosioName("todd")) else {
-            return XCTFail()
+            return XCTFail("Failed to create vote action")
         }
         transaction.actions.append(action1)
         transaction.actions.append(action2)
         transaction.expiration = Date(yyyyMMddTHHmmss: "3009-01-03T18:15:05.000")!
 
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
-            return XCTFail()
+            return XCTFail("Failed to create Eosio endpoint")
         }
 
         var data: Data?
         do {
             data = try Data(hex: "29E24FA20070BF291B86000000000200A6823403EA3055000000572D3CCDCD0100000000009012CD00000000A8ED32323200000000009012CD00000060D234CD3DA0680600000000000453595300000000114772617373686F7070657220526F636B730000000000EA30557015D289DEAA32DD0100000000009012CD00000000A8ED32322900000000009012CD00000000009012CD0300000857219DE8AD00001057219DE8AD00001857219DE8AD00")
         } catch {
-            XCTFail()
+            XCTFail("Failed to create data from hex")
         }
 
         guard let expectedData = data else {
-            XCTFail()
+            XCTFail("Failed to create data()")
             return
         }
 
@@ -132,8 +129,7 @@ class EosioTransactionTests: XCTestCase {
         transaction.serializeTransaction(completion: { result in
             switch result {
             case .failure(let error):
-                print(error)
-                XCTFail()
+                XCTFail("\(error)")
             case .success(let serializedTransaction):
 
                 XCTAssertEqual(serializedTransaction, expectedData)
@@ -146,23 +142,22 @@ class EosioTransactionTests: XCTestCase {
     func testPrepare() {
         let expect = expectation(description: "testPrepare")
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
-            return XCTFail()
+            return XCTFail("Failed to create Eosio endpoint")
         }
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         guard let expDate = Date(yyyyMMddTHHmmss: "2019-02-21T18:31:41.500") else {
-            return XCTFail()
+            return XCTFail("Failed to create Date()")
         }
         transaction.prepare { [weak self] (result) in
             guard let self = self else {
-                XCTFail()
+                XCTFail("Self is not present")
                 return
             }
             print("expiration date: \(self.transaction.expiration)")
             XCTAssert(self.transaction.expiration > expDate)
             switch result {
             case .failure(let error):
-                print(error)
-                XCTFail()
+                XCTFail("\(error)")
             case .success:
                 XCTAssertEqual(self.transaction.refBlockNum, 28672)
                 XCTAssertEqual(self.transaction.refBlockPrefix, 2249927103)
@@ -176,18 +171,17 @@ class EosioTransactionTests: XCTestCase {
     func testGetBlockAndSetTapos() {
         let expect = expectation(description: "testGetChainIdAndCalculateTapos")
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
-            return XCTFail()
+            return XCTFail("Failed to create Eosio endpoint")
         }
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         transaction.getBlockAndSetTapos(blockNum: 28672) { [weak self] (result) in
             guard let self = self else {
-                XCTFail()
+                XCTFail("Self is not present")
                 return
             }
             switch result {
             case .failure(let error):
-                print(error)
-                XCTFail()
+                XCTFail("\(error)")
             case .success:
                 XCTAssertEqual(self.transaction.refBlockNum, 28672)
                 XCTAssertEqual(self.transaction.refBlockPrefix, 2249927103)
@@ -201,28 +195,28 @@ class EosioTransactionTests: XCTestCase {
         let expect = expectation(description: "testGetAbis")
         transaction.chainId = "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17"
         guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else {
-            return XCTFail()
+            return XCTFail("Failed to create transfer action")
         }
         guard let action2 = try? makeVoteProducerAction(voter: EosioName("todd")) else {
-            return XCTFail()
+            return XCTFail("Failed to create vote action")
         }
         transaction.actions.append(action1)
         transaction.actions.append(action2)
 
         guard let endpoint = EosioEndpoint("mock://endpoint") else {
-            return XCTFail()
+            return XCTFail("Failed to create Eosio endpoint")
         }
 
         transaction.rpcProvider = EosioRpcProviderMockImpl(endpoints: [endpoint], failoverRetries: 1)
         transaction.getAbis { [weak self] (result) in
             guard let self = self else {
-                XCTFail()
+                XCTFail("Self is not present")
                 return
             }
             switch result {
             case .failure(let error):
                 print(error)
-                XCTFail()
+                XCTFail("Failed get_abis")
             case .success:
                 XCTAssertEqual(try? self.transaction.abis.hashAbi(name: EosioName("eosio.token")), "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248")
                 XCTAssertEqual(try? self.transaction.abis.hashAbi(name: EosioName("eosio")), "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")

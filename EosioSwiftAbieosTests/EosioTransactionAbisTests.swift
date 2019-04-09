@@ -38,8 +38,7 @@ class EosioTransactionAbisTests: XCTestCase {
             XCTAssertTrue(hexabis[try EosioName("eosio.msig")] == msigAbiHex)
             XCTAssertTrue(try abis.hashAbi(name: EosioName("eosio")) == "d745bac0c38f95613e0c1c2da58e92de1e8e94d658d64a00293570cc251d1441")
         } catch {
-            XCTFail()
-            print(error)
+            XCTFail("\(error)")
         }
     }
 
@@ -53,8 +52,7 @@ class EosioTransactionAbisTests: XCTestCase {
             try XCTAssertTrue(abis.hexAbi(name: EosioName("eosio.token")) == tokenAbiHex)
             try XCTAssertTrue(abis.hexAbi(name: EosioName("eosio.msig")) == msigAbiHex)
         } catch {
-            XCTFail()
-            print(error)
+            XCTFail("\(error)")
         }
     }
 
@@ -68,8 +66,7 @@ class EosioTransactionAbisTests: XCTestCase {
             try XCTAssertTrue(abis.hexAbi(name: EosioName("eosio.token")) == tokenAbiHex)
             try XCTAssertTrue(abis.hexAbi(name: EosioName("eosio.msig")) == msigAbiHex)
         } catch {
-            XCTFail()
-            print(error)
+            XCTFail("\(error)")
         }
     }
 
@@ -83,15 +80,14 @@ class EosioTransactionAbisTests: XCTestCase {
             try XCTAssertTrue(abis.hashAbi(name: EosioName("eosio.token")) == "f5c26ae3f825a8e3d26f7e82e889fe531a3376d66811953308944e86aa9030a7")
             try XCTAssertTrue(abis.hashAbi(name: EosioName("eosio.msig")) == "f3cbebc8d6cb0a6f85d44774b9303615d9523c12a5419192446a6000a0cea732")
         } catch {
-            XCTFail()
-            print(error)
+            XCTFail("\(error)")
         }
     }
 
     func testAddInvalidAbi() {
         do {
             try abis.addAbi(name: EosioName("invalid"), base64: invalidAbiB64)
-            XCTFail()
+            XCTFail("Add Abi command succeeded despite being malformed")
         } catch {
             print(error)
         }

@@ -9,9 +9,9 @@
 import Foundation
 
 public struct EosioRpcTableRowsRequest: Codable {
-    public var scope: String = "inita"
-    public var code: String = "currency"
-    public var table: String = "account"
+    public var scope: String
+    public var code: String
+    public var table: String
     public var tableKey: String?
     public var json : Bool
     public var lowerBound : String?
@@ -21,7 +21,7 @@ public struct EosioRpcTableRowsRequest: Codable {
     public var keyType: String?
     public var encodeType : String = "dec"
     
-    public init(scope: String = "inita", code: String = "currency", table: String = "account", tableKey: String?, json : Bool, lowerBound : String?, upperBound: String?, limit : Int = 10, indexPosition : String = "1", keyType: String?, encodeType : String = "dec") {
+    public init(scope: String, code: String, table: String, json : Bool, limit : Int = 10, tableKey: String? = nil, lowerBound : String? = nil, upperBound: String? = nil, indexPosition : String = "1", keyType: String? = nil, encodeType : String = "dec") {
         self.scope = scope
         self.code = code
         self.table = table
@@ -78,11 +78,11 @@ public struct EosioRpcRequiredKeysRequest: Codable {
 }
 
 public struct EosioRpcProducersRequest: Codable {
-    public var limit: String
+    public var limit: UInt32
     public var lowerBound: String
     public var json: Bool
     
-    public init(limit: String, lowerBound: String, json: Bool) {
+    public init(limit: UInt32, lowerBound: String, json: Bool) {
         self.limit = limit
         self.lowerBound = lowerBound
         self.json = json

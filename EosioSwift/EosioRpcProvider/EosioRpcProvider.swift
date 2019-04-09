@@ -169,11 +169,11 @@ public extension EosioRpcProvider {
     }
     
     func getRawCodeAndAbi(accountName: String, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: ["accountName" : accountName], completion: completion)
+        getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: ["account_name" : accountName], completion: completion)
     }
     
     func getCode(accountName: String, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_code", requestParameters: ["accountName": accountName], completion: completion)
+        getResource(rpc: "chain/get_code", requestParameters: ["account_name": accountName], completion: completion)
     }
     
     func getTableRows(requestParameters: EosioRpcTableRowsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
@@ -188,7 +188,7 @@ public extension EosioRpcProvider {
         getResource(rpc: "chain/get_producers", requestParameters: requestParameters, completion: completion)
     }
     
-    func getActions(requestParameters: EosioRpcHistoryActions, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getActions(requestParameters: EosioRpcHistoryActionsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "history/get_actions", requestParameters: requestParameters, completion: completion)
     }
     

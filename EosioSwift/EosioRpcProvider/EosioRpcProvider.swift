@@ -103,10 +103,10 @@ public struct EosioRpcProvider:EosioRpcProviderProtocol {
 
 //MARK:- Extra Endpoints
 
-extension EosioRpcProvider {
+public extension EosioRpcProvider {
     
     struct RpcResponse: EosioRpcResponseProtocol {
-        var rawResponse: Data?
+        public var rawResponse: Data?
     }
     
     private func getResource(rpc: String, requestParameters: Encodable?, completion: @escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {

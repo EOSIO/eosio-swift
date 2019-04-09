@@ -34,24 +34,20 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
 
 ### Instructions
 
-1. Clone this repo
-1. Clone any provider repos into the same directory
-1. Run `pod install`
+To use EOSIO SDK for Swift in your app, add the following pods to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 
-### Example Installation
+```ruby
+use_frameworks!
 
-These example instructions set you up with the providers used in the following [Basic Usage](#basic-usage) example.
+target "Your Target" do
+  pod "EosioSwift", "~> 0.0.1" # pod for this library
+  # Providers for EOSIO SDK for Swift
+  pod "EosioSwiftAbieos", "~> 0.0.1" # serialization provider
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.1" # experimental signature provider for development only
+end
+```
 
-All of the following repos must be cloned into the same directory as sibling of one another:
-
-1. Clone this repo
-1. Clone the [ABIEOS Serialization Provider](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider) repo
-1. Clone the [Softkey Signature Provider](https://github.com/EOSIO/eosio-swift-softkey-signature-provider) repo
-1. From the core `eosio-swift` directory, run `pod install`
-
-You're all set for the [Basic Usage](#basic-usage) example!
-
-As soon as these pods are published publicly, these installation instructions will be updated.
+Then run `pod install`. And you're all set for the [Basic Usage](#basic-usage) example!
 
 ## Basic Usage
 

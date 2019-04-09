@@ -3,13 +3,15 @@
 Interested in contributing? That's awesome! Here are some guidelines to get started quickly and easily:
 
 - [Reporting An Issue](#reporting-an-issue)
-- [Bug Reports](#bug-reports)
-- [Feature Requests](#feature-requests)
-- [Change Requests](#change-requests)
+  - [Bug Reports](#bug-reports)
+  - [Feature Requests](#feature-requests)
+  - [Change Requests](#change-requests)
 - [Working on EOSIO SDK for Swift](#working-on-EOSIO-SDK-for-Swift)
-- [Feature Branches](#feature-branches)
-- [Submitting Pull Requests](#submitting-pull-requests)
-- [Testing and Quality Assurance](#testing-and-quality-assurance)
+  - [Feature Branches](#feature-branches)
+  - [Developing With Local Pods](#developing-with-local-pods)
+  - [Submitting Pull Requests](#submitting-pull-requests)
+  - [Testing and Quality Assurance](#testing-and-quality-assurance)
+  - [Code Style and Linting](#code-style-and-linting)
 - [Conduct](#conduct)
 - [Contributor License & Acknowledgments](#contributor-license--acknowledgments)
 - [References](#references)
@@ -65,6 +67,15 @@ To get it out of the way:
 
 - **[develop](/../../tree/develop)** is the development branch. All work on the next release happens here so you should generally branch off `develop`. Do **NOT** use this branch for a production site.
 - **[master](/../../tree/master)** contains the latest release of EOSIO SDK for Swift. This branch may be used in production. Do **NOT** use this branch to work on EOSIO SDK for Swift's source.
+
+### Developing With Local Pods
+
+By default, pods are installed from remote CocoaPods. If, however, you wish to develop locally and you'd like to integrate with locally-cloned versions of other Providers, follow these instructions:
+
+1. Clone this and other repos into the same directory, as siblings of one another.
+1. In the respective `Podfile` files, change the `using_local_pods` value to `true`.
+1. `pod install` this and other projects as necessary.
+1. Develop!
 
 ### Submitting Pull Requests
 

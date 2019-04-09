@@ -24,7 +24,7 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
 
 ## Installation
 
-### Prerequsties
+### Prerequisites
 
 * Xcode 10 or higher
 * CocoaPods 1.5.3 or higher

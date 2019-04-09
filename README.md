@@ -1,13 +1,54 @@
-# EOSIO SDK for Swift ABIEOS Serialization Provider ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
+# EOSIO SDK for Swift: ABIEOS Serialization Provider ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
 ![Lagnuage C++/Swift](https://img.shields.io/badge/Language-C%2B%2B%2FSwift-yellow.svg)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2012-blue.svg)
 
-EOSIO blockchain stores data in binary format only. This library allows you to convert JSON to Binary (and vice-versa). 
+ABIEOS Serialization Provider is a pluggable serialization provider for [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift).
 
-## Basic Usage
+Serialization providers are responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations. This particular serialization provider wraps [ABIEOS](https://github.com/EOSIO/abieos), a C/C++ library that facilitates this conversion.
 
+*All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.*
+
+## Contents
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Direct Usage](#direct-usage)
+- [Want to Help?](#want-to-help)
+- [License & Legal](#license)
+
+## Prerequisites
+
+* Xcode 10 or higher
+* CocoaPods 1.5.3 or higher
+* For iOS, iOS 12+
+
+This project relies on platform functionality only present in iOS 12+. Therefore, any project depending on ABIEOS Serialization Provider with [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) **must be an iOS 12+ project**. Other serialization providers, however, can be created to support iOS 11. If your project requires iOS 11 support, or if you'd like to create a serialization provider and have questions, please reach out to us by [logging an issue](/../../issues/new).
+
+## Installation
+
+ABIEOS Serialization Provider is intended to be used in conjunction with [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) as a provider plugin.
+
+In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
+
+```ruby
+use_frameworks!
+
+target "Your Target" do
+  pod "EosioSwift", "~> 0.0.1" # EOSIO SDK for Swift core library
+  pod "EosioSwiftAbieos", "~> 0.0.1" # pod for this library
+  # add other providers for EOSIO SDK for Swift
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.1" # experimental provider for development only
+end
 ```
+
+Now ABIEOS Serialization Provider is ready for use within EOSIO SDK for Swift according to the [EOSIO SDK for Swift Basic Usage instructions](https://github.com/EOSIO/eosio-swift/tree/develop#basic-usage).
+
+## Direct Usage
+
+If you wish to use ABIEOS Serialization Provider directly, its public methods can be called like this:
+
+```swift
 let abieos: AbiEos? = AbiEos()
 let hex = "1686755CA99DE8E73E1200" // some binary data
 let json = "{"name": "John"}" // some JSON
@@ -16,28 +57,9 @@ let jsonToBinaryTransaction = try? abieos?.serializeTransaction(json: json)
 let binaryToJsonTransaction = try? abieos?.deserializeTransaction(hex: hex)
 ```
 
+## Want to help?
 
-## Contents of the library
-
-A Framework that encapsulates all of the C and C++ code for binary <-> JSON conversion using ABIs. Compatible with languages which can interface to C.
-
-## Installation
-
-This project now can be used as a cocoapod.  
-
-OpenSSL is pulled in as a Pod dependancy using GRKOpenSSLFramework cocoapod.
-
-A physical framework folder is now incorporated into the project. 
-
-To build this project, you must do a `pod install`, then open the created workspace and build the framework there to confirm that it will compile and create a framework binary.
-
-If you are using Xcode 10 and seeing some warnings when running pod install, it may be necessary to run: `gem update xcodeproj`
-
-## Contributing
-
-[Contributing Guide](./CONTRIBUTING.md)
-
-[Code of Conduct](./CONTRIBUTING.md#conduct)
+Interested in contributing? That's awesome! Here are some [Contribution Guidelines](./CONTRIBUTING.md) and the [Code of Conduct](./CONTRIBUTING.md#conduct).
 
 ## License
 

@@ -43,7 +43,7 @@ protocol RawResponseConvertible: EosioRpcResponseProtocol, Encodable {
 }
 
 extension RawResponseConvertible {
-    var rawResponse: Data? {
+    public var rawResponse: Data? {
         let encoder = JSONEncoder()
         return try? encoder.encode(self)
     }

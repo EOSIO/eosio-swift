@@ -25,7 +25,7 @@ class EosioSwiftEccsignTests: XCTestCase {
             for _ in 1...10 {
                 let sig = try EosioEccSign.signWithK1(publicKey: publicKey, privateKey: privateKey, data: message)
                 guard sig.count == 65 else {
-                    return XCTFail()
+                    return XCTFail("sig.count not equal to 65")
                 }
                 let derSig = EcdsaSignature(r: sig[1...32], s: sig[33...64]).der
                 let recid = Int(sig[0] - 31)
@@ -35,7 +35,7 @@ class EosioSwiftEccsignTests: XCTestCase {
             }
 
         } catch {
-            XCTFail()
+            XCTFail("Unexpected error thrown")
         }
 
     }

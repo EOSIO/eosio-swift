@@ -114,7 +114,7 @@ public struct EosioRpcPushTransactionRequest: Codable {
     public var packedContextFreeData = ""
     public var packedTrx = ""
     
-    public init(signatures: [String], compression:Int = 0, packedContextFreeData: String = "", packedTrx: String = "") {
+    public init(signatures: [String] = [], compression:Int = 0, packedContextFreeData: String = "", packedTrx: String = "") {
         self.signatures = signatures
         self.compression = compression
         self.packedContextFreeData = packedContextFreeData
@@ -168,10 +168,11 @@ public struct EosioRpcCurrencyStatsRequest: Codable {
 }
 
 public struct EosioRpcHistoryTransactionRequest: Codable {
-    public var transactionId: String = ""
-    
-    public init(transactionId: String = "") {
-        self.transactionId = transactionId
+    public var id: String
+    public var blockNumHint: Int32?
+    public init(transactionId: String, blockNumHint: Int32? = nil) {
+        self.id = transactionId
+        self.blockNumHint = blockNumHint
     }
 }
 

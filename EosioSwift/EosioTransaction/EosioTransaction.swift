@@ -324,7 +324,7 @@ public class EosioTransaction: Codable {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
         
-        let requestParameters = EosioRpcBlockRequest(block_num_or_id: blockNum)
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: blockNum)
         rpcProvider.getBlock(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.getBlockError, reason: "self does not exist")))

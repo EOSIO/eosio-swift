@@ -9,17 +9,17 @@
 import Foundation
 
 public struct EosioRpcTableRowsRequest: Codable {
-    var scope: String = "inita"
-    var code: String = "currency"
-    var table: String = "account"
-    var tableKey: String?
-    var json : Bool
-    var lowerBound : String?
-    var upperBound: String?
-    var limit : Int = 10
-    var indexPosition : String = "1"
-    var keyType: String?
-    var encodeType : String = "dec"
+    public var scope: String = "inita"
+    public var code: String = "currency"
+    public var table: String = "account"
+    public var tableKey: String?
+    public var json : Bool
+    public var lowerBound : String?
+    public var upperBound: String?
+    public var limit : Int = 10
+    public var indexPosition : String = "1"
+    public var keyType: String?
+    public var encodeType : String = "dec"
     
     enum CodingKeys: String, CodingKey {
         case scope
@@ -37,16 +37,16 @@ public struct EosioRpcTableRowsRequest: Codable {
 }
 
 public struct EosioRpcCurrencyBalanceRequest: Codable {
-    var code: String
-    var account: String
-    var symbol: String
+    public var code: String
+    public var account: String
+    public var symbol: String
 }
 
 public struct EosioRpcRequiredKeysRequest: Codable {
-    var transaction: EosioTransaction
-    var availableKeys: [String]
+    public var transaction: EosioTransaction
+    public var availableKeys: [String]
     
-    init(availableKeys: [String], transaction: EosioTransaction) {
+    public init(availableKeys: [String], transaction: EosioTransaction) {
         self.availableKeys = availableKeys
         self.transaction = transaction
     }
@@ -58,9 +58,9 @@ public struct EosioRpcRequiredKeysRequest: Codable {
 }
 
 public struct EosioRpcProducersRequest: Codable {
-    var limit: String
-    var lowerBound: String
-    var json: Bool
+    public var limit: String
+    public var lowerBound: String
+    public var json: Bool
     
     enum CodingKeys: String, CodingKey {
         case limit
@@ -70,59 +70,59 @@ public struct EosioRpcProducersRequest: Codable {
 }
 
 public struct EosioRpcHistoryActionsRequest: Codable {
-    var position: Int32 = -1
-    var offset: Int32 = -20
-    var accountName: EosioName
+    public var position: Int32 = -1
+    public var offset: Int32 = -20
+    public var accountName: EosioName
 }
 
 
 public struct EosioRpcPushTransactionRequest: Codable {
-    var signatures = [String]()
-    var compression = 0
-    var packedContextFreeData = ""
-    var packedTrx = ""
+    public var signatures = [String]()
+    public var compression = 0
+    public var packedContextFreeData = ""
+    public var packedTrx = ""
 }
 
 public struct EosioRpcBlockRequest: Codable {
-    var block_num_or_id: UInt64 = 0
+    public var block_num_or_id: UInt64 = 0
 }
 
 public struct EosioRpcRawAbiRequest: Codable {
-    var account_name: EosioName
+    public var account_name: EosioName
 }
 
 public struct EosioRpcBlockHeaderStateRequest: Codable {
-    var block_num_or_id: String = ""
+    public var block_num_or_id: String = ""
 }
 
 public struct EosioRpcAccountRequest: Codable {
-    var account: EosioName
+    public var account: EosioName
 }
 
 
 
 public struct EosioRpcCurrencyStatsRequest: Codable {
-    var code: String = ""
-    var symbol: String = ""
+    public var code: String = ""
+    public var symbol: String = ""
 }
 
 public struct EosioRpcHistoryTransactionRequest: Codable {
-    var transactionId: String = ""
+    public var transactionId: String = ""
 }
 
 public struct EosioRpcHistoryKeyAccountsRequest: Codable {
-    var publicKey: String = ""
+    public var publicKey: String = ""
 }
 
 public struct EosioRpcHistoryControlledAccountsRequest: Codable {
-    var controllingAccount: EosioName
+    public var controllingAccount: EosioName
 }
 
 public struct EosioRpcTableByScopeRequest: Codable{
-    let code: String
-    let table: String?
-    let lowerBound: String?
-    let upperBound: String?
-    let limit: Int32?
-    let reverse: Bool?
+    public let code: String
+    public let table: String?
+    public let lowerBound: String?
+    public let upperBound: String?
+    public let limit: Int32?
+    public let reverse: Bool?
 }

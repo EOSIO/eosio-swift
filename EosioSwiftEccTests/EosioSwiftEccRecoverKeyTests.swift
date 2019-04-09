@@ -24,7 +24,7 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
             XCTAssertEqual(pubKey.hex, publicKeyHex)
         } catch {
-            XCTFail()
+            XCTFail("Unexpected error thrown")
         }
 
     }
@@ -42,7 +42,7 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             XCTAssertEqual(recid1, 1)
 
         } catch {
-            XCTFail()
+            XCTFail("Unexpected error thrown")
         }
     }
 
@@ -60,7 +60,7 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
 
         } catch {
             print(error)
-            XCTFail()
+            XCTFail("Unexpected error thrown: \(error)")
         }
 
     }

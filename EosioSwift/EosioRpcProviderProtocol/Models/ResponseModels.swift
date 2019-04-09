@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, Codable {
+public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, RawResponseConvertible, Codable {
     
     public let serverVersion: String
     public let chainId: String

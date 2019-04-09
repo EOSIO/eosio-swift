@@ -99,6 +99,8 @@ public struct EosioRpcAccountRequest: Codable {
     var account: EosioName
 }
 
+
+
 public struct EosioRpcCurrencyStatsRequest: Codable {
     var code: String = ""
     var symbol: String = ""
@@ -114,4 +116,13 @@ public struct EosioRpcHistoryKeyAccountsRequest: Codable {
 
 public struct EosioRpcHistoryControlledAccountsRequest: Codable {
     var controllingAccount: EosioName
+}
+
+public struct EosioRpcTableByScopeRequest: Codable{
+    let code: String
+    let table: String?
+    let lowerBound: String?
+    let upperBound: String?
+    let limit: Int32?
+    let reverse: Bool?
 }

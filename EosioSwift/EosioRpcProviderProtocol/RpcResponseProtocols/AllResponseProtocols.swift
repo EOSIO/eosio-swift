@@ -33,3 +33,21 @@ public protocol EosioRpcRequiredKeysResponseProtocol {
 public protocol EosioRpcTransactionResponseProtocol {
     var transactionId: String { get }
 }
+
+public protocol EosioRpcResponseProtocol{
+    var rawResponse: Data? { get }
+}
+
+protocol RawResponseConvertible: EosioRpcResponseProtocol, Encodable {
+    var rawResponse: Data? { get }
+}
+
+extension RawResponseConvertible {
+    var rawResponse: Data? {
+        let encoder = JSONEncoder()
+        return try? encoder.encode(self)
+    }
+}
+
+
+

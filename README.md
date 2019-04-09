@@ -1,12 +1,53 @@
-# EOSIO SDK for Swift ECC ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
+# EOSIO SDK for Swift: ECC ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
-## Overview
 
-## Contributing
+[![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
+[![Swift 4.2](https://img.shields.io/badge/Language-Swift_4.2-orange.svg)](https://swift.org)
+![](https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg)
 
-[Contributing Guide](./CONTRIBUTING.md)
+EOSIO SDK for Swift: ECC is a library for working with public and private keys, cryptographic signatures, encryption/decryption, etc.
 
-[Code of Conduct](./CONTRIBUTING.md#conduct)
+*All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.*
+
+## Contents
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Functionality](#functionality)
+- [Want to Help?](#want-to-help)
+- [License & Legal](#license)
+
+## Prerequisites
+
+* Xcode 10 or higher
+* CocoaPods 1.5.3 or higher
+* For iOS, iOS 11+
+
+## Installation
+
+To use ECC in your application, add the following pod to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
+
+```ruby
+use_frameworks!
+
+target "Your Target" do
+  pod "EosioSwiftEcc", "~> 0.0.1"
+end
+```
+
+Then run `pod install`.
+
+## Functionality
+
+ECC provides the following methods, among others. This list will expand as more are added.
+
+* `EosioEccSign.signWithK1`: Sign data with a K1 key for validation on an EOSIO chain.
+* `EccRecoverKey.recoverPublicKey`: Recover a public key from a private key or from a signature and message.
+* `EccRecoverKey.recid`: Get the Recovery ID for a siganture, message and target public key.
+
+## Want to help?
+
+Interested in contributing? That's awesome! Here are some [Contribution Guidelines](./CONTRIBUTING.md) and the [Code of Conduct](./CONTRIBUTING.md#conduct).
 
 ## License
 

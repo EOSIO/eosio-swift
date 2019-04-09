@@ -29,7 +29,7 @@ This project relies on platform functionality only present in iOS 12+. Therefore
 
 ABIEOS Serialization Provider is intended to be used in conjunction with [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) as a provider plugin.
 
-In your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
+To use ABIEOS Serialization Provider with EOSIO SDK for Swift in your app, add the following pods to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 
 ```ruby
 use_frameworks!
@@ -41,6 +41,8 @@ target "Your Target" do
   pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.1" # experimental provider for development only
 end
 ```
+
+Then run `pod install`.
 
 Now ABIEOS Serialization Provider is ready for use within EOSIO SDK for Swift according to the [EOSIO SDK for Swift Basic Usage instructions](https://github.com/EOSIO/eosio-swift/tree/develop#basic-usage).
 

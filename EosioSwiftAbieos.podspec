@@ -26,13 +26,13 @@ Pod::Spec.new do |s|
   s.swift_version         = '4.2'
   s.ios.deployment_target = '12.0'
 
+  s.public_header_files = 'EosioSwiftAbieos/EosioSwiftAbieos.h',
+  							'EosioSwiftAbieos/AbiEos/abieos.h'
+  
   s.source_files =  'EosioSwiftAbieos/**/*.{c,h,m,cpp,hpp}',
   		              'EosioSwiftAbieos/**/*.swift'
 
-  s.preserve_paths =  'EosioSwiftAbieos/Crypto/module.modulemap',
-					            'EosioSwiftAbieos/AbiEos/module.modulemap',
-					            'EosioSwiftAbieos/Recover/module.modulemap',
-                      'EosioSwiftAbieos/AbiEos/eosio.assert.abi.json',
+  s.preserve_paths =  'EosioSwiftAbieos/AbiEos/eosio.assert.abi.json',
 					            'EosioSwiftAbieos/AbiEos/transaction.abi.json',
 					            'EosioSwiftAbieos/AbiEos/abi.abi.json'
 
@@ -42,13 +42,8 @@ Pod::Spec.new do |s|
                 'EosioSwiftAbieos/AbiEos/abi.abi.json',
                 'EosioSwiftAbieos/AbiEos/eosio.assert.abi.json'
 
-  s.public_header_files =  'EosioSwiftAbieos/AbiEos/abieos.h'
-
   s.libraries = "c++"
-  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/EosioSwiftAbieos/AbiEos',
- 						   'LIBRARY_SEARCH_PATHS' => '$(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/** $(SRCROOT)/**',
- 						   'HEADER_SEARCH_PATHS' => '$(SRCROOT)/** $(SRCROOT)/EosioSwiftAbieos/** $(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/** $(PROJECT_DIR)/../../eosio-swift-abieos-serialization-provider/EosioSwiftAbieos/**', 
- 						   'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
+  s.pod_target_xcconfig = { 'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
  						   'CLANG_CXX_LIBRARY' => 'libc++',
  						   'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
  						   'CLANG_ENABLE_MODULES' => 'YES',

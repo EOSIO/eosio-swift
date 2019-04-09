@@ -38,7 +38,7 @@ public class AbiEos: EosioSerializationProviderProtocol {
     }
 
     private func refreshContext() {
-        if let _ = context {
+        if context != nil {
             abieos_destroy(context)
         }
         context = abieos_create()

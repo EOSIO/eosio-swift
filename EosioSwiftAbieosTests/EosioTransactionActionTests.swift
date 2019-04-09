@@ -24,7 +24,7 @@ class EosioTransactionActionTests: XCTestCase {
     func testNewTransferActionError() {
         do {
             try _ = makeTransferActionWithError()
-            XCTFail()
+            XCTFail("Transfer action succeeded despite being malformed")
         } catch {
             XCTAssertTrue(error.localizedDescription == "EosioNameError: eosio.token6 is not a valid eosio name.")
         }
@@ -33,29 +33,29 @@ class EosioTransactionActionTests: XCTestCase {
     func testActionSerializeData() {
 
         guard let action = try? makeTransferActionWithEosioNames() else {
-            return XCTFail()
+            return XCTFail("Couldn't return an action")
         }
         guard let tokenAbiJson = getTokenAbiJson() else {
-            return XCTFail()
+            return XCTFail("Couldn't return abi token in JSON")
         }
         // serialize the data struct
         try? action.serializeData(abi: tokenAbiJson, serializationProvider: AbiEos())
         guard let hexData = action.dataHex else {
-            return XCTFail()
+            return XCTFail("Failed to convert action data to hex format")
         }
         XCTAssertTrue(hexData == "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73")
     }
 
     func testActionDeserializeDataToJson() {
         guard let tokenAbiJson = getTokenAbiJson() else {
-            return XCTFail()
+            return XCTFail("Couldn't return abi token in JSON")
         }
 
         // deserialize the hex data back to json
         let hexData = "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73"
         let abieos = AbiEos()
         guard let json1 = try? abieos.deserialize(contract: "eosio.token", name: "transfer", hex: hexData, abi: tokenAbiJson) else {
-            return XCTFail()
+            return XCTFail("Failed to deserialize JSON response from abieos")
         }
         let json2 = """
         {"from":"todd","to":"brandon","quantity":"42.0000 SYS","memo":"Grasshopper Rocks"}
@@ -66,11 +66,11 @@ class EosioTransactionActionTests: XCTestCase {
     func testActionDeserializeData() {
 
         guard let action = try? makeTransferActionWithEosioNames() else {
-            return XCTFail()
+            return XCTFail("Failed to create a transfer action")
         }
 
         guard let tokenAbiJson = getTokenAbiJson() else {
-            return XCTFail()
+            return XCTFail("Failed to get token abi")
         }
 
         try? action.deserializeData(abi: tokenAbiJson, serializationProvider: AbiEos())
@@ -83,24 +83,25 @@ class EosioTransactionActionTests: XCTestCase {
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .sortedKeys
 
-        guard let _ = try? jsonEncoder.encode(action) else {
-            return XCTFail()
+        let encodedAction = try? jsonEncoder.encode(action)
+        guard encodedAction != nil else {
+            return XCTFail("Failed to convert action to JSON")
         }
     }
 
     func testActionEncode() {
         guard let action = try? makeTransferActionWithSerializedData() else {
-            return XCTFail()
+            return XCTFail("Failed to create transfer action")
         }
 
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .sortedKeys
 
         guard let json = try? jsonEncoder.encode(action) else {
-            return XCTFail()
+            return XCTFail("Failed to convert action to JSON")
         }
         guard let json1 = String(data: json, encoding: .utf8) else {
-            return XCTFail()
+            return XCTFail("Failed to convert JSON to String()")
         }
 
         let json2 = """
@@ -111,7 +112,7 @@ class EosioTransactionActionTests: XCTestCase {
 
     func testActionWithComplexData() {
         guard let complexData = try? makeComplexData() else {
-            return XCTFail()
+            return XCTFail("Failed to create Data() object")
         }
 
         guard let action = try? EosioTransaction.Action(
@@ -123,11 +124,11 @@ class EosioTransactionActionTests: XCTestCase {
             ],
             data: complexData
             ) else {
-                return XCTFail()
+                return XCTFail("Failed to create an action")
         }
 
         guard let dataJson1 = action.dataJson else {
-            return XCTFail()
+            return XCTFail("Failed to convert JSON to Data()")
         }
         let dataJson2 = """
         {"aa":"aa","bb":-42,"cc":999999999,"dd":true,"ee":"2009-01-03T18:15:05.000","ff":["aa","bbb","cccc"],"gg":[-7,0,7],"hh":{"a":"aaa","b":"bbb"},"ii":{"aa":{"bb":-7},"cc":{"dd":7}},"jj":[{"aaa":"bbb"},{"ccc":"ddd"}]}
@@ -141,12 +142,12 @@ class EosioTransactionActionTests: XCTestCase {
         {"account":"eosio.token","authorization":[{"actor":"todd","permission":"active"}],"data":"00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73","name":"transfer"}
         """
         guard let jsonData = json.data(using: .utf8) else {
-            return XCTFail()
+            return XCTFail("No Data() found in JSON")
         }
 
         let decoder = JSONDecoder()
         guard let action = try? decoder.decode(EosioTransaction.Action.self, from: jsonData) else {
-            return XCTFail()
+            return XCTFail("Failed to decode transaction action")
         }
 
         XCTAssertTrue(action.account.string == "eosio.token")

@@ -27,7 +27,7 @@ class EosioSwiftAbieosTests: XCTestCase {
             let result = try abieos?.deserializeTransaction(hex: hex)
             XCTAssertTrue(json == result)
         } catch {
-            XCTFail()
+            XCTFail("Failed to deserialize transaction")
         }
     }
 
@@ -41,7 +41,7 @@ class EosioSwiftAbieosTests: XCTestCase {
             XCTAssertTrue(json.replacingOccurrences(of: "\n", with: "\\n") == result)
         } catch {
             print(error)
-            XCTFail()
+            XCTFail("Failed to deserialize abi")
         }
     }
 
@@ -82,8 +82,7 @@ class EosioSwiftAbieosTests: XCTestCase {
             let resut = try abieos?.serializeTransaction(json: json)
             XCTAssertTrue(hex == resut)
         } catch {
-            print(error)
-            XCTFail()
+            XCTFail("\(error)")
         }
     }
 }

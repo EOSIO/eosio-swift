@@ -12,12 +12,12 @@ if using_local_pods
   target 'EosioSwiftAbieos' do
     use_frameworks!
 
-    pod 'EosioSwift', :path => '../eosio-swift'
+    pod 'EosioSwift', :path => '../eosio-swift', :inhibit_warnings => true
     pod 'SwiftLint'
 
     target 'EosioSwiftAbieosTests' do
       inherit! :search_paths
-      pod 'EosioSwift', :path => '../eosio-swift'
+      pod 'EosioSwift', :path => '../eosio-swift', :inhibit_warnings => true
     end
   end
 else
@@ -25,12 +25,12 @@ else
   target 'EosioSwiftAbieos' do
     use_frameworks!
 
-    pod 'EosioSwift', '~> 0.0.1'
+    pod 'EosioSwift', '~> 0.0.1', :inhibit_warnings => true
     pod 'SwiftLint'
 
     target 'EosioSwiftAbieosTests' do
       inherit! :search_paths
-      pod 'EosioSwift', '~> 0.0.1'
+      pod 'EosioSwift', '~> 0.0.1', :inhibit_warnings => true
     end
   end
 end

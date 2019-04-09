@@ -7,7 +7,6 @@
 //
 
 import Foundation
-@testable import EosioSwift
 
 public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
 
@@ -17,11 +16,7 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
 
     private var currentEndpoint: EosioEndpoint
 
-    public var primaryEndpoint: EosioEndpoint {
-        get {
-            return currentEndpoint
-        }
-    }
+    public var primaryEndpoint: EosioEndpoint { return currentEndpoint }
 
     public required init(endpoints: [EosioEndpoint], failoverRetries: Int) {
         self.endpoints = endpoints

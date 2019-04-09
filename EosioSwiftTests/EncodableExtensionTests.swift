@@ -17,7 +17,7 @@ class EncodableExtensionTests: XCTestCase {
     func testToJsonString() {
         let encodableStruct = makeEncodableStruct()
         guard let json1 = try? encodableStruct.toJsonString(convertToSnakeCase: false, prettyPrinted: false) else {
-            return XCTFail()
+            return XCTFail("Failed to convert toJsonString")
         }
 
         let json2 = """
@@ -29,7 +29,7 @@ class EncodableExtensionTests: XCTestCase {
     func testToJsonStringSnakeCase() {
         let encodableStruct = makeEncodableStruct()
         guard let json1 = try? encodableStruct.toJsonString(convertToSnakeCase: true, prettyPrinted: false) else {
-            return XCTFail()
+            return XCTFail("Failed to convert toJsonString")
         }
 
         let json2 = """
@@ -41,7 +41,7 @@ class EncodableExtensionTests: XCTestCase {
     func testToDictionary() {
         let encodableStruct = makeEncodableStruct()
         guard let dict = encodableStruct.toDictionary() else {
-            return XCTFail()
+            return XCTFail("Failed to convert encodable struct to Dictionary()")
         }
         XCTAssertTrue(dict["aaAa"] as? String == "aa")
         XCTAssertTrue(dict["b_bb"] as? Int == -42)

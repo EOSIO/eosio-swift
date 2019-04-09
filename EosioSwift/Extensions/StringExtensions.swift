@@ -134,7 +134,7 @@ public extension String {
 
      */
     var isValidBase58: Bool {
-        guard let _ = Data(base58Decoding: self) else {
+        guard Data(base58Decoding: self) != nil else {
             return false
         }
         return true

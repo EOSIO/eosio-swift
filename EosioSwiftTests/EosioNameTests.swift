@@ -57,7 +57,7 @@ class EosioNameTests: XCTestCase {
         {"name":"abc"}
         """
         guard let structValid = try? decoder.decode(TestStruct.self, from: jsonValid.data(using: .utf8)!) else {
-            return XCTFail()
+            return XCTFail("Failed to decode JSON")
         }
         XCTAssert(structValid.name.string == "abc")
         XCTAssert(try structValid.name == EosioName("abc"))
@@ -72,7 +72,7 @@ class EosioNameTests: XCTestCase {
         let encoder = JSONEncoder()
 
         guard let json = try? encoder.encode(structValid) else {
-            return XCTFail()
+            return XCTFail("Failed to encode JSON")
         }
         XCTAssert(String(data: json, encoding: .utf8) == jsonValid)
     }

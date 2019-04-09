@@ -22,7 +22,7 @@ class StringExtensionsTests: XCTestCase {
     func test_initEncodeToJson_withValidJsonObject_shouldReturnCorrectJsonString() {
         let jsonObject = ["name": "Tom", "job_title": "Software Developer"]
         guard let jsonString = try? String(encodeToJson: jsonObject) else {
-            return XCTFail()
+            return XCTFail("Failed to convert JSON to String()")
         }
         XCTAssertEqual(jsonString, "{\n  \"job_title\" : \"Software Developer\",\n  \"name\" : \"Tom\"\n}")
     }

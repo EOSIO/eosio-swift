@@ -19,6 +19,6 @@ public class EosioEndpoint {
     public init?(_ endPoint: String, configuration: URLSessionConfiguration = URLSessionConfiguration.default) {
         self.endPoint = endPoint
         self.configuration = configuration
-        guard let _ = URL(string: endPoint) else { return nil }
+        guard URL(string: endPoint) != nil else { return nil }
     }
 }

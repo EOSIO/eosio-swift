@@ -9,17 +9,21 @@
 import Foundation
 import EosioSwift
 
+/// Implementaion of the EosioSerializationProviderProtocol.
 public class AbiEos: EosioSerializationProviderProtocol {
 
+    ///Used to hold errors.
     public class Error: EosioError { }
 
     private var context = abieos_create()
     private var abiJsonString = ""
 
+    /// Getter to return error as a String.
     public var error: String? {
         return String(validatingUTF8: abieos_get_error(context))
     }
 
+    /// Default init.
     required public init() {
 
     }
@@ -28,11 +32,13 @@ public class AbiEos: EosioSerializationProviderProtocol {
         abieos_destroy(context)
     }
 
+    /// Convert abieos String data to UInt64 value.
     public func name64(string: String?) -> UInt64 {
         guard let string = string else { return 0 }
         return abieos_string_to_name(context, string)
     }
 
+    /// Convert abieos UInt64 data to String value.
     public func string(name64: UInt64) -> String? {
         return String(validatingUTF8: abieos_name_to_string(context, name64))
     }
@@ -54,16 +60,55 @@ public class AbiEos: EosioSerializationProviderProtocol {
         return abiString
     }
 
+    /**
+     
+     Convert JSON Transaction data representation to ABIEOS binary representation of Transaction data.
+     
+     - Parameters:
+       - json: The JSON representation of Transaction data to serialze.
+     
+     - Returns: A binary String of Transacton data.
+     
+     - Throws: If the data cannot be cannot be serialized for any reason.
+ 
+    */
     public func serializeTransaction(json: String) throws -> String {
         let transactionJson = try getAbiJsonFile(fileName: "transaction.abi.json")
         return try serialize(contract: nil, name: "", type: "transaction", json: json, abi: transactionJson)
     }
 
+    /**
+     
+     Convert JSON ABI data representation to ABIEOS binary of data.
+     
+     - Parameters:
+       - hex: The JSON data String to deserialze.
+     
+     - Returns: A String of binary data.
+     
+     - Throws: If the data cannot be cannot be serialized for any reason.
+     
+     */
     public func serializeAbi(json: String) throws -> String {
         let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
         return try serialize(contract: nil, name: "", type: "abi_def", json: json, abi: abiJson)
     }
 
+    /**
+     Calls ABIEOS to carry out JSON to binary conversion using ABIs.
+     
+     - Parameters:
+       - contract: An optional String representing contract name for the ABIOS action lookup for this ABIOS conversion.
+       - name: An optional String representing an action name that is used in conjuction with contact (above) to derive the ABIOS type name.
+       - type: An optional string representing the type name for the ABIOS action lookup for this ABIOS conversion.
+       - json: The JSON data String to serialze to binary.
+       - abi: A String repersentaion of the ABI to use for conversion.
+     
+     - Returns: A String of binary serialized data.
+     
+     - Throws: If the data cannot be cannot be serialized for any reason.
+     
+     */
     public func serialize(contract: String?, name: String = "", type: String? = nil, json: String, abi: String) throws -> String {
 
         refreshContext()
@@ -95,16 +140,53 @@ public class AbiEos: EosioSerializationProviderProtocol {
         return hex
     }
 
+    /**
+     Converts a binary string of ABIEOS Transacton data to JSON string representation of Transaction data.
+     
+     - Parameters:
+       - hex: The binary Transaction data String to deserialze.
+     
+     - Returns: A String of JSON Transacton data.
+     
+     - Throws: If the data cannot be cannot be deserialized for any reason.
+     
+     */
     public func deserializeTransaction(hex: String) throws -> String {
         let transactionJson = try getAbiJsonFile(fileName: "transaction.abi.json")
         return try deserialize(contract: nil, name: "", type: "transaction", hex: hex, abi: transactionJson)
     }
 
+    /**
+     Converts a binary string of ABIEOS data to JSON string data.
+     
+     - Parameters:
+       - hex: The binary data String to deserialze.
+     
+     - Returns: A String of JSON data.
+     
+     - Throws: If the data cannot be cannot be deserialized for any reason.
+     
+     */
     public func deserializeAbi(hex: String) throws -> String {
         let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
         return try deserialize(contract: nil, name: "", type: "abi_def", hex: hex, abi: abiJson)
     }
 
+    /**
+     Calls ABIEOS to carry out binary to JSON conversion using ABIs.
+     
+     - Parameters:
+       - contract: An optional String representing contract name for the ABIOS action lookup for this ABIOS conversion.
+       - name: An optional String representing an action name that is used in conjuction with contact (above) to derive the ABIOS type name.
+       - type: An optional string representing the type name for the ABIOS action lookup for this ABIOS conversion.
+       - hex: The binary data String to deserialze to a JSON String.
+       - abi: A String repersentaion of the ABI to use for conversion.
+     
+     - Returns: A String of JSON data.
+     
+     - Throws: If the data cannot be cannot be deserialized for any reason.
+     
+     */
     public func deserialize(contract: String?, name: String = "", type: String? = nil, hex: String, abi: String) throws -> String {
 
         refreshContext()

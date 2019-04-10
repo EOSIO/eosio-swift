@@ -10,20 +10,21 @@ import Foundation
 import EosioSwift
 import EosioSwiftEcc
 
-/// Using `EosioSwiftSoftkeySignatureProvider` you can sign an `EosioTransactionRequest` using `K1` type private key.
+/**
+ Example signature provider for EOSIO SDK for Swift for signing transactions using in-memory K1 private keys. This
+ signature provider implementation stores keys in memory and is therefore not secure. Use only for development purposes.
+ */
 public final class EosioSwiftSoftkeySignatureProvider {
-    /// Private key pairs in String format.
     private var stringKeyPairs = [String: String]()
-
-    /// Public-Private key pairs in Data format.
     private var dataKeyPairs = [Data: Data]()
 
     /**
-         Initializes `EosiosSwiftSoftkeySignatureProvider` using the private keys in the given array.
+         Initializes the signature provider using the private keys in the given array.
 
-         - Parameters: privateKeys: Array of private keys in `String` format.
+         - Parameters:
+            - privateKeys: Array of private keys in `String` format.
          - Returns: An `EosioSwiftSoftkeySignatureProvider` object.
-         - Throws:  Throws an error if all the keys in the given `privateKeys` array are not valid keys.
+         - Throws:  Throws an error if any of the keys in the given `privateKeys` array is not valid.
      */
     public init(privateKeys: [String]) throws {
         for privateKey in privateKeys {
@@ -48,10 +49,12 @@ public final class EosioSwiftSoftkeySignatureProvider {
 extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
 
     /**
-        Asynchronisly signs a transaction.
+        Asynchronous method signing a transaction request. Invoked by an `EosioTransaction` during the signing process.
      
-        - Parameters: `EosioTransactionSignatureRequest` (struct from `Eosio-Swift` library).
-        - Returns: `EosioTransactionSignatureResponse` (also struct from `Eosio-Swift` library).
+        - Parameters:
+            - request: An `EosioTransactionSignatureRequest` struct (as defined in the `EosioSwift` library).
+            - completion: The completion callback.
+        - Returns: An `EosioTransactionSignatureResponse` struct (as defined in the `EosioSwift` library).
 
     */
     public func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
@@ -78,8 +81,11 @@ extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
     }
 
     /**
-        Asynchronisly calls app that stores keys (aka wallet) and requests all public keys that are stored in that app.
-        - Returns: `EosioAvailableKeysResponse` which has an optional array of available public keys in `String` format.
+        Asynchronous method that provides available public keys to the `EosioTransaction` during the signing preparation process.
+
+         - Parameters:
+            - completion: The completion callback.
+         - Returns: An `EosioAvailableKeysResponse` stuct containing an optional array of available public keys in `String` format.
     */
     public func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void) {
 

@@ -146,6 +146,8 @@ public extension EosioRpcProvider {
         task.resume()
     }
 
+    /* Chain endpoints */
+
     func getAccount(requestParameters: EosioRpcAccountRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/get_account", requestParameters: requestParameters, completion: completion)
     }
@@ -158,16 +160,16 @@ public extension EosioRpcProvider {
         getResource(rpc: "chain/get_currency_stats", requestParameters: requestParameters, completion: completion)
     }
 
-    func getTransaction(requestParameters: EosioRpcHistoryTransactionRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "history/get_transaction", requestParameters: requestParameters, completion: completion)
-    }
-
-    func getKeyAccounts(requestParameters: EosioRpcHistoryKeyAccountsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "history/get_key_accounts", requestParameters: requestParameters, completion: completion)
+    func getRawCodeAndAbi(requestParameters: EosioRpcRawCodeAndAbiRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: requestParameters, completion: completion)
     }
 
     func getRawCodeAndAbi(accountName: String, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: ["account_name": accountName], completion: completion)
+    }
+
+    func getCode(requestParameters: EosioRpcCodeRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_code", requestParameters: requestParameters, completion: completion)
     }
 
     func getCode(accountName: String, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
@@ -186,6 +188,8 @@ public extension EosioRpcProvider {
         getResource(rpc: "chain/get_producers", requestParameters: requestParameters, completion: completion)
     }
 
+    /* History endpoints */
+
     func getActions(requestParameters: EosioRpcHistoryActionsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "history/get_actions", requestParameters: requestParameters, completion: completion)
     }
@@ -194,4 +198,11 @@ public extension EosioRpcProvider {
         getResource(rpc: "history/get_controlled_accounts", requestParameters: requestParameters, completion: completion)
     }
 
+    func getTransaction(requestParameters: EosioRpcHistoryTransactionRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+        getResource(rpc: "history/get_transaction", requestParameters: requestParameters, completion: completion)
+    }
+
+    func getKeyAccounts(requestParameters: EosioRpcHistoryKeyAccountsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+        getResource(rpc: "history/get_key_accounts", requestParameters: requestParameters, completion: completion)
+    }
 }

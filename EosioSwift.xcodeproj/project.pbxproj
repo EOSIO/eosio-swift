@@ -20,6 +20,7 @@
 		6B80D26921FA6DDF00716A7B /* EosioSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80D25F21FA6DDF00716A7B /* EosioSwift.framework */; };
 		6B80D26E21FA6DDF00716A7B /* EosioSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B80D26D21FA6DDF00716A7B /* EosioSwiftTests.swift */; };
 		6B80D27021FA6DDF00716A7B /* EosioSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B80D26221FA6DDF00716A7B /* EosioSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8F49E8CF225E6E6A00082631 /* RequestModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F49E8CE225E6E6A00082631 /* RequestModels.swift */; };
 		8F6B04B522287A5300215CD0 /* EosioError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04B022287A5300215CD0 /* EosioError.swift */; };
 		8F6B04B622287A5300215CD0 /* EosioSwiftFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F6B04B122287A5300215CD0 /* EosioSwiftFoundation.h */; };
 		8F6B04B722287A5300215CD0 /* EosioResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04B222287A5300215CD0 /* EosioResult.swift */; };
@@ -87,6 +88,7 @@
 		6B80D26821FA6DDF00716A7B /* EosioSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B80D26D21FA6DDF00716A7B /* EosioSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftTests.swift; sourceTree = "<group>"; };
 		6B80D26F21FA6DDF00716A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F49E8CE225E6E6A00082631 /* RequestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModels.swift; sourceTree = "<group>"; };
 		8F6B04B022287A5300215CD0 /* EosioError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioError.swift; sourceTree = "<group>"; };
 		8F6B04B122287A5300215CD0 /* EosioSwiftFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EosioSwiftFoundation.h; sourceTree = "<group>"; };
 		8F6B04B222287A5300215CD0 /* EosioResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioResult.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		1F0355C6224485A400AC2AB3 /* EosioRpcProvider */ = {
 			isa = PBXGroup;
 			children = (
+				8F49E8D0225E6E7A00082631 /* Models */,
 				8FC41FEE225561D3006A76FF /* EosioRpcProvider.swift */,
 			);
 			path = EosioRpcProvider;
@@ -240,6 +243,14 @@
 				1F9DCB7922569A2600853105 /* EosioRpcProviderTests.swift */,
 			);
 			path = EosioSwiftTests;
+			sourceTree = "<group>";
+		};
+		8F49E8D0225E6E7A00082631 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8F49E8CE225E6E6A00082631 /* RequestModels.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8F6B04AF222879EC00215CD0 /* Foundation */ = {
@@ -548,6 +559,7 @@
 				28DDAB08223598DA008FB1CC /* EosioKeySignatureExtensions.swift in Sources */,
 				8F6B04C422287A9E00215CD0 /* DateExtensions.swift in Sources */,
 				8F6B04C122287A9E00215CD0 /* StringExtensions.swift in Sources */,
+				8F49E8CF225E6E6A00082631 /* RequestModels.swift in Sources */,
 				2856028F22182EFA00642377 /* EosioTransactionAbis.swift in Sources */,
 				B49EE50F221CC78900018D29 /* EosioHttpMethod.swift in Sources */,
 				B4E8F6BC2232020100FA7E63 /* RIPEMD160.swift in Sources */,

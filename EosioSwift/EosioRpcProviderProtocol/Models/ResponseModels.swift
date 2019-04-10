@@ -60,7 +60,7 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, RawResponseCon
     }
 }
 
-public struct EosioRpcTrxResponse: Codable {
+public struct EosioRpcTrxResponse: RawResponseConvertible, Codable {
     public var id: String
     public var signatures: [String]
     public var compression: String
@@ -92,7 +92,7 @@ public struct EosioRpcTrxResponse: Codable {
     }
 }
 
-public struct EosioRpcTransactionInfoResponse: Codable {
+public struct EosioRpcTransactionInfoResponse: RawResponseConvertible, Codable {
     public let status: String
     public let cpuUsageUs: UInt
     public let netUsageWords: UInt
@@ -113,7 +113,7 @@ public struct EosioRpcTransactionInfoResponse: Codable {
     }
 }
 
-public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
+public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, RawResponseConvertible, Codable {
 
     public let timestamp: String
     public let producer: String
@@ -166,7 +166,7 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
     }
 }
 
-public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, Codable {
+public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, RawResponseConvertible, Codable {
     public var accountName: String
     public var codeHash: String
     public var abiHash: String
@@ -187,7 +187,7 @@ public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, Codable {
     }
 }
 
-public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, Codable {
+public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, RawResponseConvertible, Codable {
     public var requiredKeys: [String]
 
     enum CodingKeys: String, CodingKey {
@@ -199,7 +199,7 @@ public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol
     }
 }
 
-public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, Codable {
+public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, RawResponseConvertible, Codable {
     public var transactionId: String
 
     enum CodingKeys: String, CodingKey {

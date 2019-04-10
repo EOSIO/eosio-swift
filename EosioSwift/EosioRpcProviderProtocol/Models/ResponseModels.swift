@@ -8,9 +8,8 @@
 
 import Foundation
 
-
 public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, RawResponseConvertible, Codable {
-    
+
     public let serverVersion: String
     public let chainId: String
     public let headBlockNum: UInt64
@@ -188,10 +187,6 @@ public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, Codable {
     }
 }
 
-public struct EosioRpcRawCodeAbiResponse: Codable {
-    //TODO: implement
-}
-
 public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, Codable {
     public var requiredKeys: [String]
 
@@ -214,42 +209,4 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
     public init(transactionId: String) {
         self.transactionId = transactionId
     }
-}
-
-public struct EosioRpcHistoryActionsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcBlockHeaderStateResponse: Codable {
-
-    //TODO: fill in impl
-
-}
-
-public struct EosioRpcAccountResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcTableRowsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcCurrencyStatsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcProducersResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcHistoryTransactionResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcHistoryKeyAccountsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcControllingAccountsResponse: Codable {
-    //TODO: fill in impl
 }

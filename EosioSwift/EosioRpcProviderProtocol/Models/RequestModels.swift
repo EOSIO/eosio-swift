@@ -14,15 +14,27 @@ public struct EosioRpcTableRowsRequest: Codable {
     public var code: String
     public var table: String
     public var tableKey: String?
-    public var json : Bool
-    public var lowerBound : String?
+    public var json: Bool
+    public var lowerBound: String?
     public var upperBound: String?
-    public var limit : Int = 10
-    public var indexPosition : String = "1"
+    public var limit: Int = 10
+    public var indexPosition: String = "1"
     public var keyType: String?
-    public var encodeType : String = "dec"
-    
-    public init(scope: String, code: String, table: String, json : Bool, limit : Int = 10, tableKey: String? = nil, lowerBound : String? = nil, upperBound: String? = nil, indexPosition : String = "1", keyType: String? = nil, encodeType : String = "dec") {
+    public var encodeType: String = "dec"
+
+    public init(
+        scope: String,
+        code: String,
+        table: String,
+        json: Bool,
+        limit: Int = 10,
+        tableKey: String? = nil,
+        lowerBound: String? = nil,
+        upperBound: String? = nil,
+        indexPosition: String = "1",
+        keyType: String? = nil,
+        encodeType: String = "dec"
+    ) {
         self.scope = scope
         self.code = code
         self.table = table
@@ -35,7 +47,6 @@ public struct EosioRpcTableRowsRequest: Codable {
         self.keyType = keyType
         self.encodeType = encodeType
     }
-    
 
     enum CodingKeys: String, CodingKey {
         case scope
@@ -56,7 +67,7 @@ public struct EosioRpcCurrencyBalanceRequest: Codable {
     public var code: String
     public var account: String
     public var symbol: String
-    
+
     public init(code: String, account: String, symbol: String) {
         self.code = code
         self.account = account
@@ -68,7 +79,7 @@ public struct EosioRpcRequiredKeysRequest: Codable {
 
     public var transaction: EosioTransaction
     public var availableKeys: [String]
-    
+
     public init(availableKeys: [String], transaction: EosioTransaction) {
 
         self.availableKeys = availableKeys
@@ -86,13 +97,12 @@ public struct EosioRpcProducersRequest: Codable {
     public var limit: UInt32
     public var lowerBound: String
     public var json: Bool
-    
+
     public init(limit: UInt32, lowerBound: String, json: Bool) {
         self.limit = limit
         self.lowerBound = lowerBound
         self.json = json
     }
-    
 
     enum CodingKeys: String, CodingKey {
         case limit
@@ -105,7 +115,7 @@ public struct EosioRpcHistoryActionsRequest: Codable {
     public var position: Int32 = -1
     public var offset: Int32 = -20
     public var accountName: EosioName
-    
+
     public init(position: Int32 = -1, offset: Int32 = -20, accountName: EosioName) {
         self.position = position
         self.offset = offset
@@ -118,8 +128,8 @@ public struct EosioRpcPushTransactionRequest: Codable {
     public var compression = 0
     public var packedContextFreeData = ""
     public var packedTrx = ""
-    
-    public init(signatures: [String] = [], compression:Int = 0, packedContextFreeData: String = "", packedTrx: String = "") {
+
+    public init(signatures: [String] = [], compression: Int = 0, packedContextFreeData: String = "", packedTrx: String = "") {
         self.signatures = signatures
         self.compression = compression
         self.packedContextFreeData = packedContextFreeData
@@ -130,7 +140,7 @@ public struct EosioRpcPushTransactionRequest: Codable {
 public struct EosioRpcBlockRequest: Codable {
 
     public var blockNumOrId: UInt64
-    
+
     public init(blockNumOrId: UInt64 = 1) {
         self.blockNumOrId = blockNumOrId
     }
@@ -138,7 +148,7 @@ public struct EosioRpcBlockRequest: Codable {
 
 public struct EosioRpcRawAbiRequest: Codable {
     public var accountName: EosioName
-    
+
     public init(accountName: EosioName) {
         self.accountName = accountName
     }
@@ -146,28 +156,25 @@ public struct EosioRpcRawAbiRequest: Codable {
 
 public struct EosioRpcBlockHeaderStateRequest: Codable {
     public var blockNumOrId: String
-    
+
     public init(blockNumOrId: String) {
         self.blockNumOrId = blockNumOrId
     }
-    
 
 }
 
 public struct EosioRpcAccountRequest: Codable {
     public var accountName: EosioName
-    
+
     public init(accountName: EosioName) {
         self.accountName = accountName
     }
 }
 
-
-
 public struct EosioRpcCurrencyStatsRequest: Codable {
     public var code: String = ""
     public var symbol: String = ""
-    
+
     public init(code: String = "", symbol: String = "") {
         self.code = code
         self.symbol = symbol
@@ -185,7 +192,7 @@ public struct EosioRpcHistoryTransactionRequest: Codable {
 
 public struct EosioRpcHistoryKeyAccountsRequest: Codable {
     public var publicKey: String = ""
-    
+
     public init(publicKey: String) {
         self.publicKey = publicKey
     }
@@ -193,20 +200,20 @@ public struct EosioRpcHistoryKeyAccountsRequest: Codable {
 
 public struct EosioRpcHistoryControlledAccountsRequest: Codable {
     public var controllingAccount: EosioName
-    
+
     public init(controllingAccount: EosioName) {
         self.controllingAccount = controllingAccount
     }
 }
 
-public struct EosioRpcTableByScopeRequest: Codable{
+public struct EosioRpcTableByScopeRequest: Codable {
     public let code: String
     public let table: String?
     public let lowerBound: String?
     public let upperBound: String?
     public let limit: Int32?
     public let reverse: Bool?
-    
+
     public init(code: String, table: String? = nil, lowerBound: String? = nil, upperBound: String? = nil, limit: Int32? = nil, reverse: Bool? = nil) {
         self.code = code
         self.table = table

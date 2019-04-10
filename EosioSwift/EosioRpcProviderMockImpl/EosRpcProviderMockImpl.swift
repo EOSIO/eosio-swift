@@ -56,7 +56,7 @@ public class EosioRpcProviderMockImpl: EosioRpcProviderProtocol {
     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
 
         let resp = createRawAbiResponse(account: requestParameters.accountName)
-        let res:EosioRpcRawAbiResponse? = resp.decodeJson()
+        let res: EosioRpcRawAbiResponse? = resp.decodeJson()
         var result: EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>
         if let res = res {
             result = EosioResult.success(res)

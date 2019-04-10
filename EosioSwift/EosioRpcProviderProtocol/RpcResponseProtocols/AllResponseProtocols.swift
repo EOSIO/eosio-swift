@@ -33,7 +33,7 @@ public protocol EosioRpcTransactionResponseProtocol {
     var transactionId: String { get }
 }
 
-public protocol EosioRpcResponseProtocol{
+public protocol EosioRpcResponseProtocol {
     var rawResponse: Data? { get }
 }
 
@@ -47,6 +47,3 @@ extension RawResponseConvertible {
         return try? encoder.encode(self)
     }
 }
-
-
-

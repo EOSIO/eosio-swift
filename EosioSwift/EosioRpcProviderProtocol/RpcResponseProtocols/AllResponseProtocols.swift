@@ -34,16 +34,5 @@ public protocol EosioRpcTransactionResponseProtocol {
 }
 
 public protocol EosioRpcResponseProtocol {
-    var rawResponse: Data? { get }
-}
-
-protocol RawResponseConvertible: EosioRpcResponseProtocol, Encodable {
-    var rawResponse: Data? { get }
-}
-
-extension RawResponseConvertible {
-    public var rawResponse: Data? {
-        let encoder = JSONEncoder()
-        return try? encoder.encode(self)
-    }
+    var rawResponse: Any? { get set }
 }

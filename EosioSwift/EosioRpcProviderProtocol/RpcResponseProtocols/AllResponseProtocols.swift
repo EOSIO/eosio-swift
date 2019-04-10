@@ -34,5 +34,5 @@ public protocol EosioRpcTransactionResponseProtocol {
 }
 
 public protocol EosioRpcResponseProtocol {
-    var rawResponse: Any? { get set }
+    var _rawResponse: Any? { get set }
 }

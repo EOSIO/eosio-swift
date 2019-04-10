@@ -9,7 +9,7 @@
 import Foundation
 
 public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcResponseProtocol, Codable {
-    public var rawResponse: Any?
+    public var _rawResponse: Any?
     public let serverVersion: String
     public let chainId: String
     public let headBlockNum: UInt64
@@ -61,7 +61,7 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
 }
 
 public struct EosioRpcTrxResponse: EosioRpcResponseProtocol, Codable {
-    public var rawResponse: Any?
+    public var _rawResponse: Any?
     public var id: String
     public var signatures: [String]
     public var compression: String
@@ -94,7 +94,7 @@ public struct EosioRpcTrxResponse: EosioRpcResponseProtocol, Codable {
 }
 
 public struct EosioRpcTransactionInfoResponse: EosioRpcResponseProtocol, Codable {
-    public var rawResponse: Any?
+    public var _rawResponse: Any?
     public let status: String
     public let cpuUsageUs: UInt
     public let netUsageWords: UInt
@@ -116,7 +116,7 @@ public struct EosioRpcTransactionInfoResponse: EosioRpcResponseProtocol, Codable
 }
 
 public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResponseProtocol, Codable {
-    public var rawResponse: Any?
+    public var _rawResponse: Any?
     public let timestamp: String
     public let producer: String
     public let confirmed: UInt
@@ -169,7 +169,7 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
 }
 
 public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcResponseProtocol, Codable {
-    public var rawResponse: Any?
+    public var _rawResponse: Any?
     public var accountName: String
     public var codeHash: String
     public var abiHash: String
@@ -191,7 +191,7 @@ public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcRe
 }
 
 public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, EosioRpcResponseProtocol, Codable {
-    public var rawResponse: Any?
+    public var _rawResponse: Any?
     public var requiredKeys: [String]
 
     enum CodingKeys: String, CodingKey {
@@ -204,7 +204,7 @@ public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol
 }
 
 public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, EosioRpcResponseProtocol, Codable {
-    public var rawResponse: Any?
+    public var _rawResponse: Any?
     public var transactionId: String
 
     enum CodingKeys: String, CodingKey {

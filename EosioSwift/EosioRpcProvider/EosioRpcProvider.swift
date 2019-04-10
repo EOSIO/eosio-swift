@@ -112,7 +112,7 @@ public struct EosioRpcProvider: EosioRpcProviderProtocol {
                     callBack(nil, EosioError(.rpcProviderError, reason: "Error decoding returned data.", originalError: nil))
                     return
                 }
-                resource.rawResponse = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                resource._rawResponse = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 callBack(resource, nil)
             }
         }
@@ -126,7 +126,7 @@ public struct EosioRpcProvider: EosioRpcProviderProtocol {
 public extension EosioRpcProvider {
 
     struct RpcResponse: EosioRpcResponseProtocol {
-        public var rawResponse: Any?
+        public var _rawResponse: Any?
     }
 
     private func getResource(rpc: String, requestParameters: Encodable?, completion: @escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
@@ -161,7 +161,7 @@ public extension EosioRpcProvider {
             }
 
             if let data = data {
-                let responseObject = RpcResponse(rawResponse: try? JSONSerialization.jsonObject(with: data, options: .allowFragments))
+                let responseObject = RpcResponse(_rawResponse: try? JSONSerialization.jsonObject(with: data, options: .allowFragments))
                 completion(EosioResult.success(responseObject))
             }
         }

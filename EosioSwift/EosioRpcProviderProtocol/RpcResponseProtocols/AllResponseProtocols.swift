@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol EosioRpcInfoResponseProtocol {
-    var chainId:String { get }
-    var headBlockNum:UInt64 { get }
+    var chainId: String { get }
+    var headBlockNum: UInt64 { get }
     var headBlockTime: String { get }
 }
 
@@ -24,7 +24,6 @@ public protocol EosioRpcRawAbiResponseProtocol {
     var abi: String { get }
     var abiHash: String { get }
 }
-
 
 public protocol EosioRpcRequiredKeysResponseProtocol {
     var requiredKeys: [String] { get }

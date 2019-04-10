@@ -9,7 +9,6 @@
 import Foundation
 
 public extension Dictionary {
-    
     /**
         Encodes the dictionary to a JSON string.
  
@@ -19,6 +18,5 @@ public extension Dictionary {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [.sortedKeys]) else { return nil }
         return String(data: jsonData, encoding: .utf8)
     }
-    
-}
 
+}

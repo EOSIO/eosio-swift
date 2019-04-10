@@ -24,7 +24,7 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
 
 ## Installation
 
-### Prerequsties
+### Prerequisites
 
 * Xcode 10 or higher
 * CocoaPods 1.5.3 or higher
@@ -34,24 +34,20 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
 
 ### Instructions
 
-1. Clone this repo
-1. Clone any provider repos into the same directory
-1. Run `pod install`
+To use EOSIO SDK for Swift in your app, add the following pods to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 
-### Example Installation
+```ruby
+use_frameworks!
 
-These example instructions set you up with the providers used in the following [Basic Usage](#basic-usage) example.
+target "Your Target" do
+  pod "EosioSwift", "~> 0.0.1" # pod for this library
+  # Providers for EOSIO SDK for Swift
+  pod "EosioSwiftAbieos", "~> 0.0.1" # serialization provider
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.1" # experimental signature provider for development only
+end
+```
 
-All of the following repos must be cloned into the same directory as sibling of one another:
-
-1. Clone this repo
-1. Clone the [ABIEOS Serialization Provider](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider) repo
-1. Clone the [Softkey Signature Provider](https://github.com/EOSIO/eosio-swift-softkey-signature-provider) repo
-1. From the core `eosio-swift` directory, run `pod install`
-
-You're all set for the [Basic Usage](#basic-usage) example!
-
-As soon as these pods are published publicly, these installation instructions will be updated.
+Then run `pod install`. And you're all set for the [Basic Usage](#basic-usage) example!
 
 ## Basic Usage
 
@@ -171,7 +167,7 @@ Response structs for the alpha release are incomplete. Some responses will only 
 
 ## What's Next for the SDK?
 
-We're always looking for ways to improve EOSIO SDK for Swift. Here are a few ideas around how we'd like to see the library progress. Check out our [#enhancement Issues](issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for more.
+We're always looking for ways to improve EOSIO SDK for Swift. Here are a few ideas around how we'd like to see the library progress. Check out our [#enhancement Issues](/../../issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for more.
 
 * Implement a Transaction factory so that providers don't have to be set explicitly for every transaction
 * Improve RPC response marshalling; build out new and existing response structs
@@ -191,3 +187,5 @@ Interested in contributing? That's awesome! Here are some [Contribution Guidelin
 ## Important
 
 See LICENSE for copyright and license terms.  Block.one makes its contribution on a voluntary basis as a member of the EOSIO community and is not responsible for ensuring the overall performance of the software or any related applications.  We make no representation, warranty, guarantee or undertaking in respect of the software or any related documentation, whether expressed or implied, including but not limited to the warranties or merchantability, fitness for a particular purpose and noninfringement. In no event shall we be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or documentation or the use or other dealings in the software or documentation.  Any test results or performance figures are indicative and will not reflect performance under all conditions.  Any reference to any third party or third-party product, service or other resource is not an endorsement or recommendation by Block.one.  We are not responsible, and disclaim any and all responsibility and liability, for your use of or reliance on any of these resources. Third-party resources may be updated, changed or terminated at any time, so the information here may be out of date or inaccurate.
+
+Wallets and related components are complex software that require the highest levels of security.  If incorrectly built or used, they may compromise users’ private keys and digital assets. Wallet applications and related components should undergo thorough security evaluations before being used.  Only experienced developers should work with this software.

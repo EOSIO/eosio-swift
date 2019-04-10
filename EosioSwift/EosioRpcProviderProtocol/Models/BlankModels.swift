@@ -9,47 +9,45 @@
 import Foundation
 
 public struct EosioRpcBlockHeaderState: Codable {
-    
+
 }
 
 public struct EosioRpcAccount: Codable {
-    
+
 }
 
 public struct EosioRpcAccountAbi: Codable {
-    
+
 }
 
 public struct EosioRpcRawCodeAbi: Codable {
-    
+
 }
 
 public struct EosioRpcTableRows: Codable {
-    
+
 }
 
 public struct EosioRpcCurrencyBalance: Codable {
-    
+
 }
 
 public struct EosioRpcCurrencyStats: Codable {
-    
+
 }
 
 public struct EosioRpcProducers: Codable {
-    
+
 }
 
 public struct EosioRpcHistoryActions: Codable {
-    
+
 }
 
 public struct EosioRpcKeyAccounts: Codable {
-    
+
 }
 
 public struct EosioRpcControllingAccounts: Codable {
-    
+
 }
-
-

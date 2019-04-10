@@ -9,6 +9,7 @@
 import Foundation
 
 public struct EosioRpcTableRowsRequest: Codable {
+
     public var scope: String
     public var code: String
     public var table: String
@@ -35,6 +36,7 @@ public struct EosioRpcTableRowsRequest: Codable {
         self.encodeType = encodeType
     }
     
+
     enum CodingKeys: String, CodingKey {
         case scope
         case code
@@ -63,14 +65,16 @@ public struct EosioRpcCurrencyBalanceRequest: Codable {
 }
 
 public struct EosioRpcRequiredKeysRequest: Codable {
+
     public var transaction: EosioTransaction
     public var availableKeys: [String]
     
     public init(availableKeys: [String], transaction: EosioTransaction) {
+
         self.availableKeys = availableKeys
         self.transaction = transaction
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case transaction = "transaction"
         case availableKeys = "available_keys"
@@ -78,6 +82,7 @@ public struct EosioRpcRequiredKeysRequest: Codable {
 }
 
 public struct EosioRpcProducersRequest: Codable {
+
     public var limit: UInt32
     public var lowerBound: String
     public var json: Bool
@@ -88,6 +93,7 @@ public struct EosioRpcProducersRequest: Codable {
         self.json = json
     }
     
+
     enum CodingKeys: String, CodingKey {
         case limit
         case lowerBound = "lower_bound"
@@ -107,7 +113,6 @@ public struct EosioRpcHistoryActionsRequest: Codable {
     }
 }
 
-
 public struct EosioRpcPushTransactionRequest: Codable {
     public var signatures = [String]()
     public var compression = 0
@@ -123,6 +128,7 @@ public struct EosioRpcPushTransactionRequest: Codable {
 }
 
 public struct EosioRpcBlockRequest: Codable {
+
     public var blockNumOrId: UInt64
     
     public init(blockNumOrId: UInt64 = 1) {
@@ -145,6 +151,7 @@ public struct EosioRpcBlockHeaderStateRequest: Codable {
         self.blockNumOrId = blockNumOrId
     }
     
+
 }
 
 public struct EosioRpcAccountRequest: Codable {

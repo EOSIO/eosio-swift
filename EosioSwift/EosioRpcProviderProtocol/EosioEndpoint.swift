@@ -11,15 +11,14 @@ import Foundation
 public class EosioEndpoint {
     private(set) var endPoint: String
     private(set) var configuration: URLSessionConfiguration = URLSessionConfiguration.default
-    
+
     public var baseUrl: URL? {
         return URL(string: endPoint)
     }
-    
-    public init?(_ endPoint: String, configuration: URLSessionConfiguration = URLSessionConfiguration.default)  {
+
+    public init?(_ endPoint: String, configuration: URLSessionConfiguration = URLSessionConfiguration.default) {
         self.endPoint = endPoint
         self.configuration = configuration
-        guard let _ = URL(string: endPoint) else { return nil }
+        guard URL(string: endPoint) != nil else { return nil }
     }
 }
-

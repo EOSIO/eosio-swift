@@ -56,5 +56,3 @@ public struct EosioRpcRawAbiRequest: Codable {
         self.abiHash = abiHash
     }
 }
-
-

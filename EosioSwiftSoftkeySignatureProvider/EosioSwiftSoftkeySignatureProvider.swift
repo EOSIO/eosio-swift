@@ -9,19 +9,21 @@
 import Foundation
 import EosioSwift
 import EosioSwiftEcc
+
+/// Using `EosioSwiftSoftkeySignatureProvider` you can sign an `EosioTransactionRequest` using `K1` type private key.
 public final class EosioSwiftSoftkeySignatureProvider {
-    //Private key pairs in String format
+    /// Private key pairs in String format.
     private var stringKeyPairs = [String: String]()
 
-    //Public-Private key pairs in Data format
+    /// Public-Private key pairs in Data format.
     private var dataKeyPairs = [Data: Data]()
 
     /**
-     Initializes EosiosSwiftSoftkeySignatureProvider using the private keys in the given array.
-     - Parameters:
-     - privateKeys: An `String` array of private keys.
-     - Returns: An EosioSwiftSoftkeySignatureProvider object.
-     - Throws:  Throws an error if all the keys in the given `privateKeys` array are not valid keys.
+         Initializes `EosiosSwiftSoftkeySignatureProvider` using the private keys in the given array.
+
+         - Parameters: privateKeys: Array of private keys in `String` format.
+         - Returns: An `EosioSwiftSoftkeySignatureProvider` object.
+         - Throws:  Throws an error if all the keys in the given `privateKeys` array are not valid keys.
      */
     public init(privateKeys: [String]) throws {
         for privateKey in privateKeys {
@@ -45,6 +47,13 @@ public final class EosioSwiftSoftkeySignatureProvider {
 
 extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
 
+    /**
+        Asynchronisly signs a transaction.
+     
+        - Parameters: `EosioTransactionSignatureRequest` (struct from `Eosio-Swift` library).
+        - Returns: `EosioTransactionSignatureResponse` (also struct from `Eosio-Swift` library).
+
+    */
     public func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var response = EosioTransactionSignatureResponse()
         do {
@@ -68,6 +77,10 @@ extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
 
     }
 
+    /**
+        Asynchronisly calls app that stores keys (aka wallet) and requests all public keys that are stored in that app.
+        - Returns: `EosioAvailableKeysResponse` which has an optional array of available public keys in `String` format.
+    */
     public func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void) {
 
         var response = EosioAvailableKeysResponse()

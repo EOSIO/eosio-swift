@@ -6,45 +6,68 @@
 //  Copyright © 2018-2019 block.one.
 //
 
+// swiftlint:disable line_length
 import Foundation
 
+/**
+    Class for creating, preparing, signing, and (optionally) broadcasting transactions on EOSIO-based blockchains.
+*/
 public class EosioTransaction: Codable {
 
+    /// Chain ID in `String` format.
     public var chainId = ""
-
+    /// Remote Procedure Call (RPC) provider for facilitating communication with blockchain nodes. Conforms to `EosioRpcProviderProtocol`.
     public var rpcProvider: EosioRpcProviderProtocol?
+    /// Application Binary Interface (ABI) provider for facilitating the fetching and caching of ABIs from blockchain nodes. A default is provided. Conforms to `EosioAbiProviderProtocol`.
     public var abiProvider: EosioAbiProviderProtocol?
+    /// Signature provider for facilitating the retrieval of available public keys and the signing of transactions. Conforms to `EosioSignatureProviderProtocol`.
     public var signatureProvider: EosioSignatureProviderProtocol?
+    /// Serialization provider for facilitating ABI-driven transaction and action (de)serialization between JSON and binary data representations. Conforms to `EosioSerializationProviderProtocol`.
     public var serializationProvider: EosioSerializationProviderProtocol? {
         didSet {
             abis.serializationProvider = serializationProvider
         }
     }
 
+    /// Transaction configuration.
     public var config = EosioTransaction.Config()
+    /// Struct defining relative transaction configuration options and defaults.
     public struct Config {
+        /// Number of blocks behind the head block for calculating transaction `ref_block_` properties.
         public var blocksBehind: UInt = 3
+        /// Number of seconds behind the head block time for calculating transaction `expiration`.
         public var expireSeconds: UInt = 60 * 5
     }
+    /// Should signature providers be permitted to modify the transaction prior to signing? Defaults to `true`.
     public var allowSignatureProviderToModifyTransaction = true
-
+    /// Manager of ABIs for actions in the transaction.
     public let abis = Abis()
-
+    /// Transaction property: Time at which the transaction expires and can no longer be included in a block.
     public var expiration = Date(timeIntervalSince1970: 0)
+    /// Transaction property: Reference block number. Helps prevent replay attacks.
     public var refBlockNum: UInt16 = 0
+    /// Transaction property: Reference block prefix. Helps prevent replay attacks.
     public var refBlockPrefix: UInt64 = 0
+    /// Transaction property: Network bandwidth billing limit.
     public var maxNetUsageWords: UInt = 0
+    /// Transaction property: CPU time billing limit, in milliseconds.
     public var maxCpuUsageMs: UInt = 0
+    /// Transaction property: Causes the transaction to be executed a specified number of seconds after being included in a block. It may be canceled during this delay.
     public var delaySec: UInt = 0
+    /// Transaction property: Context Free Actions.
     public var contextFreeActions = [String]()
+    /// Transaction property: Array of actions to be executed.
     public var actions = [Action]()
+    /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
-
+    /// Transaction data serialized into a binary representation in preparation for broadcast.
     public private(set) var serializedTransaction: Data?
+    /// Array of signatures.
     public private(set) var signatures: [String]?
+    /// Transaction ID.
     public private(set) var transactionId: String?
 
-    /// Coding keys
+    /// For encoding/decoding EosioTransaction <> JSON.
     enum CodingKeys: String, CodingKey {
         case expiration
         case refBlockNum
@@ -57,15 +80,20 @@ public class EosioTransaction: Codable {
         case transactionExtensions
     }
 
+    /**
+        Initializes the class.
+     */
     public init() {  }
 
-    /// Deserialize a serialized transaction and return a `EosioTransaction` object.
-    ///
-    /// - Parameters:
-    ///   - serializedTransaction: A serialized transaction
-    ///   - serializationProvider: A serializationProvider, will be set as the serializationProvider for the `EosioTransaction`
-    /// - Returns: An `EosioTransaction`
-    /// - Throws: If the transaction cannot be deserialized
+    /**
+        Deserialize a serialized transaction and return an `EosioTransaction` object.
+
+        - Parameters:
+            - serializedTransaction: A serialized transaction as Data.
+            - serializationProvider: A serialization provider. Will be used for transaction deserialization and set as the `serializationProvider` on the returned `EosioTransaction`.
+        - Returns: An `EosioTransaction`.
+        - Throws: If the transaction cannot be deserialized.
+    */
     static public func deserialize(_ serializedTransaction: Data, serializationProvider: EosioSerializationProviderProtocol) throws -> EosioTransaction {
         let json = try serializationProvider.deserializeTransaction(hex: serializedTransaction.hex)
         guard let data = json.data(using: .utf8) else {
@@ -78,7 +106,7 @@ public class EosioTransaction: Codable {
         return transaction
     }
 
-    /// Returns an array of action accounts that do not have an abi in `abis`
+    /// Returns an array of action accounts that do not have an abi in `abis`.
     public var actionAccountsMissingAbis: [EosioName] {
         let accounts = actions.compactMap { (action) -> EosioName in
             return action.account
@@ -86,28 +114,32 @@ public class EosioTransaction: Codable {
         return abis.missingAbis(names: accounts)
     }
 
-    /// Returns an array of actions that do not have serialized data
+    /// Returns an array of unserialized actions.
     public var actionsWithoutSerializedData: [Action] {
         return actions.filter { (action) -> Bool in
             !action.isDataSerialized
         }
     }
 
-    /// Encode the transaction as a json string. Properties will be snake_case. Action data will be serialized.
-    ///
-    /// - Parameter prettyPrinted: Should the json be pretty printed? (default = no)
-    /// - Returns: The transaction as a json string
-    /// - Throws: If the transaction cannot be encoded to json
+    /**
+        Encode the transaction as a json string. Properties will be snake_case. Action data will be serialized.
+
+        - Parameters:
+            - prettyPrinted: Should the json be pretty printed? (default = false)
+        - Returns: The transaction as a json string.
+        - Throws: If the transaction cannot be encoded to json.
+    */
     public func toJson(prettyPrinted: Bool = false) throws -> String {
         return try self.toJsonString(convertToSnakeCase: true, prettyPrinted: prettyPrinted)
     }
 
     /**
-     Serializes the transaction and returns a `Data` object. Serializing a transaction requires the `serializedData` property for all the actions
-     to have a value and the tapos properties (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not
-     known to be set, call the async version method of this method which will attempt to get the necessary data first.
-     - Returns: A `Data` object
-     - Throws: If any of the necessary data is missing, or transaction cannot be serialized.
+        Serializes the transaction and returns a `Data` object. Serializing a transaction requires the `serializedData` property for all the actions to have a value and the TAPOS properties
+        (`refBlockNum`, `refBlockPrefix`, `expiration`) to have valid values. If the necessary data is not known to be set, call the asynchronous version of this method, which will attempt to
+        get the necessary data first.
+
+        - Returns: A `Data` object representing the serialized transaction.
+        - Throws: If any of the necessary data is missing or transaction cannot be serialized.
      */
     public func serializeTransaction() throws -> Data {
         try serializeActionData()
@@ -128,8 +160,11 @@ public class EosioTransaction: Codable {
     }
 
     /**
-     This method will call `prepare(completion:)` before attemping to create a serialized transaction. If an error is encountered this method will
-     call the completion with that error, otherwise the completion will be called with a serialized transaction.
+        Asynchronous version of serializeTransaction that calls `prepare(completion:)` before attemping to create a serialized transaction. If an error is encountered, this method will call the
+        completion with that error. Otherwise, the completion will be called with a serialized transaction.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of `Data` for success and an optional `EosioError`.
      */
     public func serializeTransaction(completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
         prepare { [weak self] (result) in
@@ -151,9 +186,11 @@ public class EosioTransaction: Codable {
     }
 
     /**
-     This method will prepare the transaction, fetching or calculating any needed values by calling the `calculateExpiration()`,
-     `getChainIdAndCalculateTapos(completion:)` and `serializeActionData(completion:)`. If any of these methods return an error this method will
-     call the completion that error.
+        Prepares the transaction, fetching or calculating any needed values by calling `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)`, and `serializeActionData(completion:)`.
+        If any of these methods returns an error, this method will call the completion with that error.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
      */
     public func prepare(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
 
@@ -171,11 +208,10 @@ public class EosioTransaction: Codable {
     }
 
     /**
-     Serializes the `data` property of each action in `actions` and sets the `serializedData` property for each action, if not already set.
-     Serializing the action data requires abis to be available in the `abis` class for all the contracts in the actions. If the necessary abis
-     are not known to be available, call the async version method of this method which will attempt to get the abis first.
-     - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
-     - Throws: If any required abis are not available, or the action `data` cannot be serialized.
+        Serializes the `data` property of each action in `actions` and sets the `serializedData` property for each action, if not already set. Serializing the action data requires ABIs to be available in
+        the `abis` class for all the contracts in the actions. If the necessary ABIs are not known to be available, call the asynchronous version of this method, which will attempt to get the ABIs first.
+
+        - Throws: If any required abis are not available, or the action `data` cannot be serialized.
      */
     public func serializeActionData() throws {
         let missingAbis = actionAccountsMissingAbis
@@ -191,9 +227,11 @@ public class EosioTransaction: Codable {
     }
 
     /**
-     This method will call `getABIs(completion:)` before before attemping to serialize the actions data by calling `serializeActionData()`.
-     If `getABIs(completion:)` returns an error this method will call completion with that error. If `serializeActionData()` throws an error,
-     the completion will be called with that error. If all action data is successfully serialized the completion will be called with true.
+        Calls `getABIs(completion:)` before attemping to serialize the actions data by calling `serializeActionData()`. If `getABIs(completion:)` returns an error, this method will call the completion with
+        that error. If `serializeActionData()` throws an error, the completion will be called with that error. If all action data is successfully serialized, the completion will be called with `true`.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
      */
     public func serializeActionData(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         getAbis { [weak self] (abisResult) in
@@ -215,15 +253,17 @@ public class EosioTransaction: Codable {
     }
 
     /**
-     This method will get abis for every contract in the actions using the `abiProvider` and add them to `abis`. If abis are already present
-     for all contracts this method will not need to use the abiProvider, and will immediately call the completion with true. If the `abiProvider`
-     is not set but the `rpcProvider` is set, an `EosioAbiProvider` instance will be created using the `rpcProvider` and set as the `abiProvider`.
-     If the abis are not present and the `abiProvider` is not set or `abiProvider` cannot get some of the requested abis, then an error is returned.
-     If all abis are successfully set this method will call the completion with true.
+        Gets ABIs for every contract in the actions using the `abiProvider` and adds them to `abis`. If ABIs are already present for all contracts, this method will not need to use the `abiProvider` and will
+        immediately call the completion with `true`. If the `abiProvider` is not set but the `rpcProvider` is, an `EosioAbiProvider` instance will be created using the `rpcProvider` and set as the `abiProvider`.
+        If the ABIs are not present and the `abiProvider` is not set or `abiProvider` cannot get some of the requested ABIs, an error is returned. If all ABIs are successfully set, this method will call the
+        completion with `true`.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
      */
     public func getAbis(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         let missingAbis = actionAccountsMissingAbis
-        // if no missing abis, return now
+        // if no missing ABIs, return now
         if missingAbis.count == 0 {
             return completion(.success(true))
         }
@@ -258,13 +298,15 @@ public class EosioTransaction: Codable {
     }
 
     /**
-     Get the chain info, set the `chainId` and `expiration`,  then calculate the reference block num using the using the `config` property and call
-     `getBlockAndSetTapos(blockNum:, completion:)`. If the `chainId` is already set this method will validate against the `chainId` retreived from
-     the `rpcProvider` and return a error if they do not do not match.
+        Gets chain info and sets the `chainId` and `expiration`. Then calculates the reference block number using the using the `config` property and calls `getBlockAndSetTapos(blockNum:, completion:)`.
+        If the `chainId` is already set, this method will validate against the `chainId` retreived from the `rpcProvider` and return an error if they do not match.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
      */
     private func getInfoAndSetValues(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
 
-        // if all the data is set just return true
+        // if all the data is set, just return true
         if refBlockNum > 0 && refBlockPrefix > 0  && chainId != "" && expiration > Date(timeIntervalSince1970: 0) {
             return completion(.success(true))
         }
@@ -286,7 +328,7 @@ public class EosioTransaction: Codable {
                 if strongSelf.chainId == "" {
                     strongSelf.chainId = info.chainId
                 }
-                // return an error if provided chainId does not match info chainID
+                // return an error if provided chainId does not match info chainId
                 guard strongSelf.chainId == info.chainId else {
                     return completion(.failure(EosioError(.eosioTransactionError, reason: "Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))
                 }
@@ -310,9 +352,13 @@ public class EosioTransaction: Codable {
     }
 
     /**
-     Get the `block` specified by `blockNum` and set `refBlockNum` and `refBlockPrefix`. If `refBlockNum`, and `refBlockPrefix` already have valid
-     values this method will call the completion with `true`. If these properties do not have valid values, this method will require an `rpcProvider`
-     to get the data for these values. If the `rpcProvider` is not set or another error is encountered this method will call the completion with an error.
+        Gets the block specified by `blockNum` and sets `refBlockNum` and `refBlockPrefix`. If `refBlockNum` and `refBlockPrefix` already have valid values, this method will call the completion with `true`.
+        If these properties do not have valid values, this method will require an `rpcProvider` to get the data for these values. If the `rpcProvider` is not set or another error is encountered, this method
+        will call the completion with an error.
+
+        - Parameters:
+            - blockNum: The block number serving as the basis for TAPOS calculations.
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
      */
     public func getBlockAndSetTapos(blockNum: UInt64, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         // if the only data needed was the chainId, return now
@@ -342,7 +388,12 @@ public class EosioTransaction: Codable {
         })
     }
 
-    /// Sign a transaction by getting the available keys from the signatureProvider then calling `sign(availableKeys:, completion:)`
+    /**
+        Signs a transaction by getting the available keys from the `signatureProvider` and calling `sign(availableKeys:, completion:)`.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     public func sign(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let signatureProvider = signatureProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
@@ -358,7 +409,13 @@ public class EosioTransaction: Codable {
         }
     }
 
-    /// Sign a transaction by preparing the transaction and then calling `signPreparedTransaction(availableKeys:, completion:)`
+    /**
+        Signs a transaction by preparing the transaction and calling `signPreparedTransaction(availableKeys:, completion:)`.
+
+        - Parameters:
+            - availableKeys: An array of public key strings that correspond to the private keys availble for signing.
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     public func sign(availableKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         prepare { [weak self] (result) in
             guard let strongSelf = self else {
@@ -373,7 +430,13 @@ public class EosioTransaction: Codable {
         }
     }
 
-    /// Sign a transaction by getting the required keys using the rpcProvider then calling `sign(publicKeys:, completion:)`
+    /**
+        Signs a transaction by getting the required keys using the `rpcProvider` and calling `sign(publicKeys:, completion:)`.
+
+        - Parameters:
+            - availableKeys: An array of public key strings that correspond to the private keys availble for signing.
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     private func signPreparedTransaction(availableKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let rpcProvider = rpcProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No rpc provider available")))
@@ -389,7 +452,13 @@ public class EosioTransaction: Codable {
         }
     }
 
-    /// Serialize the transaction then sign with the public keys. If successful, set the `signatures` and return `true`, otherwise return an error.
+    /**
+        Serializes the transaction and then signs with the private keys corresponding to the passed-in public keys. If successful, sets the `signatures` and returns `true`. Otherwise returns an error.
+
+        - Parameters:
+            - publicKeys: An array of public key strings that correspond to the private keys to sign the transaction with.
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     public func sign(publicKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         self.serializeTransaction { [weak self] (result) in
             guard let strongSelf = self else {
@@ -404,7 +473,14 @@ public class EosioTransaction: Codable {
         }
     }
 
-    /// Serialize the transaction then sign with the public keys. If successful, set the `signatures` and return `true`, otherwise return an error.
+    /**
+        Signs the passed-in `serializedTransaction` with the private keys corresponding to the provided public keys. If successful, sets the `signatures` and returns `true`. Otherwise returns an error.
+
+        - Parameters:
+            - serializedTransaction: The serialized transaction as `Data`.
+            - publicKeys: An array of public key strings that correspond to the private keys to sign the transaction with.
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     private func sign(serializedTransaction: Data, publicKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let signatureProvider = signatureProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
@@ -433,7 +509,15 @@ public class EosioTransaction: Codable {
         }
     }
 
-    /// Process a signed transaction
+    /**
+        Process a signed transaction. If the transaction has been modified by the signature provider, it deserializes the signed transaction and updates/sets the `EosioTransaction` properties. If the
+        original transaction was set to disallow modifications by the signature provider, an error is returned instead.
+
+        - Parameters:
+            - signedTransaction: A signed transaction.
+            - originalSerializedTransaction: The original serialized transaction, as `Data`.
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     private func process(signedTransaction: EosioTransactionSignatureResponse.SignedTransaction, originalSerializedTransaction: Data, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         if signedTransaction.serializedTransaction == originalSerializedTransaction {
             self.serializedTransaction = signedTransaction.serializedTransaction
@@ -472,7 +556,12 @@ public class EosioTransaction: Codable {
 
     }
 
-    /// Broadcast a signed transaction. If successful, set the `transactionId` and return `true`, otherwise return an error.
+    /**
+        Broadcasts a signed transaction. If successful, sets the `transactionId` and returns `true`. Otherwise returns an error.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     public func broadcast(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let serializedTransaction = serializedTransaction, let signatures = signatures, signatures.count > 0 else {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "Transaction must be signed before broadcast")))
@@ -497,7 +586,12 @@ public class EosioTransaction: Codable {
         }
     }
 
-    /// Sign a transaction, then broadcast
+    /**
+        Signs a transaction and then broadcasts it.
+
+        - Parameters:
+            - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+     */
     public func signAndBroadcast(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         sign { [weak self] (result) in
             guard let strongSelf = self else {

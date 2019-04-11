@@ -10,7 +10,7 @@ import Foundation
 
 public extension EosioTransaction {
 
-    /// Manages abis associated with an `EosioTransaction` instance
+    /// Manages Application Binary Interfaces (ABIs) associated with an `EosioTransaction` instance
     class Abis {
 
         private var abis = [EosioName: Data]()

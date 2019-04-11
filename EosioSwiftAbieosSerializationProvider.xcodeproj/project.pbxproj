@@ -188,7 +188,7 @@
 		6BE39DA720C5CCBB00EBBCA3 = {
 			isa = PBXGroup;
 			children = (
-				6BE39DB320C5CCBB00EBBCA3 /* EosioSwiftAbieos */,
+				6BE39DB320C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider */,
 				B4EAD99421925E79009D3E04 /* EosioSwiftAbieosTests */,
 				6BE39DB220C5CCBB00EBBCA3 /* Products */,
 				D1CE2F15C358FD36B7CCED4C /* Pods */,
@@ -205,19 +205,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6BE39DB320C5CCBB00EBBCA3 /* EosioSwiftAbieos */ = {
+		6BE39DB320C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider */ = {
 			isa = PBXGroup;
 			children = (
 				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.h */,
-				6BFA74BD20EBF456003CBCEB /* AbiEos */,
-				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
-			);
-			path = EosioSwiftAbieos;
-			sourceTree = "<group>";
-		};
-		6BFA74BD20EBF456003CBCEB /* AbiEos */ = {
-			isa = PBXGroup;
-			children = (
+				B467E0462228785800C8A67D /* EosioAbieosSerializationProvider.swift */,
 				B467E00E2228785600C8A67D /* abi.abi.json */,
 				B467E00F2228785700C8A67D /* abieos_exception.hpp */,
 				B467E0442228785800C8A67D /* abieos_numeric.hpp */,
@@ -225,15 +217,15 @@
 				B467E0472228785800C8A67D /* abieos.cpp */,
 				B467E00D2228785600C8A67D /* abieos.h */,
 				B467E0102228785700C8A67D /* abieos.hpp */,
-				B467E0462228785800C8A67D /* EosioAbieosSerializationProvider.swift */,
 				B467E0392228785800C8A67D /* date */,
 				B467E0132228785700C8A67D /* eosio.assert.abi.json */,
 				B467E0482228785800C8A67D /* fuzzer.cpp */,
 				B467E0122228785700C8A67D /* fuzzer.hpp */,
 				B467E0142228785700C8A67D /* rapidjson */,
 				B467E0112228785700C8A67D /* transaction.abi.json */,
+				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
 			);
-			path = AbiEos;
+			path = EosioSwiftAbieosSerializationProvider;
 			sourceTree = "<group>";
 		};
 		B467E0142228785700C8A67D /* rapidjson */ = {
@@ -766,7 +758,7 @@
 					"$(PROJECT_DIR)/EosioSwiftAbieos",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/EosioSwiftAbieos/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/EosioSwiftAbieosSerializationProvider/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -817,7 +809,7 @@
 					"$(PROJECT_DIR)/EosioSwiftAbieos",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/EosioSwiftAbieos/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/EosioSwiftAbieosSerializationProvider/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

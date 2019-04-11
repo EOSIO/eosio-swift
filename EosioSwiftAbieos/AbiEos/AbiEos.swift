@@ -9,10 +9,13 @@
 import Foundation
 import EosioSwift
 
-/// Implementaion of the EosioSerializationProviderProtocol.
-public class AbiEos: EosioSerializationProviderProtocol {
+/**
+   Serialization provider implementation for EOSIO SDK for Swift using ABIEOS.
+   Responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations.
+*/
+ public class AbiEos: EosioSerializationProviderProtocol {
 
-    ///Used to hold errors.
+    /// Used to hold errors.
     public class Error: EosioError { }
 
     private var context = abieos_create()
@@ -32,13 +35,13 @@ public class AbiEos: EosioSerializationProviderProtocol {
         abieos_destroy(context)
     }
 
-    /// Convert abieos String data to UInt64 value.
+    /// Convert ABIEOS String data to UInt64 value.
     public func name64(string: String?) -> UInt64 {
         guard let string = string else { return 0 }
         return abieos_string_to_name(context, string)
     }
 
-    /// Convert abieos UInt64 data to String value.
+    /// Convert ABIEOS UInt64 data to String value.
     public func string(name64: UInt64) -> String? {
         return String(validatingUTF8: abieos_name_to_string(context, name64))
     }
@@ -65,11 +68,11 @@ public class AbiEos: EosioSerializationProviderProtocol {
      Convert JSON Transaction data representation to ABIEOS binary representation of Transaction data.
      
      - Parameters:
-       - json: The JSON representation of Transaction data to serialze.
+       - json: The JSON representation of Transaction data to serialize.
      
-     - Returns: A binary String of Transacton data.
+     - Returns: A binary String of Transaction data.
      
-     - Throws: If the data cannot be cannot be serialized for any reason.
+     - Throws: If the data cannot be serialized for any reason.
  
     */
     public func serializeTransaction(json: String) throws -> String {
@@ -82,11 +85,11 @@ public class AbiEos: EosioSerializationProviderProtocol {
      Convert JSON ABI data representation to ABIEOS binary of data.
      
      - Parameters:
-       - hex: The JSON data String to deserialze.
+       - hex: The JSON data String to deserialize.
      
      - Returns: A String of binary data.
      
-     - Throws: If the data cannot be cannot be serialized for any reason.
+     - Throws: If the data cannot be serialized for any reason.
      
      */
     public func serializeAbi(json: String) throws -> String {
@@ -98,10 +101,10 @@ public class AbiEos: EosioSerializationProviderProtocol {
      Calls ABIEOS to carry out JSON to binary conversion using ABIs.
      
      - Parameters:
-       - contract: An optional String representing contract name for the ABIOS action lookup for this ABIOS conversion.
-       - name: An optional String representing an action name that is used in conjuction with contact (above) to derive the ABIOS type name.
-       - type: An optional string representing the type name for the ABIOS action lookup for this ABIOS conversion.
-       - json: The JSON data String to serialze to binary.
+       - contract: An optional String representing contract name for the serialize action lookup for this ABIEOS conversion.
+       - name: An optional String representing an action name that is used in conjunction with contract (above) to derive the serialize type name.
+       - type: An optional string representing the type name for the serialize action lookup for this serialize conversion.
+       - json: The JSON data String to serialize to binary.
        - abi: A String repersentaion of the ABI to use for conversion.
      
      - Returns: A String of binary serialized data.
@@ -141,12 +144,12 @@ public class AbiEos: EosioSerializationProviderProtocol {
     }
 
     /**
-     Converts a binary string of ABIEOS Transacton data to JSON string representation of Transaction data.
+     Converts a binary string of ABIEOS Transaction data to JSON string representation of Transaction data.
      
      - Parameters:
-       - hex: The binary Transaction data String to deserialze.
+       - hex: The binary Transaction data String to deserialize.
      
-     - Returns: A String of JSON Transacton data.
+     - Returns: A String of JSON Transaction data.
      
      - Throws: If the data cannot be cannot be deserialized for any reason.
      
@@ -160,7 +163,7 @@ public class AbiEos: EosioSerializationProviderProtocol {
      Converts a binary string of ABIEOS data to JSON string data.
      
      - Parameters:
-       - hex: The binary data String to deserialze.
+       - hex: The binary data String to deserialize.
      
      - Returns: A String of JSON data.
      
@@ -176,15 +179,15 @@ public class AbiEos: EosioSerializationProviderProtocol {
      Calls ABIEOS to carry out binary to JSON conversion using ABIs.
      
      - Parameters:
-       - contract: An optional String representing contract name for the ABIOS action lookup for this ABIOS conversion.
-       - name: An optional String representing an action name that is used in conjuction with contact (above) to derive the ABIOS type name.
-       - type: An optional string representing the type name for the ABIOS action lookup for this ABIOS conversion.
-       - hex: The binary data String to deserialze to a JSON String.
-       - abi: A String repersentaion of the ABI to use for conversion.
+       - contract: An optional String representing contract name for the ABIEOS action lookup for this ABIEOS conversion.
+       - name: An optional String representing an action name that is used in conjunction with contract (above) to derive the ABIEOS type name.
+       - type: An optional string representing the type name for the ABIEOS action lookup for this ABIEOS conversion.
+       - hex: The binary data String to deserialize to a JSON String.
+       - abi: A String representation of the ABI to use for conversion.
      
      - Returns: A String of JSON data.
      
-     - Throws: If the data cannot be cannot be deserialized for any reason.
+     - Throws: If the data cannot be cannot be deserialize for any reason.
      
      */
     public func deserialize(contract: String?, name: String = "", type: String? = nil, hex: String, abi: String) throws -> String {

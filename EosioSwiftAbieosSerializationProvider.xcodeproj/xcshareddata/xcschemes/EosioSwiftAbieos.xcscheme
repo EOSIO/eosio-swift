@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-               BuildableName = "EosioSwiftAbieos.framework"
-               BlueprintName = "EosioSwiftAbieos"
-               ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
+               BuildableName = "EosioSwiftAbieosSerializationProvider.framework"
+               BlueprintName = "EosioSwiftAbieosSerializationProvider"
+               ReferencedContainer = "container:EosioSwiftAbieosSerializationProvider.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "B4EAD99221925E79009D3E04"
                BuildableName = "EosioSwiftAbieosTests.xctest"
                BlueprintName = "EosioSwiftAbieosTests"
-               ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
+               ReferencedContainer = "container:EosioSwiftAbieosSerializationProvider.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,7 +49,7 @@
                BlueprintIdentifier = "B4EAD99221925E79009D3E04"
                BuildableName = "EosioSwiftAbieosTests.xctest"
                BlueprintName = "EosioSwiftAbieosTests"
-               ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
+               ReferencedContainer = "container:EosioSwiftAbieosSerializationProvider.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-            BuildableName = "EosioSwiftAbieos.framework"
-            BlueprintName = "EosioSwiftAbieos"
-            ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
+            BuildableName = "EosioSwiftAbieosSerializationProvider.framework"
+            BlueprintName = "EosioSwiftAbieosSerializationProvider"
+            ReferencedContainer = "container:EosioSwiftAbieosSerializationProvider.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -79,9 +79,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-            BuildableName = "EosioSwiftAbieos.framework"
-            BlueprintName = "EosioSwiftAbieos"
-            ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
+            BuildableName = "EosioSwiftAbieosSerializationProvider.framework"
+            BlueprintName = "EosioSwiftAbieosSerializationProvider"
+            ReferencedContainer = "container:EosioSwiftAbieosSerializationProvider.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -97,9 +97,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BE39DB020C5CCBB00EBBCA3"
-            BuildableName = "EosioSwiftAbieos.framework"
-            BlueprintName = "EosioSwiftAbieos"
-            ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
+            BuildableName = "EosioSwiftAbieosSerializationProvider.framework"
+            BlueprintName = "EosioSwiftAbieosSerializationProvider"
+            ReferencedContainer = "container:EosioSwiftAbieosSerializationProvider.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

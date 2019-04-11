@@ -67,9 +67,9 @@
 		B467E07D2228785800C8A67D /* EosioAbieosSerializationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B467E0462228785800C8A67D /* EosioAbieosSerializationProvider.swift */; };
 		B467E07E2228785800C8A67D /* abieos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0472228785800C8A67D /* abieos.cpp */; };
 		B467E07F2228785800C8A67D /* fuzzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0482228785800C8A67D /* fuzzer.cpp */; };
-		B49A11EC219CB1830020736E /* EosioSwiftAbieos.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B49A11EC219CB1830020736E /* EosioSwiftAbieosSerializationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B4EAD99621925E79009D3E04 /* EosioAbieosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EAD99521925E79009D3E04 /* EosioAbieosTests.swift */; };
-		B4EAD99821925E79009D3E04 /* EosioSwiftAbieos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */; };
+		B4EAD99821925E79009D3E04 /* EosioSwiftAbieosSerializationProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,8 +87,8 @@
 		2FEFAC7856C789FC0ECE3C7F /* Pods_EosioSwiftAbieosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftAbieosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52444CA4BA88C46E961BA044 /* Pods_EosioSwiftAbieos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftAbieos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6636D82657488DAA16C28F02 /* Pods-EosioSwiftAbieosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftAbieosTests.debug.xcconfig"; path = "Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftAbieos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftAbieos.h; sourceTree = "<group>"; };
+		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftAbieosSerializationProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwiftAbieosSerializationProvider.h; sourceTree = "<group>"; };
 		6BE39DB520C5CCBB00EBBCA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		748B4BB859A5661C16248929 /* Pods-EosioSwiftAbieos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftAbieos.release.xcconfig"; path = "Target Support Files/Pods-EosioSwiftAbieos/Pods-EosioSwiftAbieos.release.xcconfig"; sourceTree = "<group>"; };
 		B466F097222D90100082DC4E /* EosioTransactionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioTransactionTests.swift; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4EAD99821925E79009D3E04 /* EosioSwiftAbieos.framework in Frameworks */,
+				B4EAD99821925E79009D3E04 /* EosioSwiftAbieosSerializationProvider.framework in Frameworks */,
 				1684A32FB896289731698385 /* Pods_EosioSwiftAbieosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,7 +199,7 @@
 		6BE39DB220C5CCBB00EBBCA3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */,
+				6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.framework */,
 				B4EAD99321925E79009D3E04 /* EosioSwiftAbieosTests.xctest */,
 			);
 			name = Products;
@@ -208,7 +208,7 @@
 		6BE39DB320C5CCBB00EBBCA3 /* EosioSwiftAbieos */ = {
 			isa = PBXGroup;
 			children = (
-				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */,
+				6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.h */,
 				6BFA74BD20EBF456003CBCEB /* AbiEos */,
 				6BE39DB520C5CCBB00EBBCA3 /* Info.plist */,
 			);
@@ -356,7 +356,7 @@
 				B467E0732228785800C8A67D /* ios.h in Headers */,
 				B467E0742228785800C8A67D /* ptz.h in Headers */,
 				B467E0602228785800C8A67D /* strfunc.h in Headers */,
-				B49A11EC219CB1830020736E /* EosioSwiftAbieos.h in Headers */,
+				B49A11EC219CB1830020736E /* EosioSwiftAbieosSerializationProvider.h in Headers */,
 				B467E0792228785800C8A67D /* tz.h in Headers */,
 				B467E06B2228785800C8A67D /* document.h in Headers */,
 				B467E0762228785800C8A67D /* julian.h in Headers */,
@@ -395,9 +395,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6BE39DB020C5CCBB00EBBCA3 /* EosioSwiftAbieos */ = {
+		6BE39DB020C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioSwiftAbieos" */;
+			buildConfigurationList = 6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioSwiftAbieosSerializationProvider" */;
 			buildPhases = (
 				A2C2C2D64C799361E91A2493 /* [CP] Check Pods Manifest.lock */,
 				6BE39DAC20C5CCBB00EBBCA3 /* Sources */,
@@ -410,9 +410,9 @@
 			);
 			dependencies = (
 			);
-			name = EosioSwiftAbieos;
+			name = EosioSwiftAbieosSerializationProvider;
 			productName = EOSKeys;
-			productReference = 6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieos.framework */;
+			productReference = 6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B4EAD99221925E79009D3E04 /* EosioSwiftAbieosTests */ = {
@@ -454,7 +454,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioSwiftAbieos" */;
+			buildConfigurationList = 6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioSwiftAbieosSerializationProvider" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -466,7 +466,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6BE39DB020C5CCBB00EBBCA3 /* EosioSwiftAbieos */,
+				6BE39DB020C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider */,
 				B4EAD99221925E79009D3E04 /* EosioSwiftAbieosTests */,
 			);
 		};
@@ -609,7 +609,7 @@
 /* Begin PBXTargetDependency section */
 		B4EAD99A21925E79009D3E04 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6BE39DB020C5CCBB00EBBCA3 /* EosioSwiftAbieos */;
+			target = 6BE39DB020C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider */;
 			targetProxy = B4EAD99921925E79009D3E04 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -890,7 +890,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioSwiftAbieos" */ = {
+		6BE39DAB20C5CCBB00EBBCA3 /* Build configuration list for PBXProject "EosioSwiftAbieosSerializationProvider" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6BE39DC320C5CCBB00EBBCA3 /* Debug */,
@@ -899,7 +899,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioSwiftAbieos" */ = {
+		6BE39DC520C5CCBB00EBBCA3 /* Build configuration list for PBXNativeTarget "EosioSwiftAbieosSerializationProvider" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6BE39DC620C5CCBB00EBBCA3 /* Debug */,

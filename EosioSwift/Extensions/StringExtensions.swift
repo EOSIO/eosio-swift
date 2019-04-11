@@ -10,9 +10,7 @@ import Foundation
 
 public extension String {
 
-    /**
-     Returns the domain (host) component of a url
-     */
+    /// Returns the domain (host) component of a url.
     var urlDomain: String? {
         var string = self
         if !string.contains("://") {
@@ -21,14 +19,12 @@ public extension String {
         return URL(string: string)?.host
     }
 
-    /**
-     Slices the string starting from `from` and ending at the start of the `to` string.
-
-     - Parameters:
-     - from: the begining of the slice.
-     - to: the end of the slice.
-     - Returns: String?
-     */
+    /// Slices the string starting from `from` and ending at the start of the `to` string.
+    ///
+    /// - Parameters:
+    ///   - from: the begining of the slice.
+    ///   - to: the end of the slice.
+    /// - Returns: String?
     func slice(from: String, to: String) -> String? { // swiftlint:disable:this identifier_name
         return (range(of: from)?.upperBound).flatMap { substringFrom in
             (range(of: to, range: substringFrom..<endIndex)?.lowerBound).map { substringTo in
@@ -37,13 +33,10 @@ public extension String {
         }
     }
 
-    /**
-     Returns all the strings that match a regular expression.
-
-     - Parameters:
-     - regex: The string to use as a regular expression.
-     - Returns: An array of all the matched string or empty if no match were found.
-     */
+    /// Returns all the strings that match a regular expression.
+    ///
+    /// - Parameter regex: The string to use as a regular expression.
+    /// - Returns: An array of all the matched string or empty if no match were found.
     func matchingStrings(regex: String) -> [[String]] {
         guard let regex = try? NSRegularExpression(pattern: regex, options: []) else { return [] }
         let nsString = self as NSString
@@ -57,30 +50,24 @@ public extension String {
         }
     }
 
-    /**
-     Returns `true` if the string is an absolute URL else returns `false`.
-     */
+    /// Is the string an absolute URL?
+    ///
+    /// - Returns: Returns `true` if the string is an absolute URL else returns `false`.
     func isAbsoluteURL() -> Bool {
         return self.lowercased().contains("http://") || self.lowercased().contains("https://")
     }
 
-    /**
-     Converts the string to a dictionary if it is convertible to a dictionary i.e. it is a JSON string.
-
-     - Returns: A dictionary if the text is a JSON string and convertible to a dictionary otherwise returns `nil`.
-     */
+    /// Converts the string to a dictionary if it is convertible to a dictionary (i.e., it is a JSON string.) and returns the dictionary. Otherwise, returns `nil`.
     var toJsonDictionary: [String: Any]? {
         guard let data = self.data(using: .utf8) else { return nil }
         let dict = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: Any]) ?? nil
         return dict
     }
 
-    /**
-     Converts the string to a dictionary if it is convertible to a dictionary i.e. it is a JSON string.
-
-     - Returns: A dictionary if the text is a JSON string and convertible to a dictionary otherwise returns `nil`.
-     - Throws: A `EosioError` if the string can not be converted to a dictionary.
-     */
+    /// Converts the string to a dictionary if it is convertible to a dictionary (i.e., it is a JSON string.)
+    ///
+    /// - Returns: A dictionary if the text is a JSON string and convertible to a dictionary otherwise returns `nil`.
+    /// - Throws: A `EosioError` if the string can not be converted to a dictionary.
     func jsonToDictionary() throws -> [String: Any] {
         guard let data = self.data(using: .utf8) else {
             throw EosioError(.deserializeError, reason: "Cannot create json from data")
@@ -92,12 +79,10 @@ public extension String {
         return dict
     }
 
-    /**
-     Converts an object to a JSON string if possible.
-     - Parameters:
-     - jsonObject: An object to convert to JSON string.
-     - Returns: A string if the object is convertible to JSON string or nil.
-     */
+    /// Converts an object to a JSON string if possible.
+    ///
+    /// - Parameter jsonObject: An object to convert to JSON string.
+    /// - Returns: A string if the object is convertible to JSON string or nil.
     static func jsonString(jsonObject: Any?) -> String? {
         guard let object = jsonObject else { return nil }
         if let string = object as? String {
@@ -109,14 +94,10 @@ public extension String {
         return nil
     }
 
-    /**
-     Initializes a string from an object that conforms to `Encodable` protocol.
-
-     - Parameters:
-     - encodeToJson: An object that conforms to `Encodable` protocol.
-     - Throws: EosioError if the passed object is not convertible to JSON string.
-
-     */
+    /// Initializes a string from an object that conforms to `Encodable` protocol.
+    ///
+    /// - Parameter encodeToJson: An object that conforms to `Encodable` protocol.
+    /// - Throws: EosioError if the passed object is not convertible to JSON string.
     init<T: Encodable>(encodeToJson: T) throws {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
@@ -129,10 +110,7 @@ public extension String {
         }
     }
 
-    /**
-     Returns Bool indicating whether the current string is a validly encode base58 string.
-
-     */
+    /// Returns Bool indicating whether the current string is a validly encode base58 string.
     var isValidBase58: Bool {
         guard Data(base58Decoding: self) != nil else {
             return false
@@ -140,7 +118,10 @@ public extension String {
         return true
     }
 
-    /// Returns true if the string contains all of the words in `words`
+    /// Does the string contain all of the provided words?
+    ///
+    /// - Parameter words: Words to look for in the string.
+    /// - Returns: Returns true if the string contains all of the words in `words`. Otherwise, false.
     func contains(words: String) -> Bool {
         guard self.count > 0, words.count > 0 else { return false }
         let components = self.components(separatedBy: " ")

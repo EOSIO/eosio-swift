@@ -47,7 +47,6 @@ class EosioRpcProviderTests: XCTestCase {
 
         let expect = expectation(description: "testInvalidValidHttpStatus")
 
-        let requestParameters = EosioRpcBlockRequest(block_num_or_id: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success:
@@ -181,8 +180,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Get Block stub"
 
         let expect = expectation(description: "testGetBlock")
-
-        let requestParameters = EosioRpcBlockRequest(block_num_or_id: 25260032)
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
@@ -217,7 +215,7 @@ class EosioRpcProviderTests: XCTestCase {
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio")
-            let requestParameters = EosioRpcRawAbiRequest(account_name: name)
+            let requestParameters = EosioRpcRawAbiRequest(accountName: name)
             rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let rawAbiResponse):
@@ -255,7 +253,7 @@ class EosioRpcProviderTests: XCTestCase {
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio.token")
-            let requestParameters = EosioRpcRawAbiRequest(account_name: name)
+            let requestParameters = EosioRpcRawAbiRequest(accountName: name)
             rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let rawAbiResponse):

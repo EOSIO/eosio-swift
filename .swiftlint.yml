@@ -13,3 +13,4 @@ identifier_name:
     - id
     - tx
     - trx
+    - _rawResponse

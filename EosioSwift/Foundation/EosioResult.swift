@@ -13,4 +13,14 @@ import Foundation
 public enum EosioResult<Success, Failure: Error> {
     case success(Success)
     case failure(Failure)
+
+    init?(success: Success?, failure: Failure?) {
+        if let success = success {
+            self = .success(success)
+        } else if let failure = failure {
+            self = .failure(failure)
+        } else {
+            return nil
+        }
+    }
 }

@@ -32,3 +32,7 @@ public protocol EosioRpcRequiredKeysResponseProtocol {
 public protocol EosioRpcTransactionResponseProtocol {
     var transactionId: String { get }
 }
+
+public protocol EosioRpcResponseProtocol {
+    var _rawResponse: Any? { get set }
+}

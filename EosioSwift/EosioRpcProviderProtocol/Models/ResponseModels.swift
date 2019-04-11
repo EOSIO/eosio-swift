@@ -8,8 +8,8 @@
 
 import Foundation
 
-public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, Codable {
-
+public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcResponseProtocol, Codable {
+    public var _rawResponse: Any?
     public let serverVersion: String
     public let chainId: String
     public let headBlockNum: UInt64
@@ -60,7 +60,8 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, Codable {
     }
 }
 
-public struct EosioRpcTrxResponse: Codable {
+public struct EosioRpcTrxResponse: EosioRpcResponseProtocol, Codable {
+    public var _rawResponse: Any?
     public var id: String
     public var signatures: [String]
     public var compression: String
@@ -92,7 +93,8 @@ public struct EosioRpcTrxResponse: Codable {
     }
 }
 
-public struct EosioRpcTransactionInfoResponse: Codable {
+public struct EosioRpcTransactionInfoResponse: EosioRpcResponseProtocol, Codable {
+    public var _rawResponse: Any?
     public let status: String
     public let cpuUsageUs: UInt
     public let netUsageWords: UInt
@@ -113,8 +115,8 @@ public struct EosioRpcTransactionInfoResponse: Codable {
     }
 }
 
-public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
-
+public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResponseProtocol, Codable {
+    public var _rawResponse: Any?
     public let timestamp: String
     public let producer: String
     public let confirmed: UInt
@@ -166,7 +168,8 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, Codable {
     }
 }
 
-public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, Codable {
+public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcResponseProtocol, Codable {
+    public var _rawResponse: Any?
     public var accountName: String
     public var codeHash: String
     public var abiHash: String
@@ -187,11 +190,8 @@ public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, Codable {
     }
 }
 
-public struct EosioRpcRawCodeAbiResponse: Codable {
-    //TODO: implement
-}
-
-public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, Codable {
+public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, EosioRpcResponseProtocol, Codable {
+    public var _rawResponse: Any?
     public var requiredKeys: [String]
 
     enum CodingKeys: String, CodingKey {
@@ -203,7 +203,8 @@ public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol
     }
 }
 
-public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, Codable {
+public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, EosioRpcResponseProtocol, Codable {
+    public var _rawResponse: Any?
     public var transactionId: String
 
     enum CodingKeys: String, CodingKey {
@@ -213,42 +214,4 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
     public init(transactionId: String) {
         self.transactionId = transactionId
     }
-}
-
-public struct EosioRpcHistoryActionsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcBlockHeaderStateResponse: Codable {
-
-    //TODO: fill in impl
-
-}
-
-public struct EosioRpcAccountResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcTableRowsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcCurrencyStatsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcProducersResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcHistoryTransactionResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcHistoryKeyAccountsResponse: Codable {
-    //TODO: fill in impl
-}
-
-public struct EosioRpcControllingAccountsResponse: Codable {
-    //TODO: fill in impl
 }

@@ -243,9 +243,14 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
     func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         getBlockCalled = true
-        blockNumberRequested = requestParameters.block_num_or_id
-        // swiftlint:disable:next line_length
-        let result: EosioResult<EosioRpcBlockResponseProtocol, EosioError> = getBlockReturnsFailure == false ? EosioResult.success(block) : EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
+        blockNumberRequested = requestParameters.blockNumOrId
+        let result: EosioResult<EosioRpcBlockResponseProtocol, EosioError>
+        if getBlockReturnsFailure {
+            result = EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
+        } else {
+            result = EosioResult.success(block)
+        }
+
         completion(result)
 
     }

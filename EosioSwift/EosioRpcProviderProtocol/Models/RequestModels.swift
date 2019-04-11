@@ -8,45 +8,13 @@
 
 import Foundation
 
-public struct EosioRpcTableRowsRequest: Codable {
-    var scope: String = "inita"
-    var code: String = "currency"
-    var table: String = "account"
-    var tableKey: String?
-    var json: Bool
-    var lowerBound: String?
-    var upperBound: String?
-    var limit: Int = 10
-    var indexPosition: String = "1"
-    var keyType: String?
-    var encodeType: String = "dec"
-
-    enum CodingKeys: String, CodingKey {
-        case scope
-        case code
-        case table
-        case tableKey = "table_key"
-        case json
-        case lowerBound = "lower_bound"
-        case upperBound = "upper_bound"
-        case limit
-        case indexPosition = "index_position"
-        case keyType = "key_type"
-        case encodeType = "encode_type"
-    }
-}
-
-public struct EosioRpcCurrencyBalanceRequest: Codable {
-    var code: String
-    var account: String
-    var symbol: String
-}
-
 public struct EosioRpcRequiredKeysRequest: Codable {
-    var transaction: EosioTransaction
-    var availableKeys: [String]
 
-    init(availableKeys: [String], transaction: EosioTransaction) {
+    public var transaction: EosioTransaction
+    public var availableKeys: [String]
+
+    public init(availableKeys: [String], transaction: EosioTransaction) {
+
         self.availableKeys = availableKeys
         self.transaction = transaction
     }
@@ -57,60 +25,34 @@ public struct EosioRpcRequiredKeysRequest: Codable {
     }
 }
 
-public struct EosioRpcProducersRequest: Codable {
-    var limit: String
-    var lowerBound: String
-    var json: Bool
+public struct EosioRpcPushTransactionRequest: Codable {
+    public var signatures = [String]()
+    public var compression = 0
+    public var packedContextFreeData = ""
+    public var packedTrx = ""
 
-    enum CodingKeys: String, CodingKey {
-        case limit
-        case lowerBound = "lower_bound"
-        case json
+    public init(signatures: [String] = [], compression: Int = 0, packedContextFreeData: String = "", packedTrx: String = "") {
+        self.signatures = signatures
+        self.compression = compression
+        self.packedContextFreeData = packedContextFreeData
+        self.packedTrx = packedTrx
     }
 }
 
-public struct EosioRpcHistoryActionsRequest: Codable {
-    var position: Int32 = -1
-    var offset: Int32 = -20
-    var accountName: EosioName
-}
-
-public struct EosioRpcPushTransactionRequest: Codable {
-    var signatures = [String]()
-    var compression = 0
-    var packedContextFreeData = ""
-    var packedTrx = ""
-}
-
 public struct EosioRpcBlockRequest: Codable {
-    var block_num_or_id: UInt64 = 0 // swiftlint:disable:this identifier_name
+
+    public var blockNumOrId: UInt64
+
+    public init(blockNumOrId: UInt64 = 1) {
+        self.blockNumOrId = blockNumOrId
+    }
 }
 
 public struct EosioRpcRawAbiRequest: Codable {
-    var account_name: EosioName // swiftlint:disable:this identifier_name
-}
-
-public struct EosioRpcBlockHeaderStateRequest: Codable {
-    var block_num_or_id: String = "" // swiftlint:disable:this identifier_name
-}
-
-public struct EosioRpcAccountRequest: Codable {
-    var account: EosioName
-}
-
-public struct EosioRpcCurrencyStatsRequest: Codable {
-    var code: String = ""
-    var symbol: String = ""
-}
-
-public struct EosioRpcHistoryTransactionRequest: Codable {
-    var transactionId: String = ""
-}
-
-public struct EosioRpcHistoryKeyAccountsRequest: Codable {
-    var publicKey: String = ""
-}
-
-public struct EosioRpcHistoryControlledAccountsRequest: Codable {
-    var controllingAccount: EosioName
+    public var accountName: EosioName
+    public var abiHash: String?
+    public init(accountName: EosioName, abiHash: String? = nil) {
+        self.accountName = accountName
+        self.abiHash = abiHash
+    }
 }

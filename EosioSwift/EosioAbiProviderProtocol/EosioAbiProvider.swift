@@ -8,12 +8,16 @@
 
 import Foundation
 
+/// Default implementation of the `EosioAbiProviderProtocol`. For fetching and caching ABIs.
 public class EosioAbiProvider: EosioAbiProviderProtocol {
 
     private let rpcProvider: EosioRpcProviderProtocol
     private var abis = [String: Data]()
     private let lock = String()
 
+    /// Initialize the ABI Provider
+    ///
+    /// - Parameter rpcProvider: The RPC provider, which this ABI provider will use to fetch ABIs.
     public init(rpcProvider: EosioRpcProviderProtocol) {
         self.rpcProvider = rpcProvider
     }
@@ -28,9 +32,13 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
         objc_sync_exit(self.lock)
     }
 
-    /**
-     Return a map of Abis as Data for all of the given accounts, keyed by the account name. An Abi for each account must be returned, otherwise an EosioResult.failure type will be returned.
-     */
+    /// Get all ABIs for the given accounts, keyed by account name.
+    ///
+    /// - Parameters:
+    ///   - chainId: The chain ID.
+    ///   - accounts: An array of account names as `EosioName`s.
+    ///   - completion: Calls the completion with an `EosioResult` containing a map of ABIs as Data for all of the given accounts, keyed by the account name. An ABI for each account must be
+    ///     returned, otherwise an `EosioResult.failure` type will be returned.
     public func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName: Data], EosioError>) -> Void) {
         let accounts = Array(Set(accounts)) // remove any duplicate account names
         var responseAbis = [EosioName: Data]()
@@ -60,9 +68,13 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
         }
     }
 
-    /**
-     Return the Abi as Data for the specified account name. An EosioResult.failure type will be returned if the specified Abi could not be found or decoded properly.
-     */
+    /// Get the ABI as `Data` for the specified account name.
+    ///
+    /// - Parameters:
+    ///   - chainId: The chain ID.
+    ///   - account: The account name as an `EosioName`.
+    ///   - completion: Calls the completion with an `EosioResult` containing the ABI as Data. An `EosioResult.failure` type will be returned if the specified ABI could not be found
+    ///     or decoded properly.
     public func getAbi(chainId: String, account: EosioName, completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
         if let abi = getCachedAbi(chainId: chainId, account: account) {
             return completion(.success(abi))

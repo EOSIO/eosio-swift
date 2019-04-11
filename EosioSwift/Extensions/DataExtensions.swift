@@ -13,9 +13,9 @@ public extension Data {
 
     private static let hexAlphabet = "0123456789abcdef".unicodeScalars.map { $0 }
 
-    /**
-     Returns Base16 encoded string representation of the data.
-     */
+    /// Get a hex-encoded string representation of the data.
+    ///
+    /// - Returns: Base16 encoded string representation of the data.
     func hexEncodedString() -> String {
         return String(self.reduce(into: "".unicodeScalars, { (result, value) in
             result.append(Data.hexAlphabet[Int(value/16)])
@@ -28,7 +28,7 @@ public extension Data {
         return self.hexEncodedString()
     }
 
-    /// Init a `Data` object with a base64 string
+    /// Init a `Data` object with a base64 string.
     ///
     /// - Parameter base64: The data encoded as a base64 string
     /// - Throws: If the string is not a valid base64 string
@@ -53,12 +53,9 @@ public extension Data {
         self = data
     }
 
-    /**
-     Initializes a data object from a Base16 encoded string.
-
-     - Parameters:
-     - hexString: A Base16 encoded string.
-     */
+    /// Initializes a data object from a Base16 encoded string.
+    ///
+    /// - Parameter hexString: A Base16 encoded string.
     init?(hexString: String) {
         let len = hexString.count / 2
         var data = Data(capacity: len)
@@ -75,9 +72,7 @@ public extension Data {
         self = data
     }
 
-    /**
-     Returns the SHA256 hash of the data.
-     */
+    /// Returns the SHA256 hash of the data.
     var sha256: Data {
         var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
         self.withUnsafeBytes {
@@ -86,18 +81,15 @@ public extension Data {
         return Data(bytes: hash)
     }
 
-    /**
-     Returns the current Data as a base58 encoded String.
-     */
+    /// Returns the current Data as a base58 encoded String.
     var base58EncodedString: String {
         return String(base58Encoding: self)
     }
 
-    /**
-     Decodes the given base58 String and returns it as Data, if valid.
-     - Parameters:
-     - base58: A Base58 encoded string.
-     */
+    /// Decodes the given base58 String and returns it as Data, if valid.
+    ///
+    /// - Parameter base58: A Base58 encoded string.
+    /// - Returns: The base58 String as Data.
     static func decode(base58: String) -> Data? {
         return Data(base58Decoding: base58)
     }

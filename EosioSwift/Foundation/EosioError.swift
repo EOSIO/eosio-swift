@@ -45,9 +45,8 @@ open class EosioError: Error, CustomStringConvertible, Codable {
         case errorCode
         case reason
     }
-    /**
-     Returns a JSON string representation of the error object.
-     */
+
+    /// Returns a JSON string representation of the error object.
     var errorAsJsonString: String {
         let jsonDict = [
             "errorType": "EosioError",

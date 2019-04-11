@@ -31,9 +31,8 @@ public extension Array {
 }
 
 public extension Array where Element == String {
-    /**
-     Returns JSON String representation of an array.
-     */
+
+    /// Returns JSON String representation of an array.
     var jsonStringArray: String {
         if let data = try? JSONSerialization.data(withJSONObject: self, options: []), let jsonString = String(data: data, encoding: .utf8) {
             return jsonString
@@ -50,9 +49,8 @@ public protocol JsonOutput {
 }
 
 public extension Array where Element == JsonOutput {
-    /**
-     Returns JSON string representation of an array where the element type conforms to JsonOutput protocol.
-     */
+
+    /// Returns JSON string representation of an array where the element type conforms to JsonOutput protocol.
     var json: String {
         guard self.count > 0 else {
             return "[]"

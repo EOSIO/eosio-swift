@@ -11,7 +11,7 @@ import Foundation
 
 import XCTest
 @testable import EosioSwift
-@testable import EosioSwiftAbieos
+@testable import EosioSwiftAbieosSerializationProvider
 
 class EosioTransactionAbisTests: XCTestCase {
 

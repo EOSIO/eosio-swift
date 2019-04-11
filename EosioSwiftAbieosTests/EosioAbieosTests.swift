@@ -9,7 +9,7 @@
 // swiftlint:disable line_length
 import Foundation
 import XCTest
-import EosioSwiftAbieos
+import EosioSwiftAbieosSerializationProvider
 import EosioSwift
 
 class EosioSwiftAbieosTests: XCTestCase {

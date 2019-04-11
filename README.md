@@ -51,7 +51,7 @@ Now ABIEOS Serialization Provider is ready for use within EOSIO SDK for Swift ac
 If you wish to use ABIEOS Serialization Provider directly, its public methods can be called like this:
 
 ```swift
-let abieos: AbiEos? = AbiEos()
+let abieos: EosioAbieosSerializationProvider? = EosioAbieosSerializationProvider()
 let hex = "1686755CA99DE8E73E1200" // some binary data
 let json = "{"name": "John"}" // some JSON
 

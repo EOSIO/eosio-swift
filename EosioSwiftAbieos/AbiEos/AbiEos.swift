@@ -9,10 +9,9 @@
 import Foundation
 import EosioSwift
 
-/**
-   Serialization provider implementation for EOSIO SDK for Swift using ABIEOS.
-   Responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations.
-*/
+/// Serialization provider implementation for EOSIO SDK for Swift using ABIEOS.
+/// Responsible for ABI-driven transaction and action serialization and deserialization
+/// between JSON and binary data representations.
  public class AbiEos: EosioSerializationProviderProtocol {
 
     /// Used to hold errors.
@@ -105,11 +104,11 @@ import EosioSwift
        - name: An optional String representing an action name that is used in conjunction with contract (above) to derive the serialize type name.
        - type: An optional string representing the type name for the serialize action lookup for this serialize conversion.
        - json: The JSON data String to serialize to binary.
-       - abi: A String repersentaion of the ABI to use for conversion.
+       - abi: A String representation of the ABI to use for conversion.
      
      - Returns: A String of binary serialized data.
      
-     - Throws: If the data cannot be cannot be serialized for any reason.
+     - Throws: If the data cannot be serialized for any reason.
      
      */
     public func serialize(contract: String?, name: String = "", type: String? = nil, json: String, abi: String) throws -> String {
@@ -151,7 +150,7 @@ import EosioSwift
      
      - Returns: A String of JSON Transaction data.
      
-     - Throws: If the data cannot be cannot be deserialized for any reason.
+     - Throws: If the data cannot be deserialized for any reason.
      
      */
     public func deserializeTransaction(hex: String) throws -> String {
@@ -167,7 +166,7 @@ import EosioSwift
      
      - Returns: A String of JSON data.
      
-     - Throws: If the data cannot be cannot be deserialized for any reason.
+     - Throws: If the data cannot be deserialized for any reason.
      
      */
     public func deserializeAbi(hex: String) throws -> String {
@@ -187,7 +186,7 @@ import EosioSwift
      
      - Returns: A String of JSON data.
      
-     - Throws: If the data cannot be cannot be deserialize for any reason.
+     - Throws: If the data cannot be deserialized for any reason.
      
      */
     public func deserialize(contract: String?, name: String = "", type: String? = nil, hex: String, abi: String) throws -> String {

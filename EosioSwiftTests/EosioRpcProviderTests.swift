@@ -35,17 +35,17 @@ class EosioRpcProviderTests: XCTestCase {
     }
 
     /**
-     * Test RPC protocol provider implementation error handling.
+     * Test RPC protocol provider implementation error handling for Non 200 server http status codes.
      *
      */
-    func testServerErrorHandled() {
+    func testInvalidValidHttpStatusHandled() {
 
         (stub(condition: isHost("localhost")) { _ in
             let error = NSError(domain: NSURLErrorDomain, code: 500, userInfo: nil)
             return OHHTTPStubsResponse(error: error)
-        }).name = "Server Error stub"
+        }).name = "Invalid HTTP Status Code stub"
 
-        let expect = expectation(description: "testServerError")
+        let expect = expectation(description: "testInvalidValidHttpStatus")
 
         let requestParameters = EosioRpcBlockRequest(block_num_or_id: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
@@ -60,9 +60,83 @@ class EosioRpcProviderTests: XCTestCase {
             expect.fulfill()
         }
         wait(for: [expect], timeout: 30)
-
     }
-
+    /**
+     * Test RPC protocol provider implementation error handling for bad response data.
+     *
+     */
+    func testBadResponseDataHandled() {
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block")) { _ in
+            let json = self.createInfoResponseJson()
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Bad Response stub"
+        let expect = expectation(description: "testBadResponseData")
+        let requestParameters = EosioRpcBlockRequest(block_num_or_id: 25260032)
+        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                print("\(blockResponse)")
+                XCTFail("testBadResponseDataHandled should have not returned a successful completion.")
+            case .failure(let err):
+                XCTAssertTrue(err.reason == "Error decoding returned data.")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    /**
+     * Test RPC protocol provider implementation error handling for bad server response.
+     *
+     */
+    func testBadServerResponseHandled() {
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let badServerResponseError = NSError(domain: NSURLErrorDomain, code: URLError.badServerResponse.rawValue)
+            return OHHTTPStubsResponse(error: badServerResponseError)
+        }).name = "BadServerResponse stub"
+        let expect = expectation(description: "testBadServerResponse")
+        rpcProvider?.getInfo { response in
+            switch response {
+            case .success(let infoResponse):
+                print("\(infoResponse)")
+                XCTFail("testBadServerResponse should have not returned a successful completion.")
+            case .failure(let err):
+                if let origError = err.originalError {
+                    XCTAssertTrue(origError.code == URLError.badServerResponse.rawValue)
+                } else {
+                    XCTFail("testBadServerResponse should have an originial error returned.")
+                }
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    /**
+     * Test RPC protocol provider implementation error handling for no network connection.
+     *
+     */
+    func testNoNetworkHandled() {
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let noConnectedError = NSError(domain: NSURLErrorDomain, code: URLError.notConnectedToInternet.rawValue)
+            return OHHTTPStubsResponse(error: noConnectedError)
+        }).name = "No Network stub"
+        let expect = expectation(description: "testNoNetwork")
+        rpcProvider?.getInfo { response in
+            switch response {
+            case .success(let infoResponse):
+                print("\(infoResponse)")
+                XCTFail("testNoNetwork should have not returned a successful completion.")
+            case .failure(let err):
+                if let origError = err.originalError {
+                     XCTAssertTrue(origError.code == URLError.notConnectedToInternet.rawValue)
+                } else {
+                   XCTFail("testNoNetwork should have an originial error returned.")
+                }
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
     /**
      * Test getBlock() protocol implementation.
      *

@@ -61,7 +61,7 @@ public struct EosioRpcProvider {
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                callBack(nil, EosioError(.rpcProviderError, reason: "Can't access network.", originalError: error as NSError))
+                callBack(nil, EosioError(.rpcProviderError, reason: "Network error.", originalError: error as NSError))
                 return
             }
 

@@ -46,7 +46,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Invalid HTTP Status Code stub"
 
         let expect = expectation(description: "testInvalidValidHttpStatus")
-
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success:
@@ -71,7 +71,7 @@ class EosioRpcProviderTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Bad Response stub"
         let expect = expectation(description: "testBadResponseData")
-        let requestParameters = EosioRpcBlockRequest(block_num_or_id: 25260032)
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):

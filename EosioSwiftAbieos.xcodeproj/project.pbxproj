@@ -64,7 +64,7 @@
 		B467E07A2228785800C8A67D /* islamic.h in Headers */ = {isa = PBXBuildFile; fileRef = B467E0422228785800C8A67D /* islamic.h */; };
 		B467E07B2228785800C8A67D /* abieos_numeric.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B467E0442228785800C8A67D /* abieos_numeric.hpp */; };
 		B467E07C2228785800C8A67D /* abieos_ripemd160.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B467E0452228785800C8A67D /* abieos_ripemd160.hpp */; };
-		B467E07D2228785800C8A67D /* AbiEos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B467E0462228785800C8A67D /* AbiEos.swift */; };
+		B467E07D2228785800C8A67D /* EosioAbieosSerializationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B467E0462228785800C8A67D /* EosioAbieosSerializationProvider.swift */; };
 		B467E07E2228785800C8A67D /* abieos.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0472228785800C8A67D /* abieos.cpp */; };
 		B467E07F2228785800C8A67D /* fuzzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B467E0482228785800C8A67D /* fuzzer.cpp */; };
 		B49A11EC219CB1830020736E /* EosioSwiftAbieos.h in Headers */ = {isa = PBXBuildFile; fileRef = 6BE39DB420C5CCBB00EBBCA3 /* EosioSwiftAbieos.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -146,7 +146,7 @@
 		B467E0422228785800C8A67D /* islamic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = islamic.h; sourceTree = "<group>"; };
 		B467E0442228785800C8A67D /* abieos_numeric.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = abieos_numeric.hpp; sourceTree = "<group>"; };
 		B467E0452228785800C8A67D /* abieos_ripemd160.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = abieos_ripemd160.hpp; sourceTree = "<group>"; };
-		B467E0462228785800C8A67D /* AbiEos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiEos.swift; sourceTree = "<group>"; };
+		B467E0462228785800C8A67D /* EosioAbieosSerializationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioAbieosSerializationProvider.swift; sourceTree = "<group>"; };
 		B467E0472228785800C8A67D /* abieos.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abieos.cpp; sourceTree = "<group>"; };
 		B467E0482228785800C8A67D /* fuzzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fuzzer.cpp; sourceTree = "<group>"; };
 		B4EAD99321925E79009D3E04 /* EosioSwiftAbieosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioSwiftAbieosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,7 +225,7 @@
 				B467E0472228785800C8A67D /* abieos.cpp */,
 				B467E00D2228785600C8A67D /* abieos.h */,
 				B467E0102228785700C8A67D /* abieos.hpp */,
-				B467E0462228785800C8A67D /* AbiEos.swift */,
+				B467E0462228785800C8A67D /* EosioAbieosSerializationProvider.swift */,
 				B467E0392228785800C8A67D /* date */,
 				B467E0132228785700C8A67D /* eosio.assert.abi.json */,
 				B467E0482228785800C8A67D /* fuzzer.cpp */,
@@ -587,7 +587,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B467E07D2228785800C8A67D /* AbiEos.swift in Sources */,
+				B467E07D2228785800C8A67D /* EosioAbieosSerializationProvider.swift in Sources */,
 				B467E07F2228785800C8A67D /* fuzzer.cpp in Sources */,
 				B467E07E2228785800C8A67D /* abieos.cpp in Sources */,
 			);

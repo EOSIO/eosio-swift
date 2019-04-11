@@ -8,22 +8,22 @@
 
 import Foundation
 
-public struct RawResponseBase: Codable, EosioRpcResponseProtocol {
+public struct RawResponse: Codable, EosioRpcResponseProtocol {
     public var _rawResponse: Any?
 
     enum CodingKeys: CodingKey {
     }
 }
 
-public typealias EosioRpcAccountResponse = RawResponseBase
-public typealias EosioRpcCurrencyBalanceResponse = RawResponseBase
-public typealias EosioRpcCurrencyStatsResponse = RawResponseBase
-public typealias EosioRpcRawCodeAndAbiResponse = RawResponseBase
-public typealias EosioRpcCodeResponse = RawResponseBase
-public typealias EosioRpcTableRowsResponse = RawResponseBase
-public typealias EosioRpcTableByScopeResponse = RawResponseBase
-public typealias EosioRpcProducersResponse = RawResponseBase
-public typealias EosioRpcControlledAccountsResponse = RawResponseBase
-public typealias EosioRpcGetTransactionResponse = RawResponseBase
-public typealias EosioRpcKeyAccountsResponse = RawResponseBase
-public typealias EosioRpcActionsResponse = RawResponseBase
+public typealias EosioRpcAccountResponse = RawResponse
+public typealias EosioRpcCurrencyBalanceResponse = RawResponse
+public typealias EosioRpcCurrencyStatsResponse = RawResponse
+public typealias EosioRpcRawCodeAndAbiResponse = RawResponse
+public typealias EosioRpcCodeResponse = RawResponse
+public typealias EosioRpcTableRowsResponse = RawResponse
+public typealias EosioRpcTableByScopeResponse = RawResponse
+public typealias EosioRpcProducersResponse = RawResponse
+public typealias EosioRpcControlledAccountsResponse = RawResponse
+public typealias EosioRpcGetTransactionResponse = RawResponse
+public typealias EosioRpcKeyAccountsResponse = RawResponse
+public typealias EosioRpcActionsResponse = RawResponse

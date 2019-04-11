@@ -187,7 +187,7 @@ public struct EosioRpcTableByScopeRequest: Codable {
     }
 }
 
-public struct EosioRpcRawCodeAndAbiRequest: Codable {
+public struct EosioAccountInfo: Codable {
     public let accountName: String
 
     public init(accountName: String) {
@@ -195,10 +195,5 @@ public struct EosioRpcRawCodeAndAbiRequest: Codable {
     }
 }
 
-public struct EosioRpcCodeRequest: Codable {
-    public let accountName: String
-
-    public init(accountName: String) {
-        self.accountName = accountName
-    }
-}
+public typealias EosioRpcRawCodeAndAbiRequest = EosioAccountInfo
+public typealias EosioRpcCodeRequest = EosioAccountInfo

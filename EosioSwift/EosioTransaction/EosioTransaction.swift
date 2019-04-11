@@ -40,7 +40,7 @@ public class EosioTransaction: Codable {
     }
     /// Should signature providers be permitted to modify the transaction prior to signing? Defaults to `true`.
     public var allowSignatureProviderToModifyTransaction = true
-    /// Array of ABIs for actions in the transaction.
+    /// Manager of ABIs for actions in the transaction.
     public let abis = Abis()
     /// Transaction property: Time at which the transaction expires and can no longer be included in a block.
     public var expiration = Date(timeIntervalSince1970: 0)
@@ -186,7 +186,7 @@ public class EosioTransaction: Codable {
     }
 
     /**
-        Prepares the transaction, fetching or calculating any needed values by calling the `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)`, and `serializeActionData(completion:)`.
+        Prepares the transaction, fetching or calculating any needed values by calling `calculateExpiration()`, `getChainIdAndCalculateTapos(completion:)`, and `serializeActionData(completion:)`.
         If any of these methods returns an error, this method will call the completion with that error.
 
         - Parameters:
@@ -298,7 +298,7 @@ public class EosioTransaction: Codable {
     }
 
     /**
-        Gets chain info and sets the `chainId` and `expiration`. It then calculates the reference block number using the using the `config` property and calls `getBlockAndSetTapos(blockNum:, completion:)`.
+        Gets chain info and sets the `chainId` and `expiration`. Then calculates the reference block number using the using the `config` property and calls `getBlockAndSetTapos(blockNum:, completion:)`.
         If the `chainId` is already set, this method will validate against the `chainId` retreived from the `rpcProvider` and return an error if they do not match.
 
         - Parameters:

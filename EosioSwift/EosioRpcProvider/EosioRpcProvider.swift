@@ -128,11 +128,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
 
 public extension EosioRpcProvider {
 
-    struct RpcResponse: EosioRpcResponseProtocol {
-        public var _rawResponse: Any?
-    }
-
-    private func getResource(rpc: String, requestParameters: Encodable?, completion: @escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    private func getResource<ResponseType: Codable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?, completion: @escaping (EosioResult<ResponseType, EosioError>) -> Void) {
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -164,8 +160,15 @@ public extension EosioRpcProvider {
             }
 
             if let data = data {
-                let responseObject = RpcResponse(_rawResponse: try? JSONSerialization.jsonObject(with: data, options: .allowFragments))
-                completion(EosioResult.success(responseObject))
+//                let responseObject = ResponseType(_rawResponse: try? JSONSerialization.jsonObject(with: data, options: .allowFragments))
+//                completion(EosioResult.success(responseObject))
+                let decoder = JSONDecoder()
+                guard var resource = try? decoder.decode(ResponseType.self, from: data) else {
+                    completion(EosioResult.failure(EosioError(.rpcProviderError, reason: "Error decoding returned data.", originalError: nil)))
+                    return
+                }
+                resource._rawResponse = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                completion(EosioResult.success(resource))
             }
         }
         task.resume()
@@ -173,61 +176,61 @@ public extension EosioRpcProvider {
 
     /* Chain endpoints */
 
-    func getAccount(requestParameters: EosioRpcAccountRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getAccount(requestParameters: EosioRpcAccountRequest, completion:@escaping (EosioResult<EosioRpcAccountResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_account", requestParameters: requestParameters, completion: completion)
     }
 
-    func getCurrencyBalance(requestParameters: EosioRpcCurrencyBalanceRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getCurrencyBalance(requestParameters: EosioRpcCurrencyBalanceRequest, completion:@escaping (EosioResult<EosioRpcCurrencyBalanceResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_currency_balance", requestParameters: requestParameters, completion: completion)
     }
 
-    func getCurrencyStats(requestParameters: EosioRpcCurrencyStatsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getCurrencyStats(requestParameters: EosioRpcCurrencyStatsRequest, completion:@escaping (EosioResult<EosioRpcCurrencyStatsResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_currency_stats", requestParameters: requestParameters, completion: completion)
     }
 
-    func getRawCodeAndAbi(requestParameters: EosioRpcRawCodeAndAbiRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getRawCodeAndAbi(requestParameters: EosioRpcRawCodeAndAbiRequest, completion:@escaping (EosioResult<EosioRpcRawCodeAndAbiResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: requestParameters, completion: completion)
     }
 
-    func getRawCodeAndAbi(accountName: String, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getRawCodeAndAbi(accountName: String, completion:@escaping (EosioResult<EosioRpcRawCodeAndAbiResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: ["account_name": accountName], completion: completion)
     }
 
-    func getCode(requestParameters: EosioRpcCodeRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getCode(requestParameters: EosioRpcCodeRequest, completion:@escaping (EosioResult<EosioRpcCodeResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_code", requestParameters: requestParameters, completion: completion)
     }
 
-    func getCode(accountName: String, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getCode(accountName: String, completion:@escaping (EosioResult<EosioRpcCodeResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_code", requestParameters: ["account_name": accountName], completion: completion)
     }
 
-    func getTableRows(requestParameters: EosioRpcTableRowsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getTableRows(requestParameters: EosioRpcTableRowsRequest, completion:@escaping (EosioResult<EosioRpcTableRowsResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_table_rows", requestParameters: requestParameters, completion: completion)
     }
 
-    func getTableByScope(requestParameters: EosioRpcTableByScopeRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getTableByScope(requestParameters: EosioRpcTableByScopeRequest, completion:@escaping (EosioResult<EosioRpcTableByScopeResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_table_by_scope", requestParameters: requestParameters, completion: completion)
     }
 
-    func getProducers(requestParameters: EosioRpcProducersRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getProducers(requestParameters: EosioRpcProducersRequest, completion:@escaping (EosioResult<EosioRpcProducersResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_producers", requestParameters: requestParameters, completion: completion)
     }
 
     /* History endpoints */
 
-    func getActions(requestParameters: EosioRpcHistoryActionsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getActions(requestParameters: EosioRpcHistoryActionsRequest, completion:@escaping (EosioResult<EosioRpcActionsResponse, EosioError>) -> Void) {
         getResource(rpc: "history/get_actions", requestParameters: requestParameters, completion: completion)
     }
 
-    func getControlledAccounts(requestParameters: EosioRpcHistoryControlledAccountsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getControlledAccounts(requestParameters: EosioRpcHistoryControlledAccountsRequest, completion:@escaping (EosioResult<EosioRpcControlledAccountsResponse, EosioError>) -> Void) {
         getResource(rpc: "history/get_controlled_accounts", requestParameters: requestParameters, completion: completion)
     }
 
-    func getTransaction(requestParameters: EosioRpcHistoryTransactionRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getTransaction(requestParameters: EosioRpcHistoryTransactionRequest, completion:@escaping (EosioResult<EosioRpcGetTransactionResponse, EosioError>) -> Void) {
         getResource(rpc: "history/get_transaction", requestParameters: requestParameters, completion: completion)
     }
 
-    func getKeyAccounts(requestParameters: EosioRpcHistoryKeyAccountsRequest, completion:@escaping (EosioResult<EosioRpcResponseProtocol, EosioError>) -> Void) {
+    func getKeyAccounts(requestParameters: EosioRpcHistoryKeyAccountsRequest, completion:@escaping (EosioResult<EosioRpcKeyAccountsResponse, EosioError>) -> Void) {
         getResource(rpc: "history/get_key_accounts", requestParameters: requestParameters, completion: completion)
     }
 }

@@ -236,10 +236,17 @@
 			path = EosioSwiftTests;
 			sourceTree = "<group>";
 		};
-		8F49E8D0225E6E7A00082631 /* Models */ = {
+		8F039890226116B400E8C7CB /* RequestModels */ = {
 			isa = PBXGroup;
 			children = (
 				B4892C6C221E0CAA0050FA72 /* RequestModels.swift */,
+			);
+			path = RequestModels;
+			sourceTree = "<group>";
+		};
+		8F49E8D0225E6E7A00082631 /* Models */ = {
+			isa = PBXGroup;
+			children = (
 				B4A80E28221F15F200C5134D /* ResponseModels.swift */,
 				8F49E8CE225E6E6A00082631 /* RequestModelsForAdditionalEndpoints.swift */,
 				8F49E8D1225F913000082631 /* ResponseModelsForAdditionalEndpoints.swift */,
@@ -284,6 +291,7 @@
 		B49EE50D221CC63700018D29 /* EosioRpcProviderProtocol */ = {
 			isa = PBXGroup;
 			children = (
+				8F039890226116B400E8C7CB /* RequestModels */,
 				8FD1C4C72257EADE005AE506 /* AllResponseProtocols.swift */,
 				B49EE518221CCA0900018D29 /* EosioRpcProviderProtocol.swift */,
 			);

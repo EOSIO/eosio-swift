@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07D2D09EB1462AEB9F8D49DD /* Pods_EosioSwiftAbieos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52444CA4BA88C46E961BA044 /* Pods_EosioSwiftAbieos.framework */; };
+		07D2D09EB1462AEB9F8D49DD /* Pods_EosioSwiftAbieosSerializationProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52444CA4BA88C46E961BA044 /* Pods_EosioSwiftAbieosSerializationProvider.framework */; };
 		1684A32FB896289731698385 /* Pods_EosioSwiftAbieosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FEFAC7856C789FC0ECE3C7F /* Pods_EosioSwiftAbieosTests.framework */; };
 		7BD14651C74B05D6FE46F12A /* Pods_EosioSwiftAbieosSerializationProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BB295D8F64B16C865CB719 /* Pods_EosioSwiftAbieosSerializationProvider.framework */; };
 		B466F09A222D90110082DC4E /* EosioTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F097222D90100082DC4E /* EosioTransactionTests.swift */; };
@@ -88,7 +88,7 @@
 		192915DEC1B36C8B393CAE3D /* Pods-EosioSwiftAbieos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftAbieos.debug.xcconfig"; path = "Target Support Files/Pods-EosioSwiftAbieos/Pods-EosioSwiftAbieos.debug.xcconfig"; sourceTree = "<group>"; };
 		2FEFAC7856C789FC0ECE3C7F /* Pods_EosioSwiftAbieosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftAbieosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51858FDC0F003E5D6914130F /* Pods-EosioSwiftAbieosSerializationProvider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftAbieosSerializationProvider.release.xcconfig"; path = "Target Support Files/Pods-EosioSwiftAbieosSerializationProvider/Pods-EosioSwiftAbieosSerializationProvider.release.xcconfig"; sourceTree = "<group>"; };
-		52444CA4BA88C46E961BA044 /* Pods_EosioSwiftAbieos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftAbieos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52444CA4BA88C46E961BA044 /* Pods_EosioSwiftAbieosSerializationProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftAbieosSerializationProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FC8EBC8D5D1255F0E1CE808 /* Pods-EosioSwiftAbieosSerializationProvider.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftAbieosSerializationProvider.debug.xcconfig"; path = "Target Support Files/Pods-EosioSwiftAbieosSerializationProvider/Pods-EosioSwiftAbieosSerializationProvider.debug.xcconfig"; sourceTree = "<group>"; };
 		6636D82657488DAA16C28F02 /* Pods-EosioSwiftAbieosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftAbieosTests.debug.xcconfig"; path = "Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6BE39DB120C5CCBB00EBBCA3 /* EosioSwiftAbieosSerializationProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwiftAbieosSerializationProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,7 +164,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07D2D09EB1462AEB9F8D49DD /* Pods_EosioSwiftAbieos.framework in Frameworks */,
 				7BD14651C74B05D6FE46F12A /* Pods_EosioSwiftAbieosSerializationProvider.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,7 +183,6 @@
 		52A1920208DD8DE0AD807F9D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				52444CA4BA88C46E961BA044 /* Pods_EosioSwiftAbieos.framework */,
 				2FEFAC7856C789FC0ECE3C7F /* Pods_EosioSwiftAbieosTests.framework */,
 				16BB295D8F64B16C865CB719 /* Pods_EosioSwiftAbieosSerializationProvider.framework */,
 			);

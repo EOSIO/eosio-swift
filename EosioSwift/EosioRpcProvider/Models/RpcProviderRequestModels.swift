@@ -8,6 +8,100 @@
 
 import Foundation
 
+/// Base request struct aliased by request types for `get_account`, `get_abi`, `get_raw_code_and_abi`, and `get_code` requests.
+public struct EosioAccountInfo: Codable {
+    public let accountName: String
+
+    public init(accountName: String) {
+        self.accountName = accountName
+    }
+}
+
+/* Chain Endpoints */
+
+/// The request struct for `get_account` RPC requests.
+public typealias EosioRpcAccountRequest = EosioAccountInfo
+
+/// The request struct for `push_transactions` RPC requests.
+public struct EosioRpcPushTransactionsRequest: Codable {
+    public let transactions: [EosioRpcPushTransactionRequest]
+    public init(transactions: [EosioRpcPushTransactionRequest]) {
+        self.transactions = transactions
+    }
+}
+
+/// The request type for `get_block_header_state` RPC requests.
+public typealias EosioRpcBlockHeaderStateRequest = EosioRpcBlockRequest
+
+/// The request type for `get_abi` RPC requests.
+public typealias EosioRpcAbiRequest = EosioAccountInfo
+
+/// The request struct for `get_currency_balance` RPC requests.
+public struct EosioRpcCurrencyBalanceRequest: Codable {
+    public var code: String
+    public var account: String
+    public var symbol: String
+
+    public init(code: String, account: String, symbol: String) {
+        self.code = code
+        self.account = account
+        self.symbol = symbol
+    }
+}
+
+/// The request struct for `get_currency_stats` RPC requests.
+public struct EosioRpcCurrencyStatsRequest: Codable {
+    public var code: String
+    public var symbol: String
+
+    public init(code: String, symbol: String) {
+        self.code = code
+        self.symbol = symbol
+    }
+}
+
+/// The request struct for `get_producers` RPC requests.
+public struct EosioRpcProducersRequest: Codable {
+
+    public var limit: UInt32?
+    public var lowerBound: String
+    public var json: Bool
+
+    public init(limit: UInt32? = nil, lowerBound: String, json: Bool = true) {
+        self.limit = limit
+        self.lowerBound = lowerBound
+        self.json = json
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case limit
+        case lowerBound = "lower_bound"
+        case json
+    }
+}
+
+/// The request type for `get_raw_code_and_abi` RPC requests.
+public typealias EosioRpcRawCodeAndAbiRequest = EosioAccountInfo
+
+/// The request struct for `get_table_by_scope` RPC requests.
+public struct EosioRpcTableByScopeRequest: Codable {
+    public let code: String
+    public let table: String?
+    public let lowerBound: String?
+    public let upperBound: String?
+    public let limit: Int32?
+    public let reverse: Bool?
+
+    public init(code: String, table: String? = nil, lowerBound: String? = nil, upperBound: String? = nil, limit: Int32? = nil, reverse: Bool? = nil) {
+        self.code = code
+        self.table = table
+        self.lowerBound = lowerBound
+        self.upperBound = upperBound
+        self.limit = limit
+        self.reverse = reverse
+    }
+}
+
 /// The request struct for `get_table_rows` RPC requests.
 public struct EosioRpcTableRowsRequest: Codable {
     public enum EncodeType: String, Codable {
@@ -75,38 +169,10 @@ public struct EosioRpcTableRowsRequest: Codable {
     }
 }
 
-/// The request struct for `get_currency_balance` RPC requests.
-public struct EosioRpcCurrencyBalanceRequest: Codable {
-    public var code: String
-    public var account: String
-    public var symbol: String
+/// The request type for `get_code` RPC requests.
+public typealias EosioRpcCodeRequest = EosioAccountInfo
 
-    public init(code: String, account: String, symbol: String) {
-        self.code = code
-        self.account = account
-        self.symbol = symbol
-    }
-}
-
-/// The request struct for `get_producers` RPC requests.
-public struct EosioRpcProducersRequest: Codable {
-
-    public var limit: UInt32?
-    public var lowerBound: String
-    public var json: Bool
-
-    public init(limit: UInt32? = nil, lowerBound: String, json: Bool = true) {
-        self.limit = limit
-        self.lowerBound = lowerBound
-        self.json = json
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case limit
-        case lowerBound = "lower_bound"
-        case json
-    }
-}
+/* History Endpoints */
 
 /// The request struct for `get_actions` RPC requests.
 public struct EosioRpcHistoryActionsRequest: Codable {
@@ -118,26 +184,6 @@ public struct EosioRpcHistoryActionsRequest: Codable {
         self.position = position
         self.offset = offset
         self.accountName = accountName
-    }
-}
-
-/// The request struct for `get_account` RPC requests.
-public struct EosioRpcAccountRequest: Codable {
-    public var accountName: String
-
-    public init(accountName: String) {
-        self.accountName = accountName
-    }
-}
-
-/// The request struct for `get_currency_stats` RPC requests.
-public struct EosioRpcCurrencyStatsRequest: Codable {
-    public var code: String
-    public var symbol: String
-
-    public init(code: String, symbol: String) {
-        self.code = code
-        self.symbol = symbol
     }
 }
 
@@ -168,51 +214,3 @@ public struct EosioRpcHistoryControlledAccountsRequest: Codable {
         self.controllingAccount = controllingAccount
     }
 }
-
-/// The request struct for `get_table_by_scope` RPC requests.
-public struct EosioRpcTableByScopeRequest: Codable {
-    public let code: String
-    public let table: String?
-    public let lowerBound: String?
-    public let upperBound: String?
-    public let limit: Int32?
-    public let reverse: Bool?
-
-    public init(code: String, table: String? = nil, lowerBound: String? = nil, upperBound: String? = nil, limit: Int32? = nil, reverse: Bool? = nil) {
-        self.code = code
-        self.table = table
-        self.lowerBound = lowerBound
-        self.upperBound = upperBound
-        self.limit = limit
-        self.reverse = reverse
-    }
-}
-
-/// The request struct for `get_account` RPC requests.
-public struct EosioAccountInfo: Codable {
-    public let accountName: String
-
-    public init(accountName: String) {
-        self.accountName = accountName
-    }
-}
-
-/// The request type for `get_raw_code_and_abi` RPC requests.
-public typealias EosioRpcRawCodeAndAbiRequest = EosioAccountInfo
-
-/// The request type for `get_code` RPC requests.
-public typealias EosioRpcCodeRequest = EosioAccountInfo
-
-/// The request struct for `push_transactions` RPC requests.
-public struct EosioRpcPushTransactionsRequest: Codable {
-    public let transactions: [EosioRpcPushTransactionRequest]
-    public init(transactions: [EosioRpcPushTransactionRequest]) {
-        self.transactions = transactions
-    }
-}
-
-/// The request type for `get_block_header_state` RPC requests.
-public typealias EosioRpcBlockHeaderStateRequest = EosioRpcBlockRequest
-
-/// The request type for `get_abi` RPC requests.
-public typealias EosioRpcAbiRequest = EosioAccountInfo

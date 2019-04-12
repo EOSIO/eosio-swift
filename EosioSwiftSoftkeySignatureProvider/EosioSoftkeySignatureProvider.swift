@@ -14,9 +14,14 @@ import EosioSwiftEcc
  Example signature provider for EOSIO SDK for Swift for signing transactions using in-memory K1 private keys. This
  signature provider implementation stores keys in memory and is therefore not secure. Use only for development purposes.
  */
-public final class EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
-    private var stringKeyPairs = [String: String]()
-    private var dataKeyPairs = [Data: Data]()
+public final class EosioSoftkeySignatureProvider: EosioSignatureProviderProtocol {
+    private struct Key {
+        let eosioPublicKey: String
+        let uncompressedPublicKey: Data
+        let compressedPublicKey: Data
+        let privateKey: Data
+    }
+    private var keyPairs = [Data: Key]()
 
     /**
          Initializes the signature provider using the private keys in the given array.
@@ -37,9 +42,9 @@ public final class EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderPro
             guard let compressedPublicKey = publicKeyData.toCompressedPublicKey else {
                 throw EosioError(EosioErrorCode.keyManagementError, reason: "Cannot compress key \(publicKeyData.hex)")
             }
-            let publicKeyString = compressedPublicKey.toEosioK1PublicKey
-            self.dataKeyPairs[publicKeyData] = privateKeyData
-            self.stringKeyPairs[publicKeyString] = privateKey
+            let eosioPublicKey = compressedPublicKey.toEosioK1PublicKey
+            let key = Key(eosioPublicKey: eosioPublicKey, uncompressedPublicKey: publicKeyData, compressedPublicKey: compressedPublicKey, privateKey: privateKeyData)
+            keyPairs[compressedPublicKey] = key
         }
 
     }
@@ -57,16 +62,16 @@ public final class EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderPro
         var response = EosioTransactionSignatureResponse()
         do {
             var signatures = [String]()
-
+            
             for eosioPublicKey in request.publicKeys {
-                let publicKey = try Data(eosioPublicKey: eosioPublicKey)
-                guard let privateKey = dataKeyPairs[publicKey] else {
+                let compressedPublicKey = try Data(eosioPublicKey: eosioPublicKey)
+                guard let key = keyPairs[compressedPublicKey] else {
                     response.error = EosioError(.keyManagementError, reason: "No private key available for \(eosioPublicKey)")
                     return completion(response)
                 }
                 let chainIdData = try Data(hex: request.chainId)
                 let zeros = Data(repeating: 0, count: 32)
-                let data = try EosioEccSign.signWithK1(publicKey: publicKey, privateKey: privateKey, data: chainIdData + request.serializedTransaction + zeros)
+                let data = try EosioEccSign.signWithK1(publicKey: key.uncompressedPublicKey, privateKey: key.privateKey, data: chainIdData + request.serializedTransaction + zeros)
                 signatures.append(data.toEosioK1Signature)
             }
             var signedTransaction = EosioTransactionSignatureResponse.SignedTransaction()
@@ -89,10 +94,10 @@ public final class EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderPro
          - Returns: An `EosioAvailableKeysResponse` stuct containing an optional array of available public keys in `String` format.
     */
     public func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void) {
-
         var response = EosioAvailableKeysResponse()
-        response.keys = Array(stringKeyPairs.keys)
+        response.keys = Array(keyPairs.values).compactMap({ (key) -> String? in
+            return key.eosioPublicKey
+        })
         completion(response)
-
     }
 }

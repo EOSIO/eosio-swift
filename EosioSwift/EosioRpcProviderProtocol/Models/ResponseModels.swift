@@ -215,3 +215,5 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
         self.transactionId = transactionId
     }
 }
+
+

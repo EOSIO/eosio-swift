@@ -132,6 +132,24 @@ public extension EosioRpcProvider {
 
     /* Chain endpoints */
 
+    func pushTransactions(requestParameters: EosioRpcPushTransactionsRequest, completion: @escaping (EosioResult<EosioRpcPushTransactionsResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/push_transactions", requestParameters: requestParameters.transactions) {(result: EosioRpcPushTransactionsResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
+
+    func getBlockHeaderState(requestParameters: EosioRpcBlockHeaderStateRequest, completion: @escaping (EosioResult<EosioRpcBlockHeaderStateResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_block_header_state", requestParameters: requestParameters) {(result: EosioRpcBlockHeaderStateResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
+
+    func getAbi(requestParameters: EosioRpcAbiRequest, completion: @escaping (EosioResult<EosioRpcAbiResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_abi", requestParameters: requestParameters) {(result: EosioRpcAbiResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
+
     func getAccount(requestParameters: EosioRpcAccountRequest, completion:@escaping (EosioResult<EosioRpcAccountResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_account", requestParameters: requestParameters) {(result: EosioRpcAccountResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)

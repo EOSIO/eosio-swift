@@ -8,9 +8,7 @@
 
 import Foundation
 
-public struct EosioRpcBlockHeaderState: Codable {
 
-}
 
 public struct EosioRpcAccount: Codable {
 

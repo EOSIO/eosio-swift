@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Response struct for the `get_info` RPC endpoint.
 public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcResponseProtocol, Codable {
     public var _rawResponse: Any?
     public let serverVersion: String
@@ -60,6 +61,7 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
     }
 }
 
+/// Response struct for the `get_block` RPC endpoint.
 public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResponseProtocol, Codable {
     public var _rawResponse: Any?
     public let timestamp: String
@@ -113,6 +115,7 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
     }
 }
 
+/// Response struct for the `get_raw_abi` RPC endpoint.
 public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcResponseProtocol, Codable {
     public var _rawResponse: Any?
     public var accountName: String
@@ -135,6 +138,7 @@ public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcRe
     }
 }
 
+/// Response struct for the `get_required_keys` RPC endpoint.
 public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, EosioRpcResponseProtocol, Codable {
     public var _rawResponse: Any?
     public var requiredKeys: [String]
@@ -148,6 +152,7 @@ public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol
     }
 }
 
+/// Response struct for the `push_transaction` RPC endpoint.
 public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, EosioRpcResponseProtocol, Codable {
     public var _rawResponse: Any?
     public var transactionId: String
@@ -161,6 +166,9 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
     }
 }
 
+/* Responses without response models */
+
+/// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
 public struct RawResponse: Codable, EosioRpcResponseProtocol {
     public var _rawResponse: Any?
 
@@ -168,18 +176,49 @@ public struct RawResponse: Codable, EosioRpcResponseProtocol {
     }
 }
 
+/// Response type for the `get_account` RPC endpoint.
 public typealias EosioRpcAccountResponse = RawResponse
-public typealias EosioRpcCurrencyBalanceResponse = RawResponse
-public typealias EosioRpcCurrencyStatsResponse = RawResponse
-public typealias EosioRpcRawCodeAndAbiResponse = RawResponse
-public typealias EosioRpcCodeResponse = RawResponse
-public typealias EosioRpcTableRowsResponse = RawResponse
-public typealias EosioRpcTableByScopeResponse = RawResponse
-public typealias EosioRpcProducersResponse = RawResponse
-public typealias EosioRpcControlledAccountsResponse = RawResponse
-public typealias EosioRpcGetTransactionResponse = RawResponse
-public typealias EosioRpcKeyAccountsResponse = RawResponse
-public typealias EosioRpcActionsResponse = RawResponse
+
+/// Response type for the `push_transactions` RPC endpoint.
 public typealias EosioRpcPushTransactionsResponse = RawResponse
+
+/// Response type for the `get_block_header_state` RPC endpoint.
 public typealias EosioRpcBlockHeaderStateResponse = RawResponse
+
+/// Response type for the `get_abi` RPC endpoint.
 public typealias EosioRpcAbiResponse = RawResponse
+
+/// Response type for the `get_currency_balance` RPC endpoint.
+public typealias EosioRpcCurrencyBalanceResponse = RawResponse
+
+/// Response type for the `get_currency_stats` RPC endpoint.
+public typealias EosioRpcCurrencyStatsResponse = RawResponse
+
+/// Response type for the `get_producers` RPC endpoint.
+public typealias EosioRpcProducersResponse = RawResponse
+
+/// Response type for the `get_raw_code_and_abi` RPC endpoint.
+public typealias EosioRpcRawCodeAndAbiResponse = RawResponse
+
+/// Response type for the `get_table_by_scope` RPC endpoint.
+public typealias EosioRpcTableByScopeResponse = RawResponse
+
+/// Response type for the `get_table_rows` RPC endpoint.
+public typealias EosioRpcTableRowsResponse = RawResponse
+
+/// Response type for the `get_code` RPC endpoint.
+public typealias EosioRpcCodeResponse = RawResponse
+
+/* History Endpoints */
+
+/// Response type for the `get_actions` RPC endpoint.
+public typealias EosioRpcActionsResponse = RawResponse
+
+/// Response type for the `get_transaction` RPC endpoint.
+public typealias EosioRpcGetTransactionResponse = RawResponse
+
+/// Response type for the `get_key_accounts` RPC endpoint.
+public typealias EosioRpcKeyAccountsResponse = RawResponse
+
+/// Response type for the `get_controlled_accounts` RPC endpoint.
+public typealias EosioRpcControlledAccountsResponse = RawResponse

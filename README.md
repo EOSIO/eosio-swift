@@ -40,10 +40,10 @@ To use EOSIO SDK for Swift in your app, add the following pods to your [Podfile]
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwift", "~> 0.0.1" # pod for this library
+  pod "EosioSwift", "~> 0.0.2" # pod for this library
   # Providers for EOSIO SDK for Swift
-  pod "EosioSwiftAbieos", "~> 0.0.1" # serialization provider
-  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.1" # experimental signature provider for development only
+  pod "EosioSwiftAbieosSerializationProvider", "~> 0.0.3" # serialization provider
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.2" # experimental signature provider for development only
 end
 ```
 
@@ -55,21 +55,21 @@ Transactions are instantiated as an `EosioTransaction()` and must then be config
 
 ```swift
 import EosioSwift
-import EosioSwiftAbieos
+import EosioSwiftAbieosSerializationProvider
 import EosioSwiftSoftkeySignatureProvider
-
-...
-
-let transaction = EosioTransaction()
-transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
-transaction.serializationProvider = AbiEos()
-transaction.signatureProvider = try! EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
 ```
 
-Actions can now be appended to the transaction, which can, in turn, be signed and broadcast:
+Then, inside a `do...catch` or throwing function, do the following:
 
 ```swift
-let action = try! EosioTransaction.Action(
+let transaction = EosioTransaction()
+transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
+transaction.serializationProvider = EosioAbieosSerializationProvider()
+transaction.signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+
+/// Actions can now be appended to the transaction, which can, in turn, be signed and broadcast:
+
+let action = try EosioTransaction.Action(
     account: EosioName("eosio.token"),
     name: EosioName("transfer"),
     authorization: [EosioTransaction.Action.Authorization(
@@ -86,15 +86,11 @@ let action = try! EosioTransaction.Action(
 transaction.actions.append(action)
 
 transaction.signAndBroadcast { (result) in
-    print(try! transaction.toJson(prettyPrinted: true))
     switch result {
     case .failure (let error):
-        print(error.reason)
+        // Handle error.
     case .success:
-        if let transactionId = transaction.transactionId {
-            print("SUCCESS!")
-            print(transactionId)
-        }
+        // Handle success.
     }
 }
 ```

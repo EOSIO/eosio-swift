@@ -30,6 +30,4 @@ public typealias EosioRpcActionsResponse = RawResponse
 public typealias EosioRpcPushTransactionsResponse = RawResponse
 public typealias EosioRpcBlockHeaderStateResponse = RawResponse
 public typealias EosioRpcAbiResponse = RawResponse
-public typealias EosioRpcAbiJsonToBinResponse = RawResponse
-public typealias EosioRpcAbiBinToJsonResponse = RawResponse
-public typealias EosioRpcPushBlockResponse = RawResponse
+

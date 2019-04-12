@@ -14,7 +14,7 @@ import EosioSwiftEcc
  Example signature provider for EOSIO SDK for Swift for signing transactions using in-memory K1 private keys. This
  signature provider implementation stores keys in memory and is therefore not secure. Use only for development purposes.
  */
-public final class EosioSwiftSoftkeySignatureProvider {
+public final class EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
     private var stringKeyPairs = [String: String]()
     private var dataKeyPairs = [Data: Data]()
 
@@ -44,10 +44,6 @@ public final class EosioSwiftSoftkeySignatureProvider {
 
     }
 
-}
-
-extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
-
     /**
         Asynchronous method signing a transaction request. Invoked by an `EosioTransaction` during the signing process.
      
@@ -62,7 +58,12 @@ extension EosioSwiftSoftkeySignatureProvider: EosioSignatureProviderProtocol {
         do {
             var signatures = [String]()
 
-            for (publicKey, privateKey) in dataKeyPairs {
+            for eosioPublicKey in request.publicKeys {
+                let publicKey = try Data(eosioPublicKey: eosioPublicKey)
+                guard let privateKey = dataKeyPairs[publicKey] else {
+                    response.error = EosioError(.keyManagementError, reason: "No private key available for \(eosioPublicKey)")
+                    return completion(response)
+                }
                 let chainIdData = try Data(hex: request.chainId)
                 let zeros = Data(repeating: 0, count: 32)
                 let data = try EosioEccSign.signWithK1(publicKey: publicKey, privateKey: privateKey, data: chainIdData + request.serializedTransaction + zeros)

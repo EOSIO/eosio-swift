@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftAbieosSerializationProvider'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Binary <> JSON conversion using ABIs. Compatible with languages which can interface to C.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-abieos-serialization-provider'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
@@ -27,14 +27,14 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
 
   s.public_header_files = 'EosioSwiftAbieosSerializationProvider/EosioSwiftAbieosSerializationProvider.h',
-  							'EosioSwiftAbieosSerializationProvider/abieos.h'
-  
-  s.source_files =  'EosioSwiftAbieosSerializationProvider/**/*.{c,h,m,cpp,hpp}',
-  		              'EosioSwiftAbieosSerializationProvider/**/*.swift'
+                          'EosioSwiftAbieosSerializationProvider/abieos.h'
 
-  s.preserve_paths =  'EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json',
-					            'EosioSwiftAbieosSerializationProvider/transaction.abi.json',
-					            'EosioSwiftAbieosSerializationProvider/abi.abi.json'
+  s.source_files = 'EosioSwiftAbieosSerializationProvider/**/*.{c,h,m,cpp,hpp}',
+                   'EosioSwiftAbieosSerializationProvider/**/*.swift'
+
+  s.preserve_paths = 'EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json',
+                     'EosioSwiftAbieosSerializationProvider/transaction.abi.json',
+                     'EosioSwiftAbieosSerializationProvider/abi.abi.json'
 
   s.ios.resource_bundle = { 'EosioSwiftAbieosSerializationProvider' => 'EosioSwiftAbieosSerializationProvider/*.abi.json' }
 
@@ -44,11 +44,11 @@ Pod::Spec.new do |s|
 
   s.libraries = "c++"
   s.pod_target_xcconfig = { 'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
- 						   'CLANG_CXX_LIBRARY' => 'libc++',
- 						   'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
- 						   'CLANG_ENABLE_MODULES' => 'YES',
-						   'SWIFT_COMPILATION_MODE' => 'wholemodule',
-						   'ENABLE_BITCODE' => 'YES'}
+                            'CLANG_CXX_LIBRARY' => 'libc++',
+                            'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+                            'CLANG_ENABLE_MODULES' => 'YES',
+                            'SWIFT_COMPILATION_MODE' => 'wholemodule',
+                            'ENABLE_BITCODE' => 'YES'}
 
   s.ios.dependency 'EosioSwift', '~> 0.0.1'
 end

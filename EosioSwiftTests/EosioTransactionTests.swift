@@ -11,10 +11,11 @@ import XCTest
 
 class EosioTransactionTests: XCTestCase {
     var transaction: EosioTransaction!
-    var rpcProvider = RPCProviderMock(endpoints: [EosioEndpoint("http://example.com")!], failoverRetries: 4)
-
+    var rpcProvider: RPCProviderMock!
     override func setUp() {
         transaction = EosioTransaction()
+        let url = URL(string: "http://example.com")
+        rpcProvider = RPCProviderMock(endpoint: url!)
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = SerializationProviderMock()
         transaction.signatureProvider = SignatureProviderMock()
@@ -179,19 +180,10 @@ class EosioTransactionTests: XCTestCase {
 
 class RPCProviderMock: EosioRpcProviderProtocol {
 
-    var endpoints: [EosioEndpoint]
+    var url: URL
 
-    var failoverRetries: Int
-
-    var primaryEndpoint: EosioEndpoint = EosioEndpoint("https://example.com")!
-
-    required init(endpoints: [EosioEndpoint], failoverRetries: Int) {
-        self.endpoints = endpoints
-        self.failoverRetries = failoverRetries
-    }
-
-    func rpcRequest(request: URLRequest, completion: @escaping (EosioResult<EosioResponse, EosioError>) -> Void) {
-
+    required init(endpoint: URL) {
+        self.url = endpoint
     }
 
     var getInfoCalled = false

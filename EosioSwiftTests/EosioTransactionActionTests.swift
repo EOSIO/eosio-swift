@@ -13,13 +13,13 @@ import XCTest
 class EosioTransactionActionTests: XCTestCase {
 
     var transaction: EosioTransaction!
-    var rpcProvider = RPCProviderMock(endpoints: [EosioEndpoint("http://example.com")!], failoverRetries: 4)
+    //var rpcProvider =
     var action: EosioTransaction.Action!
     var authorization: EosioTransaction.Action.Authorization!
-
     override func setUp() {
         let transaction = EosioTransaction()
-        transaction.rpcProvider = rpcProvider
+        let url = URL(string: "http://example.com")
+        transaction.rpcProvider = EosioRpcProvider(endpoint: url!)
         transaction.serializationProvider = SerializationProviderMock()
     }
 

@@ -12,13 +12,14 @@ import EosioSwift
 
 class EosioAbiProviderTests: XCTestCase {
 
-    var rpcProvider: EosioRpcProviderProtocol {
-        let endpoint = EosioEndpoint("mock://endpoint")
-        return EosioRpcProviderMockImpl(endpoints: [endpoint!], failoverRetries: 3)
+    var rpcProvider: EosioRpcProviderProtocol!
+    override func setUp() {
+        super.setUp()
+        let url = URL(string: "https://localhost")
+        rpcProvider = RPCProviderMock(endpoint: url!)
     }
-
     func testGetAbi() {
-        let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
+        let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider!)
         do {
             let eosioToken = try EosioName("eosio.token")
             abiProvider.getAbi(chainId: "", account: eosioToken, completion: { (response) in
@@ -37,7 +38,7 @@ class EosioAbiProviderTests: XCTestCase {
     }
 
     func testGetAbis() {
-        let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
+        let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider!)
         do {
             let eosioToken = try EosioName("eosio.token")
             let eosio = try EosioName("eosio")
@@ -58,7 +59,7 @@ class EosioAbiProviderTests: XCTestCase {
     }
 
     func testGetAbisBadAccount() {
-        let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
+        let abiProvider = EosioAbiProvider(rpcProvider: rpcProvider!)
         do {
             let eosioToken = try EosioName("eosio.token")
             let eosio = try EosioName("eosio")
@@ -77,4 +78,14 @@ class EosioAbiProviderTests: XCTestCase {
 
     }
 
+    class AbiProviderMock: EosioAbiProviderProtocol {
+        var getAbisCalled = false
+        func getAbis(chainId: String, accounts: [EosioName], completion: @escaping (EosioResult<[EosioName: Data], EosioError>) -> Void) {
+            getAbisCalled = true
+        }
+        var getAbiCalled = false
+        func getAbi(chainId: String, account: EosioName, completion: @escaping (EosioResult<Data, EosioError>) -> Void) {
+            getAbiCalled = true
+        }
+    }
 }

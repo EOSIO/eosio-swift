@@ -10,7 +10,7 @@
 		8F7712DA223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7712D0223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.framework */; };
 		8F7712DF223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7712DE223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests.swift */; };
 		8F7712E1223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F7712D3223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8F7712EB223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7712EA223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift */; };
+		8F7712EB223AD8E2004256D3 /* EosioSoftkeySignatureProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7712EA223AD8E2004256D3 /* EosioSoftkeySignatureProvider.swift */; };
 		D66CA12724978929CD4C44F8 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C691B04A17015F0672411FE3 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */; };
 		EED8F31AEB5AFC4072BB105A /* Pods_EosioSwiftSoftkeySignatureProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61AAA1DD888114FBBE8CD32 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */; };
 /* End PBXBuildFile section */
@@ -35,7 +35,7 @@
 		8F7712D9223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioSwiftSoftkeySignatureProviderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7712DE223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftSoftkeySignatureProviderTests.swift; sourceTree = "<group>"; };
 		8F7712E0223ACCAF004256D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8F7712EA223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftSoftkeySignatureProvider.swift; sourceTree = "<group>"; };
+		8F7712EA223AD8E2004256D3 /* EosioSoftkeySignatureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSoftkeySignatureProvider.swift; sourceTree = "<group>"; };
 		C691B04A17015F0672411FE3 /* Pods_EosioSwiftSoftkeySignatureProviderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftSoftkeySignatureProviderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D61AAA1DD888114FBBE8CD32 /* Pods_EosioSwiftSoftkeySignatureProvider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftSoftkeySignatureProvider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D879CC4D54E46205FAEFDBB6 /* Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwiftSoftkeySignatureProvider/Pods-EosioSwiftSoftkeySignatureProvider.release.xcconfig"; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 			children = (
 				8F7712D3223ACCAF004256D3 /* EosioSwiftSoftkeySignatureProvider.h */,
 				8F7712D4223ACCAF004256D3 /* Info.plist */,
-				8F7712EA223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift */,
+				8F7712EA223AD8E2004256D3 /* EosioSoftkeySignatureProvider.swift */,
 			);
 			path = EosioSwiftSoftkeySignatureProvider;
 			sourceTree = "<group>";
@@ -328,7 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F7712EB223AD8E2004256D3 /* EosioSwiftSoftkeySignatureProvider.swift in Sources */,
+				8F7712EB223AD8E2004256D3 /* EosioSoftkeySignatureProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

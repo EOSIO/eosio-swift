@@ -1,0 +1,16 @@
+disabled_rules:
+  - type_body_length
+  - file_length
+excluded:
+  - Pods
+  - EosioSwift/Crypto
+line_length: 200
+identifier_name:
+  min-length: 4
+  max_length: 60
+  excluded:
+    - i
+    - id
+    - tx
+    - trx
+    - _rawResponse

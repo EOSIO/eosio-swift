@@ -8,27 +8,32 @@
 
 import Foundation
 
-
+// Protocol defining the endpoints required by the core EOSIO SDK for Swift library.
 public protocol EosioRpcProviderProtocol {
-    
-    
-    
-    /** Calls /v1/chain/get_info */
-    func getInfo(completion: @escaping(EosioResult<EosioRpcInfoResponse, EosioError>) -> Void)
-    
-    /** Calls `/v1/chain/get_block` */
-    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping(EosioResult<EosioRpcBlockResponse, EosioError>) -> Void)
 
-    /** Calls `/v1/chain/get_raw_abi` */
-    func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping(EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void)
+    /// Calls /v1/chain/get_info.
+    ///
+    /// - Parameter completion: Completion called with an `EosioResult`.
+    func getInfo(completion: @escaping(EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void)
 
-    /** Calls `/v1/chain/get_required_keys` */
-    func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping(EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void)
-    
-    /** Calls `/v1/chain/push_transaction` */
-    func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void)
-    
+    /// Calls /v1/chain/get_block.
+    ///
+    /// - Parameter completion: Completion called with an `EosioResult`.
+    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping(EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void)
+
+    /// Calls /v1/chain/get_raw_abi.
+    ///
+    /// - Parameter completion: Completion called with an `EosioResult`.
+    func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping(EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void)
+
+    /// Calls /v1/chain/get_required_keys.
+    ///
+    /// - Parameter completion: Completion called with an `EosioResult`.
+    func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping(EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void)
+
+    /// Calls /v1/chain/push_transaction.
+    ///
+    /// - Parameter completion: Completion called with an `EosioResult`.
+    func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void)
+
 }
-
-
-

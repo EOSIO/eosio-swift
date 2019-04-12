@@ -6,19 +6,20 @@
 //  Copyright © 2019 block.one. All rights reserved.
 //
 
+// swiftlint:disable line_length identifier_name
 import XCTest
 @testable import EosioSwift
 
 class EosioTransactionActionTests: XCTestCase {
 
-    var transaction:EosioTransaction!
-    var rpcProvider = RPCProviderMock(endpoints: [EosioEndpoint("http://example.com")!], failoverRetries: 4)
+    var transaction: EosioTransaction!
+    //var rpcProvider =
     var action: EosioTransaction.Action!
     var authorization: EosioTransaction.Action.Authorization!
-
     override func setUp() {
         let transaction = EosioTransaction()
-        transaction.rpcProvider = rpcProvider
+        let url = URL(string: "http://example.com")
+        transaction.rpcProvider = EosioRpcProvider(endpoint: url!)
         transaction.serializationProvider = SerializationProviderMock()
     }
 
@@ -38,27 +39,27 @@ class EosioTransactionActionTests: XCTestCase {
     func testNewTransferActionError() {
         do {
             try _ = makeTransferActionWithError()
-            XCTFail()
+            XCTFail("Transfer succeeded despite being malformed")
         } catch let error as EosioError {
             XCTAssertTrue(error.reason == "eosio.token6 is not a valid eosio name.")
         } catch {
-            XCTFail()
+            XCTFail("Unknown error")
         }
     }
 
     func testActionEncode() {
         guard let action = try? makeTransferActionWithSerializedData() else {
-            return XCTFail()
+            return XCTFail("Failed to make transfer action with serialized data")
         }
 
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .sortedKeys
 
         guard let json = try? jsonEncoder.encode(action) else {
-            return XCTFail()
+            return XCTFail("Failed to encode action")
         }
         guard let json1 = String(data: json, encoding: .utf8) else {
-            return XCTFail()
+            return XCTFail("Failed to convert JSON to String()")
         }
 
         let json2 = """
@@ -69,7 +70,7 @@ class EosioTransactionActionTests: XCTestCase {
 
     func testActionWithComplexData() {
         guard let complexData = try? makeComplexData() else {
-            return XCTFail()
+            return XCTFail("Failed to make complex Data")
         }
 
         guard let action = try? EosioTransaction.Action(
@@ -81,11 +82,11 @@ class EosioTransactionActionTests: XCTestCase {
             ],
             data: complexData
             ) else {
-                return XCTFail()
+                return XCTFail("Failed to add action to transaction")
         }
 
         guard let dataJson1 = action.dataJson else {
-            return XCTFail()
+            return XCTFail("Failed to extract JSON data from action")
         }
         let dataJson2 = """
         {"aa":"aa","bb":-42,"cc":999999999,"dd":true,"ee":"2009-01-03T18:15:05.000","ff":["aa","bbb","cccc"],"gg":[-7,0,7],"hh":{"a":"aaa","b":"bbb"},"ii":{"aa":{"bb":-7},"cc":{"dd":7}},"jj":[{"aaa":"bbb"},{"ccc":"ddd"}]}
@@ -99,12 +100,12 @@ class EosioTransactionActionTests: XCTestCase {
         {"account":"eosio.token","authorization":[{"actor":"todd","permission":"active"}],"data":"00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73","name":"transfer"}
         """
         guard let jsonData = json.data(using: .utf8) else {
-            return XCTFail()
+            return XCTFail("Failed to convert JSON to Data()")
         }
 
         let decoder = JSONDecoder()
         guard let action = try? decoder.decode(EosioTransaction.Action.self, from: jsonData) else {
-            return XCTFail()
+            return XCTFail("Failed to decode transaction Action from JSON Data")
         }
 
         XCTAssertTrue(action.account.string == "eosio.token")
@@ -131,9 +132,9 @@ class EosioTransactionActionTests: XCTestCase {
         var ee: Date
         var ff: [String]
         var gg: [Int]
-        var hh: [String:EosioName]
-        var ii: [String:[String:Int]]
-        var jj: [[String:String]]
+        var hh: [String: EosioName]
+        var ii: [String: [String: Int]]
+        var jj: [[String: String]]
     }
 
     func makeTransferActionWithEosioNames() throws -> EosioTransaction.Action {
@@ -211,23 +212,21 @@ class EosioTransactionActionTests: XCTestCase {
             cc: 999999999,
             dd: true,
             ee: Date(yyyyMMddTHHmmss: "2009-01-03T18:15:05.000")!,
-            ff: ["aa","bbb","cccc"],
-            gg: [-7,0,7],
+            ff: ["aa", "bbb", "cccc"],
+            gg: [-7, 0, 7],
             hh: [
-                "a" : EosioName("aaa"),
+                "a": EosioName("aaa"),
                 "b": EosioName("bbb")],
             ii: [
-                "aa" : ["bb" : -7],
-                "cc" : ["dd" : 7],
-                ],
+                "aa": ["bb": -7],
+                "cc": ["dd": 7]
+            ],
             jj: [
-                ["aaa" : "bbb"],
-                ["ccc" : "ddd"]
+                ["aaa": "bbb"],
+                ["ccc": "ddd"]
             ]
         )
         return complexData
     }
 
-
 }
-

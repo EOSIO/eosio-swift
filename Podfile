@@ -1,19 +1,40 @@
-# Uncomment the next line to define a global platform for your project
-platform :ios, '12.0'
+using_local_pods = false
 
-target 'EosioSwiftEcc' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
-  
-  target 'EosioSwiftEccTests' do
-    inherit! :search_paths
-    # Pods for testing
-    pod 'GRKOpenSSLFramework'
+unless using_local_pods
+  source 'https://github.com/EOSIO/eosio-swift-pod-specs.git'
+  source 'https://github.com/CocoaPods/Specs.git'
+end
+
+platform :ios, '11.0'
+
+if using_local_pods
+  # Pull pods from sibling directories if using local pods
+  target 'EosioSwiftEcc' do
+    use_frameworks!
+
+    target 'EosioSwiftEccTests' do
+      inherit! :search_paths
+      pod 'GRKOpenSSLFramework', '~> 1.0'
+      pod 'EosioSwift', :path => '../eosio-swift'
+    end
+
+    pod 'GRKOpenSSLFramework', '~> 1.0'
     pod 'EosioSwift', :path => '../eosio-swift'
+    pod 'SwiftLint'
   end
-  
-  # Pods for EosioSwiftEcc
-  pod 'GRKOpenSSLFramework'
-  pod 'EosioSwift', :path => '../eosio-swift'
-  
+else
+  # Pull pods from sources above if not using local pods
+    target 'EosioSwiftEcc' do
+    use_frameworks!
+
+    target 'EosioSwiftEccTests' do
+      inherit! :search_paths
+      pod 'GRKOpenSSLFramework', '~> 1.0'
+      pod 'EosioSwift', '~> 0.0.2'
+    end
+
+    pod 'GRKOpenSSLFramework', '~> 1.0'
+    pod 'EosioSwift', '~> 0.0.2'
+    pod 'SwiftLint'
+ end
 end

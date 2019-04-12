@@ -11,22 +11,19 @@ import Foundation
 import EosioSwift
 import openssl
 
-/// EosioEccSign manages signing with ECC's.
+/// EosioEccSign manages ECC signing.
 public class EosioEccSign {
 
     static let k1SignMaxAttempts = 100
-    /**
-     Sign data with a K1 key for validation on an eosio chain.
-     
-     - Parameters:
-       - publicKey: The public key to recover.
-       - privateKey: The private key used to sign.
-       - data: The data to sign.
-     
-     - Returns: A signature (header byte + r + s).
-     
-     - Throws: If the data cannot be signed or the public key cannot be recovered, or another error is encountered.
-     */
+
+    /// Sign data with a K1 key for validation on an eosio chain.
+    ///
+    /// - Parameters:
+    ///   - publicKey: The public key to recover.
+    ///   - privateKey: The private key used to sign.
+    ///   - data: The data to sign.
+    /// - Returns: A signature (header byte + r + s).
+    /// - Throws: If the data cannot be signed or the public key cannot be recovered, or another error is encountered.
     public class func signWithK1(publicKey: Data, privateKey: Data, data: Data) throws -> Data { // swiftlint:disable:this function_body_length
         let privKeyBN = BN_new()!
         let key = EC_KEY_new()

@@ -11,7 +11,7 @@
 import Foundation
 import BigInt
 
-/// EcdsaSignature manages an ecdsa signature with an option to convert a high `s` to low `s`.
+/// EcdsaSignature manages an ECDSA signature with an option to convert a high `s` to low `s`.
 public struct EcdsaSignature {
     /// A r curve data format.
     public var r: Data
@@ -28,14 +28,13 @@ public struct EcdsaSignature {
         der = der + s
         return der
     }
-    /**
-        Init an EcdsaSignature.
-     
-         - Parameters:
-           - der: A signature in der format.
-           - requireLowS: Option to convert a high `s` to low `s`.
-           - curve: The curve (`R1` or `K1`).
-    */
+
+    /// Init an EcdsaSignature.
+    ///
+    /// - Parameters:
+    ///   - der: A signature in der format.
+    ///   - requireLowS: Option to convert a high `s` to low `s`.
+    ///   - curve: The curve (`R1` or `K1`).
     public init?(der: Data?, requireLowS: Bool = true, curve: EllipticCurveType = .r1) { // swiftlint:disable:this cyclomatic_complexity
         guard let der = der else { return nil }
         guard der.count > 8 else { return nil }
@@ -70,13 +69,12 @@ public struct EcdsaSignature {
             }
         }
     }
-    /**
-     Init an EcdsaSignature.
-     
-     - Parameters:
-       - r: A r curve data format.
-       - s: A s curve data format.
-     */
+
+    /// Init an EcdsaSignature.
+    ///
+    /// - Parameters:
+    ///   - r: A r curve data format.
+    ///   - s: A s curve data format.
     public init(r: Data, s: Data) {
         self.r = r
         self.s = s

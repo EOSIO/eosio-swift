@@ -16,11 +16,10 @@ public enum EllipticCurveType: String {
     /// A K1 curve type
     case k1 = "K1" // swiftlint:disable:this identifier_name
 
-    /**
-     Init an EllipticCurveType
-     
-     - Parameter curve: A String defining the curve type of the enum.
-     */
+    /// Init an EllipticCurveType
+    ///
+    /// - Parameter curve: A String defining the curve type of the enum.
+    /// - Throws: If the provided curve is not supported (i.e., is neither an R1 or K1 key).
     public init(_ curve: String) throws {
         switch curve.uppercased() {
         case "R1":

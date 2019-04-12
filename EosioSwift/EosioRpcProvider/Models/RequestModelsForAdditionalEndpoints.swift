@@ -117,15 +117,6 @@ public struct EosioRpcHistoryActionsRequest: Codable {
     }
 }
 
-public struct EosioRpcBlockHeaderStateRequest: Codable {
-    public var blockNumOrId: String
-
-    public init(blockNumOrId: String) {
-        self.blockNumOrId = blockNumOrId
-    }
-
-}
-
 public struct EosioRpcAccountRequest: Codable {
     public var accountName: String
 
@@ -197,3 +188,14 @@ public struct EosioAccountInfo: Codable {
 
 public typealias EosioRpcRawCodeAndAbiRequest = EosioAccountInfo
 public typealias EosioRpcCodeRequest = EosioAccountInfo
+
+public struct EosioRpcPushTransactionsRequest: Codable {
+    public let transactions: [EosioRpcPushTransactionRequest]
+    public init(transactions: [EosioRpcPushTransactionRequest]) {
+        self.transactions = transactions
+    }
+}
+
+public typealias EosioRpcBlockHeaderStateRequest = EosioRpcBlockRequest
+
+public typealias EosioRpcAbiRequest = EosioAccountInfo

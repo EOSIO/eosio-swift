@@ -27,3 +27,6 @@ public typealias EosioRpcControlledAccountsResponse = RawResponse
 public typealias EosioRpcGetTransactionResponse = RawResponse
 public typealias EosioRpcKeyAccountsResponse = RawResponse
 public typealias EosioRpcActionsResponse = RawResponse
+public typealias EosioRpcPushTransactionsResponse = RawResponse
+public typealias EosioRpcBlockHeaderStateResponse = RawResponse
+public typealias EosioRpcAbiResponse = RawResponse

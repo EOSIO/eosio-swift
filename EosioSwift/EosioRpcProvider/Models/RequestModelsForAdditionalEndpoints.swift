@@ -199,4 +199,3 @@ public struct EosioRpcPushTransactionsRequest: Codable {
 public typealias EosioRpcBlockHeaderStateRequest = EosioRpcBlockRequest
 
 public typealias EosioRpcAbiRequest = EosioAccountInfo
-

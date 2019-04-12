@@ -9,7 +9,7 @@ platform :ios, '12.0'
 
 if using_local_pods
   # Pull pods from sibling directories if using local pods
-  target 'EosioSwiftAbieos' do
+  target 'EosioSwiftAbieosSerializationProvider' do
     use_frameworks!
 
     pod 'EosioSwift', :path => '../eosio-swift'
@@ -22,7 +22,7 @@ if using_local_pods
   end
 else
   # Pull pods from sources above if not using local pods
-  target 'EosioSwiftAbieos' do
+  target 'EosioSwiftAbieosSerializationProvider' do
     use_frameworks!
 
     pod 'EosioSwift', '~> 0.0.1'

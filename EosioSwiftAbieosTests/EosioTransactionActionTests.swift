@@ -9,7 +9,7 @@
 // swiftlint:disable identifier_name line_length
 import XCTest
 @testable import EosioSwift
-@testable import EosioSwiftAbieos
+@testable import EosioSwiftAbieosSerializationProvider
 
 class EosioTransactionActionTests: XCTestCase {
 
@@ -39,7 +39,7 @@ class EosioTransactionActionTests: XCTestCase {
             return XCTFail("Couldn't return abi token in JSON")
         }
         // serialize the data struct
-        try? action.serializeData(abi: tokenAbiJson, serializationProvider: AbiEos())
+        try? action.serializeData(abi: tokenAbiJson, serializationProvider: EosioAbieosSerializationProvider())
         guard let hexData = action.dataHex else {
             return XCTFail("Failed to convert action data to hex format")
         }
@@ -53,7 +53,7 @@ class EosioTransactionActionTests: XCTestCase {
 
         // deserialize the hex data back to json
         let hexData = "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73"
-        let abieos = AbiEos()
+        let abieos = EosioAbieosSerializationProvider()
         guard let json1 = try? abieos.deserialize(contract: "eosio.token", name: "transfer", hex: hexData, abi: tokenAbiJson) else {
             return XCTFail("Failed to deserialize JSON response from abieos")
         }
@@ -73,7 +73,7 @@ class EosioTransactionActionTests: XCTestCase {
             return XCTFail("Failed to get token abi")
         }
 
-        try? action.deserializeData(abi: tokenAbiJson, serializationProvider: AbiEos())
+        try? action.deserializeData(abi: tokenAbiJson, serializationProvider: EosioAbieosSerializationProvider())
 
         XCTAssertTrue(action.data["from"] as? String == "todd")
         XCTAssertTrue(action.data["to"] as? String   == "brandon")
@@ -249,7 +249,7 @@ class EosioTransactionActionTests: XCTestCase {
 
     func getTokenAbiJson() -> String? {
         let hex = Data(base64Encoded: tokenAbiB64)!.hexEncodedString()
-        let abieos = AbiEos()
+        let abieos = EosioAbieosSerializationProvider()
         return try? abieos.deserializeAbi(hex: hex)
     }
 

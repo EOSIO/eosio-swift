@@ -11,7 +11,7 @@ import Foundation
 
 import XCTest
 @testable import EosioSwift
-@testable import EosioSwiftAbieos
+@testable import EosioSwiftAbieosSerializationProvider
 
 class EosioTransactionAbisTests: XCTestCase {
 
@@ -20,7 +20,7 @@ class EosioTransactionAbisTests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         abis = EosioTransaction.Abis()
-        abis.serializationProvider = AbiEos()
+        abis.serializationProvider = EosioAbieosSerializationProvider()
     }
 
     override func tearDown() {

@@ -9,7 +9,7 @@
 // swiftlint:disable line_length
 import XCTest
 @testable import EosioSwift
-@testable import EosioSwiftAbieos
+@testable import EosioSwiftAbieosSerializationProvider
 
 class EosioTransactionTests: XCTestCase {
 
@@ -17,7 +17,7 @@ class EosioTransactionTests: XCTestCase {
 
     override func setUp() {
         transaction = EosioTransaction()
-        transaction.serializationProvider = AbiEos()
+        transaction.serializationProvider = EosioAbieosSerializationProvider()
     }
 
     override func tearDown() {
@@ -241,7 +241,7 @@ class EosioTransactionTests: XCTestCase {
 
     func getTokenAbiJson() -> String? {
         let hex = Data(base64Encoded: tokenAbiB64)!.hexEncodedString()
-        let serializer = AbiEos()
+        let serializer = EosioAbieosSerializationProvider()
         return try? serializer.deserializeAbi(hex: hex)
     }
 

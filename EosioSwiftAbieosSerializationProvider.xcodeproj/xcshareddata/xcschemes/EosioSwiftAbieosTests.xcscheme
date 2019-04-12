@@ -19,7 +19,7 @@
                BlueprintIdentifier = "B4EAD99221925E79009D3E04"
                BuildableName = "EosioSwiftAbieosTests.xctest"
                BlueprintName = "EosioSwiftAbieosTests"
-               ReferencedContainer = "container:EosioSwiftAbieos.xcodeproj">
+               ReferencedContainer = "container:EosioSwiftAbieosSerializationProvider.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

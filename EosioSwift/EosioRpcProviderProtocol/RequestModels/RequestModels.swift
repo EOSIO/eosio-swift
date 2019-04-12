@@ -9,6 +9,7 @@
 import Foundation
 
 /// Request struct for requests to `v1/chain/get_required_keys`.
+/// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
 public struct EosioRpcRequiredKeysRequest: Codable {
     /// The transaction, as an `EosioTransaction`.
     public var transaction: EosioTransaction
@@ -28,6 +29,7 @@ public struct EosioRpcRequiredKeysRequest: Codable {
 }
 
 /// Request struct for requests to `v1/chain/push_transaction`.
+/// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
 public struct EosioRpcPushTransactionRequest: Codable {
     /// Array of signatures as Strings.
     public var signatures = [String]()
@@ -48,6 +50,7 @@ public struct EosioRpcPushTransactionRequest: Codable {
 }
 
 /// Request struct for requests to `v1/chain/get_block`.
+/// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
 public struct EosioRpcBlockRequest: Codable {
     /// The number or ID of the block you are fetching.
     public var blockNumOrId: UInt64
@@ -59,6 +62,7 @@ public struct EosioRpcBlockRequest: Codable {
 }
 
 /// Request struct for requests to `v1/chain/get_raw_abi`.
+/// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
 public struct EosioRpcRawAbiRequest: Codable {
     /// Account name (i.e., name of the contract).
     public var accountName: EosioName

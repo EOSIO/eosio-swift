@@ -87,7 +87,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssertNotNil(eosioRpcAbiResponse._rawResponse)
             case .failure(let err):
                 print(err.description)
-                XCTFail("Failed get_abi")
+                XCTFail("Failed get_abi \(String(describing: err.originalError))")
             }
             expect.fulfill()
         }

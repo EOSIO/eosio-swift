@@ -72,7 +72,7 @@ class EosioRpcProviderTests: XCTestCase {
                 print("\(blockResponse)")
                 XCTFail("testBadResponseDataHandled should have not returned a successful completion.")
             case .failure(let err):
-                XCTAssertTrue(err.reason == "Error decoding returned data.")
+                XCTAssertTrue(err.reason == "Error occurred in decoding/serializing returned data.")
             }
             expect.fulfill()
         }

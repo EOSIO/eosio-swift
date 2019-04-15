@@ -302,7 +302,7 @@ public struct EosioRpcProvider {
                     resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     callBack(resource, nil)
                 } catch let error {
-                    callBack(nil, EosioError(.rpcProviderError, reason: "Error occured in decoding/serializing returned data.", originalError: error as NSError))
+                    callBack(nil, EosioError(.rpcProviderError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError))
                 }
             }
         }

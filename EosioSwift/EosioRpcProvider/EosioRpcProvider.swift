@@ -75,7 +75,6 @@ public struct EosioRpcProvider {
             completion(EosioResult(success: result, failure: error)!)
         }
     }
-
     /// Call `chain/get_block_header_state`.
     ///
     /// - Parameters:
@@ -296,14 +295,17 @@ public struct EosioRpcProvider {
                 return
             }
 
+                                                          
             if let data = data {
                 let decoder = JSONDecoder()
-                guard var resource = try? decoder.decode(T.self, from: data) else {
-                    callBack(nil, EosioError(.rpcProviderError, reason: "Error decoding returned data.", originalError: nil))
-                    return
+                do {
+                    var resource = try decoder.decode(T.self, from: data)
+                    resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    callBack(resource, nil)
+                } catch let error {
+                    print(error)
+                    callBack(nil, EosioError(.rpcProviderError, reason: "Error decoding returned data.", originalError: error as NSError))
                 }
-                resource._rawResponse = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                callBack(resource, nil)
             }
         }
         task.resume()

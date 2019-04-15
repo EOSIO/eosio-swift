@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1F9DCB7A22569A2600853105 /* EosioRpcProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9DCB7922569A2600853105 /* EosioRpcProviderTests.swift */; };
+		1FE626EE2261290B00FC720F /* RpcTestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE626ED2261290B00FC720F /* RpcTestConstants.swift */; };
+		1FE626F22264BC3900FC720F /* RpcProviderExtensionEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE626F12264BC3900FC720F /* RpcProviderExtensionEndpointTests.swift */; };
 		284C5E682224558800795392 /* EosioAbiProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284C5E672224558800795392 /* EosioAbiProviderTests.swift */; };
 		2856028F22182EFA00642377 /* EosioTransactionAbis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2856028E22182EFA00642377 /* EosioTransactionAbis.swift */; };
 		28A7A3B722236641002386D3 /* EosioAbiProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A7A3B622236641002386D3 /* EosioAbiProviderProtocol.swift */; };
@@ -65,6 +67,8 @@
 
 /* Begin PBXFileReference section */
 		1F9DCB7922569A2600853105 /* EosioRpcProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioRpcProviderTests.swift; sourceTree = "<group>"; };
+		1FE626ED2261290B00FC720F /* RpcTestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RpcTestConstants.swift; sourceTree = "<group>"; };
+		1FE626F12264BC3900FC720F /* RpcProviderExtensionEndpointTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RpcProviderExtensionEndpointTests.swift; sourceTree = "<group>"; };
 		284C5E672224558800795392 /* EosioAbiProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbiProviderTests.swift; sourceTree = "<group>"; };
 		2856028E22182EFA00642377 /* EosioTransactionAbis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionAbis.swift; sourceTree = "<group>"; };
 		28A7A3B622236641002386D3 /* EosioAbiProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioAbiProviderProtocol.swift; sourceTree = "<group>"; };
@@ -230,6 +234,8 @@
 				28DDAB092237030E008FB1CC /* EosioKeySignatureExtensionTests.swift */,
 				BBAC7BCD225266A40035CDBC /* DateExtensionTests.swift */,
 				1F9DCB7922569A2600853105 /* EosioRpcProviderTests.swift */,
+				1FE626ED2261290B00FC720F /* RpcTestConstants.swift */,
+				1FE626F12264BC3900FC720F /* RpcProviderExtensionEndpointTests.swift */,
 			);
 			path = EosioSwiftTests;
 			sourceTree = "<group>";
@@ -567,6 +573,7 @@
 				1F9DCB7A22569A2600853105 /* EosioRpcProviderTests.swift in Sources */,
 				B4E8F6C222320EB700FA7E63 /* RIPEMD160Tests.swift in Sources */,
 				8F6B04CF22287B1D00215CD0 /* DataExtensionsTests.swift in Sources */,
+				1FE626F22264BC3900FC720F /* RpcProviderExtensionEndpointTests.swift in Sources */,
 				8F6B04D022287B1D00215CD0 /* EosioNameTests.swift in Sources */,
 				284C5E682224558800795392 /* EosioAbiProviderTests.swift in Sources */,
 				8F6B04CC22287B1D00215CD0 /* EncodableExtensionTests.swift in Sources */,
@@ -574,6 +581,7 @@
 				28DDAB0A2237030E008FB1CC /* EosioKeySignatureExtensionTests.swift in Sources */,
 				BBCA8F422241331C00B02372 /* EosioTransactionActionTests.swift in Sources */,
 				B4E8F6C022320E3F00FA7E63 /* Base58Tests.swift in Sources */,
+				1FE626EE2261290B00FC720F /* RpcTestConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

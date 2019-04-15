@@ -80,7 +80,7 @@ public struct EosioRpcProvider {
                 let decoder = JSONDecoder()
                 do {
                     var resource = try decoder.decode(T.self, from: data)
-                    resource._rawResponse = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     callBack(resource, nil)
                 } catch let error {
                     print(error)

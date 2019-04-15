@@ -44,7 +44,7 @@ end
 
 Then run `pod install`.
 
-Now ABIEOS Serialization Provider is ready for use within EOSIO SDK for Swift according to the [EOSIO SDK for Swift Basic Usage instructions](https://github.com/EOSIO/eosio-swift/tree/develop#basic-usage).
+Now ABIEOS Serialization Provider is ready for use within EOSIO SDK for Swift according to the [EOSIO SDK for Swift Basic Usage instructions](https://github.com/EOSIO/eosio-swift/tree/master#basic-usage).
 
 ## Direct Usage
 

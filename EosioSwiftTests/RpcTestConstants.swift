@@ -219,6 +219,8 @@ public class RpcTestConstants {
     }
     """
     public static let abiJson = """
+    {
+    "account_name": "eosio.token",
     "abi": {
         "version": "eosio::abi/1.0",
         "types": [

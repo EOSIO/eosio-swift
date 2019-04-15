@@ -80,7 +80,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "GetAbi stub"
         let expect = expectation(description: "testGetAbi")
-        let requestParameters = EosioRpcAbiRequest(accountName: "cryptkeeper")
+        let requestParameters = EosioRpcAbiRequest(accountName: "eosio.token")
         rpcProvider?.getAbi(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcAbiResponse):
@@ -164,7 +164,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "GetRawCodeAndAbis stub"
         let expect = expectation(description: "getRawCodeAndAbi")
-        let requestParameters = EosioRpcRawCodeAndAbiRequest(accountName: "cryptkeeper")
+        let requestParameters = EosioRpcRawCodeAndAbiRequest(accountName: "eosio.token")
         rpcProvider?.getRawCodeAndAbi(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcRawCodeAndAbiResponse):
@@ -185,7 +185,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "GetRawCodeAndAbis w String stub"
         let expect = expectation(description: "testGetRawCodeAndAbiWithStringSignature")
-        rpcProvider?.getRawCodeAndAbi(accountName: "cryptkeeper" ) { response in
+        rpcProvider?.getRawCodeAndAbi(accountName: "eosio.token" ) { response in
             switch response {
             case .success(let eosioRpcRawCodeAndAbiResponse):
                 XCTAssertNotNil(eosioRpcRawCodeAndAbiResponse._rawResponse)

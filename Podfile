@@ -1,4 +1,4 @@
-using_local_pods = true
+using_local_pods = false
 
 unless using_local_pods
   source 'https://github.com/EOSIO/eosio-swift-pod-specs.git'
@@ -25,12 +25,12 @@ else
   target 'EosioSwiftAbieosSerializationProvider' do
     use_frameworks!
 
-    pod 'EosioSwift', '~> 0.0.1'
+    pod 'EosioSwift', '~> 0.0.2'
     pod 'SwiftLint'
 
     target 'EosioSwiftAbieosTests' do
       inherit! :search_paths
-      pod 'EosioSwift', '~> 0.0.1'
+      pod 'EosioSwift', '~> 0.0.2'
     end
   end
 end

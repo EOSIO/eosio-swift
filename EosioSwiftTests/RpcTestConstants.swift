@@ -220,7 +220,7 @@ public class RpcTestConstants {
     """
     public static let abiJson = """
     {
-    "account_name": "cryptkeeper"
+    "account_name": "eosio.token"
     }
     """
     public static let currencyBalanceJson = """

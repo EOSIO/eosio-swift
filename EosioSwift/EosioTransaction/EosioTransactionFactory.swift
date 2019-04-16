@@ -23,11 +23,7 @@ public class EosioTransactionFactory {
     let config: EosioTransaction.Config?
 
     /// Initializes the class.
-    public init(rpcProvider: EosioRpcProviderProtocol,
-         signatureProvider: EosioSignatureProviderProtocol,
-         serializationProvider: EosioSerializationProviderProtocol,
-         abiProvider: EosioAbiProviderProtocol? = nil,
-         config: EosioTransaction.Config? = nil) {
+    public init(rpcProvider: EosioRpcProviderProtocol, signatureProvider: EosioSignatureProviderProtocol, serializationProvider: EosioSerializationProviderProtocol, abiProvider: EosioAbiProviderProtocol? = nil, config: EosioTransaction.Config? = nil) {
 
         self.rpcProvider = rpcProvider
         self.signatureProvider = signatureProvider

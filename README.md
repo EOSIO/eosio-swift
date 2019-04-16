@@ -49,7 +49,7 @@ target "Your Target" do
   pod "EosioSwift", "~> 0.0.2" # EOSIO SDK for Swift core library
   pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.2" # pod for this library
   # add other providers for EOSIO SDK for Swift
-  pod "EosioSwiftAbieos", "~> 0.0.3" # serialization provider
+  pod "EosioSwiftAbieosSerializationProvider", "~> 0.0.3" # serialization provider
 end
 ```
 

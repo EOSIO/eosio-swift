@@ -51,7 +51,7 @@ Then run `pod install`. And you're all set for the [Basic Usage](#basic-usage) e
 
 ## Basic Usage
 
-Transactions are instantiated as an `EosioTransaction()` and must then be configured with a number of providers prior to use. (See [Provider Protocol Architecture](#provider-protocol-architecture) below for more information about providers.)
+Transactions are instantiated as an [`EosioTransaction`](EosioSwift/EosioTransaction/EosioTransaction.swift) and must then be configured with a number of providers prior to use. (See [Provider Protocol Architecture](#provider-protocol-architecture) below for more information about providers.)
 
 ```swift
 import EosioSwift
@@ -62,12 +62,10 @@ import EosioSwiftSoftkeySignatureProvider
 Then, inside a `do...catch` or throwing function, do the following:
 
 ```swift
-let rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
-let signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
-let serializationProvider = EosioAbieosSerializationProvider()
-
-let myTestNet = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)
-let transaction = myTestNet.newTransaction()
+let transaction = EosioTransaction()
+transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
+transaction.serializationProvider = EosioAbieosSerializationProvider()
+transaction.signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
 
 /// Actions can now be appended to the transaction, which can, in turn, be signed and broadcast:
 
@@ -95,6 +93,23 @@ transaction.signAndBroadcast { (result) in
         // Handle success.
     }
 }
+```
+
+Alternatively, to avoid having to set the providers on every transaction, you can use the [`EosioTransactionFactory`](EosioSwift/EosioTransaction/EosioTransactionFactory.swift) convenience class, as follows:
+
+```swift
+let rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
+let signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+let serializationProvider = EosioAbieosSerializationProvider()
+
+let myTestnet = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)
+
+let transaction = myTestnet.newTransaction()
+// add actions, sign and broadcast!
+
+let anotherTransaction = myTestnet.newTransaction()
+// add actions, sign and broadcast!
+...
 ```
 
 

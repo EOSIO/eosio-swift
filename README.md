@@ -46,10 +46,10 @@ To use Softkey Signature Provider with EOSIO SDK for Swift in your app, add the 
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwift", "~> 0.0.1" # EOSIO SDK for Swift core library
-  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.1" # pod for this library
+  pod "EosioSwift", "~> 0.0.2" # EOSIO SDK for Swift core library
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.2" # pod for this library
   # add other providers for EOSIO SDK for Swift
-  pod "EosioSwiftAbieos", "~> 0.0.1" # serialization provider
+  pod "EosioSwiftAbieos", "~> 0.0.3" # serialization provider
 end
 ```
 
@@ -59,8 +59,10 @@ Now Softkey Signature Provider is ready for use within EOSIO SDK for Swift accor
 
 ## Direct Usage
 
+Generally, signature providers are called by [EosioTransaction](https://github.com/EOSIO/eosio-swift#basic-usage) during signing. If you find, however, that you need to get available keys or request signing directly, this library can be invoked as follows:
+
 ```swift
-let signProvider = try? EosioSwiftSoftkeySignatureProvider(privateKeys: privateKeysArray)
+let signProvider = try? EosioSoftkeySignatureProvider(privateKeys: privateKeysArray)
 let publicKeysArray = signProvider?.getAvailableKeys() // Returns the public keys.
 ```
 
@@ -68,7 +70,7 @@ To sign an `EosioTransaction`, create an `EosioTransactionSignatureRequest` obje
 
 ```swift
 let signRequest = createSignatureRequest()
-signProvider.signTransaction(request: signRequest){ (response) in
+signProvider.signTransaction(request: signRequest) { (response) in
     ...
 }
 ```
@@ -77,8 +79,9 @@ signProvider.signTransaction(request: signRequest){ (response) in
 
 This library is an example implementation of `EosioSignatureProviderProtocol`. It implements the following methods:
 
+* `init(privateKeys:)` initializes the signature provider with an array of private keys as strings.
 * `signTransaction(request:completion:)` signs an `EosioTransaction`.
-* `getAvailableKeys()` returns an array, containing the public keys associated with the private keys that the object is initialized with.
+* `getAvailableKeys()` returns an array containing the public keys associated with the private keys that the object is initialized with.
 
 ## Want to help?
 

@@ -26,7 +26,7 @@ The Signature Provider abstraction is arguably the most useful of all of the [EO
 * finding out what keys are available for signing (`getAvailableKeys`), and
 * requesting and obtaining transaction signatures with a subset of the available keys (`signTransaction`).
 
-By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need a signature from keys in the platform's Keychain or Secure Enclave? Configure the `EosioTransaction` with a conforming signature provider that exposes that functionality. Need signatures from a wallet on the user's device? A signature provider can do that too!
+By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need a signature from keys in the platform's Keychain or Secure Enclave? [Configure the `EosioTransaction`](https://github.com/EOSIO/eosio-swift#basic-usage) with a conforming signature provider that exposes that functionality. Need signatures from a wallet on the user's device? A signature provider can do that too!
 
 All signature providers must conform to the [EosioSignatureProviderProtocol](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) Protocol.
 
@@ -50,7 +50,7 @@ target "Your Target" do
   pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.2" # pod for this library
   # add other providers for EOSIO SDK for Swift
   pod "EosioSwiftAbieosSerializationProvider", "~> 0.0.3" # serialization provider
-end
+
 ```
 
 Then run `pod install`.
@@ -59,14 +59,14 @@ Now Softkey Signature Provider is ready for use within EOSIO SDK for Swift accor
 
 ## Direct Usage
 
-Generally, signature providers are called by [EosioTransaction](https://github.com/EOSIO/eosio-swift#basic-usage) during signing. If you find, however, that you need to get available keys or request signing directly, this library can be invoked as follows:
+Generally, signature providers are called by [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift) during signing. ([See an example here.](https://github.com/EOSIO/eosio-swift#basic-usage)) If you find, however, that you need to get available keys or request signing directly, this library can be invoked as follows:
 
 ```swift
 let signProvider = try? EosioSoftkeySignatureProvider(privateKeys: privateKeysArray)
 let publicKeysArray = signProvider?.getAvailableKeys() // Returns the public keys.
 ```
 
-To sign an `EosioTransaction`, create an `EosioTransactionSignatureRequest` object and call the `signTransaction(request:completion:)` method with the request:
+To sign an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift), create an [`EosioTransactionSignatureRequest`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) object and call the `signTransaction(request:completion:)` method with the request:
 
 ```swift
 let signRequest = createSignatureRequest()
@@ -77,11 +77,14 @@ signProvider.signTransaction(request: signRequest) { (response) in
 
 ## Library Methods
 
-This library is an example implementation of `EosioSignatureProviderProtocol`. It implements the following methods:
+This library is an example implementation of [`EosioSignatureProviderProtocol`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift). It implements the following methods:
+
+* `signTransaction(request:completion:)` signs an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift).
+* `getAvailableKeys()` returns an array containing the public keys associated with the private keys that the object is initialized with.
+
+To initialize the implementation:
 
 * `init(privateKeys:)` initializes the signature provider with an array of private keys as strings.
-* `signTransaction(request:completion:)` signs an `EosioTransaction`.
-* `getAvailableKeys()` returns an array containing the public keys associated with the private keys that the object is initialized with.
 
 ## Want to help?
 

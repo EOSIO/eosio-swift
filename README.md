@@ -69,7 +69,11 @@ let publicKeysArray = signProvider?.getAvailableKeys() // Returns the public key
 To sign an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift), create an [`EosioTransactionSignatureRequest`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) object and call the `signTransaction(request:completion:)` method with the request:
 
 ```swift
-let signRequest = createSignatureRequest()
+let signRequest = EosioTransactionSignatureRequest()
+signRequest.serializedTransaction = serializedTransaction
+signRequest.publicKeys = publicKeys
+signRequest.chainId = chainId
+
 signProvider.signTransaction(request: signRequest) { (response) in
     ...
 }
@@ -77,7 +81,7 @@ signProvider.signTransaction(request: signRequest) { (response) in
 
 ## Library Methods
 
-This library is an example implementation of [`EosioSignatureProviderProtocol`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift). It implements the following methods:
+This library is an example implementation of [`EosioSignatureProviderProtocol`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift). It implements the following protocol methods:
 
 * `signTransaction(request:completion:)` signs an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift).
 * `getAvailableKeys()` returns an array containing the public keys associated with the private keys that the object is initialized with.

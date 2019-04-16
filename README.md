@@ -62,10 +62,12 @@ import EosioSwiftSoftkeySignatureProvider
 Then, inside a `do...catch` or throwing function, do the following:
 
 ```swift
-let transaction = EosioTransaction()
-transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
-transaction.serializationProvider = EosioAbieosSerializationProvider()
-transaction.signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+let rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
+let signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+let serializationProvider = EosioAbieosSerializationProvider()
+
+let myTestNet = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)
+let transaction = myTestNet.newTransaction()
 
 /// Actions can now be appended to the transaction, which can, in turn, be signed and broadcast:
 
@@ -95,7 +97,6 @@ transaction.signAndBroadcast { (result) in
 }
 ```
 
-**Note:** Currently, providers must be set on each and every transaction. We are, however, considering the introduction of a convenience transaction factory in future versions to streamline transaction creation and configuration.
 
 ## Provider Protocol Architecture
 
@@ -165,7 +166,6 @@ Response structs for the alpha release are incomplete. Some responses will only 
 
 We're always looking for ways to improve EOSIO SDK for Swift. Here are a few ideas around how we'd like to see the library progress. Check out our [#enhancement Issues](/../../issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for more.
 
-* Implement a Transaction factory so that providers don't have to be set explicitly for every transaction
 * Improve RPC response marshalling; build out new and existing response structs
 * Make Transaction properties immutable once signatures are present
 * Add networking enhancements to the default RPC provider (_e.g._, retry logic, endpoint failover, offline handling)

@@ -69,7 +69,7 @@ let publicKeysArray = signProvider?.getAvailableKeys() // Returns the public key
 To sign an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift), create an [`EosioTransactionSignatureRequest`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) object and call the `signTransaction(request:completion:)` method with the request:
 
 ```swift
-let signRequest = EosioTransactionSignatureRequest()
+var signRequest = EosioTransactionSignatureRequest()
 signRequest.serializedTransaction = serializedTransaction
 signRequest.publicKeys = publicKeys
 signRequest.chainId = chainId

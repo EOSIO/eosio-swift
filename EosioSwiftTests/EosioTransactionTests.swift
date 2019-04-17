@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import EosioSwift
+@testable import PromiseKit
 
 class EosioTransactionTests: XCTestCase {
     var transaction: EosioTransaction!
@@ -175,7 +176,23 @@ class EosioTransactionTests: XCTestCase {
             XCTAssertEqual(self.transaction.transactionId, "mocktransactionid")
         }
     }
-
+    // MARK: - EosioTransaction extension tests using Promises
+    func test_signAndbroadcastPromise_shouldSucceed() {
+        let expect = expectation(description: "signAndbroadcastPromise_shouldSucceed")
+        self.transaction.signAndBroadcast().done { (value) in
+                print("did get value: \(value)")
+                expect.fulfill()
+                }.catch { (error) in
+                    print("got an error: \(error)")
+                    XCTFail("Should not have throw error: \(error.localizedDescription)")
+            }
+        waitForExpectations(timeout: 10)
+    }
+    func fakePromise() -> Promise<String> {
+        return Promise { seal in
+            seal.resolve(.fulfilled("did fullfil"))
+        }
+    }
 }
 
 class RPCProviderMock: EosioRpcProviderProtocol {

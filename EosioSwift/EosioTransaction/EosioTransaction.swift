@@ -8,6 +8,7 @@
 
 // swiftlint:disable line_length
 import Foundation
+import PromiseKit
 
 /// Class for creating, preparing, signing, and (optionally) broadcasting transactions on EOSIO-based blockchains.
 public class EosioTransaction: Codable {
@@ -557,4 +558,23 @@ public class EosioTransaction: Codable {
         }
     }
 
+}
+
+// MARK: - Wrapping convenience functions used by `EosioTransaction` to return Promises.
+extension EosioTransaction {
+    /// Promised based method for signing a transaction and then broadcasting it.
+    ///
+    /// Returns Promise<Bool>.
+    public func signAndBroadcast() -> Promise<Bool> {
+        return Promise { seal in
+            signAndBroadcast { result in
+                switch result {
+                case .failure (let err):
+                    seal.reject(err)
+                case .success (let res):
+                    seal.fulfill(res)
+                }
+            }
+        }
+    }
 }

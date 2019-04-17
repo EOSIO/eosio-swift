@@ -23,8 +23,9 @@ public class EosioTransactionFactory {
     let config: EosioTransaction.Config?
 
     /// Initializes the class.
+    // swiftlint:disable line_length
     public init(rpcProvider: EosioRpcProviderProtocol, signatureProvider: EosioSignatureProviderProtocol, serializationProvider: EosioSerializationProviderProtocol, abiProvider: EosioAbiProviderProtocol? = nil, config: EosioTransaction.Config? = nil) {
-
+    // swiftlint:enableline_length
         self.rpcProvider = rpcProvider
         self.signatureProvider = signatureProvider
         self.serializationProvider = serializationProvider

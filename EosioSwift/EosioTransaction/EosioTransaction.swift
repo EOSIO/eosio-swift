@@ -8,6 +8,7 @@
 
 // swiftlint:disable line_length
 import Foundation
+import PromiseKit
 
 /// Class for creating, preparing, signing, and (optionally) broadcasting transactions on EOSIO-based blockchains.
 public class EosioTransaction: Codable {

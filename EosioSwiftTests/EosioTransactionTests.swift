@@ -204,6 +204,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     var getInfoCalled = false
     var getInfoReturnsfailure = false
     var getRequiredKeysReturnsfailure = false
+    var getRawAbiReturnsfailure = false
     let rpcInfo = EosioRpcInfoResponse(
         serverVersion: "verion",
         chainId: "chainId",
@@ -265,6 +266,18 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
     public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping
         (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
+        var result: EosioResult<EosioRpcRawAbiResponseProtocol, EosioError> =
+            EosioResult.failure(EosioError(.rpcProviderError, reason: "Abi response conversion error."))
+        if getRawAbiReturnsfailure {
+            result = EosioResult.failure(EosioError(.rpcProviderError, reason: "No abis found."))
+        } else {
+            let decoder = JSONDecoder()
+            if let rawAbiResponse = RpcTestConstants.createRawApiResponseJson(account: requestParameters.accountName),
+                let resp = try? decoder.decode(EosioRpcRawAbiResponse.self, from: rawAbiResponse.data(using: .utf8)!) {
+                    result = EosioResult.success(resp)
+            }
+        }
+        completion(result)
     }
 
     public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {

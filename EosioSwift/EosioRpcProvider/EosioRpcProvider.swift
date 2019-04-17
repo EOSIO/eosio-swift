@@ -345,7 +345,10 @@ extension EosioRpcProvider {
             switchToNextEndpointAndTryAgain(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
             return
         }
-        DispatchQueue.global(qos: .default).async {
+        DispatchQueue.global(qos: .default).async {[weak self] in
+            guard let self = self else {
+                return
+            }
             let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
             var request = URLRequest(url: url)
             request.httpMethod = "POST"

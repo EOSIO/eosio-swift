@@ -17,6 +17,9 @@ class EosioTransactionTests: XCTestCase {
         transaction = EosioTransaction()
         let url = URL(string: "http://example.com")
         rpcProvider = RPCProviderMock(endpoint: url!)
+        rpcProvider.getInfoCalled = false
+        rpcProvider.getInfoReturnsfailure = false
+        rpcProvider.getRequiredKeysReturnsfailure = false
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = SerializationProviderMock()
         transaction.signatureProvider = SignatureProviderMock()
@@ -157,6 +160,7 @@ class EosioTransactionTests: XCTestCase {
     }
 
     func test_sign_availableKeys_shouldFail() {
+        rpcProvider.getRequiredKeysReturnsfailure = true
         transaction.sign(availableKeys: ["PUB_K1_badkey"]) { (result) in
             guard case .failure = result else {
                 return XCTFail("Succeeded to sign transaction despite having a bad key")
@@ -179,32 +183,27 @@ class EosioTransactionTests: XCTestCase {
     // MARK: - EosioTransaction extension tests using Promises
     func test_signAndbroadcastPromise_shouldSucceed() {
         let expect = expectation(description: "signAndbroadcastPromise_shouldSucceed")
-        self.transaction.signAndBroadcast().done { (value) in
-                print("did get value: \(value)")
-                expect.fulfill()
-                }.catch { (error) in
-                    print("got an error: \(error)")
-                    XCTFail("Should not have throw error: \(error.localizedDescription)")
-            }
-        waitForExpectations(timeout: 10)
-    }
-    func fakePromise() -> Promise<String> {
-        return Promise { seal in
-            seal.resolve(.fulfilled("did fullfil"))
+        let promise = self.transaction.signAndBroadcast()
+        promise.done { (value) in
+            print(value)
+            expect.fulfill()
+            }.catch { (error) in
+                XCTFail("Should not have throw error: \(error.localizedDescription)")
         }
+        waitForExpectations(timeout: 10)
     }
 }
 
 class RPCProviderMock: EosioRpcProviderProtocol {
 
     var url: URL
-
     required init(endpoint: URL) {
         self.url = endpoint
     }
 
     var getInfoCalled = false
     var getInfoReturnsfailure = false
+    var getRequiredKeysReturnsfailure = false
     let rpcInfo = EosioRpcInfoResponse(
         serverVersion: "verion",
         chainId: "chainId",
@@ -264,16 +263,25 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
     }
 
-    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
-
+    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping
+        (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
     }
 
     public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
-
+        let result: EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>
+        if getRequiredKeysReturnsfailure {
+            result = EosioResult.failure(EosioError(.rpcProviderError, reason: "No required keys found."))
+        } else {
+            let requredKeysResponse = EosioRpcRequiredKeysResponse(requiredKeys: ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"])
+            result = EosioResult.success(requredKeysResponse)
+        }
+        completion(result)
     }
 
     public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
-
+        let pushTransactionResponse = EosioRpcTransactionResponse(transactionId: "mocktransactionid")
+        let result: EosioResult<EosioRpcTransactionResponseProtocol, EosioError>  = EosioResult.success(pushTransactionResponse)
+        completion(result)
     }
 }
 
@@ -339,5 +347,4 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
         availableKeysResponse.keys = ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"]
         completion(availableKeysResponse)
     }
-
 }

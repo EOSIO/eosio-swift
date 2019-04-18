@@ -25,4 +25,34 @@ extension EosioTransaction {
             }
         }
     }
+    /// Promised based method for signing a transaction.
+    ///
+    /// Returns Promise<Bool>.
+    public func sign() -> Promise<Bool> {
+        return Promise { seal in
+            sign { result in
+                switch result {
+                case .failure (let err):
+                    seal.reject(err)
+                case .success (let res):
+                    seal.fulfill(res)
+                }
+            }
+        }
+    }
+    /// Promised based method for broadcast a transaction.
+    ///
+    /// Returns Promise<Bool>.
+    public func broadcast() -> Promise<Bool> {
+        return Promise { seal in
+            broadcast { result in
+                switch result {
+                case .failure (let err):
+                    seal.reject(err)
+                case .success (let res):
+                    seal.fulfill(res)
+                }
+            }
+        }
+    }
 }

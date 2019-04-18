@@ -203,6 +203,17 @@ class EosioTransactionTests: XCTestCase {
         }
         waitForExpectations(timeout: 10)
     }
+    func test_signPromise_shouldFail() {
+        let expect = expectation(description: "signPromise_shouldFail")
+        self.transaction.signatureProvider = nil
+        self.transaction.sign().done { (value) in
+            print(value)
+            XCTFail("Should have throw error!")
+            }.catch { _ in
+                expect.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
     func test_broadcastPromise_shouldSucceed() {
         let expect = expectation(description: "broadcastPromise_shouldSucceed")
         firstly {
@@ -215,6 +226,18 @@ class EosioTransactionTests: XCTestCase {
                 expect.fulfill()
             }.catch { (error) in
                 XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_broadcastPromise_shouldFail() {
+        let expect = expectation(description: "test_broadcastPromise_shouldFail")
+        firstly {
+            self.transaction.broadcast()
+            }.done { (value) in
+                print(value)
+                XCTFail("Should have throw error!")
+            }.catch { _ in
+                expect.fulfill()
         }
         waitForExpectations(timeout: 10)
     }

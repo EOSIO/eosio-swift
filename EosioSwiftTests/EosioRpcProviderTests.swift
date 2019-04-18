@@ -18,7 +18,10 @@ class EosioRpcProviderTests: XCTestCase {
     override func setUp() {
         super.setUp()
         let url = URL(string: "https://localhost")
+        let url2 = URL(string: "https://endpoint2example")!
+        let url3 = URL(string: "https://endpoint3example")!
         rpcProvider = EosioRpcProvider(endpoint: url!)
+        //rpcProvider = EosioRpcProvider(endpoints: [url3, url2, url!])
 
         OHHTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
@@ -30,6 +33,25 @@ class EosioRpcProviderTests: XCTestCase {
 
         //remove all stubs on tear down
         OHHTTPStubs.removeAllStubs()
+    }
+
+    func test_failOver() {
+        var endpointsTried = 0
+        stub(condition: isHost("localhost")) { _ in
+            endpointsTried += 1
+            let error = NSError(domain: NSURLErrorDomain, code: 500, userInfo: nil)
+            return OHHTTPStubsResponse(error: error)
+        }
+
+        stub(condition: isHost("endpoint2example")) { _ in
+            let error = NSError(domain: NSURLErrorDomain, code: 500, userInfo: nil)
+            return OHHTTPStubsResponse(error: error)
+        }
+
+        stub(condition: isHost("endpoint3example")) { _ in
+            let error = NSError(domain: NSURLErrorDomain, code: 500, userInfo: nil)
+            return OHHTTPStubsResponse(error: error)
+        }
     }
 
     /**

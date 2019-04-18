@@ -289,6 +289,7 @@ extension EosioRpcProvider {
                 return
             }
             var exitLoop = false
+            var lastReturnedError: EosioError?
             let endpoints = self.endpoints
             for index in 0..<self.endpoints.count {
                 let endpoint = endpoints[index]
@@ -314,12 +315,14 @@ extension EosioRpcProvider {
                         group.leave()
                         return
                     }
+                        if let error = error {
+                            if let originalError = error.originalError, originalError.isNetworkConnectionError() {
+                                exitLoop = true
+                                callBack(nil, error)
+                            }
 
-                    if let originalError = error?.originalError, originalError.isNetworkConnectionError() {
-                        exitLoop = true
-                        callBack(nil, error)
-                    }
-
+                            lastReturnedError = error
+                        }
                     group.leave()
                 })
                 group.wait()
@@ -329,7 +332,7 @@ extension EosioRpcProvider {
                 }
                 // If all endpoints are tried:
                 if index == endpoints.count - 1 {
-                    callBack(nil, EosioError(.rpcProviderError, reason: "All endpoints are busy."))
+                    callBack(nil, lastReturnedError)
                 }
             }
         }
@@ -400,7 +403,7 @@ extension EosioRpcProvider {
                             resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                             callBack(resource, nil)
                         } catch let error {
-                            callBack(nil, EosioError(.rpcProviderError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError))
+                            callBack(nil, EosioError(.unexpectedError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError))
                         }
                     }
                 }

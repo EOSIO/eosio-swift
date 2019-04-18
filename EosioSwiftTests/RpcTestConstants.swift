@@ -28,6 +28,43 @@ public class RpcTestConstants {
     "server_version_string": "v1.3.0"
     }
     """
+
+    public static let infoResponseEndpoint2Json = """
+    {
+    "server_version": "0f6695cb",
+    "chain_id": "687fa513e188wre3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17",
+    "head_block_num": 25260035,
+    "last_irreversible_block_num": 25259987,
+    "last_irreversible_block_id": "01816fd3f7f35fd7d60c72b522772541fad71ce310c5f5cd434c41a17d2ad3b8",
+    "head_block_id": "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05",
+    "head_block_time": "2019-02-21T18:31:41.500",
+    "head_block_producer": "blkproducer2",
+    "virtual_block_cpu_limit": 200000000,
+    "virtual_block_net_limit": 1048576000,
+    "block_cpu_limit": 199900,
+    "block_net_limit": 1048576,
+    "server_version_string": "v1.3.0"
+    }
+    """
+
+    public static let infoResponseEndpoint3Json = """
+    {
+    "server_version": "0f6695cb",
+    "chain_id": "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17",
+    "head_block_num": 25260039,
+    "last_irreversible_block_num": 25259987,
+    "last_irreversible_block_id": "01816fd3f7f35fd7d60c72b522772541fad71ce310c5f5cd434c41a17d2ad3b8",
+    "head_block_id": "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05",
+    "head_block_time": "2019-02-21T18:31:41.500",
+    "head_block_producer": "blkproducer2",
+    "virtual_block_cpu_limit": 200000000,
+    "virtual_block_net_limit": 1048576000,
+    "block_cpu_limit": 199900,
+    "block_net_limit": 1048576,
+    "server_version_string": "v1.3.0"
+    }
+    """
+
     public static let blockResponseJson = """
     {
     "timestamp": "2019-02-21T18:31:40.000",

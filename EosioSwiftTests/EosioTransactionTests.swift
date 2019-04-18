@@ -11,7 +11,7 @@ import XCTest
 @testable import PromiseKit
 
 class EosioTransactionTests: XCTestCase {
-    var transaction: EosioTransaction!
+    var transaction = EosioTransaction()
     var rpcProvider: RPCProviderMock!
     override func setUp() {
         transaction = EosioTransaction()
@@ -205,10 +205,14 @@ class EosioTransactionTests: XCTestCase {
     }
     func test_broadcastPromise_shouldSucceed() {
         let expect = expectation(description: "broadcastPromise_shouldSucceed")
-        let promise = self.transaction.sign()
-        promise.done { (value) in
-            print(value)
-            expect.fulfill()
+        firstly {
+            self.transaction.sign()
+            }.then { (value: Bool) -> Promise<Bool> in
+                print(value)
+                return self.transaction.broadcast()
+            }.done { (value) in
+                print(value)
+                expect.fulfill()
             }.catch { (error) in
                 XCTFail("Should not have throw error: \(error.localizedDescription)")
         }

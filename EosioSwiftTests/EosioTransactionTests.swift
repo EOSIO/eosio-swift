@@ -192,6 +192,28 @@ class EosioTransactionTests: XCTestCase {
         }
         waitForExpectations(timeout: 10)
     }
+    func test_signPromise_shouldSucceed() {
+        let expect = expectation(description: "signPromise_shouldSucceed")
+        let promise = self.transaction.sign()
+        promise.done { (value) in
+            print(value)
+            expect.fulfill()
+            }.catch { (error) in
+                XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_broadcastPromise_shouldSucceed() {
+        let expect = expectation(description: "broadcastPromise_shouldSucceed")
+        let promise = self.transaction.sign()
+        promise.done { (value) in
+            print(value)
+            expect.fulfill()
+            }.catch { (error) in
+                XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
 }
 
 class RPCProviderMock: EosioRpcProviderProtocol {

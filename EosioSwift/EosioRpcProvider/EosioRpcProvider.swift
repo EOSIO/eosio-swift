@@ -315,7 +315,7 @@ extension EosioRpcProvider {
                         return
                     }
 
-                    if let error = error, error.reason.hasPrefix("Network") /* Probably not a good idea */ {
+                    if let originalError = error?.originalError, originalError.isNetworkConnectionError() {
                         exitLoop = true
                         callBack(nil, error)
                     }
@@ -416,6 +416,17 @@ extension EosioRpcProvider {
 
     }
 
+}
+
+extension NSError {
+    func isNetworkConnectionError() -> Bool {
+        let networkErrors = [NSURLErrorNetworkConnectionLost, NSURLErrorNotConnectedToInternet]
+
+        if self.domain == NSURLErrorDomain && networkErrors.contains(self.code) {
+            return true
+        }
+        return false
+    }
 }
 
 // MARK: - RPC methods used by `EosioTransaction`. These force conformance only to the protocols, not the entire response structs.

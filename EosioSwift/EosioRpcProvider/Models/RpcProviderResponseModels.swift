@@ -166,6 +166,129 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
     }
 }
 
+/// Response struct for the `get_key_accounts` RPC endpoint
+public struct EosioRpcKeyAccountsResponse: Codable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var accountNames: [String] = [String]()
+
+    enum CodingKeys: String, CodingKey {
+        case accountNames = "account_names"
+    }
+}
+
+/// Reponse type for `wait_weight` in RPC endpoint responses.
+public struct WaitWeight: Codable {
+    public var waitSec: UInt64
+    public var weight: UInt64
+
+    enum CodingKeys: String, CodingKey {
+        case waitSec = "wait_sec"
+        case weight
+    }
+}
+
+/// Response type for `permission_level` in RPC endpoint responses.
+public struct PermissionLevel: Codable {
+    public var actor: String
+    public var permission: String
+
+    enum CodingKeys: String, CodingKey {
+        case actor
+        case permission
+    }
+}
+
+/// Response type for `permission_level_weight in RPC endpoint responses.
+public struct PermissionLevelWeight: Codable {
+    public var weight: UInt64
+    public var accounts: [PermissionLevel]
+
+    enum CodingKeys: String, CodingKey {
+        case weight
+        case accounts
+    }
+}
+
+/// Response type for `key_weight` structure in RPC endpoint responses.
+public struct KeyWeight: Codable {
+    public var key: String
+    public var weight: UInt64
+
+    enum CodingKeys: String, CodingKey {
+        case key
+        case weight
+    }
+}
+
+/// Response type for `authority` structure in RPC endpoint responses.
+public struct Authority: Codable {
+    public var threshold: UInt64
+    public var keys: [KeyWeight]
+    public var waits: [WaitWeight]
+
+    enum CodingKeys: String, CodingKey {
+        case threshold
+        case keys
+        case waits
+    }
+}
+
+/// Response type for `permission` structure in RPC endpoint responses.
+public struct Permission: Codable {
+    public var permName: String
+    public var parent: String
+
+    enum CodingKeys: String, CodingKey {
+        case permName = "perm_name"
+        case parent
+    }
+}
+
+/// Response type for the `get_account` RPC endpoint.
+public struct EosioRpcAccountResponse: Codable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var accountName: String
+    public var headBlockNum: UInt64 = 0
+    public var headBlockTime: String = ""
+    public var privileged: Bool = false
+    public var lastCodeUpdate: String = ""
+    public var created: String = ""
+    public var coreLiquidBalance: String = ""
+    public var ramQuota: UInt64 = 0
+    public var netWeight: UInt64 = 0
+    public var cpuWeight: UInt64 = 0
+    public var netLimit: JSONValue
+    public var cpuLimit: JSONValue
+    public var ramUsage: UInt64 = 0
+    public var permissions: [Permission]
+    public var totalResources: JSONValue?
+    public var selfDelegatedBandwidth: JSONValue?
+    public var refundRequest: JSONValue?
+    public var voterInfo: JSONValue?
+
+    enum CodingKeys: String, CodingKey {
+        case accountName = "account_name"
+        case headBlockNum = "head_block_num"
+        case headBlockTime = "head_block_time"
+        case privileged
+        case lastCodeUpdate = "last_code_update"
+        case created
+        case coreLiquidBalance = "core_liquid_balance"
+        case ramQuota = "ram_quota"
+        case netWeight = "net_weight"
+        case cpuWeight = "cpu_weight"
+        case netLimit = "net_limit"
+        case cpuLimit = "cpu_limit"
+        case ramUsage = "ram_usage"
+        case permissions
+        case totalResources = "total_resources"
+        case selfDelegatedBandwidth = "self_delegated_bandwidth"
+        case refundRequest = "refund_request"
+        case voterInfo = "voter_info"
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -175,9 +298,6 @@ public struct RawResponse: Codable, EosioRpcResponseProtocol {
     enum CodingKeys: CodingKey {
     }
 }
-
-/// Response type for the `get_account` RPC endpoint.
-public typealias EosioRpcAccountResponse = RawResponse
 
 /// Response type for the `push_transactions` RPC endpoint.
 public typealias EosioRpcPushTransactionsResponse = RawResponse
@@ -216,9 +336,6 @@ public typealias EosioRpcActionsResponse = RawResponse
 
 /// Response type for the `get_transaction` RPC endpoint.
 public typealias EosioRpcGetTransactionResponse = RawResponse
-
-/// Response type for the `get_key_accounts` RPC endpoint.
-public typealias EosioRpcKeyAccountsResponse = RawResponse
 
 /// Response type for the `get_controlled_accounts` RPC endpoint.
 public typealias EosioRpcControlledAccountsResponse = RawResponse

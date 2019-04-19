@@ -59,6 +59,24 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
         self.blockNetLimit = blockNetLimit
         self.serverVersionString = serverVersionString
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        serverVersion = try container.decodeIfPresent(String.self, forKey: .serverVersion) ?? ""
+        chainId = try container.decode(String.self, forKey: .chainId)
+        headBlockNum = try container.decode(UInt64.self, forKey: .headBlockNum)
+        lastIrreversibleBlockNum = try container.decode(UInt64.self, forKey: .lastIrreversibleBlockNum)
+        lastIrreversibleBlockId = try container.decode(String.self, forKey: .lastIrreversibleBlockId)
+        headBlockId = try container.decode(String.self, forKey: .headBlockId)
+        headBlockTime = try container.decode(String.self, forKey: .headBlockTime)
+        headBlockProducer = try container.decodeIfPresent(String.self, forKey: .headBlockProducer) ?? ""
+        virtualBlockCpuLimit = try container.decodeIfPresent(UInt64.self, forKey: .virtualBlockCpuLimit) ?? 0
+        virtualBlockNetLimit = try container.decodeIfPresent(UInt64.self, forKey: .virtualBlockNetLimit) ?? 0
+        blockCpuLimit = try container.decodeIfPresent(UInt64.self, forKey: .blockCpuLimit) ?? 0
+        blockNetLimit = try container.decodeIfPresent(UInt64.self, forKey: .blockNetLimit) ?? 0
+        serverVersionString = try container.decodeIfPresent(String.self, forKey: .serverVersionString) ?? ""
+    }
 }
 
 /// Response struct for the `get_block` RPC endpoint.
@@ -74,6 +92,8 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
     public let newProducers: String?
     public let headerExtensions: [String]
     public let producerSignature: String
+    public let transactions: [Any]
+    public let blockExtensions: [Any]
     public let id: String
     public let blockNum: UInt64
     public let refBlockPrefix: UInt64
@@ -89,6 +109,8 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
         case newProducers = "new_producers"
         case headerExtensions = "header_extensions"
         case producerSignature = "producer_signature"
+        case transactions
+        case blockExtensions = "block_extensions"
         case id
         case blockNum = "block_num"
         case refBlockPrefix = "ref_block_prefix"
@@ -97,7 +119,8 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
 
     public init(timestamp: String, producer: String = "", confirmed: UInt = 0, previous: String = "", transactionMroot: String = "",
                 actionMroot: String = "", scheduleVersion: UInt = 0, newProducers: String?, headerExtensions: [String] = [],
-                producerSignature: String = "",
+                producerSignature: String = "", transactions: [Any] = [Any](),
+                blockExtensions: [Any] = [Any](),
                 id: String, blockNum: UInt64, refBlockPrefix: UInt64) {
         self.timestamp = timestamp
         self.producer = producer
@@ -109,10 +132,33 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
         self.newProducers = newProducers
         self.headerExtensions = headerExtensions
         self.producerSignature = producerSignature
+        self.transactions = transactions
+        self.blockExtensions = blockExtensions
         self.id = id
         self.blockNum = blockNum
         self.refBlockPrefix = refBlockPrefix
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        timestamp = try container.decode(String.self, forKey: .timestamp)
+        producer = try container.decodeIfPresent(String.self, forKey: .producer) ?? ""
+        confirmed = try container.decodeIfPresent(UInt.self, forKey: .confirmed) ?? 0
+        previous = try container.decodeIfPresent(String.self, forKey: .previous) ?? ""
+        transactionMroot = try container.decodeIfPresent(String.self, forKey: .transactionMroot) ?? ""
+        actionMroot = try container.decodeIfPresent(String.self, forKey: .actionMroot) ?? ""
+        scheduleVersion = try container.decodeIfPresent(UInt.self, forKey: .scheduleVersion) ?? 0
+        newProducers = try container.decodeIfPresent(String.self, forKey: .newProducers)
+        headerExtensions = try container.decodeIfPresent([String].self, forKey: .headerExtensions) ?? [String]()
+        producerSignature = try container.decodeIfPresent(String.self, forKey: .producerSignature) ?? ""
+        transactions = try container.decodeIfPresent(JSONValue.self, forKey: .transactions)?.toArray() ?? [Any]()
+        blockExtensions = try container.decodeIfPresent(JSONValue.self, forKey: .blockExtensions)?.toArray() ?? [Any]()
+        id = try container.decode(String.self, forKey: .id)
+        blockNum = try container.decode(UInt64.self, forKey: .blockNum)
+        refBlockPrefix = try container.decode(UInt64.self, forKey: .refBlockPrefix)
+    }
+
 }
 
 /// Response struct for the `get_raw_abi` RPC endpoint.

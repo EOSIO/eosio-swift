@@ -54,4 +54,12 @@ public extension Encodable {
         return json.toJsonDictionary
     }
 
+    /// Encodes an `Encodable` object as a array of type `[Any]`.
+    ///
+    /// - Returns: A dictionary of type `[Any]`.
+    func toArray() -> [Any]? {
+        guard let json = try? self.toJsonString() else { return nil }
+        return json.toJsonArray
+    }
+
 }

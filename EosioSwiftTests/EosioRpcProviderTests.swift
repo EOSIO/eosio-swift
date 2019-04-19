@@ -384,6 +384,39 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+    /// Test getBlock() extended structure implementation.
+    func testGetExtendedBlock() {
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block")) { _ in
+            let json = RpcTestConstants.blockResponseWithTransactionJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get Block stub"
+
+        let expect = expectation(description: "testGetBlockExtended")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
+                    return XCTFail("Failed to convert rpc response")
+                }
+                XCTAssertTrue(rpcBlockResponse.blockNum == 21098575)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2809448984)
+                XCTAssertTrue(rpcBlockResponse.id == "0141f04f881cbe5018ca74a75953abf11a3d5a888c41ceee0cf5014c88ac0def")
+                if let transactionDict = rpcBlockResponse.transactions[0] as? [String: Any],
+                    let status = transactionDict["status"] as? String {
+                        XCTAssert(status == "executed")
+                } else {
+                    XCTFail("Should be able to access transactions array, find transaction status and match.")
+                }
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_block attempt")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
     /// Test getRawAbi() protocol implementation with name.
     func testGetRawAbiEosio() {
         var callCount = 1

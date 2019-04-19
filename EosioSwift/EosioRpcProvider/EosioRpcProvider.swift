@@ -13,6 +13,7 @@ import Foundation
 public class EosioRpcProvider {
 
     private var endpoints: [URL]
+    public var invalidEndpoints = [URL]()
     private let retries: UInt
     private var chainId: String?
     private var currentEndpoint: URL?
@@ -290,9 +291,8 @@ extension EosioRpcProvider {
             }
             var exitLoop = false
             var lastReturnedError: EosioError?
-            let endpoints = self.endpoints
-            for index in 0..<self.endpoints.count {
-                let endpoint = endpoints[index]
+
+            for (index, endpoint) in self.endpoints.enumerated() {
                 let group = DispatchGroup()
                 group.enter()
 
@@ -304,7 +304,9 @@ extension EosioRpcProvider {
                     callBack: { (response: EosioRpcInfoResponse?, error: EosioError?) in
                     if let response = response {
                         if let chainId = self.chainId, chainId != response.chainId {
-                            self.endpoints.remove(at: index)
+                            if let indexOfEndpoint = self.endpoints.index(of: endpoint) {
+                               self.endpoints.remove(at: indexOfEndpoint)
+                            }
                         } else {
                             self.chainId = response.chainId
                             self.currentEndpoint = endpoint
@@ -328,13 +330,13 @@ extension EosioRpcProvider {
                 group.wait()
 
                 if exitLoop {
-                    break
+                    return
                 }
-                // If all endpoints are tried:
-                if index == endpoints.count - 1 {
-                    callBack(nil, lastReturnedError)
-                }
+
+
             }
+            // If we reach here all endpoints are busy/down
+            callBack(nil, lastReturnedError)
         }
     }
     private func getResource<T: Decodable & EosioRpcResponseProtocol>(

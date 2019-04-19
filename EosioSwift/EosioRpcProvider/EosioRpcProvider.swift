@@ -280,7 +280,7 @@ public class EosioRpcProvider {
 
 extension EosioRpcProvider {
 
-    private func switchToNextEndpointAndTryAgain<ResponseType: Codable & EosioRpcResponseProtocol>(
+    private func switchToNextEndpointAndTryAgain<ResponseType: Decodable & EosioRpcResponseProtocol>(
         rpc: String,
         requestParameters: Encodable?,
         callBack: @escaping (ResponseType?, EosioError?) -> Void

@@ -16,6 +16,9 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
 
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
+    - [Working With Transactions](#working-with-transactions)
+    - [The Transaction Factory](#the-transaction-factory)
+    - [Usage With PromiseKit](#usage-with-promisekit)
 - [Provider Protocol Architecture](#provider-protocol-architecture)
 - [RPC: Using the Default RPC Provider](#rpc-using-the-default-rpc-provider)
 - [What's Next for the SDK](#whats-next-for-the-sdk)
@@ -50,6 +53,8 @@ end
 Then run `pod install`. And you're all set for the [Basic Usage](#basic-usage) example!
 
 ## Basic Usage
+
+### Working With Transactions
 
 Transactions are instantiated as an [`EosioTransaction`](EosioSwift/EosioTransaction/EosioTransaction.swift) and must then be configured with a number of providers prior to use. (See [Provider Protocol Architecture](#provider-protocol-architecture) below for more information about providers.)
 
@@ -95,6 +100,8 @@ transaction.signAndBroadcast { (result) in
 }
 ```
 
+### The Transaction Factory
+
 Alternatively, to avoid having to set the providers on every transaction, you can use the [`EosioTransactionFactory`](EosioSwift/EosioTransaction/EosioTransactionFactory.swift) convenience class, as follows:
 
 ```swift
@@ -112,6 +119,19 @@ let anotherTransaction = myTestnet.newTransaction()
 ...
 ```
 
+### Usage With PromiseKit
+
+Most `EosioTransaction` and RPC endpoint methods will return Promises if you ask them. Simply call the method with `.promise` as the first parameter and drop the callback. For example:
+
+```swift
+firstly {
+    transaction.signAndBroadcast(.promise)
+}.done { _ in
+    // Handle success.
+}.catch { error in
+    // Handle error.
+}
+```
 
 ## Provider Protocol Architecture
 

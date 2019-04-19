@@ -123,6 +123,9 @@ class EosioRpcProviderTests: XCTestCase {
             switch host {
             case "localhost" :
                 endpoint1Tried += 1
+                if endpoint1Tried < 3 {
+                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                }
                 return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
             case "endpoint2example" :
                 numberOfTimesEndpoint2Called += 1

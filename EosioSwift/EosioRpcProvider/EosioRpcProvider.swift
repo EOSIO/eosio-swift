@@ -292,7 +292,7 @@ extension EosioRpcProvider {
             var exitLoop = false
             var lastReturnedError: EosioError?
 
-            for (index, endpoint) in self.endpoints.enumerated() {
+            for endpoint in self.endpoints {
                 let group = DispatchGroup()
                 group.enter()
 
@@ -332,8 +332,6 @@ extension EosioRpcProvider {
                 if exitLoop {
                     return
                 }
-
-
             }
             // If we reach here all endpoints are busy/down
             callBack(nil, lastReturnedError)

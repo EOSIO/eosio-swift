@@ -148,13 +148,14 @@ class EosioRpcProviderTests: XCTestCase {
             self.rpcProvider?.getInfo { _ in
                 self.rpcProvider?.getInfo { _ in
                     self.rpcProvider?.getInfo { _ in
+                        XCTAssertEqual(numberOfTimesEndpoint2Called, 1)
                         expect.fulfill()
                     }
                 }
             }
         }
         self.wait(for: [expect], timeout: 30)
-        XCTAssertEqual(numberOfTimesEndpoint2Called, 1)
+
     }
 
     func test_rpcProvider_shouldRetryRequestsUpToNumberOfRetriesBeforeReturningError() {

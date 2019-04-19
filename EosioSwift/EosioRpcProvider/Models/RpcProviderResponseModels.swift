@@ -312,6 +312,38 @@ public struct EosioRpcAccountResponse: Decodable, EosioRpcResponseProtocol {
     }
 }
 
+/// Response type for the `get_transaction` RPC endpoint.
+public struct EosioRpcGetTransactionResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var id: String
+    public var trx: [String: Any]
+    public var blockTime: String
+    public var blockNum: UInt64
+    public var lastIrreversibleBlock: UInt64
+    public var traces: [String: Any]?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case trx
+        case blockTime = "block_time"
+        case blockNum = "block_num"
+        case lastIrreversibleBlock = "last_irreversible_block"
+        case traces
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(String.self, forKey: .id)
+        trx = try container.decodeIfPresent(JSONValue.self, forKey: .trx)?.toDictionary() ?? [String: Any]()
+        blockTime = try container.decode(String.self, forKey: .blockTime)
+        blockNum = try container.decode(UInt64.self, forKey: .blockNum)
+        lastIrreversibleBlock = try container.decode(UInt64.self, forKey: .lastIrreversibleBlock)
+        traces = try container.decodeIfPresent(JSONValue.self, forKey: .traces)?.toDictionary() ?? [String: Any]()
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -356,9 +388,6 @@ public typealias EosioRpcCodeResponse = RawResponse
 
 /// Response type for the `get_actions` RPC endpoint.
 public typealias EosioRpcActionsResponse = RawResponse
-
-/// Response type for the `get_transaction` RPC endpoint.
-public typealias EosioRpcGetTransactionResponse = RawResponse
 
 /// Response type for the `get_controlled_accounts` RPC endpoint.
 public typealias EosioRpcControlledAccountsResponse = RawResponse

@@ -372,7 +372,22 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         rpcProvider?.getTransaction(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcGetTransactionResponse):
-                XCTAssertNotNil(eosioRpcGetTransactionResponse._rawResponse)
+                XCTAssert(eosioRpcGetTransactionResponse.id == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")
+                XCTAssert(eosioRpcGetTransactionResponse.blockNum == 21098575)
+                guard let dict = eosioRpcGetTransactionResponse.trx["trx"] as? [String: Any] else {
+                    XCTFail("Should find trx.trx dictionary.")
+                    return
+                }
+                if let refBlockNum = dict["ref_block_num"] as? UInt64 {
+                    XCTAssert(refBlockNum == 61212)
+                } else {
+                    XCTFail("Should find trx ref_block_num and it should match.")
+                }
+                if let signatures = dict["signatures"] as? [String] {
+                    XCTAssert(signatures[0] == "SIG_K1_JzFA9ffefWfrTBvpwMwZi81kR6tvHF4mfsRekVXrBjLWWikg9g1FrS9WupYuoGaRew5mJhr4d39tHUjHiNCkxamtEfxi68")
+                } else {
+                    XCTFail("Should find trx signatures and it should match.")
+                }
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_transaction")

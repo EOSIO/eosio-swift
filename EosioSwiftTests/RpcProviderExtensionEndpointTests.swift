@@ -109,16 +109,19 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
                 XCTAssert(eosioRpcAccountResponse.ramQuota == 13639863)
                 XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
-                let dict = eosioRpcAccountResponse.totalResources
-                if let owner = dict["owner"] as? String {
-                    XCTAssert(owner == "cryptkeeper")
+                if let dict = eosioRpcAccountResponse.totalResources {
+                    if let owner = dict["owner"] as? String {
+                        XCTAssert(owner == "cryptkeeper")
+                    } else {
+                        XCTFail("Should be able to get total_resources owner as String and should equal cryptkeeper.")
+                    }
+                    if let rambytes = dict["ram_bytes"] as? UInt64 {
+                        XCTAssert(rambytes == 13639863)
+                    } else {
+                        XCTFail("Should be able to get total_resources ram_bytes as UIn64 and should equal 13639863.")
+                    }
                 } else {
-                    XCTFail("Should be able to get total_resources owner as String and should equal cryptkeeper.")
-                }
-                if let rambytes = dict["ram_bytes"] as? UInt64 {
-                    XCTAssert(rambytes == 13639863)
-                } else {
-                    XCTFail("Should be able to get total_resources ram_bytes as UIn64 and should equal 13639863.")
+                    XCTFail("Should be able to get total_resources as [String : Any].")
                 }
             case .failure(let err):
                 print(err.description)

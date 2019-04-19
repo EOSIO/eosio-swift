@@ -344,6 +344,17 @@ public struct EosioRpcGetTransactionResponse: Decodable, EosioRpcResponseProtoco
     }
 }
 
+/// Response struct for the `get_currency_balance` RPC endpoint
+public struct EosioRpcCurrencyBalanceResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var currencyBalance: [String]? {
+        return _rawResponse as? [String]
+    }
+
+    enum CodingKeys: CodingKey {
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -362,9 +373,6 @@ public typealias EosioRpcBlockHeaderStateResponse = RawResponse
 
 /// Response type for the `get_abi` RPC endpoint.
 public typealias EosioRpcAbiResponse = RawResponse
-
-/// Response type for the `get_currency_balance` RPC endpoint.
-public typealias EosioRpcCurrencyBalanceResponse = RawResponse
 
 /// Response type for the `get_currency_stats` RPC endpoint.
 public typealias EosioRpcCurrencyStatsResponse = RawResponse

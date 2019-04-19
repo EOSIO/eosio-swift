@@ -179,6 +179,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcCurrencyBalanceResponse):
                 XCTAssertNotNil(eosioRpcCurrencyBalanceResponse._rawResponse)
+                XCTAssert(eosioRpcCurrencyBalanceResponse.currencyBalance != nil)
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_currency_balance")

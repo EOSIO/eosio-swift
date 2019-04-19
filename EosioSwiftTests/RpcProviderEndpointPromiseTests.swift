@@ -389,7 +389,25 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             if unhappy {
                 XCTFail("testGetAccount unhappy path should not fulfill promise!")
             }
-            XCTAssertNotNil($0._rawResponse)
+            let eosioRpcAccountResponse = $0
+            XCTAssertNotNil(eosioRpcAccountResponse)
+            XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
+            XCTAssert(eosioRpcAccountResponse.ramQuota == 13639863)
+            XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
+            if let dict = eosioRpcAccountResponse.totalResources {
+                if let owner = dict["owner"] as? String {
+                    XCTAssert(owner == "cryptkeeper")
+                } else {
+                    XCTFail("Should be able to get total_resources owner as String and should equal cryptkeeper.")
+                }
+                if let rambytes = dict["ram_bytes"] as? UInt64 {
+                    XCTAssert(rambytes == 13639863)
+                } else {
+                    XCTFail("Should be able to get total_resources ram_bytes as UIn64 and should equal 13639863.")
+                }
+            } else {
+                XCTFail("Should be able to get total_resources as [String : Any].")
+            }
         }.catch {
             print($0)
             if unhappy {
@@ -920,7 +938,9 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             if unhappy {
                 XCTFail("testGetKeyAccounts unhappy path should not fulfill promise!")
             }
-            XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.accountNames)
+            XCTAssert($0.accountNames.count == 2)
+            XCTAssert($0.accountNames[0] == "cryptkeeper")
         }.catch {
             print($0)
             if unhappy {

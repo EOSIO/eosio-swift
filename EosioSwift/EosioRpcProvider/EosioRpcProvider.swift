@@ -264,7 +264,7 @@ public struct EosioRpcProvider {
         }
     }
 
-    private func getResource<T: Codable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?, callBack:@escaping (T?, EosioError?) -> Void) {
+    private func getResource<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?, callBack:@escaping (T?, EosioError?) -> Void) {
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

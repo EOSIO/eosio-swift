@@ -105,7 +105,24 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         rpcProvider?.getAccount(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcAccountResponse):
-                XCTAssertNotNil(eosioRpcAccountResponse._rawResponse)
+                XCTAssertNotNil(eosioRpcAccountResponse)
+                XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
+                XCTAssert(eosioRpcAccountResponse.ramQuota == 13639863)
+                XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
+                if let dict = eosioRpcAccountResponse.totalResources {
+                    if let owner = dict["owner"] as? String {
+                        XCTAssert(owner == "cryptkeeper")
+                    } else {
+                        XCTFail("Should be able to get total_resources owner as String and should equal cryptkeeper.")
+                    }
+                    if let rambytes = dict["ram_bytes"] as? UInt64 {
+                        XCTAssert(rambytes == 13639863)
+                    } else {
+                        XCTFail("Should be able to get total_resources ram_bytes as UIn64 and should equal 13639863.")
+                    }
+                } else {
+                    XCTFail("Should be able to get total_resources as [String : Any].")
+                }
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_account")
@@ -376,7 +393,9 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         rpcProvider?.getKeyAccounts(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcKeyAccountsResponse):
-                XCTAssertNotNil(eosioRpcKeyAccountsResponse._rawResponse)
+                XCTAssertNotNil(eosioRpcKeyAccountsResponse.accountNames)
+                XCTAssert(eosioRpcKeyAccountsResponse.accountNames.count == 2)
+                XCTAssert(eosioRpcKeyAccountsResponse.accountNames[0] == "cryptkeeper")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_key_accounts")

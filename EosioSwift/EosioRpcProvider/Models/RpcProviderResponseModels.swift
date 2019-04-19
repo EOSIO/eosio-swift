@@ -9,7 +9,7 @@
 import Foundation
 
 /// Response struct for the `get_info` RPC endpoint.
-public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcResponseProtocol, Codable {
+public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public let serverVersion: String
     public let chainId: String
@@ -62,7 +62,7 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
 }
 
 /// Response struct for the `get_block` RPC endpoint.
-public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResponseProtocol, Codable {
+public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public let timestamp: String
     public let producer: String
@@ -116,7 +116,7 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
 }
 
 /// Response struct for the `get_raw_abi` RPC endpoint.
-public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcResponseProtocol, Codable {
+public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public var accountName: String
     public var codeHash: String
@@ -139,7 +139,7 @@ public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcRe
 }
 
 /// Response struct for the `get_required_keys` RPC endpoint.
-public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, EosioRpcResponseProtocol, Codable {
+public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol, EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public var requiredKeys: [String]
 
@@ -153,7 +153,7 @@ public struct EosioRpcRequiredKeysResponse: EosioRpcRequiredKeysResponseProtocol
 }
 
 /// Response struct for the `push_transaction` RPC endpoint.
-public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, EosioRpcResponseProtocol, Codable {
+public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public var transactionId: String
 
@@ -166,18 +166,161 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
     }
 }
 
+/// Response struct for the `get_key_accounts` RPC endpoint
+public struct EosioRpcKeyAccountsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var accountNames: [String] = [String]()
+
+    enum CodingKeys: String, CodingKey {
+        case accountNames = "account_names"
+    }
+}
+
+/// Reponse type for `wait_weight` in RPC endpoint responses.
+public struct WaitWeight: Decodable {
+    public var waitSec: UInt64
+    public var weight: UInt64
+
+    enum CodingKeys: String, CodingKey {
+        case waitSec = "wait_sec"
+        case weight
+    }
+}
+
+/// Response type for `permission_level` in RPC endpoint responses.
+public struct PermissionLevel: Decodable {
+    public var actor: String
+    public var permission: String
+
+    enum CodingKeys: String, CodingKey {
+        case actor
+        case permission
+    }
+}
+
+/// Response type for `permission_level_weight in RPC endpoint responses.
+public struct PermissionLevelWeight: Decodable {
+    public var weight: UInt64
+    public var accounts: [PermissionLevel]
+
+    enum CodingKeys: String, CodingKey {
+        case weight
+        case accounts
+    }
+}
+
+/// Response type for `key_weight` structure in RPC endpoint responses.
+public struct KeyWeight: Decodable {
+    public var key: String
+    public var weight: UInt64
+
+    enum CodingKeys: String, CodingKey {
+        case key
+        case weight
+    }
+}
+
+/// Response type for `authority` structure in RPC endpoint responses.
+public struct Authority: Decodable {
+    public var threshold: UInt64
+    public var keys: [KeyWeight]
+    public var waits: [WaitWeight]
+
+    enum CodingKeys: String, CodingKey {
+        case threshold
+        case keys
+        case waits
+    }
+}
+
+/// Response type for `permission` structure in RPC endpoint responses.
+public struct Permission: Decodable {
+    public var permName: String
+    public var parent: String
+
+    enum CodingKeys: String, CodingKey {
+        case permName = "perm_name"
+        case parent
+    }
+}
+
+/// Response type for the `get_account` RPC endpoint.
+public struct EosioRpcAccountResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var accountName: String
+    public var headBlockNum: UInt64 = 0
+    public var headBlockTime: String = ""
+    public var privileged: Bool = false
+    public var lastCodeUpdate: String = ""
+    public var created: String = ""
+    public var coreLiquidBalance: String = ""
+    public var ramQuota: UInt64 = 0
+    public var netWeight: UInt64 = 0
+    public var cpuWeight: UInt64 = 0
+    public var netLimit: [String: Any]
+    public var cpuLimit: [String: Any]
+    public var ramUsage: UInt64 = 0
+    public var permissions: [Permission]
+    public var totalResources: [String: Any]?
+    public var selfDelegatedBandwidth: [String: Any]?
+    public var refundRequest: [String: Any]?
+    public var voterInfo: [String: Any]?
+
+    enum CodingKeys: String, CodingKey {
+        case accountName = "account_name"
+        case headBlockNum = "head_block_num"
+        case headBlockTime = "head_block_time"
+        case privileged
+        case lastCodeUpdate = "last_code_update"
+        case created
+        case coreLiquidBalance = "core_liquid_balance"
+        case ramQuota = "ram_quota"
+        case netWeight = "net_weight"
+        case cpuWeight = "cpu_weight"
+        case netLimit = "net_limit"
+        case cpuLimit = "cpu_limit"
+        case ramUsage = "ram_usage"
+        case permissions
+        case totalResources = "total_resources"
+        case selfDelegatedBandwidth = "self_delegated_bandwidth"
+        case refundRequest = "refund_request"
+        case voterInfo = "voter_info"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        accountName = try container.decode(String.self, forKey: .accountName)
+        headBlockNum = try container.decodeIfPresent(UInt64.self, forKey: .headBlockNum) ?? 0
+        headBlockTime = try container.decodeIfPresent(String.self, forKey: .headBlockTime) ?? ""
+        privileged = try container.decodeIfPresent(Bool.self, forKey: .privileged) ?? false
+        lastCodeUpdate = try container.decodeIfPresent(String.self, forKey: .lastCodeUpdate) ?? ""
+        created = try container.decodeIfPresent(String.self, forKey: .created) ?? ""
+        coreLiquidBalance = try container.decodeIfPresent(String.self, forKey: .coreLiquidBalance) ?? ""
+        ramQuota = try container.decodeIfPresent(UInt64.self, forKey: .ramQuota) ?? 0
+        netWeight = try container.decodeIfPresent(UInt64.self, forKey: .netWeight) ?? 0
+        cpuWeight = try container.decodeIfPresent(UInt64.self, forKey: .cpuWeight) ?? 0
+        netLimit = try container.decodeIfPresent(JSONValue.self, forKey: .netLimit)?.toDictionary() ?? [String: Any]()
+        cpuLimit = try container.decodeIfPresent(JSONValue.self, forKey: .cpuLimit)?.toDictionary() ?? [String: Any]()
+        ramUsage = try container.decodeIfPresent(UInt64.self, forKey: .ramUsage) ?? 0
+        permissions = try container.decodeIfPresent([Permission].self, forKey: .permissions) ?? [Permission]()
+        totalResources = try container.decodeIfPresent(JSONValue.self, forKey: .totalResources)?.toDictionary() ?? [String: Any]()
+        selfDelegatedBandwidth = try container.decodeIfPresent(JSONValue.self, forKey: .selfDelegatedBandwidth)?.toDictionary() ?? [String: Any]()
+        refundRequest = try container.decodeIfPresent(JSONValue.self, forKey: .refundRequest)?.toDictionary() ?? [String: Any]()
+        voterInfo = try container.decodeIfPresent(JSONValue.self, forKey: .voterInfo)?.toDictionary() ?? [String: Any]()
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
-public struct RawResponse: Codable, EosioRpcResponseProtocol {
+public struct RawResponse: Decodable, EosioRpcResponseProtocol {
     public var _rawResponse: Any?
 
     enum CodingKeys: CodingKey {
     }
 }
-
-/// Response type for the `get_account` RPC endpoint.
-public typealias EosioRpcAccountResponse = RawResponse
 
 /// Response type for the `push_transactions` RPC endpoint.
 public typealias EosioRpcPushTransactionsResponse = RawResponse
@@ -216,9 +359,6 @@ public typealias EosioRpcActionsResponse = RawResponse
 
 /// Response type for the `get_transaction` RPC endpoint.
 public typealias EosioRpcGetTransactionResponse = RawResponse
-
-/// Response type for the `get_key_accounts` RPC endpoint.
-public typealias EosioRpcKeyAccountsResponse = RawResponse
 
 /// Response type for the `get_controlled_accounts` RPC endpoint.
 public typealias EosioRpcControlledAccountsResponse = RawResponse

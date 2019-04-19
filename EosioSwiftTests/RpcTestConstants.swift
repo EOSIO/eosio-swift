@@ -84,6 +84,89 @@ public class RpcTestConstants {
     "ref_block_prefix": 2249927103
     }
     """
+    public static let blockResponseWithTransactionJson = """
+    {
+    "timestamp": "2019-01-28T16:15:37.500",
+    "producer": "blkproducer1",
+    "confirmed": 0,
+    "previous": "0141f04e920793ee4040fa39f7306f04e437608bd4b9f27db93958015aa20e49",
+    "transaction_mroot": "bfbd10197cbe12f9fccc48a136c41d59d781c141e96cfeb61be554f1234f5905",
+    "action_mroot": "0a7379a38c177b7c4aa09f6fb60389a7aa377b875541bf3221914d30bc8d5bb7",
+    "schedule_version": 2,
+    "new_producers": null,
+    "header_extensions": [],
+    "producer_signature": "SIG_K1_K49uep79So1ruuMdXxBgDiQX9M3doA9zmfJSxssiMP6Uwf8YNoPsgvE5fQvgWk53PC5JrPW5j2jRCom1RnMZfhpTLzgj2u",
+    "transactions": [
+        {
+            "status": "executed",
+            "cpu_usage_us": 3837,
+            "net_usage_words": 36,
+            "trx": {
+                "id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
+                "signatures": [
+                    "SIG_K1_JzFA9ffefWfrTBvpwMwZi81kR6tvHF4mfsRekVXrBjLWWikg9g1FrS9WupYuoGaRew5mJhr4d39tHUjHiNCkxamtEfxi68"
+                ],
+                "compression": "none",
+                "packed_context_free_data": "",
+                "context_free_data": [],
+                "packed_trx": "c62a4f5c1cef3d6d71bd000000000290afc2d800ea3055000000405da7adba0072cbdd956f52acd910c3c958136d72f8560d1846bc7cf3157f5fbfb72d3001de4597f4a1fdbecda6d59c96a43009fc5e5d7b8f639b1269c77cec718460dcc19cb30100a6823403ea3055000000572d3ccdcd0143864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db155624800a6823403ea3055000000572d3ccdcd0100aeaa4ac15cfd4500000000a8ed32323b00aeaa4ac15cfd4500000060d234cd3da06806000000000004454f53000000001a746865206772617373686f70706572206c69657320686561767900",
+                "transaction": {
+                    "expiration": "2019-01-28T16:16:06",
+                    "ref_block_num": 61212,
+                    "ref_block_prefix": 3178327357,
+                    "max_net_usage_words": 0,
+                    "max_cpu_usage_ms": 0,
+                    "delay_sec": 0,
+                    "context_free_actions": [],
+                    "actions": [
+                        {
+                            "account": "eosio.assert",
+                            "name": "require",
+                            "authorization": [],
+                            "data": {
+                                "chain_params_hash": "cbdd956f52acd910c3c958136d72f8560d1846bc7cf3157f5fbfb72d3001de45",
+                                "manifest_id": "97f4a1fdbecda6d59c96a43009fc5e5d7b8f639b1269c77cec718460dcc19cb3",
+                                "actions": [
+                                    {
+                                        "contract": "eosio.token",
+                                        "action": "transfer"
+                                    }
+                                ],
+                                "abi_hashes": [
+                                    "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248"
+                                ]
+                            },
+                            "hex_data": "cbdd956f52acd910c3c958136d72f8560d1846bc7cf3157f5fbfb72d3001de4597f4a1fdbecda6d59c96a43009fc5e5d7b8f639b1269c77cec718460dcc19cb30100a6823403ea3055000000572d3ccdcd0143864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248"
+                        },
+                        {
+                            "account": "eosio.token",
+                            "name": "transfer",
+                            "authorization": [
+                                {
+                                    "actor": "cryptkeeper",
+                                    "permission": "active"
+                                }
+                            ],
+                            "data": {
+                                "from": "cryptkeeper",
+                                "to": "brandon",
+                                "quantity": "42.0000 EOS",
+                                "memo": "the grasshopper lies heavy"
+                            },
+                            "hex_data": "00aeaa4ac15cfd4500000060d234cd3da06806000000000004454f53000000001a746865206772617373686f70706572206c696573206865617679"
+                        }
+                    ],
+                    "transaction_extensions": []
+                }
+            }
+        }
+    ],
+    "block_extensions": [],
+    "id": "0141f04f881cbe5018ca74a75953abf11a3d5a888c41ceee0cf5014c88ac0def",
+    "block_num": 21098575,
+    "ref_block_prefix": 2809448984
+    }
+    """
     public static let requiredKeysResponseJson = """
         {
             "required_keys": [

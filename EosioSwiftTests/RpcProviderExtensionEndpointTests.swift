@@ -109,7 +109,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
                 XCTAssert(eosioRpcAccountResponse.ramQuota == 13639863)
                 XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
-                if let dict = eosioRpcAccountResponse.totalResources?.toDictionary() {
+                if let dict = eosioRpcAccountResponse.totalResources {
                     if let owner = dict["owner"] as? String {
                         XCTAssert(owner == "cryptkeeper")
                     } else {

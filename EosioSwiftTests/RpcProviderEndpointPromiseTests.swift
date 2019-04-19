@@ -21,7 +21,15 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         OHHTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
         }
+
+        // Need to prime with a chainId, so we make sure get_info returns good data
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
     }
+
     override func tearDown() {
         super.tearDown()
         //remove all stubs on tear down

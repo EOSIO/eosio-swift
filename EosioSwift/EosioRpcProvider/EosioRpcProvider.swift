@@ -10,15 +10,25 @@ import Foundation
 
 /// Default RPC Provider implementation. Conforms to `EosioRpcProviderProtocol`.
 /// RPC Reference: https://developers.eos.io/eosio-nodeos/reference
-public struct EosioRpcProvider {
+public class EosioRpcProvider {
 
-    private let endpoint: URL
-
+    private var endpoints: [URL]
+    public var invalidEndpoints = [URL]()
+    private let retries: UInt
+    private var chainId: String?
+    private var currentEndpoint: URL?
     /// Initialize the default RPC Provider implementation.
     ///
     /// - Parameter endpoint: A node URL.
-    public init(endpoint: URL) {
-        self.endpoint = endpoint
+    public init(endpoint: URL, retries: UInt = 5) {
+        self.endpoints = [endpoint]
+        self.retries = retries
+    }
+
+    public init(endpoints: [URL], retries: UInt = 5) {
+        assert(endpoints.count > 0, "Assertion Failure: The endpoints array cannot be empty.")
+        self.endpoints = endpoints
+        self.retries = retries
     }
 
     /* Chain Endpoints */
@@ -264,51 +274,162 @@ public struct EosioRpcProvider {
         }
     }
 
-    private func getResource<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?, callBack:@escaping (T?, EosioError?) -> Void) {
-        let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        if let requestParameters = requestParameters {
-            do {
-                let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
-                request.httpBody = jsonData
-            } catch {
-                callBack(nil, EosioError(.rpcProviderError, reason: "Error while encoding request parameters.", originalError: error as NSError))
+}
+
+// MARK: - Helper functions
+
+extension EosioRpcProvider {
+
+    private func switchToNextEndpointAndTryAgain<ResponseType: Decodable & EosioRpcResponseProtocol>(
+        rpc: String,
+        requestParameters: Encodable?,
+        callBack: @escaping (ResponseType?, EosioError?) -> Void
+        ) {
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            guard let self = self else {
                 return
             }
-        }
+            var exitLoop = false
+            var lastReturnedError: EosioError?
 
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                callBack(nil, EosioError(.rpcProviderError, reason: "Network error.", originalError: error as NSError))
-                return
-            }
+            for endpoint in self.endpoints {
+                let group = DispatchGroup()
+                group.enter()
 
-            guard let httpResponse = response as? HTTPURLResponse else {
-                callBack(nil, EosioError(.rpcProviderError, reason: "Server didn't respond.", originalError: nil))
-                return
-            }
+                self.getResource(
+                    rpc: "chain/get_info",
+                    requestParameters: nil,
+                    shouldSwitchEndpoints: false,
+                    usingEndpoint: endpoint,
+                    callBack: { (response: EosioRpcInfoResponse?, error: EosioError?) in
+                    if let response = response {
+                        if let chainId = self.chainId, chainId != response.chainId {
+                            if let indexOfEndpoint = self.endpoints.index(of: endpoint) {
+                               self.endpoints.remove(at: indexOfEndpoint)
+                            }
+                        } else {
+                            self.chainId = response.chainId
+                            self.currentEndpoint = endpoint
+                            self.getResource(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
+                            exitLoop = true
+                        }
 
-            guard (200...299).contains(httpResponse.statusCode) else {
-                let reason = "Status Code: \(httpResponse.statusCode) Server Response: \(String(data: data ?? Data(), encoding: .utf8) ?? "nil")"
-                callBack(nil, EosioError(.rpcProviderError, reason: reason, originalError: nil))
-                return
-            }
+                        group.leave()
+                        return
+                    }
+                        if let error = error {
+                            if let originalError = error.originalError, originalError.isNetworkConnectionError() {
+                                exitLoop = true
+                                callBack(nil, error)
+                            }
 
-            if let data = data {
-                let decoder = JSONDecoder()
-                do {
-                    var resource = try decoder.decode(T.self, from: data)
-                    resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    callBack(resource, nil)
-                } catch let error {
-                    callBack(nil, EosioError(.rpcProviderError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError))
+                            lastReturnedError = error
+                        }
+                    group.leave()
+                })
+                group.wait()
+
+                if exitLoop {
+                    return
                 }
             }
+            // If we reach here all endpoints are busy/down
+            callBack(nil, lastReturnedError)
         }
-        task.resume()
+    }
+    private func getResource<T: Decodable & EosioRpcResponseProtocol>(
+        rpc: String,
+        requestParameters: Encodable?,
+        shouldSwitchEndpoints: Bool = true,
+        usingEndpoint: URL? = nil,
+        callBack:@escaping (T?, EosioError?) -> Void) {
+        let endPointToUse = usingEndpoint ?? currentEndpoint
+        guard let endpoint = endPointToUse else {
+            switchToNextEndpointAndTryAgain(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
+            return
+        }
+        DispatchQueue.global(qos: .default).async {[weak self] in
+            guard let self = self else {
+                return
+            }
+            let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            if let requestParameters = requestParameters {
+                do {
+                    let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
+                    request.httpBody = jsonData
+                } catch {
+                    callBack(nil, EosioError(.rpcProviderError, reason: "Error while encoding request parameters.", originalError: error as NSError))
+                    return
+                }
+            }
+            var exitLoop = false
+            for i in 0..<self.retries {
+                print("Trying \(rpc)")
+                let group = DispatchGroup()
+                group.enter()
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    if let error = error {
+                        if (self.retries - 1) == i {
+                           callBack(nil, EosioError(.rpcProviderError, reason: "Network error.", originalError: error as NSError))
+                        }
+                        group.leave()
+                        return
+                    }
+                    exitLoop = true
+                    group.leave()
+                    guard let httpResponse = response as? HTTPURLResponse else {
+                        if shouldSwitchEndpoints {
+                            self.switchToNextEndpointAndTryAgain(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
+                        } else {
+                            callBack(nil, EosioError(.rpcProviderError, reason: "Server didn't respond.", originalError: nil))
+                        }
+                        return
+                    }
+                    guard (200...299).contains(httpResponse.statusCode) else {
+                        if (502...504).contains(httpResponse.statusCode) && shouldSwitchEndpoints {
+                            self.switchToNextEndpointAndTryAgain(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
+                        } else {
+                            let reason = "Status Code: \(httpResponse.statusCode) Server Response: \(String(data: data ?? Data(), encoding: .utf8) ?? "nil")"
+                            callBack(nil, EosioError(.rpcProviderError, reason: reason, originalError: nil))
+                        }
+                        return
+                    }
+                    if let data = data {
+                        let decoder = JSONDecoder()
+                        do {
+                            var resource = try decoder.decode(T.self, from: data)
+                            resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                            callBack(resource, nil)
+                        } catch let error {
+                            callBack(nil, EosioError(.unexpectedError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError))
+                        }
+                    }
+                }
+                task.resume()
+                group.wait()
+
+                if exitLoop {
+                    break
+                }
+
+            }
+        }
+
     }
 
+}
+
+extension NSError {
+    func isNetworkConnectionError() -> Bool {
+        let networkErrors = [NSURLErrorNetworkConnectionLost, NSURLErrorNotConnectedToInternet]
+
+        if self.domain == NSURLErrorDomain && networkErrors.contains(self.code) {
+            return true
+        }
+        return false
+    }
 }
 
 // MARK: - RPC methods used by `EosioTransaction`. These force conformance only to the protocols, not the entire response structs.

@@ -14,11 +14,13 @@ import OHHTTPStubs
 class EosioRpcProviderTests: XCTestCase {
 
     var rpcProvider: EosioRpcProviderProtocol?
-
+    let numberOfRetries: UInt = 7
     override func setUp() {
         super.setUp()
-        let url = URL(string: "https://localhost")
-        rpcProvider = EosioRpcProvider(endpoint: url!)
+        let url = URL(string: "https://localhost")!
+        let url2 = URL(string: "https://endpoint2example")!
+        let url3 = URL(string: "https://endpoint3example")!
+        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: numberOfRetries)
 
         OHHTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
@@ -32,13 +34,189 @@ class EosioRpcProviderTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
 
+    func test_rpcProvider_whenEndpointsReturnBusyResponseStatusCode_shouldTryOtherAvailableEndpoints() {
+        var firstEndpointTried = false
+        var secondEndpointTried = false
+         var thirdEndpointTried = false
+        let json = RpcTestConstants.infoResponseJson
+        let data = json.data(using: .utf8)
+        (stub(condition: isHost("localhost") || isHost("endpoint2example") || isHost("endpoint3example")) { request in
+            let host = request.url?.host
+            switch host {
+            case "localhost" :
+                firstEndpointTried = true
+                return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+            case "endpoint2example" :
+                secondEndpointTried = true
+                return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+            case "endpoint3example":
+                thirdEndpointTried = true
+                return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+            default:
+                let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: nil)
+                return OHHTTPStubsResponse(error: error)
+            }
+        }).name = "EndpointsReturnBusyResponseStatusCode_shouldTryOtherAvailableEndpoints stub"
+        let expect = expectation(description: "Failover test stub")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider?.getBlock(requestParameters: requestParameters) { _ in
+
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+
+        XCTAssertTrue(firstEndpointTried && secondEndpointTried && thirdEndpointTried)
+    }
+
+    func test_rpcProvider_shouldCheckForMatchingChainIdsWhenExecutingRequests() {
+        var firstEndpointTried = false
+        let json = RpcTestConstants.infoResponseJson
+        let data = json.data(using: .utf8)
+        (stub(condition: isHost("localhost") || isHost("endpoint2example") || isHost("endpoint3example")) { request in
+            let host = request.url?.host
+            switch host {
+            case "localhost" :
+                if !firstEndpointTried {
+                    firstEndpointTried = true
+                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                } else {
+                    return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+                }
+            case "endpoint2example" :
+                let json = RpcTestConstants.infoResponseEndpoint2Json
+                let data = json.data(using: .utf8)
+                return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+            case "endpoint3example":
+                let json = RpcTestConstants.infoResponseEndpoint3Json
+                let data = json.data(using: .utf8)
+                return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+            default:
+                let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: nil)
+                return OHHTTPStubsResponse(error: error)
+            }
+        }).name = "RemoveEndpointsWithInvalidChainIds stub"
+
+        let expect = expectation(description: "Match chain id test")
+        rpcProvider?.getInfo { _ in
+            self.rpcProvider?.getInfo { result in
+                switch result {
+                case .success(let response):
+                    XCTAssertEqual(response.headBlockNum, 25260039)
+                    XCTAssertTrue(firstEndpointTried)
+                case .failure:
+                    XCTFail("Returned failure instead of success")
+                }
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
+    func test_rpcProvider_shouldRemoveEndpointsWithInvalidChainIds() {
+        var endpoint1Tried = 0
+        var numberOfTimesEndpoint2Called = 0
+        var endpoint3Called = false
+        let json = RpcTestConstants.infoResponseJson
+        let data = json.data(using: .utf8)
+        (stub(condition: isHost("localhost") || isHost("endpoint2example") || isHost("endpoint3example")) { request in
+            let host = request.url?.host
+            switch host {
+            case "localhost" :
+                endpoint1Tried += 1
+                if endpoint1Tried < 3 {
+                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                }
+                return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+            case "endpoint2example" :
+                numberOfTimesEndpoint2Called += 1
+                let json = RpcTestConstants.infoResponseEndpoint2Json
+                let data = json.data(using: .utf8)
+                return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+            case "endpoint3example":
+                if !endpoint3Called {
+                    endpoint3Called = true
+                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                }
+                endpoint1Tried = 0
+                return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+            default:
+                let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: nil)
+                return OHHTTPStubsResponse(error: error)
+            }
+        }).name = "RemoveEndpointsWithInvalidChainIds stub"
+
+        let expect = expectation(description: "first call")
+
+        self.rpcProvider?.getInfo { _ in
+            self.rpcProvider?.getInfo { _ in
+                self.rpcProvider?.getInfo { _ in
+                    self.rpcProvider?.getInfo { _ in
+                        XCTAssertEqual(numberOfTimesEndpoint2Called, 1)
+                        expect.fulfill()
+                    }
+                }
+            }
+        }
+        self.wait(for: [expect], timeout: 30)
+
+    }
+
+    func test_rpcProvider_shouldRetryRequestsUpToNumberOfRetriesBeforeReturningError() {
+        var numberOfTimesTried: UInt = 0
+        (stub(condition: isHost("localhost")) { _ in
+            numberOfTimesTried += 1
+            let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: nil)
+            return OHHTTPStubsResponse(error: error)
+        }).name = "Failover test stub"
+
+        let expect = expectation(description: "Request retry test stub")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider?.getBlock(requestParameters: requestParameters) { _ in
+
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+        XCTAssertEqual(numberOfTimesTried, numberOfRetries)
+    }
+
+    func test_rpcProvider_shouldReturnCorrectResponseAfterFailover() {
+        let json = RpcTestConstants.infoResponseJson
+        let data = json.data(using: .utf8)
+        (stub(condition: isHost("localhost") || isHost("endpoint2example") || isHost("endpoint3example")) { request in
+            let host = request.url?.host
+            switch host {
+            case "localhost" :
+                return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+            case "endpoint2example" :
+                return OHHTTPStubsResponse(data: data!, statusCode: 503, headers: nil)
+            case "endpoint3example":
+                return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+            default:
+                let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: nil)
+                return OHHTTPStubsResponse(error: error)
+            }
+        }).name = "Failover test stub"
+        let expect = expectation(description: "Failover test stub")
+
+        rpcProvider?.getInfo { result in
+            switch result {
+            case .success(let response):
+                XCTAssertEqual(response.chainId, "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17")
+            case .failure (let error):
+                XCTFail("Returned failure \(error)")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
     /**
      * Test RPC protocol provider implementation error handling for Non 200 server http status codes.
      *
      */
     func testInvalidValidHttpStatusHandled() {
         (stub(condition: isHost("localhost")) { _ in
-            let error = NSError(domain: NSURLErrorDomain, code: 500, userInfo: nil)
+            let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: nil)
             return OHHTTPStubsResponse(error: error)
         }).name = "Invalid HTTP Status Code stub"
 
@@ -51,7 +229,7 @@ class EosioRpcProviderTests: XCTestCase {
             case .failure(let err):
                 XCTAssertTrue(err.description == "Error was was encountered in RpcProvider.")
                 XCTAssertNotNil(err.originalError)
-                XCTAssertTrue(err.originalError!.code == 500)
+                XCTAssertTrue(err.originalError!.code == NSURLErrorNotConnectedToInternet)
             }
             expect.fulfill()
         }
@@ -64,6 +242,12 @@ class EosioRpcProviderTests: XCTestCase {
             let data = json.data(using: .utf8)
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Bad Response stub"
+
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
         let expect = expectation(description: "testBadResponseData")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
@@ -80,10 +264,23 @@ class EosioRpcProviderTests: XCTestCase {
     }
     /// Test RPC protocol provider implementation error handling for bad server response.
     func testBadServerResponseHandled() {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
-            let badServerResponseError = NSError(domain: NSURLErrorDomain, code: URLError.badServerResponse.rawValue)
-            return OHHTTPStubsResponse(error: badServerResponseError)
-        }).name = "BadServerResponse stub"
+        (stub(condition: isHost("localhost") || isHost("endpoint2example") || isHost("endpoint3example")) { request in
+            let absoluteUrl = request.url?.absoluteString
+            switch absoluteUrl {
+            case "https://localhost/v1/chain/get_info" :
+                let badServerResponseError = NSError(domain: NSURLErrorDomain, code: URLError.badServerResponse.rawValue)
+                return OHHTTPStubsResponse(error: badServerResponseError)
+            case "https://endpoint2example/v1/chain/get_info" :
+                let badServerResponseError = NSError(domain: NSURLErrorDomain, code: URLError.badServerResponse.rawValue)
+                return OHHTTPStubsResponse(error: badServerResponseError)
+            case "https://endpoint3example/v1/chain/get_info":
+                let badServerResponseError = NSError(domain: NSURLErrorDomain, code: URLError.badServerResponse.rawValue)
+                return OHHTTPStubsResponse(error: badServerResponseError)
+            default:
+                let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: nil)
+                return OHHTTPStubsResponse(error: error)
+            }
+        }).name = "BadServerResponseHandled stub"
         let expect = expectation(description: "testBadServerResponse")
         rpcProvider?.getInfo { response in
             switch response {
@@ -158,6 +355,12 @@ class EosioRpcProviderTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Get Block stub"
 
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
+
         let expect = expectation(description: "testGetBlock")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in
@@ -185,6 +388,12 @@ class EosioRpcProviderTests: XCTestCase {
             let data = json!.data(using: .utf8)
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Get RawAbi Name stub"
+
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
 
         do {
             let expect = expectation(description: "testGetRawAbi")
@@ -219,6 +428,12 @@ class EosioRpcProviderTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Get RawAbi Token stub"
 
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
+
         do {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio.token")
@@ -252,6 +467,12 @@ class EosioRpcProviderTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Get Required Keys stub"
 
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
+
         let expect = expectation(description: "testGetRequiredKeys")
 
         let transaction = EosioTransaction()
@@ -280,6 +501,12 @@ class EosioRpcProviderTests: XCTestCase {
             let data = json.data(using: .utf8)
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Push Transaction stub"
+
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
 
         let expect = expectation(description: "testPushTransaction")
         // swiftlint:disable line_length

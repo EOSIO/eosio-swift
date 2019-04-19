@@ -1,8 +1,8 @@
 //
-//  RpcProviderExtensionEndpointTests.swift
+//  RpcProviderEndpointPromiseTests.swift
 //  EosioSwiftTests
 //
-//  Created by Ben Martell on 4/15/19.
+//  Created by Brandon Fancher on 4/18/19.
 //  Copyright © 2019 block.one. All rights reserved.
 //
 
@@ -28,7 +28,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
 
-    /// Test getInfo implementation.
+    /// Test getInfo promise implementation.
     func testGetInfo() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
             let json = RpcTestConstants.infoResponseJson
@@ -53,7 +53,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getBlock() implementation.
+    /// Test getBlock() promise implementation.
     func testGetBlock() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block")) { _ in
             let json = RpcTestConstants.blockResponseJson
@@ -79,7 +79,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getRawAbi() implementation.
+    /// Test getRawAbi() promise implementation.
     func testGetRawAbi() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_raw_abi")) { _ in
             let name = try? EosioName("eosio")
@@ -108,7 +108,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getRequiredKeys() implementation.
+    /// Test getRequiredKeys() promise implementation.
     func testGetRequiredKeys() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_required_keys")) { _ in
             let json = RpcTestConstants.requiredKeysResponseJson
@@ -135,7 +135,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test pushTransaction() implementation.
+    /// Test pushTransaction() promise implementation.
     func testPushTransaction() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/push_transaction")) { _ in
             let json = RpcTestConstants.pushTransActionResponseJson
@@ -161,7 +161,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test pushTransactions implementation.
+    /// Test pushTransactions promise implementation.
     func testPushTransactions() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/push_transactions")) { _ in
             let json = RpcTestConstants.pushTransactionsJson
@@ -189,7 +189,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test testGetBlockHeaderState() implementation.
+    /// Test testGetBlockHeaderState() promise implementation.
     func testGetBlockHeaderState() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block_header_state")) { _ in
             let json = RpcTestConstants.blockHeaderStateJson
@@ -213,7 +213,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test testGetAbi() implementation.
+    /// Test testGetAbi() promise implementation.
     func testGetAbi() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_abi")) { _ in
             let json = RpcTestConstants.abiJson
@@ -237,7 +237,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test testGetAccount() implementation.
+    /// Test testGetAccount() promise implementation.
     func testGetAccount() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_account")) { _ in
             let json = RpcTestConstants.accountJson
@@ -261,7 +261,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test testGetCurrencyBalance() implementation.
+    /// Test testGetCurrencyBalance() promise implementation.
     func testGetCurrencyBalance() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_currency_balance")) { _ in
             let json = RpcTestConstants.currencyBalanceJson
@@ -285,7 +285,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getCurrencyStats() implementation.
+    /// Test getCurrencyStats() promise implementation.
     func testGetCurrencyStats() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_currency_stats")) { _ in
             let json = RpcTestConstants.currencyStats
@@ -309,7 +309,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getRawCodeAndAbi() implementation.
+    /// Test getRawCodeAndAbi() promise implementation.
     func testGetRawCodeAndAbi() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_raw_code_and_abi")) { _ in
             let json = RpcTestConstants.rawCodeAndAbiJson
@@ -333,7 +333,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getRawCodeAndAbi() with String signature implementation.
+    /// Test getRawCodeAndAbi() with String signature promise implementation.
     func testGetRawCodeAndAbiWithStringSignature() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_raw_code_and_abi")) { _ in
             let json = RpcTestConstants.rawCodeAndAbiJson
@@ -356,7 +356,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getCode() implementation.
+    /// Test getCode() promise implementation.
     func testgetCode() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_code")) { _ in
             let json = RpcTestConstants.codeJson
@@ -380,7 +380,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getCode() with String signature implementation.
+    /// Test getCode() with String signature promise implementation.
     func testGetCodeWithStringSignature() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_code")) { _ in
             let json = RpcTestConstants.codeJson
@@ -403,7 +403,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getTableRows() implementation.
+    /// Test getTableRows() promise implementation.
     func testGetTableRows() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_table_rows")) { _ in
             let json = RpcTestConstants.tableRowsJson
@@ -427,7 +427,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getTableByScope() implementation.
+    /// Test getTableByScope() promise implementation.
     func testGetTableByScope() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_table_by_scope")) { _ in
             let json = RpcTestConstants.tableScopeJson
@@ -451,7 +451,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getProducers implementation.
+    /// Test getProducers promise implementation.
     func testGetProducers() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_producers")) { _ in
             let json = RpcTestConstants.producersJson
@@ -475,7 +475,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getActions implementation.
+    /// Test getActions promise implementation.
     func testGetActions() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_actions")) { _ in
             let json = RpcTestConstants.actionsJson
@@ -499,7 +499,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getControlledAccounts implementation.
+    /// Test getControlledAccounts promise implementation.
     func testGetControlledAccounts() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_controlled_accounts")) { _ in
             let json = RpcTestConstants.controlledAccountsJson
@@ -523,7 +523,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getTransaction implementation.
+    /// Test getTransaction promise implementation.
     func testGetTransaction() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_transaction")) { _ in
             let json = RpcTestConstants.transactionJson
@@ -547,7 +547,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getKeyAccounts implementation.
+    /// Test getKeyAccounts promise implementation.
     func testGetKeyAccounts() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_key_accounts")) { _ in
             let json = RpcTestConstants.keyAccountsJson

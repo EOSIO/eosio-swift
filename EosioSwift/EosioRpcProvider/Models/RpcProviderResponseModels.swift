@@ -258,14 +258,14 @@ public struct EosioRpcAccountResponse: Codable, EosioRpcResponseProtocol {
     public var ramQuota: UInt64 = 0
     public var netWeight: UInt64 = 0
     public var cpuWeight: UInt64 = 0
-    public var netLimit: JSONValue
-    public var cpuLimit: JSONValue
+    public var netLimit: [String: Any]
+    public var cpuLimit: [String: Any]
     public var ramUsage: UInt64 = 0
     public var permissions: [Permission]
-    public var totalResources: JSONValue?
-    public var selfDelegatedBandwidth: JSONValue?
-    public var refundRequest: JSONValue?
-    public var voterInfo: JSONValue?
+    public var totalResources: [String: Any]
+    public var selfDelegatedBandwidth: [String: Any]
+    public var refundRequest: [String: Any]
+    public var voterInfo: [String: Any]
 
     enum CodingKeys: String, CodingKey {
         case accountName = "account_name"
@@ -286,6 +286,33 @@ public struct EosioRpcAccountResponse: Codable, EosioRpcResponseProtocol {
         case selfDelegatedBandwidth = "self_delegated_bandwidth"
         case refundRequest = "refund_request"
         case voterInfo = "voter_info"
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        // TOTO: implement encoder here
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        accountName = try container.decode(String.self, forKey: .accountName)
+        headBlockNum = try container.decodeIfPresent(UInt64.self, forKey: .headBlockNum) ?? 0
+        headBlockTime = try container.decodeIfPresent(String.self, forKey: .headBlockTime) ?? ""
+        privileged = try container.decodeIfPresent(Bool.self, forKey: .privileged) ?? false
+        lastCodeUpdate = try container.decodeIfPresent(String.self, forKey: .lastCodeUpdate) ?? ""
+        created = try container.decodeIfPresent(String.self, forKey: .created) ?? ""
+        coreLiquidBalance = try container.decodeIfPresent(String.self, forKey: .coreLiquidBalance) ?? ""
+        ramQuota = try container.decodeIfPresent(UInt64.self, forKey: .ramQuota) ?? 0
+        netWeight = try container.decodeIfPresent(UInt64.self, forKey: .netWeight) ?? 0
+        cpuWeight = try container.decodeIfPresent(UInt64.self, forKey: .cpuWeight) ?? 0
+        netLimit = try container.decodeIfPresent(JSONValue.self, forKey: .netLimit)?.toDictionary() ?? [String: Any]()
+        cpuLimit = try container.decodeIfPresent(JSONValue.self, forKey: .cpuLimit)?.toDictionary() ?? [String: Any]()
+        ramUsage = try container.decodeIfPresent(UInt64.self, forKey: .ramUsage) ?? 0
+        permissions = try container.decodeIfPresent([Permission].self, forKey: .permissions) ?? [Permission]()
+        totalResources = try container.decodeIfPresent(JSONValue.self, forKey: .totalResources)?.toDictionary() ?? [String: Any]()
+        selfDelegatedBandwidth = try container.decodeIfPresent(JSONValue.self, forKey: .selfDelegatedBandwidth)?.toDictionary() ?? [String: Any]()
+        refundRequest = try container.decodeIfPresent(JSONValue.self, forKey: .refundRequest)?.toDictionary() ?? [String: Any]()
+        voterInfo = try container.decodeIfPresent(JSONValue.self, forKey: .voterInfo)?.toDictionary() ?? [String: Any]()
     }
 }
 

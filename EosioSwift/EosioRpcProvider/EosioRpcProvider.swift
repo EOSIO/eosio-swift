@@ -13,18 +13,24 @@ import Foundation
 public class EosioRpcProvider {
 
     private var endpoints: [URL]
-    public var invalidEndpoints = [URL]()
     private let retries: UInt
     private var chainId: String?
     private var currentEndpoint: URL?
-    /// Initialize the default RPC Provider implementation.
+
+    /// Initialize the default RPC Provider implementation with one RPC node endpoint.
     ///
-    /// - Parameter endpoint: A node URL.
+    /// - Parameters:
+    ///   - endpoint: A node URL.
+    ///   - retries: Number of times to retry an endpoint before failing.
     public init(endpoint: URL, retries: UInt = 5) {
         self.endpoints = [endpoint]
         self.retries = retries
     }
 
+    /// Initialize the default RPC Provider implementation with a list of RPC node endpoints. Extra endpoints will be used for failover purposes.
+    /// - Parameters:
+    ///   - endpoints: A list of node URLs.
+    ///   - retries: Number of times to retry an endpoint before failing over to the next.
     public init(endpoints: [URL], retries: UInt = 5) {
         assert(endpoints.count > 0, "Assertion Failure: The endpoints array cannot be empty.")
         self.endpoints = endpoints
@@ -284,7 +290,7 @@ extension EosioRpcProvider {
         rpc: String,
         requestParameters: Encodable?,
         callBack: @escaping (ResponseType?, EosioError?) -> Void
-        ) {
+    ) {
         DispatchQueue.global(qos: .default).async { [weak self] in
             guard let self = self else {
                 return
@@ -302,21 +308,22 @@ extension EosioRpcProvider {
                     shouldSwitchEndpoints: false,
                     usingEndpoint: endpoint,
                     callBack: { (response: EosioRpcInfoResponse?, error: EosioError?) in
-                    if let response = response {
-                        if let chainId = self.chainId, chainId != response.chainId {
-                            if let indexOfEndpoint = self.endpoints.index(of: endpoint) {
-                               self.endpoints.remove(at: indexOfEndpoint)
+                        if let response = response {
+                            if let chainId = self.chainId, chainId != response.chainId {
+                                if let indexOfEndpoint = self.endpoints.index(of: endpoint) {
+                                   self.endpoints.remove(at: indexOfEndpoint)
+                                }
+                            } else {
+                                self.chainId = response.chainId
+                                self.currentEndpoint = endpoint
+                                self.getResource(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
+                                exitLoop = true
                             }
-                        } else {
-                            self.chainId = response.chainId
-                            self.currentEndpoint = endpoint
-                            self.getResource(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
-                            exitLoop = true
+
+                            group.leave()
+                            return
                         }
 
-                        group.leave()
-                        return
-                    }
                         if let error = error {
                             if let originalError = error.originalError, originalError.isNetworkConnectionError() {
                                 exitLoop = true
@@ -325,8 +332,11 @@ extension EosioRpcProvider {
 
                             lastReturnedError = error
                         }
-                    group.leave()
-                })
+
+                        group.leave()
+                    }
+                )
+
                 group.wait()
 
                 if exitLoop {
@@ -337,18 +347,20 @@ extension EosioRpcProvider {
             callBack(nil, lastReturnedError)
         }
     }
+
     private func getResource<T: Decodable & EosioRpcResponseProtocol>(
         rpc: String,
         requestParameters: Encodable?,
         shouldSwitchEndpoints: Bool = true,
         usingEndpoint: URL? = nil,
-        callBack:@escaping (T?, EosioError?) -> Void) {
+        callBack: @escaping (T?, EosioError?) -> Void
+    ) {
         let endPointToUse = usingEndpoint ?? currentEndpoint
         guard let endpoint = endPointToUse else {
             switchToNextEndpointAndTryAgain(rpc: rpc, requestParameters: requestParameters, callBack: callBack)
             return
         }
-        DispatchQueue.global(qos: .default).async {[weak self] in
+        DispatchQueue.global(qos: .default).async { [weak self] in
             guard let self = self else {
                 return
             }
@@ -413,12 +425,9 @@ extension EosioRpcProvider {
                 if exitLoop {
                     break
                 }
-
             }
         }
-
     }
-
 }
 
 extension NSError {

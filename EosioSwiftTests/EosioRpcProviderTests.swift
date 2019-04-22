@@ -388,6 +388,12 @@ class EosioRpcProviderTests: XCTestCase {
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
         }).name = "Get Block stub"
 
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
+
         let expect = expectation(description: "testGetBlockExtended")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
         rpcProvider?.getBlock(requestParameters: requestParameters) { response in

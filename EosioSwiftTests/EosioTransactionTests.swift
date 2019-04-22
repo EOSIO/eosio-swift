@@ -510,7 +510,7 @@ class AbiProviderMockup: EosioAbiProviderProtocol {
 class SignatureProviderMock: EosioSignatureProviderProtocol {
 
     var getAvailableKeysShouldReturnFailure = false
-    
+
     func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var transactionSignatureResponse = EosioTransactionSignatureResponse()
 
@@ -528,10 +528,10 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
 
     func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void) {
         var availableKeysResponse = EosioAvailableKeysResponse()
-        
+
         if getAvailableKeysShouldReturnFailure == true {
             availableKeysResponse.error = EosioError(EosioErrorCode.signatureProviderError, reason: "Expected error for testing.")
-            
+
         } else {
             availableKeysResponse.keys = ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"]
         }

@@ -1,5 +1,5 @@
 //
-//  EosioRpcProviderPromises.swift
+//  EosioRpcProviderEndpointsPromises.swift
 //  EosioSwift
 //
 //  Created by Brandon Fancher on 4/18/19.

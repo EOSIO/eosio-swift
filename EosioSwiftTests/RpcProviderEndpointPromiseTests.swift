@@ -457,6 +457,8 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetCurrencyBalance unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssert($0.currencyBalance.count == 1)
+            XCTAssert($0.currencyBalance[0].contains(words: "EOS"))
         }.catch {
             print($0)
             if unhappy {

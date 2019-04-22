@@ -183,7 +183,7 @@ class EosioTransactionTests: XCTestCase {
     // MARK: - EosioTransaction extension tests using Promises
     func test_signAndbroadcastPromise_shouldSucceed() {
         let expect = expectation(description: "signAndbroadcastPromise_shouldSucceed")
-        let promise = self.transaction.signAndBroadcast()
+        let promise = self.transaction.signAndBroadcast(.promise)
         promise.done { (value) in
             print(value)
             expect.fulfill()
@@ -192,24 +192,50 @@ class EosioTransactionTests: XCTestCase {
         }
         waitForExpectations(timeout: 10)
     }
+    func test_signAndbroadcastPromise_shouldFail() {
+        let expect = expectation(description: "test_signAndbroadcastPromise_shouldFail")
+        let signatureProvider = SignatureProviderMock()
+        signatureProvider.getAvailableKeysShouldReturnFailure = true
+        self.transaction.signatureProvider = signatureProvider
+        let promise = self.transaction.signAndBroadcast(.promise)
+        promise.done { (value) in
+            print(value)
+            XCTFail("Should have throw error!")
+            }.catch { (error) in
+                print(error)
+                expect.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
     func test_signPromise_shouldSucceed() {
         let expect = expectation(description: "signPromise_shouldSucceed")
-        let promise = self.transaction.sign()
+        let promise = self.transaction.sign(.promise)
         promise.done { (value) in
             print(value)
             expect.fulfill()
             }.catch { (error) in
                 XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_signPromise_shouldFail() {
+        let expect = expectation(description: "signPromise_shouldFail")
+        self.transaction.signatureProvider = nil
+        self.transaction.sign(.promise).done { (value) in
+            print(value)
+            XCTFail("Should have throw error!")
+            }.catch { _ in
+                expect.fulfill()
         }
         waitForExpectations(timeout: 10)
     }
     func test_broadcastPromise_shouldSucceed() {
         let expect = expectation(description: "broadcastPromise_shouldSucceed")
         firstly {
-            self.transaction.sign()
+            self.transaction.sign(.promise)
             }.then { (value: Bool) -> Promise<Bool> in
                 print(value)
-                return self.transaction.broadcast()
+                return self.transaction.broadcast(.promise)
             }.done { (value) in
                 print(value)
                 expect.fulfill()
@@ -218,6 +244,117 @@ class EosioTransactionTests: XCTestCase {
         }
         waitForExpectations(timeout: 10)
     }
+    func test_broadcastPromise_shouldFail() {
+        let expect = expectation(description: "test_broadcastPromise_shouldFail")
+        //broadcast should fail as transaction needs to be signed first
+        firstly {
+            self.transaction.broadcast(.promise)
+            }.done { (value) in
+                print(value)
+                XCTFail("Should have throw error!")
+            }.catch { _ in
+                expect.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_signWithAvailableKeys_shouldSucceed() {
+        let expect = expectation(description: "test_signWithAvailableKeys_shouldSucceed")
+        let promise = self.transaction.sign(.promise, availableKeys: ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"])
+        promise.done { (value) in
+            print(value)
+            expect.fulfill()
+            }.catch { (error) in
+                XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_signWithAvailableKeys_shouldFail() {
+        let expect = expectation(description: "test_signWithAvailableKeys_shouldFail")
+        rpcProvider.getRequiredKeysReturnsfailure = true
+        let promise = self.transaction.sign(.promise, availableKeys: ["bad_key"])
+        promise.done { (value) in
+            print(value)
+            XCTFail("Should have throw error!)")
+            }.catch { (error) in
+                print(error)
+                expect.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_signWithPublicKeys_shouldSucceed() {
+        let expect = expectation(description: "test_signWithPublicKeys_shouldSucceed")
+        let promise = self.transaction.sign(.promise, publicKeys: ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"])
+        promise.done { (value) in
+            print(value)
+            expect.fulfill()
+            }.catch { (error) in
+                XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_signWithPublicKeys_shouldFail() {
+        let expect = expectation(description: "test_signWithPublicKeys_shouldFail")
+        let promise = self.transaction.sign(.promise, publicKeys: ["bad_key"])
+        promise.done { (value) in
+            print(value)
+            XCTFail("Should have throw error!)")
+            }.catch { (error) in
+                print(error)
+                expect.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_serializeTransaction_shouldSucceed() {
+        let expect = expectation(description: "test_serializeTransaction_shouldSucceed")
+        let promise = self.transaction.serializeTransaction(.promise)
+        promise.done { (value) in
+            print(value)
+            expect.fulfill()
+            }.catch { (error) in
+                XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_serializeTransaction_shouldFail() {
+        let expect = expectation(description: "test_serializeTransaction_shouldFail")
+        let serializationProvider = SerializationProviderMock()
+        serializationProvider.serializeTransactionReturnsfailure = true
+        self.transaction.serializationProvider = serializationProvider
+        let promise = self.transaction.serializeTransaction(.promise)
+        promise.done { (value) in
+            print(value)
+            XCTFail("Should have throw error!)")
+            }.catch { (error) in
+                print(error)
+                expect.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_prepare_shouldSucceed() {
+        let expect = expectation(description: "test_prepare_shouldSucceed")
+        let promise = self.transaction.prepare(.promise)
+        promise.done { (value) in
+            print(value)
+            expect.fulfill()
+            }.catch { (error) in
+                XCTFail("Should not have throw error: \(error.localizedDescription)")
+        }
+        waitForExpectations(timeout: 10)
+    }
+    func test_prepare_shouldFail() {
+        let expect = expectation(description: "test_prepare_shouldFail")
+        rpcProvider.getInfoReturnsfailure = true
+        let promise = self.transaction.prepare(.promise)
+        promise.done { (value) in
+            print(value)
+            XCTFail("Should have throw error!)")
+            }.catch { (error) in
+                print(error)
+                expect.fulfill()
+        }
+        waitForExpectations(timeout: 10)
+    }
+    //public func prepare(_: PMKNamespacer) -> Promise<Bool>
 }
 
 class RPCProviderMock: EosioRpcProviderProtocol {
@@ -326,13 +463,18 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
 final class SerializationProviderMock: EosioSerializationProviderProtocol {
     var error: String?
+    var serializeTransactionReturnsfailure = false
 
     func serializeAbi(json: String) throws -> String {
         return ""
     }
 
     func serializeTransaction(json: String) throws -> String {
-        return ""
+        if serializeTransactionReturnsfailure {
+            throw EosioError(EosioErrorCode.serializeError, reason: "Test should have expected this failure.")
+        } else {
+           return ""
+        }
     }
 
     func serialize(contract: String?, name: String, type: String?, json: String, abi: String) throws -> String {
@@ -367,6 +509,8 @@ class AbiProviderMockup: EosioAbiProviderProtocol {
 
 class SignatureProviderMock: EosioSignatureProviderProtocol {
 
+    var getAvailableKeysShouldReturnFailure = false
+    
     func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var transactionSignatureResponse = EosioTransactionSignatureResponse()
 
@@ -375,6 +519,7 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
             signedTransaction.signatures = ["SIG_K1_EsykzHxjT3BN8nUvwsiLVddddDi6WRuYaen7sfmJxE88EjLMp4kvSRjQE1iXuRfuwiaSUJLi1xFHjUVhfbBYJDVE27uGFU8R3E1Er"]
             transactionSignatureResponse.signedTransaction = signedTransaction
         } else {
+            transactionSignatureResponse.signedTransaction = nil
             transactionSignatureResponse.error = EosioError(EosioErrorCode.signatureProviderError, reason: "Key not available")
         }
 
@@ -383,7 +528,13 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
 
     func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void) {
         var availableKeysResponse = EosioAvailableKeysResponse()
-        availableKeysResponse.keys = ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"]
+        
+        if getAvailableKeysShouldReturnFailure == true {
+            availableKeysResponse.error = EosioError(EosioErrorCode.signatureProviderError, reason: "Expected error for testing.")
+            
+        } else {
+            availableKeysResponse.keys = ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"]
+        }
         completion(availableKeysResponse)
     }
 }

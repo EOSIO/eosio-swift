@@ -12,7 +12,6 @@ import PromiseKit
 import OHHTTPStubs
 
 class RpcProviderEndpointPromiseTests: XCTestCase {
-
     var rpcProvider: EosioRpcProvider?
     override func setUp() {
         super.setUp()
@@ -27,7 +26,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             let json = RpcTestConstants.infoResponseJson
             let data = json.data(using: .utf8)
             return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
-        }).name = "Get info stub"
+        }).name = "Get info primer stub"
     }
 
     override func tearDown() {
@@ -37,6 +36,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     }
 
     /// Test getInfo promise implementation.
+    /*
     func testGetInfo(unhappy: Bool = false) {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
             let json = RpcTestConstants.infoResponseJson
@@ -77,7 +77,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetInfoFail() {
         testGetInfo(unhappy: true)
     }
-
+    */
     /// Test getBlock() promise implementation.
     func testGetBlock(unhappy: Bool = false) {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block")) { _ in

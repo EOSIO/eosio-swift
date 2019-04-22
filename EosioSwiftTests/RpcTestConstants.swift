@@ -8,9 +8,94 @@
 
 import Foundation
 import EosioSwift
+import OHHTTPStubs
 
 // swiftlint:disable line_length
 public class RpcTestConstants {
+    public static func getInfoOHHTTPStubsResponse() -> OHHTTPStubsResponse {
+        return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.infoResponseJson)
+    }
+    public static func getErrorOHHTTPStubsResponse(code: Int = NSURLErrorBadURL, reason: String?) -> OHHTTPStubsResponse {
+        guard let message = reason else {
+            let error = NSError(domain: NSURLErrorDomain, code: code, userInfo: nil)
+            return OHHTTPStubsResponse(error: error)
+        }
+        let error = NSError(domain: NSURLErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: message])
+        return OHHTTPStubsResponse(error: error)
+    }
+    public static func getOHHTTPStubsResponseForJson(json: String) -> OHHTTPStubsResponse {
+        let data = json.data(using: .utf8)
+        return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+    }
+    // Test helpers to DRY out test logic: Many of the funcs in Rpc Provider make a first call to getInfo to obtain chain info for subsequent call
+    public static func getHHTTPStubsResponse(callCount: Int, urlString: String?) -> OHHTTPStubsResponse {
+        return RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: urlString, name: nil)
+    }
+    // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
+    public static func getHHTTPStubsResponse(callCount: Int, urlString: String?, name: EosioName?) -> OHHTTPStubsResponse {
+        guard urlString != nil else {
+            return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No url string available on request!")
+        }
+        print("CALL COUNT: \(callCount)")
+        if callCount == 1 && urlString == "https://localhost/v1/chain/get_info" {
+            return RpcTestConstants.getInfoOHHTTPStubsResponse()
+        } else if callCount == 2 {
+            switch urlString {
+            case "https://localhost/v1/chain/get_block" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockResponseJson)
+            case "https://localhost/v1/chain/get_block_header_state" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockHeaderStateJson)
+            case "https://localhost/v1/chain/get_raw_abi" :
+                guard let eosioName = name else {
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "EosioName missing for call to get_raw_abi stub")
+                }
+                guard let json = RpcTestConstants.createRawApiResponseJson(account: eosioName) else {
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Failed to create json in createRawApiResponseJson(account: EosioName)")
+                }
+                return getOHHTTPStubsResponseForJson(json: json)
+            case "https://localhost/v1/chain/get_required_keys" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.requiredKeysResponseJson)
+            case  "https://localhost/v1/chain/push_transaction"  :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.pushTransActionResponseJson)
+            case "https://localhost/v1/chain/push_transactions" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.pushTransactionsJson)
+            case "https://localhost/v1/chain/get_abi" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.abiJson)
+            case "https://localhost/v1/chain/get_account" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.accountJson)
+            case  "https://localhost/v1/chain/get_currency_balance" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.currencyBalanceJson)
+            case  "https://localhost/v1/chain/get_currency_stats" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.currencyStats)
+            case "https://localhost/v1/chain/get_raw_code_and_abi" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.rawCodeAndAbiJson)
+            case "https://localhost/v1/chain/get_code" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.codeJson)
+            case "https://localhost/v1/chain/get_table_rows" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.tableRowsJson)
+            case "https://localhost/v1/chain/get_table_by_scope" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.tableScopeJson)
+            case "https://localhost/v1/chain/get_producers" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.producersJson)
+            case  "https://localhost/v1/history/get_actions" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.actionsJson)
+            case "https://localhost/v1/history/get_controlled_accounts" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.controlledAccountsJson)
+            case "https://localhost/v1/history/get_transaction" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.transactionJson)
+            case "https://localhost/v1/history/get_key_accounts" :
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.keyAccountsJson)
+            default :
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected url passed to stub: \(String(describing: urlString))")
+            }
+        } else {
+            return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected callcount in stub: \(callCount)")
+        }
+    }
+     // swiftlint:enable cyclomatic_complexity
+    // swiftlint:enable function_body_length
+
     public static let infoResponseJson = """
     {
     "server_version": "0f6695cb",

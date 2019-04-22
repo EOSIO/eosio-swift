@@ -347,11 +347,12 @@ public struct EosioRpcGetTransactionResponse: Decodable, EosioRpcResponseProtoco
 /// Response struct for the `get_currency_balance` RPC endpoint
 public struct EosioRpcCurrencyBalanceResponse: Decodable, EosioRpcResponseProtocol {
     public var _rawResponse: Any?
-    public var currencyBalance: [String]? {
-        return _rawResponse as? [String]
-    }
 
-    enum CodingKeys: CodingKey {
+    public var currencyBalance: [String]
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        currencyBalance = try container.decode([String].self)
     }
 }
 

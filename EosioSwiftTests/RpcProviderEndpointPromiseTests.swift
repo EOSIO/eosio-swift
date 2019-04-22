@@ -483,10 +483,10 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         testGetCurrencyBalance(unhappy: true)
     }
 
-    /// Test getCurrencyStats() promise implementation.
-    func testGetCurrencyStats(unhappy: Bool = false) {
+    /// Test getCurrencyStatsEOS() promise implementation.
+    func testGetCurrencyStatsEOS(unhappy: Bool = false) {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_currency_stats")) { _ in
-            let json = RpcTestConstants.currencyStats
+            let json = RpcTestConstants.currencyStatsEOS
             let data = json.data(using: .utf8)
             return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
         }).name = "GetCurrencyStats stub"
@@ -500,6 +500,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetCurrencyStats unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssert($0.symbol == "EOS")
         }.catch {
             print($0)
             if unhappy {
@@ -513,15 +514,56 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
         wait(for: [expect], timeout: 30)
     }
+    /// Test getCurrencyStatsSYS() promise implementation.
+    func testGetCurrencyStatsSYS(unhappy: Bool = false) {
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_currency_stats")) { _ in
+            let json = RpcTestConstants.currencyStatsSYS
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        }).name = "GetCurrencyStats stub"
+        let expect = expectation(description: "getCurrencyStats")
+        let requestParameters = EosioRpcCurrencyStatsRequest(code: "eosio.token", symbol: "SYS")
 
-    /// Test getCurrencyStats promise happy path.
-    func testGetCurrencyStatsSuccess() {
-        testGetCurrencyStats()
+        firstly {
+            (rpcProvider?.getCurrencyStats(.promise, requestParameters: requestParameters))!
+            }.done {
+                if unhappy {
+                    XCTFail("testGetCurrencyStats unhappy path should not fulfill promise!")
+                }
+                XCTAssertNotNil($0._rawResponse)
+                XCTAssert($0.symbol == "SYS")
+            }.catch {
+                print($0)
+                if unhappy {
+                    XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                } else {
+                    XCTFail("Failed get_currency_stats")
+                }
+            }.finally {
+                expect.fulfill()
+        }
+
+        wait(for: [expect], timeout: 30)
     }
 
-    /// Test getCurrencyStats promise unhappy path.
-    func testGetCurrencyStatsFail() {
-        testGetCurrencyStats(unhappy: true)
+    /// Test getCurrencyStatsEOS promise happy path.
+    func testGetCurrencyStatsSuccessEOS() {
+        testGetCurrencyStatsEOS()
+    }
+
+    /// Test getCurrencyStatsEOS promise unhappy path.
+    func testGetCurrencyStatsFailEOS() {
+        testGetCurrencyStatsEOS(unhappy: true)
+    }
+
+    /// Test getCurrencyStatsSYS promise happy path.
+    func testGetCurrencyStatsSuccessSYS() {
+        testGetCurrencyStatsSYS()
+    }
+
+    /// Test getCurrencyStatsSYS promise unhappy path.
+    func testGetCurrencyStatsFailSYS() {
+        testGetCurrencyStatsSYS(unhappy: true)
     }
 
     /// Test getRawCodeAndAbi() promise implementation.

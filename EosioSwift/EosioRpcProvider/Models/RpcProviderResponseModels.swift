@@ -152,8 +152,10 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
         newProducers = try container.decodeIfPresent(String.self, forKey: .newProducers)
         headerExtensions = try container.decodeIfPresent([String].self, forKey: .headerExtensions) ?? [String]()
         producerSignature = try container.decodeIfPresent(String.self, forKey: .producerSignature) ?? ""
-        transactions = try container.decodeIfPresent(JSONValue.self, forKey: .transactions)?.toArray() ?? [Any]()
-        blockExtensions = try container.decodeIfPresent(JSONValue.self, forKey: .blockExtensions)?.toArray() ?? [Any]()
+        var nestedTrx = try container.nestedUnkeyedContainer(forKey: .transactions)
+        transactions = nestedTrx.decodeDynamicValues()
+        var nestedBlx = try container.nestedUnkeyedContainer(forKey: .blockExtensions)
+        blockExtensions = nestedBlx.decodeDynamicValues()
         id = try container.decode(String.self, forKey: .id)
         blockNum = try container.decode(UInt64.self, forKey: .blockNum)
         refBlockPrefix = try container.decode(UInt64.self, forKey: .refBlockPrefix)
@@ -347,8 +349,14 @@ public struct EosioRpcAccountResponse: Decodable, EosioRpcResponseProtocol {
         ramQuota = try container.decodeIfPresent(UInt64.self, forKey: .ramQuota) ?? 0
         netWeight = try container.decodeIfPresent(UInt64.self, forKey: .netWeight) ?? 0
         cpuWeight = try container.decodeIfPresent(UInt64.self, forKey: .cpuWeight) ?? 0
-        netLimit = try container.decodeIfPresent(JSONValue.self, forKey: .netLimit)?.toDictionary() ?? [String: Any]()
+
+        // netLimit = try container.decodeIfPresent(JSONValue.self, forKey: .netLimit)?.toDictionary() ?? [String: Any]()
+
+        let nested = try container.nestedContainer(keyedBy: DynamicKey.self, forKey: .netLimit)
+        netLimit = nested.decodeDynamicKeyValues()
+
         cpuLimit = try container.decodeIfPresent(JSONValue.self, forKey: .cpuLimit)?.toDictionary() ?? [String: Any]()
+
         ramUsage = try container.decodeIfPresent(UInt64.self, forKey: .ramUsage) ?? 0
         permissions = try container.decodeIfPresent([Permission].self, forKey: .permissions) ?? [Permission]()
         totalResources = try container.decodeIfPresent(JSONValue.self, forKey: .totalResources)?.toDictionary() ?? [String: Any]()

@@ -44,6 +44,7 @@ public class EosioRpcProvider {
     ) {
         DispatchQueue.global(qos: .default).async { [weak self] in
             guard let self = self else {
+                callBack(nil, EosioError(.unexpectedError, reason: "self does not exist", originalError: nil))
                 return
             }
             var exitLoop = false
@@ -113,6 +114,7 @@ public class EosioRpcProvider {
         }
         DispatchQueue.global(qos: .default).async { [weak self] in
             guard let self = self else {
+                callBack(nil, EosioError(.unexpectedError, reason: "self does not exist", originalError: nil))
                 return
             }
             let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!

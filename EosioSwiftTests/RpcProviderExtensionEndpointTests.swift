@@ -232,6 +232,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcRawCodeAndAbiResponse):
                 XCTAssertNotNil(eosioRpcRawCodeAndAbiResponse._rawResponse)
+                XCTAssert(eosioRpcRawCodeAndAbiResponse.accountName == "eosio.token")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_raw_code_and_abi")

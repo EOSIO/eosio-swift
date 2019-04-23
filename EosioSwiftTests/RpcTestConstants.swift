@@ -23,29 +23,33 @@ public class RpcTestConstants {
         let error = NSError(domain: NSURLErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: message])
         return OHHTTPStubsResponse(error: error)
     }
-    public static func getOHHTTPStubsResponseForJson(json: String) -> OHHTTPStubsResponse {
+    public static func getOHHTTPStubsResponseForJson(json: String, unhappy: Bool = false) -> OHHTTPStubsResponse {
         let data = json.data(using: .utf8)
-        return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
     }
-    // Test helpers to DRY out test logic: Many of the funcs in Rpc Provider make a first call to getInfo to obtain chain info for subsequent call
+    /*
+        Test helpers to DRY out test logic: This is for funcs in Rpc Provider that make a first call to getInfo to obtain chain info for subsequent call under test
+    */
     public static func getHHTTPStubsResponse(callCount: Int, urlString: String?) -> OHHTTPStubsResponse {
         return RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: urlString, name: nil)
     }
+    public static func getHHTTPStubsResponse(callCount: Int, urlString: String?, unhappy: Bool) -> OHHTTPStubsResponse {
+        return RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: urlString, name: nil, unhappy: unhappy)
+    }
     // swiftlint:disable function_body_length
     // swiftlint:disable cyclomatic_complexity
-    public static func getHHTTPStubsResponse(callCount: Int, urlString: String?, name: EosioName?) -> OHHTTPStubsResponse {
+    public static func getHHTTPStubsResponse(callCount: Int, urlString: String?, name: EosioName?, unhappy: Bool = false) -> OHHTTPStubsResponse {
         guard urlString != nil else {
             return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No url string available on request!")
         }
-        print("CALL COUNT: \(callCount)")
         if callCount == 1 && urlString == "https://localhost/v1/chain/get_info" {
             return RpcTestConstants.getInfoOHHTTPStubsResponse()
         } else if callCount == 2 {
             switch urlString {
             case "https://localhost/v1/chain/get_block" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockResponseJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockResponseJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_block_header_state" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockHeaderStateJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockHeaderStateJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_raw_abi" :
                 guard let eosioName = name else {
                     return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "EosioName missing for call to get_raw_abi stub")
@@ -53,44 +57,48 @@ public class RpcTestConstants {
                 guard let json = RpcTestConstants.createRawApiResponseJson(account: eosioName) else {
                     return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Failed to create json in createRawApiResponseJson(account: EosioName)")
                 }
-                return getOHHTTPStubsResponseForJson(json: json)
+                return getOHHTTPStubsResponseForJson(json: json, unhappy: unhappy)
             case "https://localhost/v1/chain/get_required_keys" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.requiredKeysResponseJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.requiredKeysResponseJson, unhappy: unhappy)
             case  "https://localhost/v1/chain/push_transaction"  :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.pushTransActionResponseJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.pushTransActionResponseJson, unhappy: unhappy)
             case "https://localhost/v1/chain/push_transactions" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.pushTransactionsJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.pushTransactionsJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_abi" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.abiJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.abiJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_account" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.accountJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.accountJson, unhappy: unhappy)
             case  "https://localhost/v1/chain/get_currency_balance" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.currencyBalanceJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.currencyBalanceJson, unhappy: unhappy)
             case  "https://localhost/v1/chain/get_currency_stats" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.currencyStats)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.currencyStats, unhappy: unhappy)
             case "https://localhost/v1/chain/get_raw_code_and_abi" :
-                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.rawCodeAndAbiJson)
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.rawCodeAndAbiJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_code" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.codeJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.codeJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_table_rows" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.tableRowsJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.tableRowsJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_table_by_scope" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.tableScopeJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.tableScopeJson, unhappy: unhappy)
             case "https://localhost/v1/chain/get_producers" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.producersJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.producersJson, unhappy: unhappy)
             case  "https://localhost/v1/history/get_actions" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.actionsJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.actionsJson, unhappy: unhappy)
             case "https://localhost/v1/history/get_controlled_accounts" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.controlledAccountsJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.controlledAccountsJson, unhappy: unhappy)
             case "https://localhost/v1/history/get_transaction" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.transactionJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.transactionJson, unhappy: unhappy)
             case "https://localhost/v1/history/get_key_accounts" :
-                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.keyAccountsJson)
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.keyAccountsJson, unhappy: unhappy)
             default :
                 return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected url passed to stub: \(String(describing: urlString))")
             }
         } else {
-            return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected callcount in stub: \(callCount)")
+            if callCount > 2 {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected callcount in stub. call count: \(callCount)")
+            } else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "First call was not to https://localhost/v1/chain/get_info. \(String(describing: urlString))")
+            }
         }
     }
      // swiftlint:enable cyclomatic_complexity

@@ -496,7 +496,7 @@ public class RpcTestConstants {
     "957998.0000 EOS"
     ]
     """
-    public static let currencyStatsEOS = """
+    public static let currencyStats = """
     {
     "EOS": {
         "supply": "5000000000.0000 EOS",

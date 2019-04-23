@@ -229,7 +229,7 @@ class EosioRpcProviderTests: XCTestCase {
             case .success:
                 XCTFail("Succeeded get_block call despite being malformed")
             case .failure(let err):
-                XCTAssertTrue(err.description == "Error was was encountered in RpcProvider.")
+                XCTAssertTrue(err.description == "Error was encountered in RpcProvider.")
                 XCTAssertNotNil(err.originalError)
                 XCTAssertTrue(err.originalError!.code == NSURLErrorNotConnectedToInternet)
             }

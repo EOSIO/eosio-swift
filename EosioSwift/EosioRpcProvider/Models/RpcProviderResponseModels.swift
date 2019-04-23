@@ -466,6 +466,28 @@ public struct EosioRpcCurrencyStatsResponse: Decodable, EosioRpcResponseProtocol
         currencyStats = try container.decode(CurrencyStats.self, forKey: CustomCodingKeys(stringValue: symbol)!)
     }
 }
+/// Response type for the `get_raw_code_and_abi` RPC endpoint.
+public struct EosioRpcRawCodeAndAbiResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var accountName: String
+    public var wasm: String
+    public var abi: String
+
+    enum CustomCodingKeys: String, CodingKey {
+        case accountName = "account_name"
+        case wasm
+        case abi
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        accountName = try container.decode(String.self, forKey: .accountName)
+        wasm = try container.decode(String.self, forKey: .wasm)
+        abi = try container.decode(String.self, forKey: .abi)
+    }
+}
 
 /* Responses without response models */
 
@@ -488,9 +510,6 @@ public typealias EosioRpcAbiResponse = RawResponse
 
 /// Response type for the `get_producers` RPC endpoint.
 public typealias EosioRpcProducersResponse = RawResponse
-
-/// Response type for the `get_raw_code_and_abi` RPC endpoint.
-public typealias EosioRpcRawCodeAndAbiResponse = RawResponse
 
 /// Response type for the `get_table_by_scope` RPC endpoint.
 public typealias EosioRpcTableByScopeResponse = RawResponse

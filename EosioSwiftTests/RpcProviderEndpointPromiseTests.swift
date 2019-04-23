@@ -587,6 +587,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetRawCodeAndAbi unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssert($0.accountName == "eosio.token")
         }.catch {
             print($0)
             if unhappy {

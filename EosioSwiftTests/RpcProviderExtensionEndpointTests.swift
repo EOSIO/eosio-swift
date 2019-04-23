@@ -173,6 +173,36 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcCurrencyStatsResponse):
                 XCTAssertNotNil(eosioRpcCurrencyStatsResponse._rawResponse)
+                XCTAssert(eosioRpcCurrencyStatsResponse.symbol == "EOS")
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_currency_stats")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    /// Test getCurrencyStatsSYS() implementation.
+    func testGetCurrencyStatsSYS() {
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_currency_stats")) { _ in
+            let json = RpcTestConstants.currencyStatsSYS
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "GetCurrencyStats stub"
+
+        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
+            let json = RpcTestConstants.infoResponseJson
+            let data = json.data(using: .utf8)
+            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+        }).name = "Get info stub"
+
+        let expect = expectation(description: "getCurrencyStats")
+        let requestParameters = EosioRpcCurrencyStatsRequest(code: "eosio.token", symbol: "SYS")
+        rpcProvider?.getCurrencyStats(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let eosioRpcCurrencyStatsResponse):
+                XCTAssertNotNil(eosioRpcCurrencyStatsResponse._rawResponse)
+                XCTAssert(eosioRpcCurrencyStatsResponse.symbol == "SYS")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_currency_stats")

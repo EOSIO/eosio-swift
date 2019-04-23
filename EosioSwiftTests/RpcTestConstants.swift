@@ -496,11 +496,20 @@ public class RpcTestConstants {
     "957998.0000 EOS"
     ]
     """
-    public static let currencyStats = """
+    public static let currencyStatsEOS = """
     {
     "EOS": {
         "supply": "5000000000.0000 EOS",
         "max_supply": "10000000000.0000 EOS",
+        "issuer": "eosio"
+    }
+    }
+    """
+    public static let currencyStatsSYS = """
+    {
+    "SYS": {
+        "supply": "5000000000.0000 SYS",
+        "max_supply": "10000000000.0000 SYS",
         "issuer": "eosio"
     }
     }

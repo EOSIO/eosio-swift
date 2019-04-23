@@ -779,6 +779,15 @@ public class RpcTestConstants {
     }
     }
     """
+    public static let currencyStatsSYS = """
+    {
+    "SYS": {
+        "supply": "5000000000.0000 SYS",
+        "max_supply": "10000000000.0000 SYS",
+        "issuer": "eosio"
+    }
+    }
+    """
     public static let rawCodeAndAbiJson = """
     {
     "account_name": "eosio.token",

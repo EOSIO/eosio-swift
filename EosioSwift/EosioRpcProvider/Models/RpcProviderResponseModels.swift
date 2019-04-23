@@ -425,6 +425,48 @@ public struct EosioRpcCurrencyBalanceResponse: Decodable, EosioRpcResponseProtoc
     }
 }
 
+/// Response type for the `Currency` RPC endpoint.
+public struct CurrencyStats: Decodable {
+    public var supply: String
+    public var maxSupply: String
+    public var issuer: String
+
+    enum CodingKeys: String, CodingKey {
+        case supply
+        case maxSupply = "max_supply"
+        case issuer
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        supply = try container.decode(String.self, forKey: .supply)
+        maxSupply = try container.decode(String.self, forKey: .maxSupply)
+        issuer = try container.decode(String.self, forKey: .issuer)
+    }
+}
+/// Response type for the `get_currency_stats` RPC endpoint.
+public struct EosioRpcCurrencyStatsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var symbol: String
+    public var currencyStats: CurrencyStats
+
+    private struct CustomCodingKeys: CodingKey { // to decode custom symbol key (i.e. "EOS")
+        var stringValue: String
+        init?(stringValue: String) { self.stringValue = stringValue }
+        var intValue: Int?
+        init?(intValue: Int) { return nil }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        symbol = container.allKeys.first?.stringValue ?? "EOS"
+        currencyStats = try container.decode(CurrencyStats.self, forKey: CustomCodingKeys(stringValue: symbol)!)
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -443,9 +485,6 @@ public typealias EosioRpcBlockHeaderStateResponse = RawResponse
 
 /// Response type for the `get_abi` RPC endpoint.
 public typealias EosioRpcAbiResponse = RawResponse
-
-/// Response type for the `get_currency_stats` RPC endpoint.
-public typealias EosioRpcCurrencyStatsResponse = RawResponse
 
 /// Response type for the `get_producers` RPC endpoint.
 public typealias EosioRpcProducersResponse = RawResponse

@@ -64,6 +64,13 @@ public extension String {
         return dict
     }
 
+    /// Converts the string to a array if it is convertible to a array (i.e., it is a JSON string.) and returns the array. Otherwise, returns `nil`.
+    var toJsonArray: [Any]? {
+        guard let data = self.data(using: .utf8) else { return nil }
+        let array = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [Any]) ?? nil
+        return array
+    }
+
     /// Converts the string to a dictionary if it is convertible to a dictionary (i.e., it is a JSON string.)
     ///
     /// - Returns: A dictionary if the text is a JSON string and convertible to a dictionary otherwise returns `nil`.

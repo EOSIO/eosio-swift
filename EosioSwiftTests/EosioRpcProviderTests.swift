@@ -384,6 +384,49 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+    /// Test getBlock() extended structure implementation.
+    func testGetExtendedBlock() {
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            if let urlString = request.url?.absoluteString {
+                if callCount == 1 && urlString == "https://localhost/v1/chain/get_info" {
+                    callCount += 1
+                    return RpcTestConstants.getInfoOHHTTPStubsResponse()
+                } else if callCount == 2 && urlString == "https://localhost/v1/chain/get_block" {
+                    return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockResponseWithTransactionJson)
+                } else {
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected call count in stub: \(callCount)")
+                }
+            } else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid url string in request in stub")
+            }
+        }).name = "Get Extended Block stub"
+
+        let expect = expectation(description: "testGetBlockExtended")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
+                    return XCTFail("Failed to convert rpc response")
+                }
+                XCTAssertTrue(rpcBlockResponse.blockNum == 21098575)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2809448984)
+                XCTAssertTrue(rpcBlockResponse.id == "0141f04f881cbe5018ca74a75953abf11a3d5a888c41ceee0cf5014c88ac0def")
+                if let transactionDict = rpcBlockResponse.transactions[0] as? [String: Any],
+                    let status = transactionDict["status"] as? String {
+                        XCTAssert(status == "executed")
+                } else {
+                    XCTFail("Should be able to access transactions array, find transaction status and match.")
+                }
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_block attempt")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
     /// Test getRawAbi() protocol implementation with name.
     func testGetRawAbiEosio() {
         var callCount = 1
@@ -496,6 +539,14 @@ class EosioRpcProviderTests: XCTestCase {
             switch response {
             case .success(let pushedTransactionResponse):
                 XCTAssertTrue(pushedTransactionResponse.transactionId == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")
+                if let resp = pushedTransactionResponse as? EosioRpcTransactionResponse,
+                    let processed = resp.processed as [String: Any]?,
+                    let receipt = processed["receipt"] as? [String: Any],
+                    let status = receipt["status"] as? String {
+                    XCTAssert(status == "executed")
+                } else {
+                    XCTFail("Should be able to find processed.receipt.status and verify its value.")
+                }
             case .failure(let err):
                 XCTFail("\(err.description)")
             }

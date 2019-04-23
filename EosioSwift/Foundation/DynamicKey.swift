@@ -50,7 +50,7 @@ extension KeyedDecodingContainer where Key == DynamicKey {
                 dict[key.stringValue] = thing.decodeDynamicKeyValues()
             } else if var thing = try? nestedUnkeyedContainer(forKey: key) {
                 dict[key.stringValue] = thing.decodeDynamicValues()
-            } else if let _ = try? decodeNil(forKey: key) {
+            } else if let isNil = try? decodeNil(forKey: key), isNil {
                 dict[key.stringValue] = NSNull() as AnyObject
             } else {
                 print("Key \(key.stringValue) type not supported")
@@ -90,7 +90,7 @@ extension UnkeyedDecodingContainer {
                 array.append(thing.decodeDynamicKeyValues())
             } else if var thing = try? nestedUnkeyedContainer() {
                 array.append(thing.decodeDynamicValues())
-            } else if let _ = try? decodeNil() {
+            } else if let isNil = try? decodeNil(), isNil {
                 array.append(NSNull() as AnyObject)
             } else {
                 print("Type not supported")

@@ -386,17 +386,21 @@ class EosioRpcProviderTests: XCTestCase {
     }
     /// Test getBlock() extended structure implementation.
     func testGetExtendedBlock() {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block")) { _ in
-            let json = RpcTestConstants.blockResponseWithTransactionJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
-        }).name = "Get Block stub"
-
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
-            let json = RpcTestConstants.infoResponseJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
-        }).name = "Get info stub"
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            if let urlString = request.url?.absoluteString {
+                if callCount == 1 && urlString == "https://localhost/v1/chain/get_info" {
+                    callCount += 1
+                    return RpcTestConstants.getInfoOHHTTPStubsResponse()
+                } else if callCount == 2 && urlString == "https://localhost/v1/chain/get_block" {
+                    return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockResponseWithTransactionJson)
+                } else {
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected call count in stub: \(callCount)")
+                }
+            } else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid url string in request in stub")
+            }
+        }).name = "Get Extended Block stub"
 
         let expect = expectation(description: "testGetBlockExtended")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)

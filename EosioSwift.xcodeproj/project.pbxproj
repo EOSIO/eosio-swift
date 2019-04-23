@@ -45,7 +45,6 @@
 		8FC41FEF225561D3006A76FF /* EosioRpcProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC41FEE225561D3006A76FF /* EosioRpcProvider.swift */; };
 		8FD1C4C82257EADE005AE506 /* AllResponseProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD1C4C72257EADE005AE506 /* AllResponseProtocols.swift */; };
 		B4178067226E472E00084A6E /* DynamicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4178066226E472E00084A6E /* DynamicKey.swift */; };
-		B427CE3A226A188E00481ABB /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B427CE39226A188E00481ABB /* JSONValue.swift */; };
 		B42C0EFB2268F86200E7A28F /* ResolverExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42C0EFA2268F86200E7A28F /* ResolverExtensions.swift */; };
 		B44461632267CE37002C77C9 /* EosioTransactionPromises.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44461622267CE37002C77C9 /* EosioTransactionPromises.swift */; };
 		B466F0962229DA870082DC4E /* EosioSerializationProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466F0952229DA870082DC4E /* EosioSerializationProviderProtocol.swift */; };
@@ -119,7 +118,6 @@
 		8FC41FEE225561D3006A76FF /* EosioRpcProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioRpcProvider.swift; sourceTree = "<group>"; };
 		8FD1C4C72257EADE005AE506 /* AllResponseProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllResponseProtocols.swift; path = RpcResponseProtocols/AllResponseProtocols.swift; sourceTree = "<group>"; };
 		B4178066226E472E00084A6E /* DynamicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicKey.swift; sourceTree = "<group>"; };
-		B427CE39226A188E00481ABB /* JSONValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		B42C0EFA2268F86200E7A28F /* ResolverExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolverExtensions.swift; sourceTree = "<group>"; };
 		B44461622267CE37002C77C9 /* EosioTransactionPromises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioTransactionPromises.swift; sourceTree = "<group>"; };
 		B466F0952229DA870082DC4E /* EosioSerializationProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSerializationProviderProtocol.swift; sourceTree = "<group>"; };
@@ -297,7 +295,6 @@
 				8F6B04B222287A5300215CD0 /* EosioResult.swift */,
 				8F6B04B122287A5300215CD0 /* EosioSwiftFoundation.h */,
 				8F6B04B422287A5300215CD0 /* ZAssert.swift */,
-				B427CE39226A188E00481ABB /* JSONValue.swift */,
 				B4178066226E472E00084A6E /* DynamicKey.swift */,
 			);
 			path = Foundation;
@@ -582,7 +579,6 @@
 				8F6B04C422287A9E00215CD0 /* DateExtensions.swift in Sources */,
 				8F6B04C122287A9E00215CD0 /* StringExtensions.swift in Sources */,
 				8F49E8CF225E6E6A00082631 /* RpcProviderRequestModels.swift in Sources */,
-				B427CE3A226A188E00481ABB /* JSONValue.swift in Sources */,
 				2856028F22182EFA00642377 /* EosioTransactionAbis.swift in Sources */,
 				B4E8F6BC2232020100FA7E63 /* RIPEMD160.swift in Sources */,
 				8F6B04B822287A5300215CD0 /* EosioName.swift in Sources */,

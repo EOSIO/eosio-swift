@@ -268,10 +268,201 @@ public class RpcTestConstants {
         }
         """
     public static let pushTransActionResponseJson = """
-        {
-           "transaction_id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a"
+    {
+    "transaction_id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
+    "processed": {
+        "id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
+        "block_num": 21098575,
+        "block_time": "2019-01-28T16:15:37.500",
+        "producer_block_id": null,
+        "receipt": {
+            "status": "executed",
+            "cpu_usage_us": 3837,
+            "net_usage_words": 36
+        },
+        "elapsed": 3837,
+        "net_usage": 288,
+        "scheduled": false,
+        "action_traces": [
+            {
+                "receipt": {
+                    "receiver": "eosio.assert",
+                    "act_digest": "a4caeedd5e5824dd916c1aaabc84f0a114ddbda83728c8c23ba859d4a8a93721",
+                    "global_sequence": 21103875,
+                    "recv_sequence": 332,
+                    "auth_sequence": [],
+                    "code_sequence": 1,
+                    "abi_sequence": 1
+                },
+                "act": {
+                    "account": "eosio.assert",
+                    "name": "require",
+                    "authorization": [],
+                    "data": {
+                        "chain_params_hash": "cbdd956f52acd910c3c958136d72f8560d1846bc7cf3157f5fbfb72d3001de45",
+                        "manifest_id": "97f4a1fdbecda6d59c96a43009fc5e5d7b8f639b1269c77cec718460dcc19cb3",
+                        "actions": [
+                            {
+                                "contract": "eosio.token",
+                                "action": "transfer"
+                            }
+                        ],
+                        "abi_hashes": [
+                            "43864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248"
+                        ]
+                    },
+                    "hex_data": "cbdd956f52acd910c3c958136d72f8560d1846bc7cf3157f5fbfb72d3001de4597f4a1fdbecda6d59c96a43009fc5e5d7b8f639b1269c77cec718460dcc19cb30100a6823403ea3055000000572d3ccdcd0143864d5af0fe294d44d19c612036cbe8c098414c4a12a5a7bb0bfe7db1556248"
+                },
+                "context_free": false,
+                "elapsed": 1264,
+                "cpu_usage": 0,
+                "console": "",
+                "total_cpu_usage": 0,
+                "trx_id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
+                "block_num": 21098575,
+                "block_time": "2019-01-28T16:15:37.500",
+                "producer_block_id": null,
+                "account_ram_deltas": [],
+                "inline_traces": []
+            },
+            {
+                "receipt": {
+                    "receiver": "eosio.token",
+                    "act_digest": "9eab239d66d13c34b9cc35a6f79fb2f6d61a2d9df9a484075c82e65d73a0cbc8",
+                    "global_sequence": 21103876,
+                    "recv_sequence": 1366,
+                    "auth_sequence": [
+                        [
+                            "cryptkeeper",
+                            875
+                        ]
+                    ],
+                    "code_sequence": 1,
+                    "abi_sequence": 4
+                },
+                "act": {
+                    "account": "eosio.token",
+                    "name": "transfer",
+                    "authorization": [
+                        {
+                            "actor": "cryptkeeper",
+                            "permission": "active"
+                        }
+                    ],
+                    "data": {
+                        "from": "cryptkeeper",
+                        "to": "brandon",
+                        "quantity": "42.0000 EOS",
+                        "memo": "the grasshopper lies heavy"
+                    },
+                    "hex_data": "00aeaa4ac15cfd4500000060d234cd3da06806000000000004454f53000000001a746865206772617373686f70706572206c696573206865617679"
+                },
+                "context_free": false,
+                "elapsed": 2197,
+                "cpu_usage": 0,
+                "console": "",
+                "total_cpu_usage": 0,
+                "trx_id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
+                "block_num": 21098575,
+                "block_time": "2019-01-28T16:15:37.500",
+                "producer_block_id": null,
+                "account_ram_deltas": [],
+                "inline_traces": [
+                    {
+                        "receipt": {
+                            "receiver": "cryptkeeper",
+                            "act_digest": "9eab239d66d13c34b9cc35a6f79fb2f6d61a2d9df9a484075c82e65d73a0cbc8",
+                            "global_sequence": 21103877,
+                            "recv_sequence": 496,
+                            "auth_sequence": [
+                                [
+                                    "cryptkeeper",
+                                    876
+                                ]
+                            ],
+                            "code_sequence": 1,
+                            "abi_sequence": 4
+                        },
+                        "act": {
+                            "account": "eosio.token",
+                            "name": "transfer",
+                            "authorization": [
+                                {
+                                    "actor": "cryptkeeper",
+                                    "permission": "active"
+                                }
+                            ],
+                            "data": {
+                                "from": "cryptkeeper",
+                                "to": "brandon",
+                                "quantity": "42.0000 EOS",
+                                "memo": "the grasshopper lies heavy"
+                            },
+                            "hex_data": "00aeaa4ac15cfd4500000060d234cd3da06806000000000004454f53000000001a746865206772617373686f70706572206c696573206865617679"
+                        },
+                        "context_free": false,
+                        "elapsed": 6,
+                        "cpu_usage": 0,
+                        "console": "",
+                        "total_cpu_usage": 0,
+                        "trx_id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
+                        "block_num": 21098575,
+                        "block_time": "2019-01-28T16:15:37.500",
+                        "producer_block_id": null,
+                        "account_ram_deltas": [],
+                        "inline_traces": []
+                    },
+                    {
+                        "receipt": {
+                            "receiver": "brandon",
+                            "act_digest": "9eab239d66d13c34b9cc35a6f79fb2f6d61a2d9df9a484075c82e65d73a0cbc8",
+                            "global_sequence": 21103878,
+                            "recv_sequence": 582,
+                            "auth_sequence": [
+                                [
+                                    "cryptkeeper",
+                                    877
+                                ]
+                            ],
+                            "code_sequence": 1,
+                            "abi_sequence": 4
+                        },
+                        "act": {
+                            "account": "eosio.token",
+                            "name": "transfer",
+                            "authorization": [
+                                {
+                                    "actor": "cryptkeeper",
+                                    "permission": "active"
+                                }
+                            ],
+                            "data": {
+                                "from": "cryptkeeper",
+                                "to": "brandon",
+                                "quantity": "42.0000 EOS",
+                                "memo": "the grasshopper lies heavy"
+                            },
+                            "hex_data": "00aeaa4ac15cfd4500000060d234cd3da06806000000000004454f53000000001a746865206772617373686f70706572206c696573206865617679"
+                        },
+                        "context_free": false,
+                        "elapsed": 5,
+                        "cpu_usage": 0,
+                        "console": "",
+                        "total_cpu_usage": 0,
+                        "trx_id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
+                        "block_num": 21098575,
+                        "block_time": "2019-01-28T16:15:37.500",
+                        "producer_block_id": null,
+                        "account_ram_deltas": [],
+                        "inline_traces": []
+                    }
+                ]
+            }
+        ],
+        "except": null
         }
-        """
+    }
+    """
     public static let blockHeaderStateJson = """
     {
     "id": "0137c067c65e9db8f8ee467c856fb6d1779dfeb0332a971754156d075c9a37ca",

@@ -535,6 +535,14 @@ class EosioRpcProviderTests: XCTestCase {
             switch response {
             case .success(let pushedTransactionResponse):
                 XCTAssertTrue(pushedTransactionResponse.transactionId == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")
+                if let resp = pushedTransactionResponse as? EosioRpcTransactionResponse,
+                    let processed = resp.processed as [String: Any]?,
+                    let receipt = processed["receipt"] as? [String: Any],
+                    let status = receipt["status"] as? String {
+                    XCTAssert(status == "executed")
+                } else {
+                    XCTFail("Should be able to find processed.receipt.status and verify its value.")
+                }
             case .failure(let err):
                 XCTFail("\(err.description)")
             }

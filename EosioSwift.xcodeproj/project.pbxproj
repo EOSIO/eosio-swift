@@ -24,7 +24,6 @@
 		3EE762A422690E9200D8DC33 /* RpcProviderEndpointPromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE762A322690E9200D8DC33 /* RpcProviderEndpointPromiseTests.swift */; };
 		4FD31C65A4889CF91BFCE984 /* Pods_EosioSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E4478EE834B70DDF06A7FA /* Pods_EosioSwift.framework */; };
 		6B80D26921FA6DDF00716A7B /* EosioSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80D25F21FA6DDF00716A7B /* EosioSwift.framework */; };
-		6B80D26E21FA6DDF00716A7B /* EosioSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B80D26D21FA6DDF00716A7B /* EosioSwiftTests.swift */; };
 		6B80D27021FA6DDF00716A7B /* EosioSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B80D26221FA6DDF00716A7B /* EosioSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F49E8CF225E6E6A00082631 /* RpcProviderRequestModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F49E8CE225E6E6A00082631 /* RpcProviderRequestModels.swift */; };
 		8F6B04B522287A5300215CD0 /* EosioError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B04B022287A5300215CD0 /* EosioError.swift */; };
@@ -98,7 +97,6 @@
 		6B80D26221FA6DDF00716A7B /* EosioSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwift.h; sourceTree = "<group>"; };
 		6B80D26321FA6DDF00716A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B80D26821FA6DDF00716A7B /* EosioSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EosioSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B80D26D21FA6DDF00716A7B /* EosioSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EosioSwiftTests.swift; sourceTree = "<group>"; };
 		6B80D26F21FA6DDF00716A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F49E8CE225E6E6A00082631 /* RpcProviderRequestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RpcProviderRequestModels.swift; sourceTree = "<group>"; };
 		8F6B04B022287A5300215CD0 /* EosioError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EosioError.swift; sourceTree = "<group>"; };
@@ -255,7 +253,6 @@
 				8F6B04C722287B1D00215CD0 /* EncodableExtensionTests.swift */,
 				8F6B04CB22287B1D00215CD0 /* EosioNameTests.swift */,
 				8F6B04C922287B1D00215CD0 /* StringExtensionsTests.swift */,
-				6B80D26D21FA6DDF00716A7B /* EosioSwiftTests.swift */,
 				284C5E672224558800795392 /* EosioAbiProviderTests.swift */,
 				6B80D26F21FA6DDF00716A7B /* Info.plist */,
 				B4E8F6BF22320E3F00FA7E63 /* Base58Tests.swift */,
@@ -622,7 +619,6 @@
 				3EE762A422690E9200D8DC33 /* RpcProviderEndpointPromiseTests.swift in Sources */,
 				284C5E682224558800795392 /* EosioAbiProviderTests.swift in Sources */,
 				8F6B04CC22287B1D00215CD0 /* EncodableExtensionTests.swift in Sources */,
-				6B80D26E21FA6DDF00716A7B /* EosioSwiftTests.swift in Sources */,
 				BB6F2CFC22652CEC002C4150 /* EosioTransactionFactoryTest.swift in Sources */,
 				28DDAB0A2237030E008FB1CC /* EosioKeySignatureExtensionTests.swift in Sources */,
 				BBCA8F422241331C00B02372 /* EosioTransactionActionTests.swift in Sources */,

@@ -12,7 +12,6 @@ import PromiseKit
 import OHHTTPStubs
 
 class RpcProviderEndpointPromiseTests: XCTestCase {
-
     var rpcProvider: EosioRpcProvider?
     override func setUp() {
         super.setUp()
@@ -21,13 +20,6 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         OHHTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
         }
-
-        // Need to prime with a chainId, so we make sure get_info returns good data
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
-            let json = RpcTestConstants.infoResponseJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
-        }).name = "Get info stub"
     }
 
     override func tearDown() {
@@ -80,10 +72,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getBlock() promise implementation.
     func testGetBlock(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block")) { _ in
-            let json = RpcTestConstants.blockResponseJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "Get Block Stub"
         let expect = expectation(description: "testGetBlock")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
@@ -123,14 +116,14 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getRawAbi() promise implementation.
     func testGetRawAbi(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_raw_abi")) { _ in
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
             let name = try? EosioName("eosio")
-            let json = RpcTestConstants.createRawApiResponseJson(account: name!)
-            let data = json!.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, name: name!, unhappy: unhappy )
+            callCount += 1
+            return retVal
         }).name = "Get RawAbi Name stub"
         let expect = expectation(description: "testGetRawAbi")
-
         let name = try? EosioName("eosio")
         let requestParameters = EosioRpcRawAbiRequest(accountName: name!)
 
@@ -169,13 +162,13 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getRequiredKeys() promise implementation.
     func testGetRequiredKeys(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_required_keys")) { _ in
-            let json = RpcTestConstants.requiredKeysResponseJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "Get Required Keys stub"
         let expect = expectation(description: "testGetRequiredKeys")
-
         let transaction = EosioTransaction()
         let requestParameters = EosioRpcRequiredKeysRequest(availableKeys: ["PUB_K1_5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCw1oi9eG"], transaction: transaction)
 
@@ -213,13 +206,13 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test pushTransaction() promise implementation.
     func testPushTransaction(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/push_transaction")) { _ in
-            let json = RpcTestConstants.pushTransActionResponseJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "Push Transaction stub"
         let expect = expectation(description: "testPushTransaction")
-
         // swiftlint:disable:next line_length
         let requestParameters = EosioRpcPushTransactionRequest(signatures: ["SIG_K1_JzFA9ffefWfrTBvpwMwZi81kR6tvHF4mfsRekVXrBjLWWikg9g1FrS9WupYuoGaRew5mJhr4d39tHUjHiNCkxamtEfxi68"], compression: 0, packedContextFreeData: "", packedTrx: "C62A4F5C1CEF3D6D71BD000000000290AFC2D800EA3055000000405DA7ADBA0072CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB155624800A6823403EA3055000000572D3CCDCD0100AEAA4AC15CFD4500000000A8ED32323B00AEAA4AC15CFD4500000060D234CD3DA06806000000000004454F53000000001A746865206772617373686F70706572206C69657320686561767900")
 
@@ -256,10 +249,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test pushTransactions promise implementation.
     func testPushTransactions(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/push_transactions")) { _ in
-            let json = RpcTestConstants.pushTransactionsJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "PushTransactions stub"
         let expect = expectation(description: "testPushTransactions")
         // swiftlint:disable line_length
@@ -301,10 +295,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getBlockHeaderState() promise implementation.
     func testGetBlockHeaderState(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_block_header_state")) { _ in
-            let json = RpcTestConstants.blockHeaderStateJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetBlockHeaderState stub"
         let expect = expectation(description: "testGetBlockHeaderState")
         let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: 25260035)
@@ -342,10 +337,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getAbi() promise implementation.
     func testGetAbi(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_abi")) { _ in
-            let json = RpcTestConstants.abiJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetAbi stub"
         let expect = expectation(description: "testGetAbi")
         let requestParameters = EosioRpcAbiRequest(accountName: "eosio.token")
@@ -383,10 +379,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getAccount() promise implementation.
     func testGetAccount(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_account")) { _ in
-            let json = RpcTestConstants.accountJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetAccount stub"
         let expect = expectation(description: "testGetAccount")
         let requestParameters = EosioRpcAccountRequest(accountName: "cryptkeeper")
@@ -442,10 +439,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getCurrencyBalance() promise implementation.
     func testGetCurrencyBalance(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_currency_balance")) { _ in
-            let json = RpcTestConstants.currencyBalanceJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetCurrencyBalance stub"
         let expect = expectation(description: "testGetCurrencyBalance")
         let requestParameters = EosioRpcCurrencyBalanceRequest(code: "eosio.token", account: "cryptkeeper", symbol: "EOS")
@@ -485,11 +483,12 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getCurrencyStats() promise implementation.
     func testGetCurrencyStats(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_currency_stats")) { _ in
-            let json = RpcTestConstants.currencyStats
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
-        }).name = "GetCurrencyStats stub"
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
+        }).name = "GetCurrencyBalance stub"
         let expect = expectation(description: "getCurrencyStats")
         let requestParameters = EosioRpcCurrencyStatsRequest(code: "eosio.token", symbol: "EOS")
 
@@ -526,10 +525,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getRawCodeAndAbi() promise implementation.
     func testGetRawCodeAndAbi(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_raw_code_and_abi")) { _ in
-            let json = RpcTestConstants.rawCodeAndAbiJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetRawCodeAndAbis stub"
         let expect = expectation(description: "getRawCodeAndAbi")
         let requestParameters = EosioRpcRawCodeAndAbiRequest(accountName: "eosio.token")
@@ -567,10 +567,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getRawCodeAndAbi() with String signature promise implementation.
     func testGetRawCodeAndAbiWithStringSignature(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_raw_code_and_abi")) { _ in
-            let json = RpcTestConstants.rawCodeAndAbiJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetRawCodeAndAbis w String stub"
         let expect = expectation(description: "testGetRawCodeAndAbiWithStringSignature")
 
@@ -607,10 +608,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getCode() promise implementation.
     func testGetCode(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_code")) { _ in
-            let json = RpcTestConstants.codeJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetCode stub"
         let expect = expectation(description: "testGetCode")
         let requestParameters = EosioRpcCodeRequest(accountName: "cryptkeeper")
@@ -648,10 +650,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getCode() with String signature promise implementation.
     func testGetCodeWithStringSignature(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_code")) { _ in
-            let json = RpcTestConstants.codeJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetCodeWithStringSignature stub"
         let expect = expectation(description: "testGetCodeWithStringSignature")
 
@@ -688,10 +691,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getTableRows() promise implementation.
     func testGetTableRows(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_table_rows")) { _ in
-            let json = RpcTestConstants.tableRowsJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetTableRows stub"
         let expect = expectation(description: "testGetTableRows")
         let requestParameters = EosioRpcTableRowsRequest(scope: "cryptkeeper", code: "eosio.token", table: "accounts")
@@ -729,10 +733,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getTableByScope() promise implementation.
     func testGetTableByScope(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_table_by_scope")) { _ in
-            let json = RpcTestConstants.tableScopeJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetTableByScope stub"
         let expect = expectation(description: "testGetTableByScope")
         let requestParameters = EosioRpcTableByScopeRequest(code: "eosio.token")
@@ -770,10 +775,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getProducers promise implementation.
     func testGetProducers(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_producers")) { _ in
-            let json = RpcTestConstants.producersJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetProducers stub"
         let expect = expectation(description: "testGetProducers")
         let requestParameters = EosioRpcProducersRequest(limit: 10, lowerBound: "blkproducer2", json: true)
@@ -811,10 +817,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getActions promise implementation.
     func testGetActions(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_actions")) { _ in
-            let json = RpcTestConstants.actionsJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetAction stub"
         let expect = expectation(description: "testGetActions")
         let requestParameters = EosioRpcHistoryActionsRequest(position: -1, offset: -20, accountName: "cryptkeeper")
@@ -852,10 +859,11 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getControlledAccounts promise implementation.
     func testGetControlledAccounts(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_controlled_accounts")) { _ in
-            let json = RpcTestConstants.controlledAccountsJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
         }).name = "GetControlledAccounts stub"
         let expect = expectation(description: "testGetControlledAccounts")
         let requestParameters = EosioRpcHistoryControlledAccountsRequest(controllingAccount: "cryptkeeper")
@@ -893,11 +901,12 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getTransaction promise implementation.
     func testGetTransaction(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_transaction")) { _ in
-            let json = RpcTestConstants.transactionJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
-        }).name = "GetTransaction stub"
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
+        }).name =  "GetTransaction stub"
         let expect = expectation(description: "testGetTransaction")
         let requestParameters = EosioRpcHistoryTransactionRequest(transactionId: "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a", blockNumHint: 21098575)
 
@@ -949,11 +958,12 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
     /// Test getKeyAccounts promise implementation.
     func testGetKeyAccounts(unhappy: Bool = false) {
-        (stub(condition: isAbsoluteURLString("https://localhost/v1/history/get_key_accounts")) { _ in
-            let json = RpcTestConstants.keyAccountsJson
-            let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
-        }).name = "GetKeyAccounts stub"
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            callCount += 1
+            return retVal
+        }).name =  "GetKeyAccounts stub"
         let expect = expectation(description: "testGetKeyAccounts")
         let requestParameters = EosioRpcHistoryKeyAccountsRequest(publicKey: "PUB_K1_5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCw1oi9eG")
 

@@ -88,6 +88,12 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcAbiResponse):
                 XCTAssertNotNil(eosioRpcAbiResponse._rawResponse)
+                let abi = eosioRpcAbiResponse.abi
+                if let abiVersion = abi["version"] as? String {
+                    XCTAssert(abiVersion == "eosio::abi/1.0")
+                } else {
+                    XCTFail("Should be able to find and verify abi version.")
+                }
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_abi \(String(describing: err.originalError))")

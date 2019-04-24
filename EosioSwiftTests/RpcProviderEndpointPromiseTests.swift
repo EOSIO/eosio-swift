@@ -353,6 +353,12 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetAbi unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            let abi = $0.abi
+            if let abiVersion = abi["version"] as? String {
+                XCTAssert(abiVersion == "eosio::abi/1.0")
+            } else {
+                XCTFail("Should be able to find and verify abi version.")
+            }
         }.catch {
             print($0)
             if unhappy {

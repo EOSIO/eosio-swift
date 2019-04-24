@@ -13,25 +13,27 @@ public extension EosioTransaction {
     /// Action class for `EosioTransaction`
     class Action: Codable {
 
-        /// Contract account name
+        /// Contract account name.
         public private(set) var account: EosioName
-        /// Contract action name
+        /// Contract action name.
         public private(set) var name: EosioName
-        /// Authorization (actor and permission)
+        /// Authorization (actor and permission).
         public private(set) var authorization: [Authorization]
-        /// Action data
+        /// Action data.
         public private(set) var data: [String: Any]
 
-        /// Action data as a json string
+        /// Action data as a json string.
         public var dataJson: String? {
             return data.jsonString
         }
-        /// Action data in serialized form
+        /// Action data in serialized form.
         public private(set) var dataSerialized: Data?
-        /// Action data in serialized form as a hex string
+
+        /// Action data in serialized form as a hex string.
         public var dataHex: String? {
             return dataSerialized?.hexEncodedString()
         }
+
         /// Is the action data serialized?
         public var isDataSerialized: Bool {
             return dataSerialized != nil
@@ -48,11 +50,11 @@ public extension EosioTransaction {
         /// Init Action struct with strings and an Encodable struct for data. Strings will be used to init EosioNames.
         ///
         /// - Parameters:
-        ///   - account: contract account name
-        ///   - name: contract action name
-        ///   - authorization: authorization (actor and permission)
-        ///   - data: action data (codable struct)
-        /// - Throws: if the strings are not valid eosio names or data cannot be encoded
+        ///   - account: Contract account name.
+        ///   - name: Contract action name.
+        ///   - authorization: Authorization (actor and permission).
+        ///   - data: Action data (codable struct).
+        /// - Throws: If the strings are not valid EOSIO names or data cannot be encoded.
         public convenience init(account: String, name: String, authorization: [Authorization], data: Encodable) throws {
             try self.init(account: EosioName(account), name: EosioName(name), authorization: authorization, data: data)
         }
@@ -60,11 +62,11 @@ public extension EosioTransaction {
         /// Init Action struct with `EosioName`s and an Encodable struct for data.
         ///
         /// - Parameters:
-        ///   - account: contract account name
-        ///   - name: contract action name
-        ///   - authorization: authorization (actor and permission)
-        ///   - data: action data (codable struct)
-        /// - Throws: if the strings are not valid eosio names or data cannot be encoded
+        ///   - account: Contract account name.
+        ///   - name: Contract action name.
+        ///   - authorization: Authorization (actor and permission).
+        ///   - data: Action data (codable struct).
+        /// - Throws: If the strings are not valid eosio names or data cannot be encoded.
         public init(account: EosioName, name: EosioName, authorization: [Authorization], data: Encodable) throws {
             self.account = account
             self.name = name
@@ -75,11 +77,11 @@ public extension EosioTransaction {
         /// Init Action struct with strings and serialized data. Strings will be used to init EosioNames.
         ///
         /// - Parameters:
-        ///   - account: contract account name
-        ///   - name: contract action name
-        ///   - authorization: authorization (actor and permission)
-        ///   - dataSerialized: data in serialized form
-        /// - Throws: if the strings are not valid eosio names
+        ///   - account: Contract account name.
+        ///   - name: Contract action name.
+        ///   - authorization: Authorization (actor and permission).
+        ///   - dataSerialized: Data in serialized form.
+        /// - Throws: If the strings are not valid EOSIO names.
         public convenience init(account: String, name: String, authorization: [Authorization], dataSerialized: Data) throws {
             try self.init(account: EosioName(account), name: EosioName(name), authorization: authorization, dataSerialized: dataSerialized)
         }
@@ -87,10 +89,10 @@ public extension EosioTransaction {
         /// Init Action struct with `EosioName`s and serialized data.
         ///
         /// - Parameters:
-        ///   - account: contract account name
-        ///   - name: contract action name
-        ///   - authorization: authorization (actor and permission)
-        ///   - dataSerialized: data in serialized form
+        ///   - account: Contract account name.
+        ///   - name: Contract action name.
+        ///   - authorization: Authorization (actor and permission).
+        ///   - dataSerialized: Data in serialized form.
         public init(account: EosioName, name: EosioName, authorization: [Authorization], dataSerialized: Data) {
             self.account = account
             self.name = name
@@ -101,8 +103,8 @@ public extension EosioTransaction {
 
         /// Init with decoder. The data property must be a hex string.
         ///
-        /// - Parameter decoder: the decoder
-        /// - Throws: if the input cannot be decoded into a Action struct
+        /// - Parameter decoder: The decoder.
+        /// - Throws: If the input cannot be decoded into a Action struct.
         required public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             account = try container.decode(EosioName.self, forKey: .account)
@@ -121,10 +123,10 @@ public extension EosioTransaction {
             }
         }
 
-        /// Encode this action using the Encodable protocol
+        /// Encode this action using the Encodable protocol.
         ///
-        /// - Parameter encoder: the encoder
-        /// - Throws: if the action cannot be encoded
+        /// - Parameter encoder: The encoder.
+        /// - Throws: If the action cannot be encoded.
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(account, forKey: .account)
@@ -133,11 +135,12 @@ public extension EosioTransaction {
             try container.encode(dataHex ?? "", forKey: .data)
         }
 
-        /// Serialize the data from the `data` dictionary using serializationProvider and an abi, then set the `dataSerialized` property
+        /// Serialize the data from the `data` dictionary using `serializationProvider` and an ABI. Then set the `dataSerialized` property.
         ///
-        /// - Parameter abi: the abi as a json string
-        /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
-        /// - Throws: if the data cannot be serialized
+        /// - Parameters:
+        ///   - abi: The ABI as a json string.
+        ///   - serializationProvider: An `EosioSerializationProviderProtocol` conforming implementation for the transformation.
+        /// - Throws: If the data cannot be serialized.
         public func serializeData(abi: String, serializationProvider: EosioSerializationProviderProtocol) throws {
             if isDataSerialized { return }
             guard let json = dataJson else {
@@ -150,11 +153,12 @@ public extension EosioTransaction {
             self.dataSerialized = binaryData
         }
 
-        /// Deserialize the data from the `dataSerialized` property using serializationProvider and an abi, then set the `data` dictionary
+        /// Deserialize the data from the `dataSerialized` property using `serializationProvider` and an ABI. Then set the `data` dictionary.
         ///
-        /// - Parameter abi: the abi as a json string
-        /// - Paramerter serializationProvider: an EosioSerializationProviderProtocol conforming implementation for the transformation
-        /// - Throws: if the data cannot be deserialized
+        /// - Parameters:
+        ///   - abi: The ABI as a json string.
+        ///   - serializationProvider: An `EosioSerializationProviderProtocol` conforming implementation for the transformation.
+        /// - Throws: If the data cannot be deserialized.
         public func deserializeData(abi: String, serializationProvider: EosioSerializationProviderProtocol) throws {
             if data.count > 0 { return }
             guard let dataHex = dataHex else {
@@ -170,27 +174,31 @@ public extension EosioTransaction {
 
 extension EosioTransaction.Action {
 
-    /// Authorization struct for `EosioTransaction.Action`
+    /// Authorization struct for `EosioTransaction.Action`.
     public struct Authorization: Codable, Equatable {
+
+        /// The acting account.
         public var actor: EosioName
+
+        /// The permission under which the actor is executing the Action.
         public var permission: EosioName
 
-        /// Init Authorization with EosioNames
+        /// Init Authorization with EosioNames.
         ///
         /// - Parameters:
-        ///   - actor: actor as EosioName
-        ///   - permission: permission as EosioName
+        ///   - actor: Actor as `EosioName`.
+        ///   - permission: Permission as `EosioName`.
         public init(actor: EosioName, permission: EosioName) {
             self.actor = actor
             self.permission = permission
         }
 
-        /// Init Authorization with strings
+        /// Init Authorization with strings.
         ///
         /// - Parameters:
-        ///   - actor: actor as String
-        ///   - permission: permission as String
-        /// - Throws: if the strings are not valid EosioNames
+        ///   - actor: Actor as String.
+        ///   - permission: Permission as String.
+        /// - Throws: If the strings are not valid EosioNames.
         public init(actor: String, permission: String) throws {
             try self.init(actor: EosioName(actor), permission: EosioName(permission))
         }

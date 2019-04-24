@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Convenience class for creating transactions on EOSIO-based blockchains. Once you set properties (`rpcProvider` etc.), you don't have to reset them again in order to create a new transaction.
+/// Convenience class for creating transactions on EOSIO-based blockchains. Once you set properties (`rpcProvider` etc.), you don't have to set them again in order to create a new transaction.
 public class EosioTransactionFactory {
 
     /// Remote Procedure Call (RPC) provider for facilitating communication with blockchain nodes. Conforms to `EosioRpcProviderProtocol`.
@@ -30,7 +30,6 @@ public class EosioTransactionFactory {
         abiProvider: EosioAbiProviderProtocol? = nil,
         config: EosioTransaction.Config? = nil
     ) {
-
         self.rpcProvider = rpcProvider
         self.signatureProvider = signatureProvider
         self.serializationProvider = serializationProvider
@@ -38,7 +37,7 @@ public class EosioTransactionFactory {
         self.config = config
     }
 
-    /// Returns an instance of `EosioTransaction` class.
+    /// Returns a new `EosioTransaction` instance.
     public func newTransaction() -> EosioTransaction {
 
         let newTransaction = EosioTransaction()

@@ -222,7 +222,6 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
 
-
     }
     /// Test getRawCodeAndAbi() implementation.
     func testGetRawCodeAndAbi() {

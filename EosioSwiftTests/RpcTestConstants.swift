@@ -797,20 +797,37 @@ public class RpcTestConstants {
     """
     public static let codeJson = """
     {
-    "code": 500,
-    "message": "Internal Service Error",
-    "error": {
-    "code": 3100008,
-    "name": "unsupported_feature",
-    "what": "Feature is currently unsupported",
-    "details": [
+    "account_name": "tropical",
+    "code_hash": "68721c88e8b04dea76962d8afea28d2f39b870d72be30d1d143147cdf638baad",
+    "wast": "",
+    "wasm": "WasmCodeJiberish",
+    "abi": {
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
     {
-    "message": "Returning WAST from get_code is no longer supported",
-    "file": "chain_plugin.cpp",
-    "line_number": 1538,
-    "method": "get_code"
+    "name": "like",
+    "base": "",
+    "fields": [
+    {
+    "name": "user",
+    "type": "name"
     }
     ]
+    }
+    ],
+    "actions": [
+    {
+    "name": "like",
+    "type": "like",
+    "ricardian_contract": "Ricardian Contract Text"
+    }
+    ],
+    "tables": [],
+    "ricardian_clauses": [],
+    "error_messages": [],
+    "abi_extensions": [],
+    "variants": []
     }
     }
     """

@@ -170,7 +170,15 @@ public struct EosioRpcTableRowsRequest: Codable {
 }
 
 /// The request type for `get_code` RPC requests.
-public typealias EosioRpcCodeRequest = EosioAccountInfo
+public struct EosioRpcCodeRequest: Codable {
+    public var accountName: String
+    public var codeAsWasm: Bool
+
+    public init(accountName: String, codeAsWasm: Bool = true) {
+        self.accountName = accountName
+        self.codeAsWasm = codeAsWasm
+    }
+}
 
 /* History Endpoints */
 

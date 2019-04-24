@@ -490,6 +490,37 @@ public struct EosioRpcRawCodeAndAbiResponse: Decodable, EosioRpcResponseProtocol
         abi = try container.decode(String.self, forKey: .abi)
     }
 }
+/// Response type for the `get_code` RPC endpoint.
+public struct EosioRpcCodeResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var accountName: String
+    public var codeHash: String
+    public var wast: String
+    public var wasm: String
+    public var abi: [String: Any]?
+
+    enum CustomCodingKeys: String, CodingKey {
+        case accountName = "account_name"
+        case codeHash = "code_hash"
+        case wast
+        case wasm
+        case abi
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        accountName = try container.decode(String.self, forKey: .accountName)
+        codeHash = try container.decode(String.self, forKey: .codeHash)
+        wast = try container.decode(String.self, forKey: .wast)
+        wasm = try container.decode(String.self, forKey: .wasm)
+
+        let abiContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .abi)
+        abi = abiContainer?.decodeDynamicKeyValues()
+    }
+
+}
 
 /// Response type for the `get_abi` RPC endpoint.
 public struct EosioRpcAbiResponse: Decodable, EosioRpcResponseProtocol {
@@ -591,8 +622,7 @@ public typealias EosioRpcTableByScopeResponse = RawResponse
 /// Response type for the `get_table_rows` RPC endpoint.
 public typealias EosioRpcTableRowsResponse = RawResponse
 
-/// Response type for the `get_code` RPC endpoint.
-public typealias EosioRpcCodeResponse = RawResponse
+
 
 /* History Endpoints */
 

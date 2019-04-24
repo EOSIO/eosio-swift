@@ -9,6 +9,7 @@
 import Foundation
 import PromiseKit
 
+// MARK: - `EosioTransaction` methods returning Promises.
 extension EosioTransaction {
     /// Promised based method for signing a transaction and then broadcasting it.
     ///

@@ -445,6 +445,7 @@ public struct CurrencyStats: Decodable {
         issuer = try container.decode(String.self, forKey: .issuer)
     }
 }
+
 /// Response type for the `get_currency_stats` RPC endpoint.
 public struct EosioRpcCurrencyStatsResponse: Decodable, EosioRpcResponseProtocol {
     public var _rawResponse: Any?
@@ -466,6 +467,7 @@ public struct EosioRpcCurrencyStatsResponse: Decodable, EosioRpcResponseProtocol
         currencyStats = try container.decode(CurrencyStats.self, forKey: CustomCodingKeys(stringValue: symbol)!)
     }
 }
+
 /// Response type for the `get_raw_code_and_abi` RPC endpoint.
 public struct EosioRpcRawCodeAndAbiResponse: Decodable, EosioRpcResponseProtocol {
     public var _rawResponse: Any?
@@ -489,6 +491,27 @@ public struct EosioRpcRawCodeAndAbiResponse: Decodable, EosioRpcResponseProtocol
     }
 }
 
+/// Response type for the `get_abi` RPC endpoint.
+public struct EosioRpcAbiResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var accountName: String
+    public var abi: [String: Any]
+
+    enum CustomCodingKeys: String, CodingKey {
+        case accountName = "account_name"
+        case abi
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        accountName = try container.decode(String.self, forKey: .accountName)
+        let abiContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .abi)
+        abi = abiContainer?.decodeDynamicKeyValues() ?? [String: Any]()
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -504,9 +527,6 @@ public typealias EosioRpcPushTransactionsResponse = RawResponse
 
 /// Response type for the `get_block_header_state` RPC endpoint.
 public typealias EosioRpcBlockHeaderStateResponse = RawResponse
-
-/// Response type for the `get_abi` RPC endpoint.
-public typealias EosioRpcAbiResponse = RawResponse
 
 /// Response type for the `get_producers` RPC endpoint.
 public typealias EosioRpcProducersResponse = RawResponse

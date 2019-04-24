@@ -127,7 +127,7 @@ public extension Data {
         let checksum = sigAndChecksum.suffix(4)
         let hash = RIPEMD160.hash(message: sig + "R1".data(using: .utf8)!)
 
-        // if the checksum and hash to not match, throw an error
+        // if the checksum and hash do not match, throw an error
         guard checksum == hash.prefix(4) else {
             throw EosioError(.signatureProviderError, reason: "Checksum \(checksum) is not equal to hash \(hash.prefix(4))")
         }
@@ -149,7 +149,7 @@ public extension Data {
         }
         let hash = RIPEMD160.hash(message: sig + versionData)
 
-        // if the checksum and hash to not match, throw an error
+        // if the checksum and hash do not match, throw an error
         guard checksum == hash.prefix(4) else {
             throw EosioError(.signatureProviderError, reason: "Checksum \(checksum) is not equal to hash \(hash.prefix(4))")
         }
@@ -178,7 +178,7 @@ public extension Data {
         }
         let hash = RIPEMD160.hash(message: keyToHash)
 
-        // if the checksum and hash to not match, throw an error
+        // if the checksum and hash do not match, throw an error
         guard checksum == hash.prefix(4) else {
             throw EosioError(.signatureProviderError, reason: "Public key: \(key.hex) with checksum: \(checksum.hex) does not match \(hash.prefix(4).hex)")
         }
@@ -216,7 +216,7 @@ public extension Data {
             throw EosioError(.signatureProviderError, reason: "\(eosioPrivateKey) is not valid key")
         }
 
-        // if the checksum and hash to not match, throw an error
+        // if the checksum and hash do not match, throw an error
         guard checksum == hash.prefix(4) else {
             throw EosioError(.signatureProviderError, reason: "Private key: \(key.hex) with checksum: \(checksum.hex) does not match \(hash.prefix(4).hex)")
         }

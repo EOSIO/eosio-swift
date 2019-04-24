@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-// MARK: - Endpoint methods returning Promises
+// MARK: - Endpoint methods returning Promises.
 extension EosioRpcProvider {
 
     /* Chain Endpoints */

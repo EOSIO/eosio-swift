@@ -914,6 +914,16 @@ public class RpcTestConstants {
             "unpaid_blocks": 0,
             "last_claim_time": "1970-01-01T00:00:00.000",
             "location": 0
+        },
+        {
+            "owner": "blkproducer3",
+            "total_votes": "0.00000000000000000",
+            "producer_key": "EOS7YTjjzt7coagRE5i64JhZB4ucH23Nz5mDhXdzU6QC7gfXwy8M9",
+            "is_active": 1,
+            "url": "",
+            "unpaid_blocks": 0,
+            "last_claim_time": "2019-01-31T22:50:21.500",
+            "location": 0
         }
     ],
     "total_producer_vote_weight": "0.00000000000000000",

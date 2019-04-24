@@ -844,6 +844,12 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetProducers unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.rows)
+            XCTAssert($0.rows.count == 2)
+            XCTAssert($0.rows[0].owner == "blkproducer2")
+            XCTAssert($0.rows[0].unpaidBlocks == 0)
+            XCTAssert($0.rows[1].owner == "blkproducer3")
+            XCTAssert($0.rows[0].isActive == 1)
         }.catch {
             print($0)
             if unhappy {

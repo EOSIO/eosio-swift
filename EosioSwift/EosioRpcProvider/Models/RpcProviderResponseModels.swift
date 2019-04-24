@@ -512,6 +512,63 @@ public struct EosioRpcAbiResponse: Decodable, EosioRpcResponseProtocol {
     }
 }
 
+/// Response struct for the rows returned in the `get_producers` RPC endpoint response.
+public struct ProducerRows: Decodable {
+    public var owner: String
+    public var totalVotes: String
+    public var producerKey: String
+    public var isActive: Int
+    public var url: String
+    public var unpaidBlocks: UInt64
+    public var lastClaimTime: String
+    public var location: UInt16
+
+    enum CustomCodingKeys: String, CodingKey {
+        case owner
+        case totalVotes = "total_votes"
+        case producerKey = "producer_key"
+        case isActive = "is_active"
+        case url
+        case unpaidBlocks = "unpaid_blocks"
+        case lastClaimTime = "last_claim_time"
+        case location
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+        owner = try container.decode(String.self, forKey: .owner)
+        totalVotes = try container.decode(String.self, forKey: .totalVotes)
+        producerKey = try container.decode(String.self, forKey: .producerKey)
+        isActive = try container.decode(Int.self, forKey: .isActive)
+        url = try container.decodeIfPresent(String.self, forKey: .url) ?? ""
+        unpaidBlocks = try container.decodeIfPresent(UInt64.self, forKey: .unpaidBlocks) ?? 0
+        lastClaimTime = try container.decodeIfPresent(String.self, forKey: .lastClaimTime) ?? ""
+        location = try container.decodeIfPresent(UInt16.self, forKey: .location) ?? 0
+    }
+}
+
+/// Response type for the `get_producers` RPC endpoint.
+public struct EosioRpcProducersResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var rows: [ProducerRows]
+    public var totalProducerVoteWeight: String
+    public var more: String
+
+    enum CustomCodingKeys: String, CodingKey {
+        case rows
+        case totalProducerVoteWeight = "total_producer_vote_weight"
+        case more
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+        rows = try container.decodeIfPresent([ProducerRows].self, forKey: .rows) ?? [ProducerRows]()
+        totalProducerVoteWeight = try container.decode(String.self, forKey: .totalProducerVoteWeight)
+        more = try container.decodeIfPresent(String.self, forKey: .more) ?? ""
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -527,9 +584,6 @@ public typealias EosioRpcPushTransactionsResponse = RawResponse
 
 /// Response type for the `get_block_header_state` RPC endpoint.
 public typealias EosioRpcBlockHeaderStateResponse = RawResponse
-
-/// Response type for the `get_producers` RPC endpoint.
-public typealias EosioRpcProducersResponse = RawResponse
 
 /// Response type for the `get_table_by_scope` RPC endpoint.
 public typealias EosioRpcTableByScopeResponse = RawResponse

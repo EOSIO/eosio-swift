@@ -369,6 +369,12 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcProducersResponse):
                 XCTAssertNotNil(eosioRpcProducersResponse._rawResponse)
+                XCTAssertNotNil(eosioRpcProducersResponse.rows)
+                XCTAssert(eosioRpcProducersResponse.rows.count == 2)
+                XCTAssert(eosioRpcProducersResponse.rows[0].owner == "blkproducer2")
+                XCTAssert(eosioRpcProducersResponse.rows[0].unpaidBlocks == 0)
+                XCTAssert(eosioRpcProducersResponse.rows[1].owner == "blkproducer3")
+                XCTAssert(eosioRpcProducersResponse.rows[0].isActive == 1)
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_producers")

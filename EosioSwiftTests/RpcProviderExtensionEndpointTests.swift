@@ -44,6 +44,10 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcPushTransactionsResponse):
                 XCTAssertNotNil(eosioRpcPushTransactionsResponse._rawResponse)
+                XCTAssertNotNil(eosioRpcPushTransactionsResponse.transactionResponses)
+                XCTAssert(eosioRpcPushTransactionsResponse.transactionResponses.count == 2)
+                XCTAssert(eosioRpcPushTransactionsResponse.transactionResponses[0].transactionId == "2de4cd382c2e231c8a3ac80acfcea493dd2d9e7178b46d165283cf91c2ce6121")
+                XCTAssert(eosioRpcPushTransactionsResponse.transactionResponses[1].transactionId == "8bddd86928d396dcec91e15d910086a4f8682167ff9616a84f23de63258c78fe")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed push_transactions")
@@ -221,8 +225,8 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             expect.fulfill()
         }
         wait(for: [expect], timeout: 30)
-
     }
+
     /// Test getRawCodeAndAbi() implementation.
     func testGetRawCodeAndAbi() {
         var callCount = 1

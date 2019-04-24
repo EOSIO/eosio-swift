@@ -530,7 +530,7 @@ public struct ProducerRows: Decodable {
         case isActive = "is_active"
         case url
         case unpaidBlocks = "unpaid_blocks"
-        case lastClaimtime = "last_claim_time"
+        case lastClaimTime = "last_claim_time"
         case location
     }
 
@@ -542,7 +542,7 @@ public struct ProducerRows: Decodable {
         isActive = try container.decode(Int.self, forKey: .isActive)
         url = try container.decodeIfPresent(String.self, forKey: .url) ?? ""
         unpaidBlocks = try container.decodeIfPresent(UInt64.self, forKey: .unpaidBlocks) ?? 0
-        lastClaimTime = try container.decodeIfPresent(String.self, forKey: .lastClaimtime) ?? ""
+        lastClaimTime = try container.decodeIfPresent(String.self, forKey: .lastClaimTime) ?? ""
         location = try container.decodeIfPresent(UInt16.self, forKey: .location) ?? 0
     }
 }

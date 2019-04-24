@@ -569,6 +569,22 @@ public struct EosioRpcProducersResponse: Decodable, EosioRpcResponseProtocol {
     }
 }
 
+/// Response type for the `push_transactions` RPC endpoint.
+public struct EosioRpcPushTransactionsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var transactionResponses: [EosioRpcTransactionResponse]
+
+    public init(from decoder: Decoder) throws {
+        transactionResponses = [EosioRpcTransactionResponse]()
+        if var container = try? decoder.unkeyedContainer() {
+            while container.isAtEnd == false {
+                transactionResponses.append(try container.decode(EosioRpcTransactionResponse.self))
+            }
+        }
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -578,9 +594,6 @@ public struct RawResponse: Decodable, EosioRpcResponseProtocol {
     enum CodingKeys: CodingKey {
     }
 }
-
-/// Response type for the `push_transactions` RPC endpoint.
-public typealias EosioRpcPushTransactionsResponse = RawResponse
 
 /// Response type for the `get_block_header_state` RPC endpoint.
 public typealias EosioRpcBlockHeaderStateResponse = RawResponse

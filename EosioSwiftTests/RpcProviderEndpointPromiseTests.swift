@@ -269,6 +269,10 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testPushTransactions unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.transactionResponses)
+            XCTAssert($0.transactionResponses.count == 2)
+            XCTAssert($0.transactionResponses[0].transactionId == "2de4cd382c2e231c8a3ac80acfcea493dd2d9e7178b46d165283cf91c2ce6121")
+            XCTAssert($0.transactionResponses[1].transactionId == "8bddd86928d396dcec91e15d910086a4f8682167ff9616a84f23de63258c78fe")
         }.catch {
             print($0)
             if unhappy {

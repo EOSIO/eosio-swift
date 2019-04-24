@@ -22,8 +22,8 @@ public extension String {
     /// Slices the string starting from `from` and ending at the start of the `to` string.
     ///
     /// - Parameters:
-    ///   - from: the begining of the slice.
-    ///   - to: the end of the slice.
+    ///   - from: The begining of the slice.
+    ///   - to: The end of the slice.
     /// - Returns: String?
     func slice(from: String, to: String) -> String? { // swiftlint:disable:this identifier_name
         return (range(of: from)?.upperBound).flatMap { substringFrom in
@@ -71,7 +71,7 @@ public extension String {
         return array
     }
 
-    /// Converts the string to a dictionary if it is convertible to a dictionary (i.e., it is a JSON string.)
+    /// Converts the string to a dictionary if it is convertible to a dictionary (i.e., it is a JSON string).
     ///
     /// - Returns: A dictionary if the text is a JSON string and convertible to a dictionary otherwise returns `nil`.
     /// - Throws: A `EosioError` if the string can not be converted to a dictionary.
@@ -117,7 +117,7 @@ public extension String {
         }
     }
 
-    /// Returns Bool indicating whether the current string is a validly encode base58 string.
+    /// - Returns: Bool indicating whether the current string is a validly encode base58 string.
     var isValidBase58: Bool {
         guard Data(base58Decoding: self) != nil else {
             return false
@@ -128,7 +128,7 @@ public extension String {
     /// Does the string contain all of the provided words?
     ///
     /// - Parameter words: Words to look for in the string.
-    /// - Returns: Returns true if the string contains all of the words in `words`. Otherwise, false.
+    /// - Returns: `true` if the string contains all of the words in `words`. Otherwise, false.
     func contains(words: String) -> Bool {
         guard self.count > 0, words.count > 0 else { return false }
         let components = self.components(separatedBy: " ")

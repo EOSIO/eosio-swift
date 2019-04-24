@@ -15,7 +15,7 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     private var abis = [String: Data]()
     private let lock = String()
 
-    /// Initialize the ABI Provider
+    /// Initialize the ABI Provider.
     ///
     /// - Parameter rpcProvider: The RPC provider, which this ABI provider will use to fetch ABIs.
     public init(rpcProvider: EosioRpcProviderProtocol) {

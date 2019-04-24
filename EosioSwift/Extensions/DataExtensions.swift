@@ -30,8 +30,8 @@ public extension Data {
 
     /// Init a `Data` object with a base64 string.
     ///
-    /// - Parameter base64: The data encoded as a base64 string
-    /// - Throws: If the string is not a valid base64 string
+    /// - Parameter base64: The data encoded as a base64 string.
+    /// - Throws: If the string is not a valid base64 string.
     init(base64: String) throws {
         var base64 = base64.replacingOccurrences(of: "=", with: "")
         base64 += String(repeating: "=", count: base64.count % 4)
@@ -42,10 +42,10 @@ public extension Data {
         self = data
     }
 
-    /// Init a `Data` object with a hex string
+    /// Init a `Data` object with a hex string.
     ///
-    /// - Parameter hex: The data encoded as a hex string
-    /// - Throws: If the string is not a valid hex string
+    /// - Parameter hex: The data encoded as a hex string.
+    /// - Throws: If the string is not a valid hex string.
     init(hex: String) throws {
         guard let data = Data(hexString: hex) else {
             throw EosioError(.serializeError, reason: "\(hex) is not a valid hex string")

@@ -280,11 +280,22 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             return retVal
         }).name = "GetCode stub"
         let expect = expectation(description: "testGetCode")
-        let requestParameters = EosioRpcCodeRequest(accountName: "cryptkeeper")
+        let requestParameters = EosioRpcCodeRequest(accountName: "tropical")
         rpcProvider?.getCode(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcCodeResponse):
                 XCTAssertNotNil(eosioRpcCodeResponse._rawResponse)
+                XCTAssert(eosioRpcCodeResponse.accountName == "tropical")
+                XCTAssert(eosioRpcCodeResponse.codeHash == "68721c88e8b04dea76962d8afea28d2f39b870d72be30d1d143147cdf638baad")
+                if let dict = eosioRpcCodeResponse.abi {
+                    if let version = dict["version"] as? String {
+                        XCTAssert(version == "eosio::abi/1.1")
+                    } else {
+                        XCTFail("Should be able to get abi version as String and should equal eosio::abi/1.1.")
+                    }
+                } else {
+                    XCTFail("Should be able to get abi as [String : Any].")
+                }
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_code")

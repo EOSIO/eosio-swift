@@ -48,7 +48,7 @@ public extension Data {
         return self + hash.prefix(4)
     }
 
-    // Compresses a public key.
+    /// Compresses a public key.
     var toCompressedPublicKey: Data? {
         guard self.count == 65 else { return nil }
         let uncompressedKey = self

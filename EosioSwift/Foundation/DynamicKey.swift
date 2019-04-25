@@ -8,23 +8,46 @@
 
 import Foundation
 
+/// CodingKey implementation that will allow for arbitrary String or Int key names in `Decodable` objects.
 struct DynamicKey: CodingKey {
 
+    /// Internal `String` value to represent the key.
     var stringValue: String
 
+    /// Optional Internal `Int` value to represent the key.
+    var intValue: Int?
+
+    /// Initialize a new `DynamicKey` with the given `String` value.
+    /// - Parameter stringValue: A `String` value to use as the key.
     init?(stringValue: String) {
         self.stringValue = stringValue
     }
 
-    var intValue: Int? { return nil }
+    /// Initialize a new `DynamicKey` with the given `Int` value.
+    /// - Parameter intValue: A `Int` value to use as the key
+    init(intValue: Int) {
+        self.stringValue = "\(intValue)"
+        self.intValue = intValue
+    }
 
-    init?(intValue: Int) { return nil }
+    /// Initialize a new `DynamicKey` with the given `String` and `Int` value.
+    /// - Parameter stringValue: A `String` value to use as the key.
+    /// - Parameter intValue: A `Int` value to use as the key
+    init(stringValue: String, intValue: Int?) {
+        self.stringValue = stringValue
+        self.intValue = intValue
+    }
 
 }
 
+/// Implementation of a a `KeyedDecodingContainer` that will decode arbitrary JSON and return it represented as `[String: Any]`.
+/// This should be used when the top level of the JSON to decode is a JSON Object.
 extension KeyedDecodingContainer where Key == DynamicKey {
 
     // swiftlint:disable cyclomatic_complexity
+
+    /// Cycle through all keys in the current container, decoding them as appropriate and returning the values as `AnyObject`.
+    /// - Returns: `[String: Any]` representation of the current `KeyedDecodingContaier` contents.
     func decodeDynamicKeyValues() -> [String: Any] {
         var dict = [String: Any]()
         for key in allKeys {
@@ -62,9 +85,14 @@ extension KeyedDecodingContainer where Key == DynamicKey {
 
 }
 
+/// Implementation of a a `UnkeyedDecodingContainer` that will decode arbitrary JSON and return it represented as `[Any]`.
+/// This should be used when the top level of the JSON to decode is a JSON Array.
 extension UnkeyedDecodingContainer {
 
     // swiftlint:disable cyclomatic_complexity
+
+    /// Step through all elements in the current container, decoding them as appropriate and returning the values as `AnyObject`.
+    /// - Returns: `[Any]` representation of the current `UnkeyedDecodingContaier` contents.
     mutating func decodeDynamicValues() -> [Any] {
         var array = [Any]()
         while isAtEnd == false {

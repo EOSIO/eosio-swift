@@ -135,6 +135,16 @@ public extension EosioTransaction {
             try container.encode(dataHex ?? "", forKey: .data)
         }
 
+        /// Return the action as a Dictionary
+        public var actionAsDictionary: [String:Any] {
+            var dictionary = [String:Any]()
+            dictionary["account"] = account.string
+            dictionary["name"]  = name.string
+            dictionary["authorization"] = authorization.toDictionary()
+            dictionary["data"] = data
+            return dictionary
+        }
+
         /// Serialize the data from the `data` dictionary using `serializationProvider` and an ABI. Then set the `dataSerialized` property.
         ///
         /// - Parameters:

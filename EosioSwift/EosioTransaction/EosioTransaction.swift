@@ -95,7 +95,6 @@ public class EosioTransaction: Codable {
             throw EosioError(.deserializeError, reason: "Cannot create json from data")
         }
         let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         jsonDecoder.dateDecodingStrategy = .formatted(Date.asTransactionTimestamp)
         let transaction = try jsonDecoder.decode(EosioTransaction.self, from: data)
         transaction.serializationProvider = serializationProvider

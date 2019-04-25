@@ -96,6 +96,7 @@ public class EosioTransaction: Codable {
         }
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        jsonDecoder.dateDecodingStrategy = .formatted(Date.asTransactionTimestamp)
         let transaction = try jsonDecoder.decode(EosioTransaction.self, from: data)
         transaction.serializationProvider = serializationProvider
         return transaction

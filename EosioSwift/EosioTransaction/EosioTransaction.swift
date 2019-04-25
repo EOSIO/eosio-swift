@@ -69,14 +69,14 @@ public class EosioTransaction: Codable {
     /// For encoding/decoding EosioTransaction <> JSON.
     enum CodingKeys: String, CodingKey {
         case expiration
-        case refBlockNum
-        case refBlockPrefix
-        case maxNetUsageWords
-        case maxCpuUsageMs
-        case delaySec
-        case contextFreeActions
+        case refBlockNum = "ref_block_num"
+        case refBlockPrefix = "ref_block_prefix"
+        case maxNetUsageWords = "max_net_usage_words"
+        case maxCpuUsageMs = "max_cpu_usage_ms"
+        case delaySec = "delay_sec"
+        case contextFreeActions = "context_free_actions"
         case actions
-        case transactionExtensions
+        case transactionExtensions = "transaction_extensions"
     }
 
     /// Initializes the class.

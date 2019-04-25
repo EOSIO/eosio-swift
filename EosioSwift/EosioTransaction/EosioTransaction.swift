@@ -116,6 +116,28 @@ public class EosioTransaction: Codable {
         }
     }
 
+    /// Return this transaction as a json string with unserialized action data
+    public var transactionAsJsonWithUnserializedActionData:  String? {
+        return transactionAsDictionary.jsonString
+    }
+
+    /// Return this transaction as a Dictionary
+    public var transactionAsDictionary: [String:Any] {
+        var dictionary = [String:Any]()
+        dictionary["expiration"] = expiration.yyyyMMddTHHmmss
+        dictionary["ref_block_num"] = refBlockNum
+        dictionary["ref_block_prefix"] = refBlockPrefix
+        dictionary["max_net_usage_words"] = maxNetUsageWords
+        dictionary["max_cpu_usage_ms"] = maxCpuUsageMs
+        dictionary["delay_sec"] = delaySec
+        dictionary["context_free_actions"] = contextFreeActions
+        dictionary["actions"] = actions.compactMap({ (action) -> [String:Any]? in
+            return action.actionAsDictionary
+        })
+        dictionary["transaction_extensions"] = transactionExtensions
+        return dictionary
+    }
+
     /// Encode the transaction as a json string. Properties will be snake_case. Action data will be serialized.
     ///
     /// - Parameter prettyPrinted: Should the json be pretty printed? (default = false)

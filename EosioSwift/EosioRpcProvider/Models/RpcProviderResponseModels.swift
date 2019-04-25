@@ -636,7 +636,6 @@ public typealias EosioRpcTableByScopeResponse = RawResponse
 public typealias EosioRpcTableRowsResponse = RawResponse
 
 
-
 /* History Endpoints */
 
 /// Response type for the `get_actions` RPC endpoint.

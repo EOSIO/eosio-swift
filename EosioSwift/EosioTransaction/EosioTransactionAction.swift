@@ -123,7 +123,7 @@ public extension EosioTransaction {
             }
         }
 
-        /// Encode this action using the Encodable protocol.
+        /// Encode this action using the Encodable protocol. Action data will be serialized.
         ///
         /// - Parameter encoder: The encoder.
         /// - Throws: If the action cannot be encoded.
@@ -135,7 +135,7 @@ public extension EosioTransaction {
             try container.encode(dataHex ?? "", forKey: .data)
         }
 
-        /// Return the action as a Dictionary
+        /// Return the action as a Dictionary. Action data will be unserialized.
         public var actionAsDictionary: [String:Any] {
             var dictionary = [String:Any]()
             dictionary["account"] = account.string

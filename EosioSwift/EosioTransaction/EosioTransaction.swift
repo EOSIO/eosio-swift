@@ -121,7 +121,7 @@ public class EosioTransaction: Codable {
         return transactionAsDictionary.jsonString
     }
 
-    /// Return this transaction as a Dictionary
+    /// Return this transaction as a Dictionary. Action data will be unserialized.
     public var transactionAsDictionary: [String:Any] {
         var dictionary = [String:Any]()
         dictionary["expiration"] = expiration.yyyyMMddTHHmmss

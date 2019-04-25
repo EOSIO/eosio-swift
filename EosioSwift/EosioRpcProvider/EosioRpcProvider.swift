@@ -60,7 +60,17 @@ public class EosioRpcProvider {
     func getResource<T: Decodable & EosioRpcResponseProtocol>(_: PMKNamespacer, rpc: String, requestParameters: Encodable?) -> Promise<T> {
         var theError: EosioError?
         
-        //if we dont have the chain ID for the host we are hitting we need to get it!
+        /*
+         Logic for retry and failover:
+         
+         1) First call to an endpoint needs to call getInfo to get the chainId which is stored to ensure all calls and all endponts are running the same chain ID.
+         2) An endopoint call is retried on failures up to the nuber of tmes specified by the RPCProvider's retries property
+         3) After all retirees fail then try the propcess again with a subsequent endpoint.
+             a) subsequent enpoints not having the same Chain ID as the first should be discared.
+        */
+        
+        // If we dont have the chain ID for the host we are hitting we need to get it!
+        // TODO: This will need to be enhanced when the next PR for failover is implemented. It needs addional logic when switching to new endpoint when failover to next enpoint occurs.
         if rpc != "chain/get_info" && chainId == nil {
             runRequest(rpc: "chain/get_info", requestParameters: nil)
                 .done { (infoResponse: EosioRpcInfoResponse)  in

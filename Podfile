@@ -7,10 +7,10 @@ target 'EosioSwift' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
     pod 'BigInt', '~> 3.1', :inhibit_warnings => true
-    pod 'PromiseKit/CorePromise', '~> 6.8'
+    pod 'PromiseKit', '~> 6.8'
   end
 
   pod 'BigInt', '~> 3.1', :inhibit_warnings => true
   pod 'SwiftLint'
-  pod 'PromiseKit/CorePromise', '~> 6.8'
+  pod 'PromiseKit', '~> 6.8'
 end

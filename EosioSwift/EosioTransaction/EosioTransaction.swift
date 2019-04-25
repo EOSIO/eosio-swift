@@ -235,6 +235,22 @@ public class EosioTransaction: Codable {
         }
     }
 
+    /// Deserializes the `serializedData` property of each action in `actions` and sets the `data` property for each action, if not already set. Deserializing the action data requires an ABI to be available in
+    /// the `abis` class for the action.
+    ///
+    /// - Parameter exclude: Don't deserialize these actions.
+    /// - Throws: If any required abis are not available, or the action data cannot be deserialized.
+    public func deserializeActionData(exclude: [EosioName] = []) throws {
+        guard let serializer = self.serializationProvider else {
+            preconditionFailure("A serializationProvider must be set!")
+        }
+        for action in actions {
+            if !exclude.contains(action.account) {
+                try action.deserializeData(abi: abis.jsonAbi(name: action.account), serializationProvider: serializer)
+            }
+        }
+    }
+
     /// Gets ABIs for every contract in the actions using the `abiProvider` and adds them to `abis`. If ABIs are already present for all contracts, this method will not need to use the `abiProvider` and will
     /// immediately call the completion with `true`. If the `abiProvider` is not set but the `rpcProvider` is, an `EosioAbiProvider` instance will be created using the `rpcProvider` and set as the `abiProvider`.
     /// If the ABIs are not present and the `abiProvider` is not set or `abiProvider` cannot get some of the requested ABIs, an error is returned. If all ABIs are successfully set, this method will call the

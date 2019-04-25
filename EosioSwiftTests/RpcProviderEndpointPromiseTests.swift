@@ -315,6 +315,25 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetBlockHeaderState unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0._rawResponse)
+            XCTAssert($0.id == "0137c067c65e9db8f8ee467c856fb6d1779dfeb0332a971754156d075c9a37ca")
+            XCTAssert($0.header.producerSignature == "SIG_K1_K11ScNfXdat71utYJtkd8E6dFtvA7qQ3ww9K74xEpFvVCyeZhXTarwvGa7QqQTRw3CLFbsXCsWJFNCHFHLKWrnBNZ66c2m")
+            guard let version = $0.pendingSchedule["version"] as? UInt64 else {
+                return XCTFail("Should be able to get pendingSchedule as [String : Any].")
+            }
+            XCTAssert(version == 2)
+            guard let activeSchedule = $0.activeSchedule["producers"] as? [[String: Any]] else {
+                return XCTFail("Should be able to get activeSchedule as [String : Any].")
+            }
+            guard let producerName = activeSchedule.first?["producer_name"] as? String else {
+                return XCTFail("Should be able to get producer_name as String.")
+            }
+            XCTAssert(producerName == "blkproducer1")
+            guard let nodeCount = $0.blockRootMerkle["_node_count"] as? UInt64 else {
+                return XCTFail("Should be able to get _node_count as Int.")
+            }
+            XCTAssert(nodeCount == 20430950)
+            XCTAssert($0.confirmCount.count == 12)
         }.catch {
             print($0)
             if unhappy {

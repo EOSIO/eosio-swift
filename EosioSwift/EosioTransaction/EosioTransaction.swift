@@ -95,7 +95,6 @@ public class EosioTransaction: Codable {
             throw EosioError(.deserializeError, reason: "Cannot create json from data")
         }
         let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         jsonDecoder.dateDecodingStrategy = .formatted(Date.asTransactionTimestamp)
         let transaction = try jsonDecoder.decode(EosioTransaction.self, from: data)
         transaction.serializationProvider = serializationProvider
@@ -115,6 +114,28 @@ public class EosioTransaction: Codable {
         return actions.filter { (action) -> Bool in
             !action.isDataSerialized
         }
+    }
+
+    /// Return this transaction as a json string with unserialized action data
+    public var transactionAsJsonWithUnserializedActionData:  String? {
+        return transactionAsDictionary.jsonString
+    }
+
+    /// Return this transaction as a Dictionary. Action data will be unserialized.
+    public var transactionAsDictionary: [String:Any] {
+        var dictionary = [String:Any]()
+        dictionary["expiration"] = expiration.yyyyMMddTHHmmss
+        dictionary["ref_block_num"] = refBlockNum
+        dictionary["ref_block_prefix"] = refBlockPrefix
+        dictionary["max_net_usage_words"] = maxNetUsageWords
+        dictionary["max_cpu_usage_ms"] = maxCpuUsageMs
+        dictionary["delay_sec"] = delaySec
+        dictionary["context_free_actions"] = contextFreeActions
+        dictionary["actions"] = actions.compactMap({ (action) -> [String:Any]? in
+            return action.actionAsDictionary
+        })
+        dictionary["transaction_extensions"] = transactionExtensions
+        return dictionary
     }
 
     /// Encode the transaction as a json string. Properties will be snake_case. Action data will be serialized.
@@ -232,6 +253,22 @@ public class EosioTransaction: Codable {
                 } catch {
                     return completion(.failure(error.eosioError))
                 }
+            }
+        }
+    }
+
+    /// Deserializes the `serializedData` property of each action in `actions` and sets the `data` property for each action, if not already set. Deserializing the action data requires an ABI to be available in
+    /// the `abis` class for the action.
+    ///
+    /// - Parameter exclude: Don't deserialize these actions.
+    /// - Throws: If any required abis are not available, or the action data cannot be deserialized.
+    public func deserializeActionData(exclude: [EosioName] = []) throws {
+        guard let serializer = self.serializationProvider else {
+            preconditionFailure("A serializationProvider must be set!")
+        }
+        for action in actions {
+            if !exclude.contains(action.account) {
+                try action.deserializeData(abi: abis.jsonAbi(name: action.account), serializationProvider: serializer)
             }
         }
     }

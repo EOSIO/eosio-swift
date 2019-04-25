@@ -62,6 +62,8 @@ public class EosioRpcProvider {
     func getResource<T: Decodable & EosioRpcResponseProtocol>(_: PMKNamespacer, rpc: String, requestParameters: Encodable?) -> Promise<T> {
         var theError: EosioError?
 
+        var promise: Promise<T>
+
         /*
          Logic for retry and failover:
          
@@ -91,9 +93,15 @@ public class EosioRpcProvider {
             }
         }
         guard let error = theError else {
-            return retry(maximumRetryCount: 3) {
+            promise = retry(maximumRetryCount: 3) {
                 self.runRequest(rpc: rpc, requestParameters: requestParameters)
             }
+
+            promise.catch { _ in
+
+            }
+            
+            return promise
         }
         return Promise(error: error)
     }

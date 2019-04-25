@@ -39,7 +39,8 @@ public class EosioRpcProvider {
         self.currentEndpoint = self.endpoints[0]
         self.retries = retries
     }
-    func attempt<T>(maximumRetryCount: Int = 3, delayBeforeRetry: DispatchTimeInterval = .seconds(2), _ body: @escaping () -> Promise<T>) -> Promise<T> {
+
+    func retry<T>(maximumRetryCount: Int = 3, delayBeforeRetry: DispatchTimeInterval = .seconds(2), _ body: @escaping () -> Promise<T>) -> Promise<T> {
         var attempts = 0
         func attempt() -> Promise<T> {
             attempts += 1
@@ -50,6 +51,7 @@ public class EosioRpcProvider {
         }
         return attempt()
     }
+
     /// Creates an RPC request, makes the network call, and handles the response returning a Promise.
     ///
     /// - Parameters:
@@ -59,7 +61,7 @@ public class EosioRpcProvider {
     /// - Returns: A Promise fulfilling with a response object conforming to the `EosioRpcResponseProtocol` and rejecting with an Error.
     func getResource<T: Decodable & EosioRpcResponseProtocol>(_: PMKNamespacer, rpc: String, requestParameters: Encodable?) -> Promise<T> {
         var theError: EosioError?
-        
+
         /*
          Logic for retry and failover:
          
@@ -68,9 +70,10 @@ public class EosioRpcProvider {
          3) After all retirees fail then try the propcess again with a subsequent endpoint.
              a) subsequent enpoints not having the same Chain ID as the first should be discared.
         */
-        
+
         // If we dont have the chain ID for the host we are hitting we need to get it!
-        // TODO: This will need to be enhanced when the next PR for failover is implemented. It needs addional logic when switching to new endpoint when failover to next enpoint occurs.
+        // TODO: This will need to be enhanced when the next PR for failover is implemented. It needs addional logic when
+        // switching to new endpoint when failover to next enpoint occurs.
         if rpc != "chain/get_info" && chainId == nil {
             runRequest(rpc: "chain/get_info", requestParameters: nil)
                 .done { (infoResponse: EosioRpcInfoResponse)  in
@@ -80,32 +83,31 @@ public class EosioRpcProvider {
                 if let error = error as? EosioError {
                     eosioError = error
                 } else {
-                    eosioError = EosioError(.rpcProviderError, reason: "Unable to obtain sourthe Chain Id via getInfo for host: \(String(describing: self.currentEndpoint.host)).", originalError: error as NSError)
+                    eosioError = EosioError(.rpcProviderError,
+                                            reason: "Unable to obtain sourthe Chain Id via getInfo for host: \(String(describing: self.currentEndpoint.host)).",
+                        originalError: error as NSError)
                 }
                 theError = eosioError
             }
         }
         guard let error = theError else {
-            return attempt(maximumRetryCount: Int(self.retries)) {
-                    self.runRequest(rpc: rpc, requestParameters: requestParameters)
-                    }.done { _ in
-             
-                    }.catch { _ in   // we attempted all retries but still failed
-             
-                    }
+            return retry(maximumRetryCount: 3) {
+                self.runRequest(rpc: rpc, requestParameters: requestParameters)
+            }
         }
         return Promise(error: error)
     }
+
     func runRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
         let backgroundQueue = DispatchQueue.global(qos: .default)
-        return firstly {
-            buildRequest(rpc: rpc, endpoint: endpoints[0], requestParameters: requestParameters)
-            }.then (on: backgroundQueue) {
+        return buildRequest(rpc: rpc, endpoint: endpoints[0], requestParameters: requestParameters)
+            .then (on: backgroundQueue) {
                 URLSession.shared.dataTask(.promise, with: $0).validate()
             }.then { (data, _) in
                 self.decodeResponse(data: data)
-        }
+            }
     }
+
     func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {
         currentRpc = rpc
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
@@ -122,6 +124,7 @@ public class EosioRpcProvider {
         }
         return Promise.value(request)
     }
+
     private func decodeResponse<T: Decodable & EosioRpcResponseProtocol>(data: Data) -> Promise<T> {
         let decoder = JSONDecoder()
         do {
@@ -133,6 +136,7 @@ public class EosioRpcProvider {
             return Promise(error: eosioError)
         }
     }
+
     /// Creates an RPC request, makes the network call, and handles the response. Calls the callback when complete.
     ///
     /// - Parameters:

@@ -197,6 +197,7 @@ public class EosioTransaction: Codable {
     ///
     /// - Throws: If any required abis are not available, or the action `data` cannot be serialized.
     public func serializeActionData() throws {
+        guard actionsWithoutSerializedData.count > 0 else { return }
         let missingAbis = actionAccountsMissingAbis
         guard missingAbis.count == 0 else {
             throw EosioError(.serializeError, reason: "Cannot serialize action data. Abis missing for \(missingAbis).")
@@ -214,6 +215,9 @@ public class EosioTransaction: Codable {
     ///
     /// - Parameter completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
     public func serializeActionData(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        guard actionsWithoutSerializedData.count > 0 else {
+            return completion(.success(true))
+        }
         getAbis { [weak self] (abisResult) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))

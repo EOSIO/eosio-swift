@@ -249,7 +249,7 @@ public class EosioTransaction: Codable {
             self.abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
         }
         guard let abiProvider = self.abiProvider else {
-            return completion(.failure(EosioError(.eosioTransactionError, reason: "No abi provider available")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason: "No abi provider available but missing abis for \(missingAbis)")))
         }
         guard chainId != "" else {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "Chain id is not set")))

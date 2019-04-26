@@ -949,6 +949,10 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetControlledAccounts unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.controlledAccounts)
+            XCTAssert($0.controlledAccounts.count == 2)
+            XCTAssert($0.controlledAccounts[0] == "subcrypt1")
+            XCTAssert($0.controlledAccounts[1] == "subcrypt2")
         }.catch {
             print($0)
             if unhappy {

@@ -955,7 +955,10 @@ public class RpcTestConstants {
     """
     public static let controlledAccountsJson = """
     {
-    "controlled_accounts": []
+        "controlled_accounts": [
+            "subcrypt1",
+            "subcrypt2"
+        ]
     }
     """
     public static let transactionJson = """

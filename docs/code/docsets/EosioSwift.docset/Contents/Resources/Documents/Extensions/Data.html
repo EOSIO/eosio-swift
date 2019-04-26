@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Data Extension Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Extension/Data" class="dashAnchor"></a>
+
+    <a title="Data Extension Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          EosioSwift Docs
+        </a>
+        
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/EOSIO/eosio-swift">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">EosioSwift Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      Data Extension Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioAbiProvider.html">EosioAbiProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioError.html">EosioError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioRpcProvider.html">EosioRpcProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction.html">EosioTransaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Config.html">– Config</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Abis.html">– Abis</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Action.html">– Action</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransactionFactory.html">EosioTransactionFactory</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/Base58String.html">Base58String</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioErrorCode.html">EosioErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioResult.html">EosioResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Date.html">Date</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Encodable.html">Encodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Error.html">Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Resolver.html">Resolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioAbiProviderProtocol.html">EosioAbiProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcBlockResponseProtocol.html">EosioRpcBlockResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcInfoResponseProtocol.html">EosioRpcInfoResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcProviderProtocol.html">EosioRpcProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcRawAbiResponseProtocol.html">EosioRpcRawAbiResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcRequiredKeysResponseProtocol.html">EosioRpcRequiredKeysResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcResponseProtocol.html">EosioRpcResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcTransactionResponseProtocol.html">EosioRpcTransactionResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioSerializationProviderProtocol.html">EosioSerializationProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioSignatureProviderProtocol.html">EosioSignatureProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/JsonOutput.html">JsonOutput</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Authority.html">Authority</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CurrencyStats.html">CurrencyStats</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioAccountInfo.html">EosioAccountInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioAvailableKeysResponse.html">EosioAvailableKeysResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioName.html">EosioName</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcAbiResponse.html">EosioRpcAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcAccountResponse.html">EosioRpcAccountResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockRequest.html">EosioRpcBlockRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockResponse.html">EosioRpcBlockResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCodeRequest.html">EosioRpcCodeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCodeResponse.html">EosioRpcCodeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyBalanceRequest.html">EosioRpcCurrencyBalanceRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyBalanceResponse.html">EosioRpcCurrencyBalanceResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyStatsRequest.html">EosioRpcCurrencyStatsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyStatsResponse.html">EosioRpcCurrencyStatsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcGetTransactionResponse.html">EosioRpcGetTransactionResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryActionsRequest.html">EosioRpcHistoryActionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryControlledAccountsRequest.html">EosioRpcHistoryControlledAccountsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryKeyAccountsRequest.html">EosioRpcHistoryKeyAccountsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryTransactionRequest.html">EosioRpcHistoryTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcInfoResponse.html">EosioRpcInfoResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKeyAccountsResponse.html">EosioRpcKeyAccountsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcProducersRequest.html">EosioRpcProducersRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcProducersResponse.html">EosioRpcProducersResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionRequest.html">EosioRpcPushTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionsRequest.html">EosioRpcPushTransactionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionsResponse.html">EosioRpcPushTransactionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawAbiRequest.html">EosioRpcRawAbiRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawAbiResponse.html">EosioRpcRawAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawCodeAndAbiResponse.html">EosioRpcRawCodeAndAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRequiredKeysRequest.html">EosioRpcRequiredKeysRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRequiredKeysResponse.html">EosioRpcRequiredKeysResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableByScopeRequest.html">EosioRpcTableByScopeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsRequest.html">EosioRpcTableRowsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsRequest/EncodeType.html">– EncodeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTransactionResponse.html">EosioRpcTransactionResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureRequest.html">EosioTransactionSignatureRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureRequest/BinaryAbi.html">– BinaryAbi</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureResponse.html">EosioTransactionSignatureResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureResponse/SignedTransaction.html">– SignedTransaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeyWeight.html">KeyWeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Permission.html">Permission</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PermissionLevel.html">PermissionLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PermissionLevelWeight.html">PermissionLevelWeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ProducerRows.html">ProducerRows</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RIPEMD160.html">RIPEMD160</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RawResponse.html">RawResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/WaitWeight.html">WaitWeight</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A13RpcAbiRequesta">EosioRpcAbiRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A17RpcAccountRequesta">EosioRpcAccountRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A18RpcActionsResponsea">EosioRpcActionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A26RpcBlockHeaderStateRequesta">EosioRpcBlockHeaderStateRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A27RpcBlockHeaderStateResponsea">EosioRpcBlockHeaderStateResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A29RpcControlledAccountsResponsea">EosioRpcControlledAccountsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A23RpcRawCodeAndAbiRequesta">EosioRpcRawCodeAndAbiRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A23RpcTableByScopeResponsea">EosioRpcTableByScopeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A20RpcTableRowsResponsea">EosioRpcTableRowsResponse</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>Data</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Data</span> <span class="p">:</span> <span class="kt">ReferenceConvertible</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">RandomAccessCollection</span><span class="p">,</span> <span class="kt">MutableCollection</span><span class="p">,</span> <span class="kt">RangeReplaceableCollection</span><span class="p">,</span> <span class="kt">MutableDataProtocol</span><span class="p">,</span> <span class="kt">ContiguousBytes</span></code></pre>
+
+                </div>
+              </div>
+            
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE14base58Decoding8alphabetACSgSS_Says5UInt8VGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(base58Decoding:alphabet:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE14base58Decoding8alphabetACSgSS_Says5UInt8VGtcfc">init(base58Decoding:alphabet:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">?(</span><span class="n">base58Decoding</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">alphabet</span><span class="p">:</span> <span class="p">[</span><span class="kt">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="kt"><a href="../Enums/Base58String.html">Base58String</a></span><span class="o">.</span><span class="n">btcAlphabet</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Crypto/Base58String.swift#L42-L59">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE16hexEncodedStringSSyF"></a>
+                    <a name="//apple_ref/swift/Method/hexEncodedString()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE16hexEncodedStringSSyF">hexEncodedString()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get a hex-encoded string representation of the data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">hexEncodedString</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Base16 encoded string representation of the data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L19-L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE3hexSSvp"></a>
+                    <a name="//apple_ref/swift/Property/hex" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE3hexSSvp">hex</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the data as a hex encoded string</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hex</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L27-L29">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE6base64ACSS_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(base64:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE6base64ACSS_tKcfc">init(base64:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Init a <code>Data</code> object with a base64 string.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the string is not a valid base64 string.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">base64</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>base64</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The data encoded as a base64 string.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L35-L43">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE3hexACSS_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(hex:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE3hexACSS_tKcfc">init(hex:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Init a <code>Data</code> object with a hex string.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the string is not a valid hex string.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hex</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The data encoded as a hex string.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L49-L54">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE9hexStringACSgSS_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(hexString:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE9hexStringACSgSS_tcfc">init(hexString:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a data object from a Base16 encoded string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">?(</span><span class="nv">hexString</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hexString</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A Base16 encoded string.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L59-L73">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE6sha256ACvp"></a>
+                    <a name="//apple_ref/swift/Property/sha256" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE6sha256ACvp">sha256</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the SHA256 hash of the data.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sha256</span><span class="p">:</span> <span class="kt">Data</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L76-L82">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE19base58EncodedStringSSvp"></a>
+                    <a name="//apple_ref/swift/Property/base58EncodedString" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE19base58EncodedStringSSvp">base58EncodedString</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the current Data as a base58 encoded String.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">base58EncodedString</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L85-L87">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE6decode6base58ACSgSS_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/decode(base58:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE6decode6base58ACSgSS_tFZ">decode(base58:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Decodes the given base58 String and returns it as Data, if valid.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">decode</span><span class="p">(</span><span class="nv">base58</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Data</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>base58</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A Base58 encoded string.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The base58 String as Data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DataExtensions.swift#L93-L95">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE21toCompressedPublicKeyACSgvp"></a>
+                    <a name="//apple_ref/swift/Property/toCompressedPublicKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE21toCompressedPublicKeyACSgvp">toCompressedPublicKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Compresses a public key.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">toCompressedPublicKey</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L52-L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE02toC11R1PublicKeySSvp"></a>
+                    <a name="//apple_ref/swift/Property/toEosioR1PublicKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE02toC11R1PublicKeySSvp">toEosioR1PublicKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an EOSIO public key as a string formatted PUB_R1_xxxxxxxxxxxxxxxxxxx.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">toEosioR1PublicKey</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L64-L68">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE02toC11K1PublicKeySSvp"></a>
+                    <a name="//apple_ref/swift/Property/toEosioK1PublicKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE02toC11K1PublicKeySSvp">toEosioK1PublicKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an EOSIO public key as a string formatted PUB_K1_xxxxxxxxxxxxxxxxxxx.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">toEosioK1PublicKey</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L71-L75">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE02toC15LegacyPublicKeySSvp"></a>
+                    <a name="//apple_ref/swift/Property/toEosioLegacyPublicKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE02toC15LegacyPublicKeySSvp">toEosioLegacyPublicKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a legacy EOSIO public key as a string formatted EOSxxxxxxxxxxxxxxxxxxx.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">toEosioLegacyPublicKey</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L78-L81">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE02toC9PublicKey5curveS2S_tKF"></a>
+                    <a name="//apple_ref/swift/Method/toEosioPublicKey(curve:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE02toC9PublicKey5curveS2S_tKF">toEosioPublicKey(curve:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an EOSIO public key as a string formatted PUB_[curve]_xxxxxxxxxxxxxxxxxxx.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">toEosioPublicKey</span><span class="p">(</span><span class="nv">curve</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L84-L92">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE02toC11R1SignatureSSvp"></a>
+                    <a name="//apple_ref/swift/Property/toEosioR1Signature" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE02toC11R1SignatureSSvp">toEosioR1Signature</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an EOSIO signature as a string formatted SIG_R1_xxxxxxxxxxxxxxxxxxx.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">toEosioR1Signature</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L95-L99">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE02toC11K1SignatureSSvp"></a>
+                    <a name="//apple_ref/swift/Property/toEosioK1Signature" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE02toC11K1SignatureSSvp">toEosioK1Signature</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an EOSIO signature as a string formatted SIG_K1_xxxxxxxxxxxxxxxxxxx.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">toEosioK1Signature</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L102-L106">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE02toC12R1PrivateKeySSvp"></a>
+                    <a name="//apple_ref/swift/Property/toEosioR1PrivateKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE02toC12R1PrivateKeySSvp">toEosioR1PrivateKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an EOSIO private key as a string formatted PVT_R1_xxxxxxxxxxxxxxxxxxx.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">toEosioR1PrivateKey</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L109-L111">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE16eosioR1SignatureACSS_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(eosioR1Signature:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE16eosioR1SignatureACSS_tKcfc">init(eosioR1Signature:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Init data signature from EOSIO R1 signature string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">eosioR1Signature</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L114-L136">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE14eosioSignatureACSS_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(eosioSignature:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE14eosioSignatureACSS_tKcfc">init(eosioSignature:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Init data signature from EOSIO signature string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">eosioSignature</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L139-L158">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE14eosioPublicKeyACSS_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(eosioPublicKey:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE14eosioPublicKeyACSS_tKcfc">init(eosioPublicKey:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a Data object in compressed ANSI X9.63 format from an EOSIO public key.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">eosioPublicKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L161-L187">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation4DataV10EosioSwiftE15eosioPrivateKeyACSS_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(eosioPrivateKey:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation4DataV10EosioSwiftE15eosioPrivateKeyACSS_tKcfc">init(eosioPrivateKey:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a Data object from an EOSIO private key.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">eosioPrivateKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/EosioKeySignatureExtensions.swift#L190-L234">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>Copyright (c) 2017-2019 block.one all rights reserved.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

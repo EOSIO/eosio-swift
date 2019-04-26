@@ -40,14 +40,19 @@ public class EosioRpcProvider {
         self.retries = retries
     }
 
-    func retry<T>(maximumRetryCount: Int = 1, delayBeforeRetry: DispatchTimeInterval = .seconds(1), _ body: @escaping () -> Promise<T>) -> Promise<T> {
+    private func retry<T>(maximumRetryCount: Int = 1, delayBeforeRetry: DispatchTimeInterval = .seconds(2), _ body: @escaping () -> Promise<T>) -> Promise<T> {
         var attempts = 0
         func attempt() -> Promise<T> {
             attempts += 1
             return body().recover { error -> Promise<T> in
-                guard attempts < maximumRetryCount else {
-                    let eosioError = EosioError(.rpcProviderError, reason: "Failed to retreive resource: \(self.currentRpc) after \(self.retries) retries.", originalError: error as NSError)
-                    throw eosioError }
+                // We only want to retry for when we get a bad status code from server!
+                guard (attempts < maximumRetryCount) && (error is PMKHTTPError)  else {
+                    if error is EosioError {
+                        throw error
+                    } else {
+                        throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
+                    }
+                }
                 return after(delayBeforeRetry).then(on: nil, attempt)
             }
         }
@@ -65,10 +70,10 @@ public class EosioRpcProvider {
         /*
          Logic for retry and failover:
          
-         1) First call to an endpoint needs to call getInfo to get the chainId which is stored to ensure all calls and all endponts are running the same chain ID.
-         2) An endopoint call is retried on failures up to the nuber of tmes specified by the RPCProvider's retries property
-         3) Failover. After all retirees fail then try the process again with a subsequent endpoint.
-             a) subsequent enpoints not having the same Chain ID as the first should be discarded.
+         1) First call to an endpoint needs to call getInfo to get the chainId which is stored to ensure all calls and all endpoints are running the same chain ID.
+         2) An endpoint call is retried on failures up to the number of times specified by the RPCProvider's retries property.  Failures are only retried for bad HTTP response status!  No netowrk connection is an error that will bubble up so the calling app can deal with it.
+         3) Failover. After all retries fail then try the process again with a subsequent endpoint.
+             a) Subsequent enpoints not having the same Chain ID as the first should be discarded and the next tried if one is availble.  Otherwise, bubble up the failure.
         */
         var theError: EosioError?
         // If we dont have the chain ID for the host we are hitting we need to get it!
@@ -89,7 +94,7 @@ public class EosioRpcProvider {
             }
         }
         guard let error = theError else {
-            //we have the chain Id for the endpoint we are using
+            // we have the chain Id for the endpoint we are using
             return runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
         }
         return Promise(error: error)
@@ -100,14 +105,13 @@ public class EosioRpcProvider {
             self.runRequest(rpc: rpc, requestParameters: requestParameters)
         }
         promise.catch { _ in
-            // TODO: implement failover here! if status code (502...504) try next endpoint
+            // TODO: implement failover here! the error is a PMKHTTPError we do the failover process.
         }
         return promise
     }
     private func runRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
-        let backgroundQueue = DispatchQueue.global(qos: .default)
         return buildRequest(rpc: rpc, endpoint: endpoints[0], requestParameters: requestParameters)
-            .then (on: backgroundQueue) {
+            .then {
                 URLSession.shared.dataTask(.promise, with: $0).validate()
             }.then { (data, _) in
                 self.decodeResponse(data: data)

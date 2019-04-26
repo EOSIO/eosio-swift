@@ -662,7 +662,7 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
     public var id: String
     public var blockNumber: UInt64
     public var header: EosioRpcBlockHeaderStateResponseHeader
-    public var dposProposedIrreversibleBlocknumber: UInt64
+    public var dposProposedIrreversibleBlockNumber: UInt64
     public var dposIrreversibleBlockNumber: UInt64
     public var bftIrreversibleBlockNumber: UInt64
     public var pendingScheduleLibNumber: UInt64
@@ -680,7 +680,7 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
         case id
         case blockNumber = "block_num"
         case header
-        case dposProposedIrreversibleBlocknumber = "dpos_proposed_irreversible_blocknum"
+        case dposProposedIrreversibleBlockNumber = "dpos_proposed_irreversible_blocknum"
         case dposIrreversibleBlockNumber = "dpos_irreversible_blocknum"
         case bftIrreversibleBlockNumber = "bft_irreversible_blocknum"
         case pendingScheduleLibNumber = "pending_schedule_lib_num"
@@ -701,7 +701,7 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
         id = try container.decode(String.self, forKey: .id)
         blockNumber = try container.decode(UInt64.self, forKey: .blockNumber)
         header = try container.decode(EosioRpcBlockHeaderStateResponseHeader.self, forKey: .header)
-        dposProposedIrreversibleBlocknumber = try container.decode(UInt64.self, forKey: .dposProposedIrreversibleBlocknumber)
+        dposProposedIrreversibleBlockNumber = try container.decode(UInt64.self, forKey: .dposProposedIrreversibleBlockNumber)
         dposIrreversibleBlockNumber = try container.decode(UInt64.self, forKey: .dposIrreversibleBlockNumber)
         bftIrreversibleBlockNumber = try container.decode(UInt64.self, forKey: .bftIrreversibleBlockNumber)
         pendingScheduleLibNumber = try container.decode(UInt64.self, forKey: .pendingScheduleLibNumber)

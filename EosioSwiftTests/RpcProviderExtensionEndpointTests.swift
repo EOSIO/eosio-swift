@@ -88,6 +88,23 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 }
                 XCTAssert(nodeCount == 20430950)
                 XCTAssert(eosioRpcBlockHeaderStateResponse.confirmCount.count == 12)
+                XCTAssertNotNil(eosioRpcBlockHeaderStateResponse.producerToLastImpliedIrb)
+                XCTAssert(eosioRpcBlockHeaderStateResponse.producerToLastImpliedIrb.count == 2)
+                if let irb = eosioRpcBlockHeaderStateResponse.producerToLastImpliedIrb[0] as? [Any] {
+                    XCTAssertNotNil(irb)
+                    XCTAssert(irb.count == 2)
+                    guard let name = irb[0] as? String, name == "blkproducer1" else {
+                        XCTFail("Should be able to find name.")
+                        return
+                    }
+                    guard let num = irb[1] as? UInt64, num == 20430939 else {
+                        XCTFail("Should be able to find number.")
+                        return
+                    }
+                } else {
+                    XCTFail("Should be able to find producer to last implied irb.")
+                }
+
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_block_header_state.")

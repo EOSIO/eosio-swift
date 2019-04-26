@@ -673,6 +673,8 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
     public var blockSigningKey: String
     public var confirmCount: [UInt64]
     public var confirmations: [UInt64]
+    public var producerToLastProduced: [Any]
+    public var producerToLastImpliedIrb: [Any]
 
     enum CustomCodingKeys: String, CodingKey {
         case id
@@ -689,6 +691,8 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
         case blockSigningKey = "block_signing_key"
         case confirmCount = "confirm_count"
         case confirmations
+        case producerToLastProduced = "producer_to_last_produced"
+        case producerToLastImpliedIrb = "producer_to_last_implied_irb"
     }
 
     public init(from decoder: Decoder) throws {
@@ -714,6 +718,11 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
         confirmCount = try container.decode([UInt64].self, forKey: .confirmCount)
         confirmations = try container.decode([UInt64].self, forKey: .confirmations)
 
+        var nestedProducerToLast = try? container.nestedUnkeyedContainer(forKey: .producerToLastProduced)
+        producerToLastProduced = nestedProducerToLast?.decodeDynamicValues() ?? [Any]()
+
+        var nestedProducerToLastImply = try? container.nestedUnkeyedContainer(forKey: .producerToLastImpliedIrb)
+        producerToLastImpliedIrb = nestedProducerToLastImply?.decodeDynamicValues() ?? [Any]()
     }
 
 }

@@ -334,6 +334,22 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             }
             XCTAssert(nodeCount == 20430950)
             XCTAssert($0.confirmCount.count == 12)
+            XCTAssertNotNil($0.producerToLastImpliedIrb)
+            XCTAssert($0.producerToLastImpliedIrb.count == 2)
+            if let irb = $0.producerToLastImpliedIrb[0] as? [Any] {
+                XCTAssertNotNil(irb)
+                XCTAssert(irb.count == 2)
+                guard let name = irb[0] as? String, name == "blkproducer1" else {
+                    XCTFail("Should be able to find name.")
+                    return
+                }
+                guard let num = irb[1] as? UInt64, num == 20430939 else {
+                    XCTFail("Should be able to find number.")
+                    return
+                }
+            } else {
+                XCTFail("Should be able to find producer to last implied irb.")
+            }
         }.catch {
             print($0)
             if unhappy {

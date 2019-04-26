@@ -19,6 +19,7 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
     - [Working With Transactions](#working-with-transactions)
     - [The Transaction Factory](#the-transaction-factory)
     - [Usage With PromiseKit](#usage-with-promisekit)
+- [Documentation](#documentation)
 - [Provider Protocol Architecture](#provider-protocol-architecture)
 - [RPC: Using the Default RPC Provider](#rpc-using-the-default-rpc-provider)
 - [What's Next for the SDK](#whats-next-for-the-sdk)
@@ -132,6 +133,10 @@ firstly {
     // Handle error.
 }
 ```
+
+## Documentation
+
+Please refer to the generated code documentation by cloning this repo and opening the `docs/code/index.html` file in your browser.
 
 ## Provider Protocol Architecture
 

@@ -1,0 +1,7 @@
+copyright: Copyright (c) 2017-2019 block.one all rights reserved.
+theme: fullwidth
+github_url: https://github.com/EOSIO/eosio-swift
+github_file_prefix: https://github.com/EOSIO/eosio-swift/tree/master
+hide_documentation_coverage: true
+undocumented_text: ""
+output: docs/code

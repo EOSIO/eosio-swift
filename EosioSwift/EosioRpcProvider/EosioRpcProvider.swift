@@ -18,6 +18,7 @@ public class EosioRpcProvider {
     private var chainId: String?
     private var currentEndpoint: URL!
     private var currentRpc = ""
+
     /// Initialize the default RPC Provider implementation with one RPC node endpoint.
     ///
     /// - Parameters:

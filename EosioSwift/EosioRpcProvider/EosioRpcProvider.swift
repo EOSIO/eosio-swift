@@ -67,6 +67,7 @@ public class EosioRpcProvider {
     ///   - requestParameters: The request object.
     /// - Returns: A Promise fulfilling with a response object conforming to the `EosioRpcResponseProtocol` and rejecting with an Error.
     func getResource<T: Decodable & EosioRpcResponseProtocol>(_: PMKNamespacer, rpc: String, requestParameters: Encodable?) -> Promise<T> {
+        // swiftlint:disable line_length
         /*
          Logic for retry and failover:
          
@@ -75,6 +76,7 @@ public class EosioRpcProvider {
          3) Failover. After all retries fail then try the process again with a subsequent endpoint.
              a) Subsequent enpoints not having the same Chain ID as the first should be discarded and the next tried if one is availble.  Otherwise, bubble up the failure.
         */
+        // swiftlint:enable line_length
         var theError: EosioError?
         // If we dont have the chain ID for the host we are hitting we need to get it!
         if rpc != "chain/get_info" && chainId == nil {
@@ -99,6 +101,7 @@ public class EosioRpcProvider {
         }
         return Promise(error: error)
     }
+
     private func runRequestWithRetry<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
         var promise: Promise<T>
         promise = retry(maximumRetryCount: Int(self.retries)) {
@@ -109,6 +112,7 @@ public class EosioRpcProvider {
         }
         return promise
     }
+
     private func runRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
         return buildRequest(rpc: rpc, endpoint: endpoints[0], requestParameters: requestParameters)
             .then {
@@ -117,6 +121,7 @@ public class EosioRpcProvider {
                 self.decodeResponse(data: data)
             }
     }
+
     private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {
         currentRpc = rpc
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
@@ -133,6 +138,7 @@ public class EosioRpcProvider {
         }
         return Promise.value(request)
     }
+
     private func decodeResponse<T: Decodable & EosioRpcResponseProtocol>(data: Data) -> Promise<T> {
         let decoder = JSONDecoder()
         do {

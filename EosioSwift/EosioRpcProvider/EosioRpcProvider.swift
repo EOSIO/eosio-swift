@@ -78,7 +78,7 @@ public class EosioRpcProvider {
         */
         // swiftlint:enable line_length
         var theError: EosioError?
-        // If we dont have the chain ID for the host we are hitting we need to get it!
+        // If we don't have the chain ID for the host we are hitting we need to get it!
         if rpc != "chain/get_info" && chainId == nil {
             runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
                 .done { (infoResponse: EosioRpcInfoResponse)  in

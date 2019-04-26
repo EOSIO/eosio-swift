@@ -32,6 +32,7 @@ class EosioRpcProviderTests: XCTestCase {
         //remove all stubs on tear down
         OHHTTPStubs.removeAllStubs()
     }
+
     func test_rpcProvider_shouldRetryBeforeReturningHttpStatusError() {
         rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
         var numberOfTimesTried: UInt = 0
@@ -63,6 +64,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test RPC protocol provider implementation error handling for bad response data.
     func testBadResponseDataHandled() {
         var callCount = 1
@@ -96,6 +98,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     ///Test RPC protocol provider implementation error handling for no network connection.
     func testNoNetworkHandled() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
@@ -119,6 +122,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getBlock() protocol implementation.
     func testGetInfo() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
@@ -143,6 +147,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getBlock() protocol implementation.
     func testGetBlock() {
         var callCount = 1
@@ -170,6 +175,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getBlock() extended structure implementation.
     func testGetExtendedBlock() {
         var callCount = 1
@@ -213,6 +219,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getRawAbi() protocol implementation with name.
     func testGetRawAbiEosio() {
         var callCount = 1
@@ -247,6 +254,7 @@ class EosioRpcProviderTests: XCTestCase {
             XCTFail("\(error)")
         }
     }
+
     /// Test getRawAbi() protocol implementation with token.
     func testGetRawAbiToken() {
         var callCount = 1
@@ -281,6 +289,7 @@ class EosioRpcProviderTests: XCTestCase {
             XCTFail("\(error)")
         }
     }
+
     /// Test getRequiredKeys() protocol implementation.
     func testGetRequiredKeys() {
         var callCount = 1
@@ -309,6 +318,7 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test pushTransaction() protocol implementation.
     func testPushTransaction() {
         var callCount = 1

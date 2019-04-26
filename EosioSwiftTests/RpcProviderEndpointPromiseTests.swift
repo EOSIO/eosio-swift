@@ -315,6 +315,41 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetBlockHeaderState unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0._rawResponse)
+            XCTAssert($0.id == "0137c067c65e9db8f8ee467c856fb6d1779dfeb0332a971754156d075c9a37ca")
+            XCTAssert($0.header.producerSignature == "SIG_K1_K11ScNfXdat71utYJtkd8E6dFtvA7qQ3ww9K74xEpFvVCyeZhXTarwvGa7QqQTRw3CLFbsXCsWJFNCHFHLKWrnBNZ66c2m")
+            guard let version = $0.pendingSchedule["version"] as? UInt64 else {
+                return XCTFail("Should be able to get pendingSchedule as [String : Any].")
+            }
+            XCTAssert(version == 2)
+            guard let activeSchedule = $0.activeSchedule["producers"] as? [[String: Any]] else {
+                return XCTFail("Should be able to get activeSchedule as [String : Any].")
+            }
+            guard let producerName = activeSchedule.first?["producer_name"] as? String else {
+                return XCTFail("Should be able to get producer_name as String.")
+            }
+            XCTAssert(producerName == "blkproducer1")
+            guard let nodeCount = $0.blockRootMerkle["_node_count"] as? UInt64 else {
+                return XCTFail("Should be able to get _node_count as Int.")
+            }
+            XCTAssert(nodeCount == 20430950)
+            XCTAssert($0.confirmCount.count == 12)
+            XCTAssertNotNil($0.producerToLastImpliedIrb)
+            XCTAssert($0.producerToLastImpliedIrb.count == 2)
+            if let irb = $0.producerToLastImpliedIrb[0] as? [Any] {
+                XCTAssertNotNil(irb)
+                XCTAssert(irb.count == 2)
+                guard let name = irb[0] as? String, name == "blkproducer1" else {
+                    XCTFail("Should be able to find name.")
+                    return
+                }
+                guard let num = irb[1] as? UInt64, num == 20430939 else {
+                    XCTFail("Should be able to find number.")
+                    return
+                }
+            } else {
+                XCTFail("Should be able to find producer to last implied irb.")
+            }
         }.catch {
             print($0)
             if unhappy {

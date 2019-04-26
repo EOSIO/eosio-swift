@@ -615,6 +615,117 @@ public struct EosioRpcPushTransactionsResponse: Decodable, EosioRpcResponseProto
         }
     }
 }
+/// Response struct for `header` struct returned in the `get_block_header_state` RPC endpoint response.
+public struct EosioRpcBlockHeaderStateResponseHeader: Decodable {
+    public let timestamp: String
+    public let producer: String
+    public let confirmed: UInt
+    public let previous: String
+    public let transactionMroot: String
+    public let actionMroot: String
+    public let scheduleVersion: UInt
+    public let headerExtensions: [String]
+    public let producerSignature: String
+
+    enum CustomCodingKeys: String, CodingKey {
+        case timestamp
+        case producer
+        case confirmed
+        case previous
+        case transactionMroot = "transaction_mroot"
+        case actionMroot = "action_mroot"
+        case scheduleVersion = "schedule_version"
+        case headerExtensions = "header_extensions"
+        case producerSignature = "producer_signature"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        timestamp = try container.decode(String.self, forKey: .timestamp)
+        producer = try container.decode(String.self, forKey: .producer)
+        confirmed = try container.decode(UInt.self, forKey: .confirmed)
+        previous = try container.decode(String.self, forKey: .previous)
+        transactionMroot = try container.decode(String.self, forKey: .transactionMroot)
+        actionMroot = try container.decode(String.self, forKey: .actionMroot)
+        scheduleVersion = try container.decode(UInt.self, forKey: .scheduleVersion)
+        headerExtensions = try container.decode([String].self, forKey: .headerExtensions)
+        producerSignature = try container.decode(String.self, forKey: .producerSignature)
+    }
+
+}
+
+/// Response type for the `get_block_header_state` RPC endpoint.
+public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var id: String
+    public var blockNumber: UInt64
+    public var header: EosioRpcBlockHeaderStateResponseHeader
+    public var dposProposedIrreversibleBlockNumber: UInt64
+    public var dposIrreversibleBlockNumber: UInt64
+    public var bftIrreversibleBlockNumber: UInt64
+    public var pendingScheduleLibNumber: UInt64
+    public var pendingScheduleHash: String
+    public var pendingSchedule: [String: Any]
+    public var activeSchedule: [String: Any]
+    public var blockRootMerkle: [String: Any]
+    public var blockSigningKey: String
+    public var confirmCount: [UInt64]
+    public var confirmations: [UInt64]
+    public var producerToLastProduced: [Any]
+    public var producerToLastImpliedIrb: [Any]
+
+    enum CustomCodingKeys: String, CodingKey {
+        case id
+        case blockNumber = "block_num"
+        case header
+        case dposProposedIrreversibleBlockNumber = "dpos_proposed_irreversible_blocknum"
+        case dposIrreversibleBlockNumber = "dpos_irreversible_blocknum"
+        case bftIrreversibleBlockNumber = "bft_irreversible_blocknum"
+        case pendingScheduleLibNumber = "pending_schedule_lib_num"
+        case pendingScheduleHash = "pending_schedule_hash"
+        case pendingSchedule = "pending_schedule"
+        case activeSchedule = "active_schedule"
+        case blockRootMerkle = "blockroot_merkle"
+        case blockSigningKey = "block_signing_key"
+        case confirmCount = "confirm_count"
+        case confirmations
+        case producerToLastProduced = "producer_to_last_produced"
+        case producerToLastImpliedIrb = "producer_to_last_implied_irb"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        id = try container.decode(String.self, forKey: .id)
+        blockNumber = try container.decode(UInt64.self, forKey: .blockNumber)
+        header = try container.decode(EosioRpcBlockHeaderStateResponseHeader.self, forKey: .header)
+        dposProposedIrreversibleBlockNumber = try container.decode(UInt64.self, forKey: .dposProposedIrreversibleBlockNumber)
+        dposIrreversibleBlockNumber = try container.decode(UInt64.self, forKey: .dposIrreversibleBlockNumber)
+        bftIrreversibleBlockNumber = try container.decode(UInt64.self, forKey: .bftIrreversibleBlockNumber)
+        pendingScheduleLibNumber = try container.decode(UInt64.self, forKey: .pendingScheduleLibNumber)
+        pendingScheduleHash = try container.decode(String.self, forKey: .pendingScheduleHash)
+
+        let pendingScheduleContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .pendingSchedule)
+        pendingSchedule = pendingScheduleContainer?.decodeDynamicKeyValues() ?? [String: Any]()
+        let activeScheduleContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .activeSchedule)
+        activeSchedule = activeScheduleContainer?.decodeDynamicKeyValues() ?? [String: Any]()
+        let blockRootMerkleContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .blockRootMerkle)
+        blockRootMerkle = blockRootMerkleContainer?.decodeDynamicKeyValues() ?? [String: Any]()
+
+        blockSigningKey = try container.decode(String.self, forKey: .blockSigningKey)
+        confirmCount = try container.decode([UInt64].self, forKey: .confirmCount)
+        confirmations = try container.decode([UInt64].self, forKey: .confirmations)
+
+        var nestedProducerToLast = try? container.nestedUnkeyedContainer(forKey: .producerToLastProduced)
+        producerToLastProduced = nestedProducerToLast?.decodeDynamicValues() ?? [Any]()
+
+        var nestedProducerToLastImply = try? container.nestedUnkeyedContainer(forKey: .producerToLastImpliedIrb)
+        producerToLastImpliedIrb = nestedProducerToLastImply?.decodeDynamicValues() ?? [Any]()
+    }
+
+}
 
 /* Responses without response models */
 
@@ -625,9 +736,6 @@ public struct RawResponse: Decodable, EosioRpcResponseProtocol {
     enum CodingKeys: CodingKey {
     }
 }
-
-/// Response type for the `get_block_header_state` RPC endpoint.
-public typealias EosioRpcBlockHeaderStateResponse = RawResponse
 
 /// Response type for the `get_table_by_scope` RPC endpoint.
 public typealias EosioRpcTableByScopeResponse = RawResponse

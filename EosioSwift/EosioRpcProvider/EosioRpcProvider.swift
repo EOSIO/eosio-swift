@@ -120,8 +120,8 @@ public class EosioRpcProvider {
     private func captureChainId<T: Decodable & EosioRpcResponseProtocol>() -> Promise<T> {
         return runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
             .then { (response : EosioRpcInfoResponse) in
-                self.chainId = value.chainId
-                return Promise.value(value)
+                self.chainId = response.chainId
+                return Promise.value(response)
         }
     }
 

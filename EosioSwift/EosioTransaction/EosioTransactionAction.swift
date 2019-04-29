@@ -136,8 +136,8 @@ public extension EosioTransaction {
         }
 
         /// Return the action as a Dictionary. Action data will be unserialized.
-        public var actionAsDictionary: [String:Any] {
-            var dictionary = [String:Any]()
+        public var actionAsDictionary: [String: Any] {
+            var dictionary = [String: Any]()
             dictionary["account"] = account.string
             dictionary["name"]  = name.string
             dictionary["authorization"] = authorization.toDictionary()

@@ -468,6 +468,10 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcControlledAccountsResponse):
                 XCTAssertNotNil(eosioRpcControlledAccountsResponse._rawResponse)
+                XCTAssertNotNil(eosioRpcControlledAccountsResponse.controlledAccounts)
+                XCTAssert(eosioRpcControlledAccountsResponse.controlledAccounts.count == 2)
+                XCTAssert(eosioRpcControlledAccountsResponse.controlledAccounts[0] == "subcrypt1")
+                XCTAssert(eosioRpcControlledAccountsResponse.controlledAccounts[1] == "subcrypt2")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_controlled_accounts")

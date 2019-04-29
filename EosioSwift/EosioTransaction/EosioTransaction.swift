@@ -117,13 +117,13 @@ public class EosioTransaction: Codable {
     }
 
     /// Return this transaction as a json string with unserialized action data
-    public var transactionAsJsonWithUnserializedActionData:  String? {
+    public var transactionAsJsonWithUnserializedActionData: String? {
         return transactionAsDictionary.jsonString
     }
 
     /// Return this transaction as a Dictionary. Action data will be unserialized.
-    public var transactionAsDictionary: [String:Any] {
-        var dictionary = [String:Any]()
+    public var transactionAsDictionary: [String: Any] {
+        var dictionary = [String: Any]()
         dictionary["expiration"] = expiration.yyyyMMddTHHmmss
         dictionary["ref_block_num"] = refBlockNum
         dictionary["ref_block_prefix"] = refBlockPrefix
@@ -131,7 +131,7 @@ public class EosioTransaction: Codable {
         dictionary["max_cpu_usage_ms"] = maxCpuUsageMs
         dictionary["delay_sec"] = delaySec
         dictionary["context_free_actions"] = contextFreeActions
-        dictionary["actions"] = actions.compactMap({ (action) -> [String:Any]? in
+        dictionary["actions"] = actions.compactMap({ (action) -> [String: Any]? in
             return action.actionAsDictionary
         })
         dictionary["transaction_extensions"] = transactionExtensions

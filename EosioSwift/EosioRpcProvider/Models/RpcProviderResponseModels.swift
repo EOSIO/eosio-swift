@@ -727,6 +727,16 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
 
 }
 
+/// Response struct for the `get_controlled_accounts` RPC endpoint
+public struct EosioRpcControlledAccountsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var controlledAccounts: [String] = [String]()
+
+    enum CodingKeys: String, CodingKey {
+        case controlledAccounts = "controlled_accounts"
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -747,6 +757,3 @@ public typealias EosioRpcTableRowsResponse = RawResponse
 
 /// Response type for the `get_actions` RPC endpoint.
 public typealias EosioRpcActionsResponse = RawResponse
-
-/// Response type for the `get_controlled_accounts` RPC endpoint.
-public typealias EosioRpcControlledAccountsResponse = RawResponse

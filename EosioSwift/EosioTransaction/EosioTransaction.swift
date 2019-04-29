@@ -54,7 +54,7 @@ public class EosioTransaction: Codable {
     /// Transaction property: Causes the transaction to be executed a specified number of seconds after being included in a block. It may be canceled during this delay.
     public var delaySec: UInt = 0
     /// Transaction property: Context Free Actions.
-    public var contextFreeActions = [String]()
+    public var contextFreeActions = [Action]()
     /// Transaction property: Array of actions to be executed.
     public var actions = [Action]()
     /// Transaction property: Transaction Extensions.
@@ -65,6 +65,11 @@ public class EosioTransaction: Codable {
     public private(set) var signatures: [String]?
     /// Transaction ID.
     public private(set) var transactionId: String?
+
+    /// Combined array of actions and contextFreeActions
+    private var allActions: [Action] {
+        return actions + contextFreeActions
+    }
 
     /// For encoding/decoding EosioTransaction <> JSON.
     enum CodingKeys: String, CodingKey {
@@ -103,7 +108,7 @@ public class EosioTransaction: Codable {
 
     /// Returns an array of action accounts that do not have an abi in `abis`.
     public var actionAccountsMissingAbis: [EosioName] {
-        let accounts = actions.compactMap { (action) -> EosioName in
+        let accounts = allActions.compactMap { (action) -> EosioName in
             return action.account
         }
         return abis.missingAbis(names: accounts)
@@ -111,7 +116,7 @@ public class EosioTransaction: Codable {
 
     /// Returns an array of unserialized actions.
     public var actionsWithoutSerializedData: [Action] {
-        return actions.filter { (action) -> Bool in
+        return allActions.filter { (action) -> Bool in
             !action.isDataSerialized
         }
     }
@@ -130,7 +135,9 @@ public class EosioTransaction: Codable {
         dictionary["max_net_usage_words"] = maxNetUsageWords
         dictionary["max_cpu_usage_ms"] = maxCpuUsageMs
         dictionary["delay_sec"] = delaySec
-        dictionary["context_free_actions"] = contextFreeActions
+        dictionary["context_free_actions"] = contextFreeActions.compactMap({ (action) -> [String: Any]? in
+            return action.actionAsDictionary
+        })
         dictionary["actions"] = actions.compactMap({ (action) -> [String: Any]? in
             return action.actionAsDictionary
         })
@@ -226,7 +233,7 @@ public class EosioTransaction: Codable {
         guard let serializer = self.serializationProvider else {
             preconditionFailure("A serializationProvider must be set!")
         }
-        for action in actions {
+        for action in allActions {
             try action.serializeData(abi: abis.jsonAbi(name: action.account), serializationProvider: serializer)
         }
     }
@@ -266,7 +273,7 @@ public class EosioTransaction: Codable {
         guard let serializer = self.serializationProvider else {
             preconditionFailure("A serializationProvider must be set!")
         }
-        for action in actions {
+        for action in allActions {
             if !exclude.contains(action.account) {
                 try action.deserializeData(abi: abis.jsonAbi(name: action.account), serializationProvider: serializer)
             }

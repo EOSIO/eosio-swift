@@ -46,8 +46,8 @@ public class EosioRpcProvider {
         func attempt() -> Promise<T> {
             attempts += 1
             return body().recover { error -> Promise<T> in
-                // We only want to retry for when we get a bad status code from server!
-                guard (attempts < maximumRetryCount) && (error is PMKHTTPError)  else {
+                // We only want to retry for when we get the proper bad status code from server!
+                guard (attempts < maximumRetryCount)  && self.isRetryable(error: error) else {
                     if error is EosioError {
                         throw error
                     } else {
@@ -60,6 +60,22 @@ public class EosioRpcProvider {
         return attempt()
     }
 
+    private func isRetryable(error: Error?) -> Bool {
+        var retVal = false
+        if let theError = error as? PMKHTTPError {
+            switch theError {
+            case .badStatusCode(let code, _, _) :
+                if code == 500 ||
+                    code == 401 ||
+                    code == 418 {
+                    retVal = false
+                }
+            }
+            retVal = true
+        }
+        return retVal
+    }
+
     /// Creates an RPC request, makes the network call, and handles the response returning a Promise.
     ///
     /// - Parameters:
@@ -68,16 +84,22 @@ public class EosioRpcProvider {
     ///   - requestParameters: The request object.
     /// - Returns: A Promise fulfilling with a response object conforming to the `EosioRpcResponseProtocol` and rejecting with an Error.
     func getResource<T: Decodable & EosioRpcResponseProtocol>(_: PMKNamespacer, rpc: String, requestParameters: Encodable?) -> Promise<T> {
-        // swiftlint:disable line_length
+
         /*
-         Logic for retry and failover:
+         Logic for retry and failover implementation:
          
-         1) First call to an endpoint needs to call getInfo to get the chainId which is stored to ensure all calls and all endpoints are running the same chain ID.
-         2) An endpoint call is retried on failures up to the number of times specified by the RPCProvider's retries property.  Failures are only retried for bad HTTP response status!  No netowrk connection is an error that will bubble up so the calling app can deal with it.
+         1) First call to an endpoint needs to call getInfo to get the chainId which is stored to ensure all
+            calls and all endpoints are running the same chain ID.
+
+         2) An endpoint call is retried on failures up to the number of times specified by the RPCProvider's
+            retries property.  Failures are only retried for bad HTTP response status!  No network connection
+            is an error that will bubble up so the calling app can deal with it.
+
          3) Failover. After all retries fail then try the process again with a subsequent endpoint.
-             a) Subsequent enpoints not having the same Chain ID as the first should be discarded and the next tried if one is availble.  Otherwise, bubble up the failure.
+             a) Subsequent enpoints not having the same Chain ID as the first should be
+                discarded and the next tried if one is availble.  Otherwise, bubble up the failure.
         */
-        // swiftlint:enable line_length
+
         var theError: EosioError?
         // If we don't have the chain ID for the host we are hitting we need to get it!
         if rpc != "chain/get_info" && chainId == nil {
@@ -108,8 +130,14 @@ public class EosioRpcProvider {
         promise = retry(maximumRetryCount: Int(self.retries)) {
             self.runRequest(rpc: rpc, requestParameters: requestParameters)
         }
-        promise.catch { _ in
-            // TODO: implement failover here! the error is a PMKHTTPError we do the failover process.
+        promise.catch { error in
+            if error is PMKHTTPError {
+
+                promise = self.failOver(rpc: rpc, requestParameters: requestParameters)
+
+            } else {
+                promise = Promise(error: error)
+            }
         }
         return promise
     }
@@ -121,6 +149,13 @@ public class EosioRpcProvider {
             }.then { (data, _) in
                 self.decodeResponse(data: data)
             }
+    }
+
+    private func failOver<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
+
+        //TODO: add failOver logic here!
+
+        return Promise(error: EosioError(.rpcProviderError, reason: "not implemented"))
     }
 
     private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {

@@ -13,9 +13,9 @@ import PromiseKit
 /// RPC Reference: https://developers.eos.io/eosio-nodeos/reference
 public class EosioRpcProvider {
 
+    public var chainId = ""
     private var endpoints: [URL]
     private let retries: UInt
-    private var chainId: String?
     private var currentEndpoint: URL!
     private var currentRpc = ""
 
@@ -47,7 +47,7 @@ public class EosioRpcProvider {
             attempts += 1
             return body().recover { error -> Promise<T> in
                 // We only want to retry for when we get the proper bad status code from server!
-                guard (attempts < maximumRetryCount)  && self.isRetryable(error: error) else {
+                guard (attempts < maximumRetryCount) && self.isRetryable(error: error) else {
                     if error is EosioError {
                         throw error
                     } else {
@@ -60,7 +60,7 @@ public class EosioRpcProvider {
         return attempt()
     }
 
-    private func isRetryable(error: Error?) -> Bool {
+    private func isRetryable(error: Error) -> Bool {
         var retVal = false
         if let theError = error as? PMKHTTPError {
             switch theError {
@@ -99,30 +99,30 @@ public class EosioRpcProvider {
              a) Subsequent enpoints not having the same Chain ID as the first should be
                 discarded and the next tried if one is availble.  Otherwise, bubble up the failure.
         */
-
-        var theError: EosioError?
-        // If we don't have the chain ID for the host we are hitting we need to get it!
-        if rpc != "chain/get_info" && chainId == nil {
-            runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
-                .done { (infoResponse: EosioRpcInfoResponse)  in
-                    self.chainId = infoResponse.chainId
-                }.catch { error in
-                    var eosioError: EosioError
-                    if let error = error as? EosioError {
-                        eosioError = error
-                    } else {
-                        eosioError = EosioError(.rpcProviderError,
-                            reason: "Unable to obtain the Chain ID via getInfo for host: \(String(describing: self.currentEndpoint.host)).",
-                            originalError: error as NSError)
-                    }
-                    theError = eosioError
-            }
+        var getInfoPromise: Promise<T>?
+        // If we don't have already the chain ID for the host we are hitting we need to get it!
+        if self.chainId.isEmpty {
+           getInfoPromise = captureChainId()
         }
-        guard let error = theError else {
-            // we have the chain Id for the endpoint we are using
+
+        guard let promise = getInfoPromise else {
             return runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
         }
-        return Promise(error: error)
+
+        if rpc == "chain/get_info" {
+            return promise
+        } else {
+            let _ = promise.done {_ in }
+            return runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
+        }
+    }
+
+    private func captureChainId<T: Decodable & EosioRpcResponseProtocol>() -> Promise<T> {
+        return runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
+            .then { (response : EosioRpcInfoResponse) in
+                self.chainId = value.chainId
+                return Promise.value(value)
+        }
     }
 
     private func runRequestWithRetry<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
@@ -132,9 +132,7 @@ public class EosioRpcProvider {
         }
         promise.catch { error in
             if error is PMKHTTPError {
-
                 promise = self.failOver(rpc: rpc, requestParameters: requestParameters)
-
             } else {
                 promise = Promise(error: error)
             }
@@ -154,8 +152,7 @@ public class EosioRpcProvider {
     private func failOver<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
 
         //TODO: add failOver logic here!
-
-        return Promise(error: EosioError(.rpcProviderError, reason: "not implemented"))
+        return Promise(error: EosioError(.rpcProviderError, reason: "Failover not implemented int his PR."))
     }
 
     private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {

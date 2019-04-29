@@ -123,7 +123,7 @@ class EosioRpcProviderTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
-    /// Test getBlock() protocol implementation.
+    /// Test getInfo() protocol implementation.
     func testGetInfo() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
             return RpcTestConstants.getInfoOHHTTPStubsResponse()
@@ -136,6 +136,9 @@ class EosioRpcProviderTests: XCTestCase {
                 guard let rpcInfoResponse = infoResponse as? EosioRpcInfoResponse else {
                     return XCTFail("No valid get_info response")
                 }
+                XCTAssertTrue(rpcInfoResponse.chainId == "687fa513e18843ad3e820744f4ffcf93b1354036d80737db8dc444fe4b15ad17")
+                let concreteRpcProvider = self.rpcProvider as? EosioRpcProvider
+                XCTAssertTrue(rpcInfoResponse.chainId == concreteRpcProvider?.chainId)
                 XCTAssertTrue(rpcInfoResponse.serverVersion == "0f6695cb")
                 XCTAssertTrue(rpcInfoResponse.headBlockNum == 25260035)
                 XCTAssertTrue(rpcInfoResponse.headBlockId == "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05")

@@ -727,6 +727,211 @@ public struct EosioRpcBlockHeaderStateResponse: Decodable, EosioRpcResponseProto
 
 }
 
+/* History Endpoints */
+/// Response type for the `get_actions` RPC endpoint.
+public struct EosioRpcActionsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var actions: [EosioRpcActionsResponseAction]
+    public var lastIrreversibleBlock: UInt64
+    public var timeLimitExceededError: Bool
+
+    enum CustomCodingKeys: String, CodingKey {
+        case actions
+        case lastIrreversibleBlock = "last_irreversible_block"
+        case timeLimitExceededError = "time_limit_exceeded_error"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        actions = try container.decode([EosioRpcActionsResponseAction].self, forKey: .actions)
+        lastIrreversibleBlock = try container.decode(UInt64.self, forKey: .lastIrreversibleBlock)
+        timeLimitExceededError = try container.decodeIfPresent(Bool.self, forKey: .timeLimitExceededError) ?? false
+    }
+}
+
+public struct EosioRpcActionsResponseAction: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var globalActionSequence: String // Convert to BigInt
+    public var accountActionSequence: Int32
+    public var blockNumber: UInt32
+    public var blockTime: String
+    public var actionTrace: EosioRpcActionsResponseActionTrace
+
+    enum CustomCodingKeys: String, CodingKey {
+        case globalActionSequence = "global_action_seq"
+        case accountActionSequence = "account_action_seq"
+        case blockNumber = "block_num"
+        case blockTime = "block_time"
+        case actionTrance = "action_trace"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let contanter = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        globalActionSequence = try contanter.decode(String.self, forKey: .globalActionSequence)
+        accountActionSequence = try contanter.decode(Int32.self, forKey: .accountActionSequence)
+        blockNumber = try contanter.decode(UInt32.self, forKey: .blockNumber)
+        blockTime = try contanter.decode(String.self, forKey: .blockTime)
+        actionTrace = try contanter.decode(EosioRpcActionsResponseActionTrace.self, forKey: .actionTrance)
+    }
+}
+
+public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var receipt: EosioRpcActionsResponseActionTrReceipt
+    public var action: EosioRpcActionsResponseActionTraceAction
+    public var contextFree: Bool
+    public var elapsed: UInt64
+    public var console: String
+    public var transactionId: String
+    public var blockNumber: UInt64
+    public var blockTime: String
+    public var producerBlockId: String?
+    public var accountRamDeltas: [EosioRpcActionsResponseActionTrActDeltas]
+    public var exception: [String: Any]?
+    public var inlineTrances: [EosioRpcActionsResponseActionTrace]
+
+    enum CustomCodingKeys: String, CodingKey {
+        case receipt
+        case action = "act"
+        case contextFree = "context_free"
+        case elapsed = "elapsed"
+        case console = "console"
+        case transactionId = "trx_id"
+        case blockNumber = "block_num"
+        case blockTime = "block_time"
+        case producerBlockId = "producer_block_id"
+        case accountRamDeltas = "account_ram_deltas"
+        case exception = "except"
+        case inlineTrances = "inline_traces"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        receipt = try container.decode(EosioRpcActionsResponseActionTrReceipt.self, forKey: .receipt)
+        action = try container.decode(EosioRpcActionsResponseActionTraceAction.self, forKey: .action)
+        contextFree = try container.decode(Bool.self, forKey: .contextFree)
+        elapsed = try container.decode(UInt64.self, forKey: .elapsed)
+        console = try container.decode(String.self, forKey: .console)
+        transactionId = try container.decode(String.self, forKey: .transactionId)
+        blockNumber = try container.decode(UInt64.self, forKey: .blockNumber)
+        blockTime = try container.decode(String.self, forKey: .blockTime)
+        producerBlockId = try container.decodeIfPresent(String.self, forKey: .producerBlockId)
+        accountRamDeltas = try container.decode([EosioRpcActionsResponseActionTrActDeltas].self, forKey: .accountRamDeltas)
+
+        let exceptionContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .exception)
+        exception = exceptionContainer?.decodeDynamicKeyValues() ?? [String: Any]()
+        inlineTrances = try container.decode([EosioRpcActionsResponseActionTrace].self, forKey: .inlineTrances)
+    }
+}
+
+public struct EosioRpcActionsResponseActionTrReceipt: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var receiver: String
+    public var actionDigest: String
+    public var globalSequence: String // Convert to BigInt
+    public var receiverSequence: UInt64
+    public var authorizationSequence: [Any]
+    public var codeSequence: UInt64
+    public var abiSequence: UInt64
+
+    enum CustomCodingKeys: String, CodingKey {
+        case receiver
+        case actionDigest = "act_digest"
+        case globalSequence = "global_sequence"
+        case receiveSequence = "recv_sequence"
+        case authorizationSequence = "auth_sequence"
+        case codeSequence = "code_sequence"
+        case abiSequence = "abi_sequence"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        receiver = try container.decode(String.self, forKey: .receiver)
+        actionDigest = try container.decode(String.self, forKey: .actionDigest)
+        globalSequence = try container.decode(String.self, forKey: .globalSequence)
+        receiverSequence = try container.decode(UInt64.self, forKey: .receiveSequence)
+        var authorizationSequenceContainer = try? container.nestedUnkeyedContainer(forKey: .authorizationSequence)
+        authorizationSequence = authorizationSequenceContainer?.decodeDynamicValues() ?? [Any]()
+        codeSequence = try container.decode(UInt64.self, forKey: .codeSequence)
+        abiSequence = try container.decode(UInt64.self, forKey: .abiSequence)
+    }
+}
+
+public struct EosioRpcActionsResponseActionTraceAction: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var account: String
+    public var name: String
+    public var authorization: [EosioRpcActionsResponseActionTraceAuth]
+    public var data: [String: Any]
+    public var hexData: String
+
+    enum CustomCodingKeys: String, CodingKey {
+        case account
+        case name
+        case authorization
+        case data
+        case hexData = "hex_data"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        account = try container.decode(String.self, forKey: .account)
+        name = try container.decode(String.self, forKey: .name)
+        authorization = try container.decode([EosioRpcActionsResponseActionTraceAuth].self, forKey: .authorization)
+        let dataContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .data)
+        data = dataContainer?.decodeDynamicKeyValues() ?? [String: Any]()
+        hexData = try container.decode(String.self, forKey: .hexData)
+    }
+}
+
+public struct EosioRpcActionsResponseActionTraceAuth: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var actor: String
+    public var permission: String
+
+    enum CustomCodingKeys: String, CodingKey {
+        case actor
+        case permission
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        actor = try container.decode(String.self, forKey: .actor)
+        permission = try container.decode(String.self, forKey: .permission)
+    }
+}
+
+public struct EosioRpcActionsResponseActionTrActDeltas: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var account: String
+    public var delta: UInt64
+
+    enum CustomCodingKeys: String, CodingKey {
+        case account
+        case delta
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        account = try container.decode(String.self, forKey: .account)
+        delta = try container.decode(UInt64.self, forKey: .delta)
+    }
+}
+
 /// Response struct for the `get_controlled_accounts` RPC endpoint
 public struct EosioRpcControlledAccountsResponse: Decodable, EosioRpcResponseProtocol {
     public var _rawResponse: Any?
@@ -795,6 +1000,3 @@ public struct RawResponse: Decodable, EosioRpcResponseProtocol {
 }
 
 /* History Endpoints */
-
-/// Response type for the `get_actions` RPC endpoint.
-public typealias EosioRpcActionsResponse = RawResponse

@@ -5,6 +5,7 @@
 //  Created by Ben Martell on 4/15/19.
 //  Copyright © 2019 block.one. All rights reserved.
 //
+// swiftlint:disable function_body_length
 
 import XCTest
 @testable import EosioSwift
@@ -479,6 +480,22 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcActionsResponse):
                 XCTAssertNotNil(eosioRpcActionsResponse._rawResponse)
+                XCTAssert(eosioRpcActionsResponse.lastIrreversibleBlock == 55535908)
+                XCTAssert(eosioRpcActionsResponse.timeLimitExceededError == false)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.globalActionSequence == "6483908013")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.receiverSequence == 1236)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.count == 1)
+                if let firstSequence = eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.first as? [Any] {
+                    guard let accountName = firstSequence.first as? String, accountName == "powersurge22" else {
+                        return XCTFail("Should be able to find account name")
+                    }
+                }
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.name == "transfer")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.authorization.first?.permission == "active")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta == 472)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_actions")

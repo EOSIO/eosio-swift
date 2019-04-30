@@ -1,7 +1,6 @@
 ![Swift Logo](img/swift-logo.png)
 # EOSIO SDK for Swift ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
-
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
 [![Swift 4.2](https://img.shields.io/badge/Language-Swift_4.2-orange.svg)](https://swift.org)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg)
@@ -23,7 +22,6 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
 - [Documentation](#documentation)
 - [Provider Protocol Architecture](#provider-protocol-architecture)
 - [RPC: Using the Default RPC Provider](#rpc-using-the-default-rpc-provider)
-- [What's Next for the SDK](#whats-next-for-the-sdk)
 - [Want to Help?](#want-to-help)
 - [License & Legal](#license)
 
@@ -205,19 +203,11 @@ Each response struct will also contain a `_rawResponse` property. In the event t
 
 Response structs for the alpha release are incomplete. Some responses will only return the `_rawResponse`. We aim to continue improving response marshalling. And we invite you to [help us improve](#want-to-help) responses too.
 
-## What's Next for the SDK?
-
-We're always looking for ways to improve EOSIO SDK for Swift. Here are a few ideas around how we'd like to see the library progress. Check out our [#enhancement Issues](/../../issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for more.
-
-* Improve RPC response marshalling; build out new and existing response structs
-* Make Transaction properties immutable once signatures are present
-* Add networking enhancements to the default RPC provider (_e.g._, retry logic, endpoint failover, offline handling)
-* Improve general error handling
-* Add MacOS support and other targets
-
 ## Want to help?
 
 Interested in contributing? That's awesome! Here are some [Contribution Guidelines](./CONTRIBUTING.md) and the [Code of Conduct](./CONTRIBUTING.md#conduct).
+
+We're always looking for ways to improve EOSIO SDK for Swift. Check out our [#enhancement Issues](/../../issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for ways you can pitch in.
 
 ## License
 

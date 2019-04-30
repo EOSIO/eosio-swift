@@ -17,7 +17,6 @@ public class EosioRpcProvider {
     private var endpoints: [URL]
     private let retries: UInt
     private var currentEndpoint: URL!
-    private var currentRpc = ""
 
     /// Initialize the default RPC Provider implementation with one RPC node endpoint.
     ///
@@ -69,9 +68,10 @@ public class EosioRpcProvider {
                     code == 401 ||
                     code == 418 {
                     retVal = false
+                } else {
+                    retVal = true
                 }
             }
-            retVal = true
         }
         return retVal
     }
@@ -99,30 +99,35 @@ public class EosioRpcProvider {
              a) Subsequent enpoints not having the same Chain ID as the first should be
                 discarded and the next tried if one is availble.  Otherwise, bubble up the failure.
         */
-        var getInfoPromise: Promise<T>?
-        // If we don't have already the chain ID for the host we are hitting we need to get it!
+
+        var promise: Promise<T>
         if self.chainId.isEmpty {
-           getInfoPromise = captureChainId()
-        }
+            promise = captureChainId()
 
-        guard let promise = getInfoPromise else {
-            return runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
-        }
+            promise.catch { error in
+                promise = Promise(error: error)
+            }
 
-        if rpc == "chain/get_info" {
-            return promise
+            if rpc == "chain/get_info" {
+                return promise
+            } else {
+                promise = runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
+            }
+
         } else {
-            let _ = promise.done {_ in }
-            return runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
+            promise = runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
         }
+        return promise
     }
 
     private func captureChainId<T: Decodable & EosioRpcResponseProtocol>() -> Promise<T> {
         return runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
-            .then { (response : EosioRpcInfoResponse) in
-                self.chainId = response.chainId
+            .then { (response: T) -> Promise<T>  in
+                if let resp = response as? EosioRpcInfoResponse {
+                    self.chainId = resp.chainId
+                }
                 return Promise.value(response)
-        }
+            }
     }
 
     private func runRequestWithRetry<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
@@ -130,6 +135,7 @@ public class EosioRpcProvider {
         promise = retry(maximumRetryCount: Int(self.retries)) {
             self.runRequest(rpc: rpc, requestParameters: requestParameters)
         }
+
         promise.catch { error in
             if error is PMKHTTPError {
                 promise = self.failOver(rpc: rpc, requestParameters: requestParameters)
@@ -156,7 +162,6 @@ public class EosioRpcProvider {
     }
 
     private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {
-        currentRpc = rpc
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

@@ -13,14 +13,13 @@ import OHHTTPStubs
 
 class EosioRpcProviderTests: XCTestCase {
 
-    var rpcProvider: EosioRpcProviderProtocol?
     let url = URL(string: "https://localhost")!
     let url2 = URL(string: "https://endpoint2example")!
     let url3 = URL(string: "https://endpoint3example")!
+    var rpcProvider: EosioRpcProviderProtocol!
     override func setUp() {
         super.setUp()
-        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3])
-
+        rpcProvider  = EosioRpcProvider(endpoints: [url, url2, url3])
         OHHTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
         }
@@ -33,16 +32,124 @@ class EosioRpcProviderTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
 
+    func test_rpcProvider_shouldNotRetryFor418HttpStatusError() {
+        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
+        var numberOfTimesTried: UInt = 0
+        var call = 1
+        (stub(condition: isHost("localhost")) { request in
+            if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                print("CALL \(call)")
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                call += 1
+                return retVal
+            } else {
+                print("CALL \(call)")
+                call += 1
+                numberOfTimesTried += 1
+                let json = RpcTestConstants.infoResponseJson
+                let data = json.data(using: .utf8)
+                return OHHTTPStubsResponse(data: data!, statusCode: 418, headers: nil)
+            }
+        }).name = "Retry Http Status 418 Error stub"
+        let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor418HttpStatusError")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                print("\(blockResponse)")
+                XCTFail("test should have not returned a successful completion.")
+            case .failure(let err):
+                XCTAssertTrue(err.reason.contains("Invalid HTTP response (418) for"))
+                XCTAssertEqual(numberOfTimesTried, 1)
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
+    func test_rpcProvider_shouldNotRetryFor401HttpStatusError() {
+        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
+        var numberOfTimesTried: UInt = 0
+        var call = 1
+        (stub(condition: isHost("localhost")) { request in
+            if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                print("CALL \(call)")
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                call += 1
+                return retVal
+            } else {
+                print("CALL \(call)")
+                call += 1
+                numberOfTimesTried += 1
+                let json = RpcTestConstants.infoResponseJson
+                let data = json.data(using: .utf8)
+                return OHHTTPStubsResponse(data: data!, statusCode: 401, headers: nil)
+            }
+        }).name = "Retry Http Status 401 Error stub"
+        let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor401HttpStatusError")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                print("\(blockResponse)")
+                XCTFail("test should have not returned a successful completion.")
+            case .failure(let err):
+                XCTAssertTrue(err.reason.contains("Unauthorized (https://localhost/v1/chain/get_block"))
+                XCTAssertEqual(numberOfTimesTried, 1)
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
+    func test_rpcProvider_shouldNotRetryFor500HttpStatusError() {
+        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
+        var numberOfTimesTried: UInt = 0
+        var call = 1
+        (stub(condition: isHost("localhost")) { request in
+            if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                print("CALL \(call)")
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                call += 1
+                return retVal
+            } else {
+                print("CALL \(call)")
+                call += 1
+                numberOfTimesTried += 1
+                let json = RpcTestConstants.infoResponseJson
+                let data = json.data(using: .utf8)
+                return OHHTTPStubsResponse(data: data!, statusCode: 500, headers: nil)
+            }
+        }).name = "Retry Http Status 500 Error stub"
+        let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor500HttpStatusError")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                print("\(blockResponse)")
+                XCTFail("test should have not returned a successful completion.")
+            case .failure(let err):
+                XCTAssertTrue(err.reason.contains("Invalid HTTP response (500) for"))
+                XCTAssertEqual(numberOfTimesTried, 1)
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
     func test_rpcProvider_shouldRetryBeforeReturningHttpStatusError() {
         rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
         var numberOfTimesTried: UInt = 0
-        var firstCall = true
+        var call = 1
         (stub(condition: isHost("localhost")) { request in
-            if firstCall == true && request.url?.relativePath == "/v1/chain/get_info" {
-                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: 1, urlString: request.url?.absoluteString)
-                firstCall = false
+            if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                print("CALL \(call)")
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                call += 1
                 return retVal
             } else {
+                print("CALL \(call)")
+                call += 1
                 numberOfTimesTried += 1
                 let json = RpcTestConstants.infoResponseJson
                 let data = json.data(using: .utf8)
@@ -51,7 +158,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Retry Http Status Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldRetryBeforeReturningHttpStatusError")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
-        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -85,7 +192,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Bad Response Handled stub"
         let expect = expectation(description: "testBadResponseDataHandled")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
-        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -106,7 +213,7 @@ class EosioRpcProviderTests: XCTestCase {
             return OHHTTPStubsResponse(error: noConnectedError)
         }).name = "No Network stub"
         let expect = expectation(description: "testNoNetwork")
-        rpcProvider?.getInfo { response in
+        rpcProvider.getInfo { response in
             switch response {
             case .success(let infoResponse):
                 print("\(infoResponse)")
@@ -130,7 +237,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Get Info stub"
 
         let expect = expectation(description: "testGetInfo")
-        rpcProvider?.getInfo { response in
+        rpcProvider.getInfo { response in
             switch response {
             case .success(let infoResponse):
                 guard let rpcInfoResponse = infoResponse as? EosioRpcInfoResponse else {
@@ -161,7 +268,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Get Block stub"
         let expect = expectation(description: "testGetBlock")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
-        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
@@ -199,7 +306,7 @@ class EosioRpcProviderTests: XCTestCase {
 
         let expect = expectation(description: "testGetBlockExtended")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
-        rpcProvider?.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
@@ -237,7 +344,7 @@ class EosioRpcProviderTests: XCTestCase {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio")
             let requestParameters = EosioRpcRawAbiRequest(accountName: name)
-            rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
+            rpcProvider.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let rawAbiResponse):
                     guard let rpcRawAbiResponse = rawAbiResponse as? EosioRpcRawAbiResponse else {
@@ -272,7 +379,7 @@ class EosioRpcProviderTests: XCTestCase {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio.token")
             let requestParameters = EosioRpcRawAbiRequest(accountName: name)
-            rpcProvider?.getRawAbi(requestParameters: requestParameters) { response in
+            rpcProvider.getRawAbi(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let rawAbiResponse):
                     guard let rpcRawAbiResponse = rawAbiResponse as? EosioRpcRawAbiResponse else {
@@ -305,7 +412,7 @@ class EosioRpcProviderTests: XCTestCase {
         let transaction = EosioTransaction()
         let requestParameters = EosioRpcRequiredKeysRequest(availableKeys: ["PUB_K1_5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCw1oi9eG"], transaction: transaction)
 
-        rpcProvider?.getRequiredKeys(requestParameters: requestParameters) { response in
+        rpcProvider.getRequiredKeys(requestParameters: requestParameters) { response in
             switch response {
             case .success(let requiredKeysResponse):
                 guard let rpcRequiredKeysResponse = requiredKeysResponse as? EosioRpcRequiredKeysResponse else {
@@ -334,7 +441,7 @@ class EosioRpcProviderTests: XCTestCase {
         // swiftlint:disable line_length
         let requestParameters = EosioRpcPushTransactionRequest(signatures: ["SIG_K1_JzFA9ffefWfrTBvpwMwZi81kR6tvHF4mfsRekVXrBjLWWikg9g1FrS9WupYuoGaRew5mJhr4d39tHUjHiNCkxamtEfxi68"], compression: 0, packedContextFreeData: "", packedTrx: "C62A4F5C1CEF3D6D71BD000000000290AFC2D800EA3055000000405DA7ADBA0072CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB155624800A6823403EA3055000000572D3CCDCD0100AEAA4AC15CFD4500000000A8ED32323B00AEAA4AC15CFD4500000060D234CD3DA06806000000000004454F53000000001A746865206772617373686F70706572206C69657320686561767900")
         // swiftlint:enable line_length
-        rpcProvider?.pushTransaction(requestParameters: requestParameters) { response in
+        rpcProvider.pushTransaction(requestParameters: requestParameters) { response in
             switch response {
             case .success(let pushedTransactionResponse):
                 XCTAssertTrue(pushedTransactionResponse.transactionId == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")

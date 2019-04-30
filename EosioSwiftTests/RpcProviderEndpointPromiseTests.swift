@@ -810,6 +810,15 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetTableRows unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.rows)
+            XCTAssert($0.rows.count == 1)
+            if let row = $0.rows[0] as? [String: Any],
+                let balance = row["balance"] as? String {
+                XCTAssert(balance == "986420.1921 EOS")
+            } else {
+                XCTFail("Cannot get returned table row or balance string.")
+            }
+            XCTAssertFalse($0.more)
         }.catch {
             print($0)
             if unhappy {

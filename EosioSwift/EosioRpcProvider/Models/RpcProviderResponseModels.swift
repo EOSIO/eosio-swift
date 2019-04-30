@@ -737,6 +737,25 @@ public struct EosioRpcControlledAccountsResponse: Decodable, EosioRpcResponsePro
     }
 }
 
+/// Response type for the `get_table_rows` RPC endpoint.
+public struct EosioRpcTableRowsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var rows: [Any] = [Any]()
+    public var more: Bool
+
+    enum CustomCodingKeys: String, CodingKey {
+        case rows
+        case more
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+        var rowsContainer = try? container.nestedUnkeyedContainer(forKey: .rows)
+        rows = rowsContainer?.decodeDynamicValues() ?? [Any]()
+        more = try container.decodeIfPresent(Bool.self, forKey: .more) ?? false
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -749,9 +768,6 @@ public struct RawResponse: Decodable, EosioRpcResponseProtocol {
 
 /// Response type for the `get_table_by_scope` RPC endpoint.
 public typealias EosioRpcTableByScopeResponse = RawResponse
-
-/// Response type for the `get_table_rows` RPC endpoint.
-public typealias EosioRpcTableRowsResponse = RawResponse
 
 /* History Endpoints */
 

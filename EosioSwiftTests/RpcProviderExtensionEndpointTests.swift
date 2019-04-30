@@ -374,6 +374,15 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcTableRowsResponse):
                 XCTAssertNotNil(eosioRpcTableRowsResponse._rawResponse)
+                XCTAssertNotNil(eosioRpcTableRowsResponse.rows)
+                XCTAssert(eosioRpcTableRowsResponse.rows.count == 1)
+                if let row = eosioRpcTableRowsResponse.rows[0] as? [String: Any],
+                    let balance = row["balance"] as? String {
+                    XCTAssert(balance == "986420.1921 EOS")
+                } else {
+                    XCTFail("Cannot get returned table row or balance string.")
+                }
+                XCTAssertFalse(eosioRpcTableRowsResponse.more)
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_table_rows")

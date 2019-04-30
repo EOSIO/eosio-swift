@@ -756,6 +756,34 @@ public struct EosioRpcTableRowsResponse: Decodable, EosioRpcResponseProtocol {
     }
 }
 
+/// Response struct for the rows returned from get_table_by_scope
+public struct TableByScopeRows: Decodable {
+    public var code: String
+    public var scope: String
+    public var table: String
+    public var payer: String
+    public var count: UInt32
+}
+
+/// Response type for the `get_table_by_scope` RPC endpoint.
+public struct EosioRpcTableByScopeResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var rows: [TableByScopeRows] = [TableByScopeRows]()
+    public var more: String
+
+    enum CustomCodingKeys: String, CodingKey {
+        case rows
+        case more
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+
+        rows = try container.decode([TableByScopeRows].self, forKey: .rows)
+        more = try container.decodeIfPresent(String.self, forKey: .more) ?? ""
+    }
+}
+
 /* Responses without response models */
 
 /// Struct for response types which do not have models created for them. For those, we simply provide the `_rawResponse`.
@@ -765,9 +793,6 @@ public struct RawResponse: Decodable, EosioRpcResponseProtocol {
     enum CodingKeys: CodingKey {
     }
 }
-
-/// Response type for the `get_table_by_scope` RPC endpoint.
-public typealias EosioRpcTableByScopeResponse = RawResponse
 
 /* History Endpoints */
 

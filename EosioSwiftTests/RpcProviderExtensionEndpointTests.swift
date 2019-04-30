@@ -418,6 +418,15 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcTableByScopeResponse):
                 XCTAssertNotNil(eosioRpcTableByScopeResponse._rawResponse)
+                XCTAssertNotNil(eosioRpcTableByScopeResponse.rows)
+                XCTAssert(eosioRpcTableByScopeResponse.rows.count == 10)
+                let row = eosioRpcTableByScopeResponse.rows[8]
+                XCTAssert(row.code == "eosio.token")
+                XCTAssert(row.scope == "eosio")
+                XCTAssert(row.table == "accounts")
+                XCTAssert(row.payer == "eosio")
+                XCTAssert(row.count == 1)
+                XCTAssert(eosioRpcTableByScopeResponse.more == "eosio.ramfee")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_table_by_scope")

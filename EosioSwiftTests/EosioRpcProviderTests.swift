@@ -17,6 +17,7 @@ class EosioRpcProviderTests: XCTestCase {
     let url2 = URL(string: "https://endpoint2example")!
     let url3 = URL(string: "https://endpoint3example")!
     var rpcProvider: EosioRpcProviderProtocol!
+
     override func setUp() {
         super.setUp()
         rpcProvider  = EosioRpcProvider(endpoints: [url, url2, url3])
@@ -33,7 +34,6 @@ class EosioRpcProviderTests: XCTestCase {
     }
 
     func test_rpcProvider_shouldNotRetryFor418HttpStatusError() {
-        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
         var numberOfTimesTried: UInt = 0
         var call = 1
         (stub(condition: isHost("localhost")) { request in

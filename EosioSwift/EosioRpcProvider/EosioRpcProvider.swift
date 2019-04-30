@@ -16,14 +16,14 @@ public class EosioRpcProvider {
     public var chainId = ""
     private var endpoints: [URL]
     private let retries: UInt
-    private var currentEndpoint: URL!
+    private var currentEndpoint: URL
 
     /// Initialize the default RPC Provider implementation with one RPC node endpoint.
     ///
     /// - Parameters:
     ///   - endpoint: A node URL.
     ///   - retries: Number of times to retry an endpoint before failing.
-    public init(endpoint: URL, retries: UInt = 1) {
+    public init(endpoint: URL, retries: UInt = 3) {
         self.endpoints = [endpoint]
         self.currentEndpoint = self.endpoints[0]
         self.retries = retries
@@ -33,7 +33,7 @@ public class EosioRpcProvider {
     /// - Parameters:
     ///   - endpoints: A list of node URLs.
     ///   - retries: Number of times to retry an endpoint before failing over to the next.
-    public init(endpoints: [URL], retries: UInt = 1) {
+    public init(endpoints: [URL], retries: UInt = 3) {
         assert(endpoints.count > 0, "Assertion Failure: The endpoints array cannot be empty.")
         self.endpoints = endpoints
         self.currentEndpoint = self.endpoints[0]
@@ -97,11 +97,16 @@ public class EosioRpcProvider {
 
          3) Failover. After all retries fail then try the process again with a subsequent endpoint.
              a) Subsequent enpoints not having the same Chain ID as the first should be
-                discarded and the next tried if one is availble.  Otherwise, bubble up the failure.
+                discarded and the next tried if one is available.  Otherwise, bubble up the failure.
         */
 
+        // This promise var is used for the return of Promise<T> expected in this function.
+        //  A single promise wasnt able to be used here as several processes run here and a
+        //  single promise needs to be returned.  Depending on the outcome of the logic, the
+        //  returned promise will be the correct one.
         var promise: Promise<T>
         if self.chainId.isEmpty {
+
             promise = captureChainId()
 
             promise.catch { error in
@@ -109,8 +114,10 @@ public class EosioRpcProvider {
             }
 
             if rpc == "chain/get_info" {
+                // Return the getInfo result since that was the original call that triggered this func.
                 return promise
             } else {
+                // Return the correct result for the rpc needed.
                 promise = runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
             }
 
@@ -156,9 +163,8 @@ public class EosioRpcProvider {
     }
 
     private func failOver<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
-
         //TODO: add failOver logic here!
-        return Promise(error: EosioError(.rpcProviderError, reason: "Failover not implemented int his PR."))
+        return Promise(error: EosioError(.rpcProviderError, reason: "Failover not implemented in his PR."))
     }
 
     private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {
@@ -208,16 +214,5 @@ public class EosioRpcProvider {
                 }
                 callback(nil, eosioError)
         }
-    }
-}
-
-extension NSError {
-    func isNetworkConnectionError() -> Bool {
-        let networkErrors = [NSURLErrorNetworkConnectionLost, NSURLErrorNotConnectedToInternet]
-
-        if self.domain == NSURLErrorDomain && networkErrors.contains(self.code) {
-            return true
-        }
-        return false
     }
 }

@@ -15,6 +15,7 @@ Softkey Signature Provider is an example pluggable signature provider for [EOSIO
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Direct Usage](#direct-usage)
+- [iOS Example App](#ios-example-app)
 - [Library Methods](#library-methods)
 - [Want to Help?](#want-to-help)
 - [License & Legal](#license)
@@ -78,6 +79,10 @@ signProvider.signTransaction(request: signRequest) { (response) in
     ...
 }
 ```
+
+## iOS Example App
+
+If you'd like to see the EOSIO SDK for Swift: Softkey Signature Provider in action, check out our open source [iOS Example App](https://github.com/EOSIO/eosio-swift-ios-example-app)--a working application that fetches an account's token balance and pushes a transfer action.
 
 ## Library Methods
 

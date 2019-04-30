@@ -14,6 +14,7 @@ Serialization providers are responsible for ABI-driven transaction and action se
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Direct Usage](#direct-usage)
+- [iOS Example App](#ios-example-app)
 - [Want to Help?](#want-to-help)
 - [License & Legal](#license)
 
@@ -58,6 +59,10 @@ let json = "{"name": "John"}" // some JSON
 let jsonToBinaryTransaction = try? abieos?.serializeTransaction(json: json)
 let binaryToJsonTransaction = try? abieos?.deserializeTransaction(hex: hex)
 ```
+
+## iOS Example App
+
+If you'd like to see the EOSIO SDK for Swift: ABIEOS Serialization Provider in action, check out our open source [iOS Example App](https://github.com/EOSIO/eosio-swift-ios-example-app)--a working application that fetches an account's token balance and pushes a transfer action.
 
 ## Want to help?
 

@@ -861,6 +861,15 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetTableByScope unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.rows)
+            XCTAssert($0.rows.count == 10)
+            let row = $0.rows[8]
+            XCTAssert(row.code == "eosio.token")
+            XCTAssert(row.scope == "eosio")
+            XCTAssert(row.table == "accounts")
+            XCTAssert(row.payer == "eosio")
+            XCTAssert(row.count == 1)
+            XCTAssert($0.more == "eosio.ramfee")
         }.catch {
             print($0)
             if unhappy {

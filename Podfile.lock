@@ -14,14 +14,22 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (7.0.0)
   - OHHTTPStubs/Swift (7.0.0):
     - OHHTTPStubs/Default
+  - PromiseKit (6.8.4):
+    - PromiseKit/CorePromise (= 6.8.4)
+    - PromiseKit/Foundation (= 6.8.4)
+    - PromiseKit/UIKit (= 6.8.4)
   - PromiseKit/CorePromise (6.8.4)
+  - PromiseKit/Foundation (6.8.4):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.8.4):
+    - PromiseKit/CorePromise
   - SipHash (1.2.2)
   - SwiftLint (0.31.0)
 
 DEPENDENCIES:
   - BigInt (~> 3.1)
   - OHHTTPStubs/Swift
-  - PromiseKit/CorePromise (~> 6.8)
+  - PromiseKit (~> 6.8)
   - SwiftLint
 
 SPEC REPOS:
@@ -39,6 +47,6 @@ SPEC CHECKSUMS:
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: d2d5e476f8f6d542eb02263a815d573bfeb28c7c
+PODFILE CHECKSUM: 1d10bec70f8d2560be35e67e47b034772bba25f7
 
 COCOAPODS: 1.6.1

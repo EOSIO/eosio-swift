@@ -21,11 +21,13 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             print("\(request.url!) stubbed by \(stub.name!).")
         }
     }
+
     override func tearDown() {
         super.tearDown()
         //remove all stubs on tear down
         OHHTTPStubs.removeAllStubs()
     }
+
     /// Test pushTransactions implementation.
     func testPushTransactions() {
         var callCount = 1
@@ -56,6 +58,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test testGetBlockHeaderState() implementation.
     func testGetBlockHeaderState() {
         var callCount = 1
@@ -113,6 +116,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test testGetAbi() implementation.
     func testGetAbi() {
         var callCount = 1
@@ -141,6 +145,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test testGetAccount() implementation.
     func testGetAccount() {
         var callCount = 1
@@ -180,6 +185,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test testGetCurrencyBalance() implementation.
     func testGetCurrencyBalance() {
         var callCount = 1
@@ -204,6 +210,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getCurrencyStats() implementation.
     func testGetCurrencyStats() {
         var callCount = 1
@@ -227,6 +234,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getCurrencyStatsSYS() implementation.
     func testGetCurrencyStatsSYS() {
         var callCount = 1
@@ -285,6 +293,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getRawCodeAndAbi() with String signature implementation.
     func testGetRawCodeAndAbiWithStringSignature() {
         var callCount = 1
@@ -306,6 +315,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getCode() implementation.
     func testgetCode() {
         var callCount = 1
@@ -339,6 +349,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getCode() with String signature implementation.
     func testGetCodeWithStringSignature() {
          var callCount = 1
@@ -360,6 +371,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getTableRows() implementation.
     func testGetTableRows() {
          var callCount = 1
@@ -382,6 +394,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getTableByScope() implementation.
     func testGetTableByScope() {
         var callCount = 1
@@ -404,6 +417,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getProducers implementation.
     func testGetProducers() {
         var callCount = 1
@@ -432,6 +446,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getActions implementation.
     func testGetActions() {
         var callCount = 1
@@ -454,6 +469,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getControlledAccounts implementation.
     func testGetControlledAccounts() {
         var callCount = 1
@@ -480,6 +496,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getTransaction implementation.
     func testGetTransaction() {
         var callCount = 1
@@ -517,6 +534,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
     /// Test getKeyAccounts implementation.
     func testGetKeyAccounts() {
         var callCount = 1

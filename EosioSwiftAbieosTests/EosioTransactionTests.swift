@@ -32,9 +32,9 @@ class EosioTransactionTests: XCTestCase {
             let action2 = try makeTransferAction(from: EosioName("brandon"), to: EosioName("todd"))
             let action3 = try makeVoteProducerAction(voter: EosioName("todd"))
 
-            transaction.actions.append(action1)
-            transaction.actions.append(action2)
-            transaction.actions.append(action3)
+            transaction.add(action: action1)
+            transaction.add(action: action2)
+            transaction.add(action: action3)
 
             try transaction.abis.addAbi(name: try EosioName("eosio.token"), base64: tokenAbiB64)
             try transaction.abis.addAbi(name: try EosioName("eosio"), base64: eosioAbiB64)
@@ -56,8 +56,8 @@ class EosioTransactionTests: XCTestCase {
         guard let action2 = try? makeVoteProducerAction(voter: EosioName("todd")) else {
             return XCTFail("Failed to create a vote action")
         }
-        transaction.actions.append(action1)
-        transaction.actions.append(action2)
+        transaction.add(action: action1)
+        transaction.add(action: action2)
 
         transaction.rpcProvider = rpcProvider
         transaction.serializeActionData { [weak self] (result) in
@@ -81,7 +81,7 @@ class EosioTransactionTests: XCTestCase {
     func testToEosioTransactionRequest() {
         do {
             let action = try makeTransferAction(from: EosioName("todd"), to: EosioName("brandon"))
-            transaction.actions.append(action)
+            transaction.add(action: action)
             try transaction.abis.addAbi(name: EosioName("eosio.token"), base64: tokenAbiB64)
             transaction.refBlockNum = 100
             transaction.refBlockPrefix = 123456
@@ -103,8 +103,8 @@ class EosioTransactionTests: XCTestCase {
         guard let action2 = try? makeVoteProducerAction(voter: EosioName("todd")) else {
             return XCTFail("Failed to create vote action")
         }
-        transaction.actions.append(action1)
-        transaction.actions.append(action2)
+        transaction.add(action: action1)
+        transaction.add(action: action2)
         transaction.expiration = Date(yyyyMMddTHHmmss: "3009-01-03T18:15:05.000")!
 
         var data: Data?
@@ -188,8 +188,8 @@ class EosioTransactionTests: XCTestCase {
         guard let action2 = try? makeVoteProducerAction(voter: EosioName("todd")) else {
             return XCTFail("Failed to create vote action")
         }
-        transaction.actions.append(action1)
-        transaction.actions.append(action2)
+        transaction.add(action: action1)
+        transaction.add(action: action2)
         transaction.rpcProvider = rpcProvider
         transaction.getAbis { [weak self] (result) in
             guard let self = self else {

@@ -54,9 +54,9 @@ public class EosioTransaction: Codable {
     /// Transaction property: Causes the transaction to be executed a specified number of seconds after being included in a block. It may be canceled during this delay.
     public var delaySec: UInt = 0
     /// Transaction property: Context Free Actions.
-    public var contextFreeActions = [Action]()
+    public private(set) var contextFreeActions = [Action]()
     /// Transaction property: Array of actions to be executed.
-    public var actions = [Action]()
+    public private(set) var actions = [Action]()
     /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
     /// Transaction data serialized into a binary representation in preparation for broadcast.
@@ -69,6 +69,27 @@ public class EosioTransaction: Codable {
     /// Combined array of actions and contextFreeActions
     private var allActions: [Action] {
         return actions + contextFreeActions
+    }
+
+    /// Add an Action
+    /// - Parameter action: The Action to add
+    public func add(action: Action) {
+        actions.append(action)
+    }
+    /// Add and array of Actions
+    /// - Parameter actions: The array of Actions to add
+    public func add(actions: [Action]) {
+        self.actions.append(contentsOf: actions)
+    }
+    /// Add a context free Action
+    /// - Parameter contextFreeAction: The context free Action to add
+    public func add(contextFreeAction: Action) {
+        contextFreeActions.append(contextFreeAction)
+    }
+    /// Add and array of context free Actions
+    /// - Parameter contextFreeActions: The array of context free Actions to add
+    public func add(contextFreeActions: [Action]) {
+        self.contextFreeActions.append(contentsOf: contextFreeActions)
     }
 
     /// For encoding/decoding EosioTransaction <> JSON.

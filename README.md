@@ -1,6 +1,8 @@
+![Swift Logo](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/blob/master/img/swift-logo.png)
 # EOSIO SDK for Swift: ABIEOS Serialization Provider ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
+
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
-![Lagnuage C++/Swift](https://img.shields.io/badge/Language-C%2B%2B%2FSwift-yellow.svg)
+![Language C++/Swift](https://img.shields.io/badge/Language-C%2B%2B%2FSwift-yellow.svg)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2012-blue.svg)
 
 ABIEOS Serialization Provider is a pluggable serialization provider for [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift).
@@ -14,6 +16,7 @@ Serialization providers are responsible for ABI-driven transaction and action se
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Direct Usage](#direct-usage)
+- [Documentation](#documentation)
 - [iOS Example App](#ios-example-app)
 - [Want to Help?](#want-to-help)
 - [License & Legal](#license)
@@ -24,7 +27,7 @@ Serialization providers are responsible for ABI-driven transaction and action se
 * CocoaPods 1.5.3 or higher
 * For iOS, iOS 12+
 
-This project relies on platform functionality only present in iOS 12+. Therefore, any project depending on ABIEOS Serialization Provider with [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) **must be an iOS 12+ project**. Other serialization providers, however, can be created to support iOS 11. If your project requires iOS 11 support, or if you'd like to create a serialization provider and have questions, please reach out to us by [logging an issue](/../../issues/new).
+This project relies on platform functionality only present in iOS 12+. Therefore, any project depending on ABIEOS Serialization Provider with [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) **must be an iOS 12+ project**. Other serialization providers, however, can be created to support iOS 11. If your project requires iOS 11 support, or if you'd like to create a serialization provider and have questions, please reach out to us by [logging an issue](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/issues/new).
 
 ## Installation
 
@@ -60,17 +63,21 @@ let jsonToBinaryTransaction = try? abieos?.serializeTransaction(json: json)
 let binaryToJsonTransaction = try? abieos?.deserializeTransaction(hex: hex)
 ```
 
+## Documentation
+
+Please refer to the generated code documentation by cloning this repo and opening the `docs/code/index.html` file in your browser.
+
 ## iOS Example App
 
 If you'd like to see the EOSIO SDK for Swift: ABIEOS Serialization Provider in action, check out our open source [iOS Example App](https://github.com/EOSIO/eosio-swift-ios-example-app)--a working application that fetches an account's token balance and pushes a transfer action.
 
 ## Want to help?
 
-Interested in contributing? That's awesome! Here are some [Contribution Guidelines](./CONTRIBUTING.md) and the [Code of Conduct](./CONTRIBUTING.md#conduct).
+Interested in contributing? That's awesome! Here are some [Contribution Guidelines](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/blob/master/CONTRIBUTING.md) and the [Code of Conduct](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/blob/master/CONTRIBUTING.md#conduct).
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/blob/master/LICENSE)
 
 ## Important
 

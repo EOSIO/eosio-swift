@@ -1,11 +1,11 @@
+![Swift Logo](https://github.com/EOSIO/eosio-swift/blob/master/img/swift-logo.png)
 # EOSIO SDK for Swift: ECC ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
-
 
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
 [![Swift 4.2](https://img.shields.io/badge/Language-Swift_4.2-orange.svg)](https://swift.org)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg)
 
-EOSIO SDK for Swift: ECC is a library for working with public and private keys, cryptographic signatures, encryption/decryption, etc.
+EOSIO SDK for Swift: ECC is a library for working with public and private keys, cryptographic signatures, encryption/decryption, etc. as part of the [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) family of libraries.
 
 *All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.*
 
@@ -14,6 +14,7 @@ EOSIO SDK for Swift: ECC is a library for working with public and private keys, 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Functionality](#functionality)
+- [Documentation](#documentation)
 - [Want to Help?](#want-to-help)
 - [License & Legal](#license)
 
@@ -41,17 +42,21 @@ Then run `pod install`.
 
 ECC provides the following methods, among others. This list will expand as more are added.
 
-* `EosioEccSign.signWithK1`: Sign data with a K1 key for validation on an EOSIO chain.
-* `EccRecoverKey.recoverPublicKey`: Recover a public key from a private key or from a signature and message.
-* `EccRecoverKey.recid`: Get the Recovery ID for a siganture, message and target public key.
+* `EosioEccSign.signWithK1(...)`: Sign data with a K1 key for validation on an EOSIO chain.
+* `EccRecoverKey.recoverPublicKey(...)`: Recover a public key from a private key or from a signature and message.
+* `EccRecoverKey.recid(...)`: Get the Recovery ID for a signature, message and target public key.
+
+## Documentation
+
+Please refer to the generated code documentation by cloning this repo and opening the `docs/code/index.html` file in your browser.
 
 ## Want to help?
 
-Interested in contributing? That's awesome! Here are some [Contribution Guidelines](./CONTRIBUTING.md) and the [Code of Conduct](./CONTRIBUTING.md#conduct).
+Interested in contributing? That's awesome! Here are some [Contribution Guidelines](https://github.com/EOSIO/eosio-swift-ecc/blob/master/CONTRIBUTING.md) and the [Code of Conduct](https://github.com/EOSIO/eosio-swift-ecc/blob/master/CONTRIBUTING.md#conduct).
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](https://github.com/EOSIO/eosio-swift-ecc/blob/master/LICENSE)
 
 ## Important
 

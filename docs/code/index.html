@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EosioSwiftEcc  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="EosioSwiftEcc  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          EosioSwiftEcc Docs
+        </a>
+        
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/EOSIO/eosio-swift-ecc">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">EosioSwiftEcc Reference</a>
+      <img class="carat" src="img/carat.png" />
+      EosioSwiftEcc  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/EccRecoverKey.html">EccRecoverKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/EosioEccSign.html">EosioEccSign</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/EllipticCurveType.html">EllipticCurveType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/EcdsaSignature.html">EcdsaSignature</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <p><img src="https://github.com/EOSIO/eosio-swift/blob/master/img/swift-logo.png" alt="Swift Logo"></p>
+<h1 id='eosio-sdk-for-swift-ecc-img-src-https-img-shields-io-badge-eosio-alpha-blue-svg-alt-eosio-alpha' class='heading'>EOSIO SDK for Swift: ECC <img src="https://img.shields.io/badge/EOSIO-Alpha-blue.svg" alt="EOSIO Alpha"></h1>
+
+<p><a href="https://github.com/EOSIO/eosio-swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="Software License"></a>
+<a href="https://swift.org"><img src="https://img.shields.io/badge/Language-Swift_4.2-orange.svg" alt="Swift 4.2"></a>
+<img src="https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg" alt=""></p>
+
+<p>EOSIO SDK for Swift: ECC is a library for working with public and private keys, cryptographic signatures, encryption/decryption, etc. as part of the <a href="https://github.com/EOSIO/eosio-swift">EOSIO SDK for Swift</a> family of libraries.</p>
+
+<p><em>All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.</em></p>
+<h2 id='contents' class='heading'>Contents</h2>
+
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#functionality">Functionality</a></li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#want-to-help">Want to Help?</a></li>
+<li><a href="#license">License &amp; Legal</a></li>
+</ul>
+<h2 id='prerequisites' class='heading'>Prerequisites</h2>
+
+<ul>
+<li>Xcode 10 or higher</li>
+<li>CocoaPods 1.5.3 or higher</li>
+<li>For iOS, iOS 11+</li>
+</ul>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>To use ECC in your application, add the following pod to your <a href="https://guides.cocoapods.org/syntax/podfile.html">Podfile</a>:</p>
+<pre class="highlight ruby"><code><span class="n">use_frameworks!</span>
+
+<span class="n">target</span> <span class="s2">"Your Target"</span> <span class="k">do</span>
+  <span class="n">pod</span> <span class="s2">"EosioSwiftEcc"</span><span class="p">,</span> <span class="s2">"~&gt; 0.0.1"</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Then run <code>pod install</code>.</p>
+<h2 id='functionality' class='heading'>Functionality</h2>
+
+<p>ECC provides the following methods, among others. This list will expand as more are added.</p>
+
+<ul>
+<li><code><a href="Classes/EosioEccSign.html#/s:13EosioSwiftEcc0aC4SignC10signWithK19publicKey07privateI04data10Foundation4DataVAJ_A2JtKFZ">EosioEccSign.signWithK1(...)</a></code>: Sign data with a K1 key for validation on an EOSIO chain.</li>
+<li><code><a href="Classes/EccRecoverKey.html#/s:13EosioSwiftEcc0C10RecoverKeyC013recoverPublicE007privateE05curve10Foundation4DataVAI_AA17EllipticCurveTypeOtKFZ">EccRecoverKey.recoverPublicKey(...)</a></code>: Recover a public key from a private key or from a signature and message.</li>
+<li><code><a href="Classes/EccRecoverKey.html#/s:13EosioSwiftEcc0C10RecoverKeyC5recid12signatureDer7message012targetPublicE05curveSi10Foundation4DataV_A2kA17EllipticCurveTypeOtKFZ">EccRecoverKey.recid(...)</a></code>: Get the Recovery ID for a signature, message and target public key.</li>
+</ul>
+<h2 id='documentation' class='heading'>Documentation</h2>
+
+<p>Please refer to the generated code documentation by cloning this repo and opening the <code>docs/code/index.html</code> file in your browser.</p>
+<h2 id='want-to-help' class='heading'>Want to help?</h2>
+
+<p>Interested in contributing? That&rsquo;s awesome! Here are some <a href="https://github.com/EOSIO/eosio-swift-ecc/blob/master/CONTRIBUTING.md">Contribution Guidelines</a> and the <a href="https://github.com/EOSIO/eosio-swift-ecc/blob/master/CONTRIBUTING.md#conduct">Code of Conduct</a>.</p>
+<h2 id='license' class='heading'>License</h2>
+
+<p><a href="https://github.com/EOSIO/eosio-swift-ecc/blob/master/LICENSE">MIT</a></p>
+<h2 id='important' class='heading'>Important</h2>
+
+<p>See LICENSE for copyright and license terms.  Block.one makes its contribution on a voluntary basis as a member of the EOSIO community and is not responsible for ensuring the overall performance of the software or any related applications.  We make no representation, warranty, guarantee or undertaking in respect of the software or any related documentation, whether expressed or implied, including but not limited to the warranties or merchantability, fitness for a particular purpose and noninfringement. In no event shall we be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or documentation or the use or other dealings in the software or documentation.  Any test results or performance figures are indicative and will not reflect performance under all conditions.  Any reference to any third party or third-party product, service or other resource is not an endorsement or recommendation by Block.one.  We are not responsible, and disclaim any and all responsibility and liability, for your use of or reliance on any of these resources. Third-party resources may be updated, changed or terminated at any time, so the information here may be out of date or inaccurate.</p>
+
+<p>Wallets and related components are complex software that require the highest levels of security.  If incorrectly built or used, they may compromise users’ private keys and digital assets. Wallet applications and related components should undergo thorough security evaluations before being used.  Only experienced developers should work with this software.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

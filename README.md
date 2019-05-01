@@ -1,4 +1,6 @@
+![Swift Logo](https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/img/swift-logo.png)
 # EOSIO SDK for Swift: Softkey Signature Provider ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
+
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
 [![Swift 4.2](https://img.shields.io/badge/Language-Swift_4.2-orange.svg)](https://swift.org)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg)
@@ -15,6 +17,7 @@ Softkey Signature Provider is an example pluggable signature provider for [EOSIO
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Direct Usage](#direct-usage)
+- [Documentation](#documentation)
 - [iOS Example App](#ios-example-app)
 - [Library Methods](#library-methods)
 - [Want to Help?](#want-to-help)
@@ -29,7 +32,7 @@ The Signature Provider abstraction is arguably the most useful of all of the [EO
 
 By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need a signature from keys in the platform's Keychain or Secure Enclave? [Configure the `EosioTransaction`](https://github.com/EOSIO/eosio-swift#basic-usage) with a conforming signature provider that exposes that functionality. Need signatures from a wallet on the user's device? A signature provider can do that too!
 
-All signature providers must conform to the [EosioSignatureProviderProtocol](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) Protocol.
+All signature providers must conform to the [`EosioSignatureProviderProtocol`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) Protocol.
 
 ## Prerequisites
 
@@ -67,7 +70,7 @@ let signProvider = try? EosioSoftkeySignatureProvider(privateKeys: privateKeysAr
 let publicKeysArray = signProvider?.getAvailableKeys() // Returns the public keys.
 ```
 
-To sign an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift), create an [`EosioTransactionSignatureRequest`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) object and call the `signTransaction(request:completion:)` method with the request:
+To sign an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift), create an [`EosioTransactionSignatureRequest`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) object and call the `EosioSoftkeySignatureProvider.signTransaction(request:completion:)` method with the request:
 
 ```swift
 var signRequest = EosioTransactionSignatureRequest()
@@ -80,6 +83,10 @@ signProvider.signTransaction(request: signRequest) { (response) in
 }
 ```
 
+## Documentation
+
+Please refer to the generated code documentation by cloning this repo and opening the `docs/code/index.html` file in your browser.
+
 ## iOS Example App
 
 If you'd like to see the EOSIO SDK for Swift: Softkey Signature Provider in action, check out our open source [iOS Example App](https://github.com/EOSIO/eosio-swift-ios-example-app)--a working application that fetches an account's token balance and pushes a transfer action.
@@ -88,20 +95,20 @@ If you'd like to see the EOSIO SDK for Swift: Softkey Signature Provider in acti
 
 This library is an example implementation of [`EosioSignatureProviderProtocol`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift). It implements the following protocol methods:
 
-* `signTransaction(request:completion:)` signs an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift).
-* `getAvailableKeys()` returns an array containing the public keys associated with the private keys that the object is initialized with.
+* `EosioSoftkeySignatureProvider.signTransaction(request:completion:)` signs an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift).
+* `EosioSoftkeySignatureProvider.getAvailableKeys(...)` returns an array containing the public keys associated with the private keys that the object is initialized with.
 
 To initialize the implementation:
 
-* `init(privateKeys:)` initializes the signature provider with an array of private keys as strings.
+* `EosioSoftkeySignatureProvider.init(privateKeys:)` initializes the signature provider with an array of private keys as strings.
 
 ## Want to help?
 
-Interested in contributing? That's awesome! Here are some [Contribution Guidelines](./CONTRIBUTING.md) and the [Code of Conduct](./CONTRIBUTING.md#conduct).
+Interested in contributing? That's awesome! Here are some [Contribution Guidelines](https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/CONTRIBUTING.md) and the [Code of Conduct](https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/CONTRIBUTING.md#conduct).
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/LICENSE)
 
 ## Important
 

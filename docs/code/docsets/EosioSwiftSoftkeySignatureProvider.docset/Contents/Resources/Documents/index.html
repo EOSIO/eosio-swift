@@ -73,7 +73,7 @@
 
 <p>Softkey Signature Provider is an example pluggable signature provider for <a href="https://github.com/EOSIO/eosio-swift">EOSIO SDK for Swift</a>. It allows for signing transactions using in-memory K1 keys.</p>
 
-<p><strong>Important:</strong> Softkey Signature Provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet.</p>
+<p><strong>Important:</strong> Softkey Signature Provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet, such as the <a href="https://github.com/EOSIO/eosio-swift-vault-signature-provider">EOSIO SDK for Swift: Vault Signature Provider</a>.</p>
 
 <p><em>All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.</em></p>
 <h2 id='contents' class='heading'>Contents</h2>
@@ -98,7 +98,7 @@
 <li>requesting and obtaining transaction signatures with a subset of the available keys (<code>signTransaction</code>).</li>
 </ul>
 
-<p>By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need a signature from keys in the platform&rsquo;s Keychain or Secure Enclave? <a href="https://github.com/EOSIO/eosio-swift#basic-usage">Configure the <code>EosioTransaction</code></a> with a conforming signature provider that exposes that functionality. Need signatures from a wallet on the user&rsquo;s device? A signature provider can do that too!</p>
+<p>By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need software signing? <a href="https://github.com/EOSIO/eosio-swift#basic-usage">Configure the <code>EosioTransaction</code></a> with this signature provider. Need a signature from keys in the platform&rsquo;s Keychain or Secure Enclave? Take a look at the <a href="https://github.com/EOSIO/eosio-swift-vault-signature-provider">Vault Signature Provider</a>. Need signatures from a wallet on the user&rsquo;s device? A signature provider can do that too!</p>
 
 <p>All signature providers must conform to the <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift"><code>EosioSignatureProviderProtocol</code></a> Protocol.</p>
 <h2 id='prerequisites' class='heading'>Prerequisites</h2>

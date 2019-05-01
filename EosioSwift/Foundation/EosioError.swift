@@ -61,6 +61,8 @@ public enum EosioErrorCode: String, Codable {
     case serializeError = "SerializeError"
     /// Error was encountered while deserializing transaction.
     case deserializeError = "DeserializeError"
+    /// Fatal Error was encountered in RpcProvider .
+    case rpcProviderFatalError = "RpcProviderFatalError"
 
     // Non-provider errors (added as these are encountered in Eosio Extensions and Foundation).
 
@@ -154,6 +156,8 @@ open class EosioError: Error, CustomStringConvertible, Codable {
             return NSLocalizedString("Error was encountered in key management.", comment: "Error was encountered in key management.")
         case .keySigningError:
             return NSLocalizedString("Error was encountered while signing with a key.", comment: "Error was encountered while signing with a key.")
+        case .rpcProviderFatalError:
+            return NSLocalizedString("Fatal Non-recoverable Error was encountered in RpcProvider.", comment: "Error in RPC processing flow.")
         case .unexpectedError:
             return NSLocalizedString("There was an unexpected error.", comment: "Unexpected Error")
         }

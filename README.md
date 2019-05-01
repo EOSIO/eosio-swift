@@ -72,7 +72,7 @@ transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localho
 transaction.serializationProvider = EosioAbieosSerializationProvider()
 transaction.signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
 
-/// Actions can now be appended to the transaction, which can, in turn, be signed and broadcast:
+/// Actions can now be added to the transaction, which can, in turn, be signed and broadcast:
 
 let action = try EosioTransaction.Action(
     account: EosioName("eosio.token"),
@@ -88,7 +88,7 @@ let action = try EosioTransaction.Action(
         memo: "")
 )
 
-transaction.actions.append(action)
+transaction.add(action: action)
 
 transaction.signAndBroadcast { (result) in
     switch result {

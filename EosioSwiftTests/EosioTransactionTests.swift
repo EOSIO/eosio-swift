@@ -355,6 +355,42 @@ class EosioTransactionTests: XCTestCase {
         waitForExpectations(timeout: 10)
     }
     //public func prepare(_: PMKNamespacer) -> Promise<Bool>
+
+    func test_add_action_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        transaction.add(action: action)
+        XCTAssertEqual(transaction.actions.count, 1)
+        XCTAssertEqual(transaction.actions[0].data["from"] as? String, "todd")
+    }
+
+    func test_add_actions_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(actions: [action1, action2])
+        XCTAssertEqual(transaction.actions.count, 2)
+        XCTAssertEqual(transaction.actions[0].data["from"] as? String, "todd")
+        XCTAssertEqual(transaction.actions[1].data["from"] as? String, "brandon")
+    }
+
+    func test_add_context_free_action_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        transaction.add(contextFreeAction: action)
+        XCTAssertEqual(transaction.contextFreeActions.count, 1)
+        XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "todd")
+    }
+
+    func test_add_context_free_actions_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(contextFreeActions: [action1, action2])
+        XCTAssertEqual(transaction.contextFreeActions.count, 2)
+        XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "todd")
+        XCTAssertEqual(transaction.contextFreeActions[1].data["from"] as? String, "brandon")
+    }
 }
 
 class RPCProviderMock: EosioRpcProviderProtocol {
@@ -538,3 +574,30 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
         completion(availableKeysResponse)
     }
 }
+
+struct Transfer: Codable {
+    var from: EosioName
+    var to: EosioName // swiftlint:disable:this identifier_name
+    var quantity: String
+    var memo: String
+}
+
+func makeTransferAction(from: EosioName, to: EosioName) throws -> EosioTransaction.Action { // swiftlint:disable:this identifier_name
+
+    let action = try EosioTransaction.Action(
+        account: EosioName("eosio.token"),
+        name: EosioName("transfer"),
+        authorization: [EosioTransaction.Action.Authorization(
+            actor: from,
+            permission: EosioName("active"))
+        ],
+        data: Transfer(
+            from: from,
+            to: to,
+            quantity: "42.0000 SYS",
+            memo: "Grasshopper Rocks")
+    )
+    return action
+}
+
+

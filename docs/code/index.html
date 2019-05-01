@@ -440,7 +440,7 @@
 <span class="n">transaction</span><span class="o">.</span><span class="n">serializationProvider</span> <span class="o">=</span> <span class="kt">EosioAbieosSerializationProvider</span><span class="p">()</span>
 <span class="n">transaction</span><span class="o">.</span><span class="n">signatureProvider</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">EosioSwiftSoftkeySignatureProvider</span><span class="p">(</span><span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="s">"yourPrivateKey"</span><span class="p">])</span>
 
-<span class="c1">/// Actions can now be appended to the transaction, which can, in turn, be signed and broadcast:</span>
+<span class="c1">/// Actions can now be added to the transaction, which can, in turn, be signed and broadcast:</span>
 
 <span class="k">let</span> <span class="nv">action</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">EosioTransaction</span><span class="o">.</span><span class="kt">Action</span><span class="p">(</span>
     <span class="nv">account</span><span class="p">:</span> <span class="kt">EosioName</span><span class="p">(</span><span class="s">"eosio.token"</span><span class="p">),</span>
@@ -456,7 +456,7 @@
         <span class="nv">memo</span><span class="p">:</span> <span class="s">""</span><span class="p">)</span>
 <span class="p">)</span>
 
-<span class="n">transaction</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="n">transaction</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="n">action</span><span class="p">)</span>
 
 <span class="n">transaction</span><span class="o">.</span><span class="n">signAndBroadcast</span> <span class="p">{</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">in</span>
     <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>

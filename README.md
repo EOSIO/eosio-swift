@@ -166,7 +166,7 @@ The RPC Provider is responsible for all [RPC calls to nodeos](https://developers
 
 ### Serialization Provider Protocol
 
-The Serialization Provider is responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations. These implementations often contain platform-sensitive C++ code and larger dependencies such as OpenSSL. For those reasons, EOSIO SDK for Swift _does not include_ a serialization provider implementation; one must be installed separately.
+The Serialization Provider is responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations. These implementations often contain platform-sensitive C++ code and larger dependencies. For those reasons, EOSIO SDK for Swift _does not include_ a serialization provider implementation; one must be installed separately.
 
 * [`EosioSerializationProviderProtocol`](EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift) - All serialization providers must conform to this protocol.
 * [ABIEOS Serialization Provider Implementation](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider) - Serialization/deserialization using ABIEOS. Currently supports iOS 12+.

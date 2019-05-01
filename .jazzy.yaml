@@ -5,3 +5,4 @@ github_file_prefix: https://github.com/EOSIO/eosio-swift-ecc/tree/master
 hide_documentation_coverage: true
 undocumented_text: ""
 output: docs/code
+clean: true

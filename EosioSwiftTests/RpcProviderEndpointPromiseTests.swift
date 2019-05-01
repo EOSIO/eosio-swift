@@ -5,6 +5,7 @@
 //  Created by Brandon Fancher on 4/18/19.
 //  Copyright © 2019 block.one. All rights reserved.
 //
+// swiftlint:disable function_body_length
 
 import XCTest
 @testable import EosioSwift
@@ -960,6 +961,23 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetActions unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0._rawResponse)
+            XCTAssert($0.lastIrreversibleBlock == 55535908)
+            XCTAssert($0.timeLimitExceededError == false)
+            XCTAssert($0.actions.first?.globalActionSequence == "6483908013")
+            XCTAssert($0.actions.first?.actionTrace.receipt.receiverSequence == 1236)
+            XCTAssert($0.actions.first?.actionTrace.receipt.authorizationSequence.count == 1)
+            if let firstSequence = $0.actions.first?.actionTrace.receipt.authorizationSequence.first as? [Any] {
+                guard let accountName = firstSequence.first as? String, accountName == "powersurge22" else {
+                    return XCTFail("Should be able to find account name")
+                }
+            }
+            XCTAssert($0.actions.first?.actionTrace.action.name == "transfer")
+            XCTAssert($0.actions.first?.actionTrace.action.authorization.first?.permission == "active")
+            XCTAssert($0.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
+            XCTAssert($0.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
+            XCTAssert($0.actions.first?.actionTrace.accountRamDeltas.first?.delta == 472)
+            XCTAssert($0.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
         }.catch {
             print($0)
             if unhappy {

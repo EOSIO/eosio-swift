@@ -66,28 +66,28 @@ public class EosioTransaction: Codable {
     /// Transaction ID.
     public private(set) var transactionId: String?
 
-    /// Combined array of actions and contextFreeActions
+    /// Combined array of actions and contextFreeActions.
     private var allActions: [Action] {
         return actions + contextFreeActions
     }
 
-    /// Add an Action
-    /// - Parameter action: The Action to add
+    /// Add an Action.
+    /// - Parameter action: The Action to add.
     public func add(action: Action) {
         actions.append(action)
     }
-    /// Add and array of Actions
-    /// - Parameter actions: The array of Actions to add
+    /// Add and array of Actions.
+    /// - Parameter actions: The array of Actions to add.
     public func add(actions: [Action]) {
         self.actions.append(contentsOf: actions)
     }
-    /// Add a context free Action
-    /// - Parameter contextFreeAction: The context free Action to add
+    /// Add a context free Action.
+    /// - Parameter contextFreeAction: The context free Action to add.
     public func add(contextFreeAction: Action) {
         contextFreeActions.append(contextFreeAction)
     }
-    /// Add and array of context free Actions
-    /// - Parameter contextFreeActions: The array of context free Actions to add
+    /// Add and array of context free Actions.
+    /// - Parameter contextFreeActions: The array of context free Actions to add.
     public func add(contextFreeActions: [Action]) {
         self.contextFreeActions.append(contentsOf: contextFreeActions)
     }

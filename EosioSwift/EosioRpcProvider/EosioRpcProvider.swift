@@ -5,7 +5,6 @@
 //  Created by Farid Rahmani on 4/1/19.
 //  Copyright © 2019 block.one. All rights reserved.
 //
-// swiftlint:disable function_body_length
 
 import Foundation
 import PromiseKit

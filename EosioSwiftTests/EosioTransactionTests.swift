@@ -599,5 +599,3 @@ func makeTransferAction(from: EosioName, to: EosioName) throws -> EosioTransacti
     )
     return action
 }
-
-

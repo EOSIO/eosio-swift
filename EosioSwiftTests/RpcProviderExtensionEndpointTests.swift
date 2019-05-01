@@ -162,7 +162,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             case .success(let eosioRpcAccountResponse):
                 XCTAssertNotNil(eosioRpcAccountResponse)
                 XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
-                XCTAssert(eosioRpcAccountResponse.ramQuota == 13639863)
+                XCTAssert(eosioRpcAccountResponse.ramQuota.value == 13639863)
                 XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
                 if let dict = eosioRpcAccountResponse.totalResources {
                     if let owner = dict["owner"] as? String {
@@ -454,7 +454,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssertNotNil(eosioRpcProducersResponse.rows)
                 XCTAssert(eosioRpcProducersResponse.rows.count == 2)
                 XCTAssert(eosioRpcProducersResponse.rows[0].owner == "blkproducer2")
-                XCTAssert(eosioRpcProducersResponse.rows[0].unpaidBlocks == 0)
+                XCTAssert(eosioRpcProducersResponse.rows[0].unpaidBlocks.value == 0)
                 XCTAssert(eosioRpcProducersResponse.rows[1].owner == "blkproducer3")
                 XCTAssert(eosioRpcProducersResponse.rows[0].isActive == 1)
             case .failure(let err):
@@ -480,10 +480,10 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcActionsResponse):
                 XCTAssertNotNil(eosioRpcActionsResponse._rawResponse)
-                XCTAssert(eosioRpcActionsResponse.lastIrreversibleBlock == 55535908)
+                XCTAssert(eosioRpcActionsResponse.lastIrreversibleBlock.value == 55535908)
                 XCTAssert(eosioRpcActionsResponse.timeLimitExceededError == false)
-                XCTAssert(eosioRpcActionsResponse.actions.first?.globalActionSequence == "6483908013")
-                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.receiverSequence == 1236)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.globalActionSequence.value == 6483908013)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.receiverSequence.value == 1236)
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.count == 1)
                 if let firstSequence = eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.first as? [Any] {
                     guard let accountName = firstSequence.first as? String, accountName == "powersurge22" else {
@@ -494,7 +494,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.authorization.first?.permission == "active")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
-                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta == 472)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
             case .failure(let err):
                 print(err.description)
@@ -546,7 +546,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             switch response {
             case .success(let eosioRpcGetTransactionResponse):
                 XCTAssert(eosioRpcGetTransactionResponse.id == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")
-                XCTAssert(eosioRpcGetTransactionResponse.blockNum == 21098575)
+                XCTAssert(eosioRpcGetTransactionResponse.blockNum.value == 21098575)
                 guard let dict = eosioRpcGetTransactionResponse.trx["trx"] as? [String: Any] else {
                     XCTFail("Should find trx.trx dictionary.")
                     return

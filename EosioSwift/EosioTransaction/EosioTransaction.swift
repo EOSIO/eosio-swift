@@ -402,7 +402,7 @@ public class EosioTransaction: Codable {
                 }
 
                 let blocksBehind = UInt64(strongSelf.config.blocksBehind)
-                var blockNum = info.headBlockNum - blocksBehind
+                var blockNum = info.headBlockNum.value - blocksBehind
                 if blockNum <= 0 {
                     blockNum = 1
                 }
@@ -439,8 +439,8 @@ public class EosioTransaction: Codable {
                 completion(.failure(error))
             case .success(let block):
                 // set tapos fields and return
-                strongSelf.refBlockNum = UInt16(block.blockNum & 0xffff)
-                strongSelf.refBlockPrefix = block.refBlockPrefix
+                strongSelf.refBlockNum = UInt16(block.blockNum.value & 0xffff)
+                strongSelf.refBlockPrefix = block.refBlockPrefix.value
                 return completion(.success(true))
             }
         })

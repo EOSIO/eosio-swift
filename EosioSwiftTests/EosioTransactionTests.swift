@@ -84,7 +84,7 @@ class EosioTransactionTests: XCTestCase {
     }
 
     func test_prepare_shouldCallGetBlockFunctionOfRPCProviderWithCorrectBlockNumber() {
-        var blockNum = rpcProvider.rpcInfo.headBlockNum - UInt64(transaction.config.blocksBehind)
+        var blockNum = rpcProvider.rpcInfo.headBlockNum.value - UInt64(transaction.config.blocksBehind)
         if blockNum <= 0 {
             blockNum = 1
         }
@@ -110,13 +110,13 @@ class EosioTransactionTests: XCTestCase {
 
     func test_getBlockAndSetTapos_shouldSetRefBlockNum() {
         transaction.getBlockAndSetTapos(blockNum: 345) { (_) in
-            XCTAssertEqual(self.transaction.refBlockNum, UInt16(self.rpcProvider.block.blockNum & 0xffff))
+            XCTAssertEqual(self.transaction.refBlockNum, UInt16(self.rpcProvider.block.blockNum.value & 0xffff))
         }
     }
 
     func test_getBlockAndSetTapos_shouldSetRefBlockPrefix() {
         transaction.getBlockAndSetTapos(blockNum: 345) { (_) in
-            XCTAssertEqual(self.transaction.refBlockPrefix, self.rpcProvider.block.refBlockPrefix)
+            XCTAssertEqual(self.transaction.refBlockPrefix, self.rpcProvider.block.refBlockPrefix.value)
         }
     }
 
@@ -426,16 +426,16 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     let rpcInfo = EosioRpcInfoResponse(
         serverVersion: "verion",
         chainId: "chainId",
-        headBlockNum: 234,
-        lastIrreversibleBlockNum: 2342,
+        headBlockNum: EosioUInt64.uint64(234),
+        lastIrreversibleBlockNum: EosioUInt64.uint64(2342),
         lastIrreversibleBlockId: "lastIrversible",
         headBlockId: "headBlockId",
         headBlockTime: "2009-01-03T18:15:05.000",
         headBlockProducer: "producer",
-        virtualBlockCpuLimit: 234,
-        virtualBlockNetLimit: 234,
-        blockCpuLimit: 334,
-        blockNetLimit: 897,
+        virtualBlockCpuLimit: EosioUInt64.uint64(234),
+        virtualBlockNetLimit: EosioUInt64.uint64(234),
+        blockCpuLimit: EosioUInt64.uint64(334),
+        blockNetLimit: EosioUInt64.uint64(897),
         serverVersionString: "server version")
 
     func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
@@ -464,8 +464,8 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         headerExtensions: ["extension"],
         producerSignature: "signature",
         id: "klj",
-        blockNum: 89,
-        refBlockPrefix: 0980
+        blockNum: EosioUInt64.uint64(89),
+        refBlockPrefix: EosioUInt64.uint64(0980)
     )
 
     func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {

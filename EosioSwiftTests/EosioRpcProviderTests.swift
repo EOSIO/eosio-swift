@@ -247,7 +247,7 @@ class EosioRpcProviderTests: XCTestCase {
                 let concreteRpcProvider = self.rpcProvider as? EosioRpcProvider
                 XCTAssertTrue(rpcInfoResponse.chainId == concreteRpcProvider?.chainId)
                 XCTAssertTrue(rpcInfoResponse.serverVersion == "0f6695cb")
-                XCTAssertTrue(rpcInfoResponse.headBlockNum == 25260035)
+                XCTAssertTrue(rpcInfoResponse.headBlockNum.value == 25260035)
                 XCTAssertTrue(rpcInfoResponse.headBlockId == "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05")
             case .failure(let err):
                 print(err.description)
@@ -274,8 +274,8 @@ class EosioRpcProviderTests: XCTestCase {
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
                     return XCTFail("Failed to convert rpc response")
                 }
-                XCTAssertTrue(rpcBlockResponse.blockNum == 25260032)
-                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2249927103)
+                XCTAssertTrue(rpcBlockResponse.blockNum.value == 25260032)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix.value == 2249927103)
                 XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
             case .failure(let err):
                 print(err.description)
@@ -312,8 +312,8 @@ class EosioRpcProviderTests: XCTestCase {
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
                     return XCTFail("Failed to convert rpc response")
                 }
-                XCTAssertTrue(rpcBlockResponse.blockNum == 21098575)
-                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2809448984)
+                XCTAssertTrue(rpcBlockResponse.blockNum.value == 21098575)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix.value == 2809448984)
                 XCTAssertTrue(rpcBlockResponse.id == "0141f04f881cbe5018ca74a75953abf11a3d5a888c41ceee0cf5014c88ac0def")
                 if let transactionDict = rpcBlockResponse.transactions[0] as? [String: Any],
                     let status = transactionDict["status"] as? String {

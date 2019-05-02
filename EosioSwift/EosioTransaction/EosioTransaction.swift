@@ -72,22 +72,39 @@ public class EosioTransaction: Codable {
     }
 
     /// Add an Action.
-    /// - Parameter action: The Action to add.
-    public func add(action: Action) {
-        actions.append(action)
+    ///
+    /// - Parameters:
+    ///   - action: The Action to add.
+    ///   - at: An optional index at which to insert the Action. If not provided, the Action will be appended to the end of the actions array.
+    public func add(action: Action, at: Int? = nil) {
+        if let at = at {
+            actions.insert(action, at: at)
+        } else {
+            actions.append(action)
+        }
     }
-    /// Add and array of Actions.
-    /// - Parameter actions: The array of Actions to add.
+
+    /// Add an array of Actions.
+    /// - Parameter actions: The array of Actions to append.
     public func add(actions: [Action]) {
         self.actions.append(contentsOf: actions)
     }
+
     /// Add a context free Action.
-    /// - Parameter contextFreeAction: The context free Action to add.
-    public func add(contextFreeAction: Action) {
-        contextFreeActions.append(contextFreeAction)
+    ///
+    /// - Parameters:
+    ///   - contextFreeAction: The context free Action to add.
+    ///   - at: An optional index at which to insert the context free Action. If not provided, the Action will be appended to the end of the contextFreeActions array.
+    public func add(contextFreeAction: Action, at: Int? = nil) {
+        if let at = at {
+            contextFreeActions.insert(contextFreeAction, at: at)
+        } else {
+            contextFreeActions.append(contextFreeAction)
+        }
     }
-    /// Add and array of context free Actions.
-    /// - Parameter contextFreeActions: The array of context free Actions to add.
+
+    /// Add an array of context free Actions.
+    /// - Parameter contextFreeActions: The array of context free Actions to append.
     public func add(contextFreeActions: [Action]) {
         self.contextFreeActions.append(contentsOf: contextFreeActions)
     }

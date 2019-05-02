@@ -15,7 +15,7 @@ public enum EosioUInt64: Codable {
     /// Value as a `String`.
     case string(String)
 
-    var value: UInt64 {
+    public var value: UInt64 {
         switch self {
         case .uint64(let value):
             return value
@@ -24,7 +24,7 @@ public enum EosioUInt64: Codable {
             return val ?? 0
         }
     }
-    
+
     /// Initialize from a decoder, attempting to decode as a `UInt64` first. If that is unsuccessful, atttempt to decode as `String`.
     ///
     /// - Parameter decoder: Decoder to read from.

@@ -41,9 +41,18 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
         case serverVersionString = "server_version_string"
     }
 
-    public init(serverVersion: String = "", chainId: String, headBlockNum: EosioUInt64, lastIrreversibleBlockNum: EosioUInt64,
-                lastIrreversibleBlockId: String, headBlockId: String, headBlockTime: String, headBlockProducer: String = "",
-                virtualBlockCpuLimit: EosioUInt64 = EosioUInt64.uint64(0), virtualBlockNetLimit: EosioUInt64 = EosioUInt64.uint64(0), blockCpuLimit: EosioUInt64 = EosioUInt64.uint64(0), blockNetLimit: EosioUInt64 = EosioUInt64.uint64(0),
+    public init(serverVersion: String = "",
+                chainId: String,
+                headBlockNum: EosioUInt64,
+                lastIrreversibleBlockNum: EosioUInt64,
+                lastIrreversibleBlockId: String,
+                headBlockId: String,
+                headBlockTime: String,
+                headBlockProducer: String = "",
+                virtualBlockCpuLimit: EosioUInt64 = EosioUInt64.uint64(0),
+                virtualBlockNetLimit: EosioUInt64 = EosioUInt64.uint64(0),
+                blockCpuLimit: EosioUInt64 = EosioUInt64.uint64(0),
+                blockNetLimit: EosioUInt64 = EosioUInt64.uint64(0),
                 serverVersionString: String = "") {
         self.serverVersion = serverVersion
         self.chainId = chainId

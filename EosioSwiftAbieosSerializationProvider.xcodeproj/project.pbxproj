@@ -539,6 +539,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-EosioSwiftAbieosTests/Pods-EosioSwiftAbieosTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/EosioSwift/EosioSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -547,6 +548,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EosioSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -759,7 +761,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/**",
-					"$(PROJECT_DIR)/EosioSwiftAbieos",
+					"$(PROJECT_DIR)/EosioSwiftAbieosSerializationProvider",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/EosioSwiftAbieosSerializationProvider/Info.plist";
@@ -779,7 +781,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieos/AbiEos";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieosSerializationProvider/AbiEos";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -810,7 +812,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/**",
-					"$(PROJECT_DIR)/EosioSwiftAbieos",
+					"$(PROJECT_DIR)/EosioSwiftAbieosSerializationProvider",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/EosioSwiftAbieosSerializationProvider/Info.plist";
@@ -830,7 +832,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieos/AbiEos";
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/EosioSwiftAbieosSerializationProvider/AbiEos";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -354,7 +354,6 @@ class EosioTransactionTests: XCTestCase {
         }
         waitForExpectations(timeout: 10)
     }
-    //public func prepare(_: PMKNamespacer) -> Promise<Bool>
 
     func test_add_action_shouldSucceed() {
         let transaction = EosioTransaction()
@@ -374,6 +373,16 @@ class EosioTransactionTests: XCTestCase {
         XCTAssertEqual(transaction.actions[1].data["from"] as? String, "brandon")
     }
 
+    func test_add_action_at_index_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(action: action1)
+        transaction.add(action: action2, at: 0)
+        XCTAssertEqual(transaction.actions.count, 2)
+        XCTAssertEqual(transaction.actions[0].data["from"] as? String, "brandon")
+    }
+
     func test_add_context_free_action_shouldSucceed() {
         let transaction = EosioTransaction()
         guard let action = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
@@ -390,6 +399,16 @@ class EosioTransactionTests: XCTestCase {
         XCTAssertEqual(transaction.contextFreeActions.count, 2)
         XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "todd")
         XCTAssertEqual(transaction.contextFreeActions[1].data["from"] as? String, "brandon")
+    }
+
+    func test_add_context_free_action_at_index_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(contextFreeAction: action1)
+        transaction.add(contextFreeAction: action2, at: 0)
+        XCTAssertEqual(transaction.contextFreeActions.count, 2)
+        XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "brandon")
     }
 }
 

@@ -1,24 +1,35 @@
 PODS:
   - BigInt (3.1.0):
     - SipHash (~> 1.2)
-  - EosioSwift (0.0.2):
+  - EosioSwift (0.0.3):
     - BigInt (~> 3.1)
-  - EosioSwiftEcc (0.0.2):
-    - EosioSwift (~> 0.0.2)
+    - PromiseKit (~> 6.8)
+  - EosioSwiftEcc (0.0.3):
+    - EosioSwift (~> 0.0.3)
     - GRKOpenSSLFramework (~> 1.0)
   - GRKOpenSSLFramework (1.0.2.16)
+  - PromiseKit (6.8.4):
+    - PromiseKit/CorePromise (= 6.8.4)
+    - PromiseKit/Foundation (= 6.8.4)
+    - PromiseKit/UIKit (= 6.8.4)
+  - PromiseKit/CorePromise (6.8.4)
+  - PromiseKit/Foundation (6.8.4):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.8.4):
+    - PromiseKit/CorePromise
   - SipHash (1.2.2)
   - SwiftLint (0.31.0)
 
 DEPENDENCIES:
-  - EosioSwift (~> 0.0.2)
-  - EosioSwiftEcc (~> 0.0.2)
+  - EosioSwift (~> 0.0.3)
+  - EosioSwiftEcc (~> 0.0.3)
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BigInt
     - GRKOpenSSLFramework
+    - PromiseKit
     - SipHash
     - SwiftLint
   https://github.com/EOSIO/eosio-swift-pod-specs.git:
@@ -27,12 +38,13 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
-  EosioSwift: 3ef3ac6485b25d8dfe629f836d93070fe88df4c1
-  EosioSwiftEcc: a0051e1155839f58f04f0ad226013c42aaecf65f
+  EosioSwift: 41a13e47aa34511fcc68846c59fd0882261aa264
+  EosioSwiftEcc: 9c40a4080943a19cafaaeb1422f242ce23099c0a
   GRKOpenSSLFramework: 35944e317e6336b2944ad70b059d84db6b2d8532
+  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
 
-PODFILE CHECKSUM: 7133a671f4e6d10c53de84dac4921f7a0325ef61
+PODFILE CHECKSUM: 2ed96d2db4091a387c79de6e54d27054c0879c64
 
 COCOAPODS: 1.6.1

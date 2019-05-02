@@ -8,6 +8,7 @@
 
 // swiftlint:disable line_length
 import Foundation
+import PromiseKit
 
 /// Class for creating, preparing, signing, and (optionally) broadcasting transactions on EOSIO-based blockchains.
 public class EosioTransaction: Codable {
@@ -53,9 +54,9 @@ public class EosioTransaction: Codable {
     /// Transaction property: Causes the transaction to be executed a specified number of seconds after being included in a block. It may be canceled during this delay.
     public var delaySec: UInt = 0
     /// Transaction property: Context Free Actions.
-    public var contextFreeActions = [String]()
+    public private(set) var contextFreeActions = [Action]()
     /// Transaction property: Array of actions to be executed.
-    public var actions = [Action]()
+    public private(set) var actions = [Action]()
     /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
     /// Transaction data serialized into a binary representation in preparation for broadcast.
@@ -65,17 +66,60 @@ public class EosioTransaction: Codable {
     /// Transaction ID.
     public private(set) var transactionId: String?
 
+    /// Combined array of actions and contextFreeActions.
+    private var allActions: [Action] {
+        return actions + contextFreeActions
+    }
+
+    /// Add an Action.
+    ///
+    /// - Parameters:
+    ///   - action: The Action to add.
+    ///   - at: An optional index at which to insert the Action. If not provided, the Action will be appended to the end of the actions array.
+    public func add(action: Action, at: Int? = nil) {
+        if let at = at {
+            actions.insert(action, at: at)
+        } else {
+            actions.append(action)
+        }
+    }
+
+    /// Add an array of Actions.
+    /// - Parameter actions: The array of Actions to append.
+    public func add(actions: [Action]) {
+        self.actions.append(contentsOf: actions)
+    }
+
+    /// Add a context free Action.
+    ///
+    /// - Parameters:
+    ///   - contextFreeAction: The context free Action to add.
+    ///   - at: An optional index at which to insert the context free Action. If not provided, the Action will be appended to the end of the contextFreeActions array.
+    public func add(contextFreeAction: Action, at: Int? = nil) {
+        if let at = at {
+            contextFreeActions.insert(contextFreeAction, at: at)
+        } else {
+            contextFreeActions.append(contextFreeAction)
+        }
+    }
+
+    /// Add an array of context free Actions.
+    /// - Parameter contextFreeActions: The array of context free Actions to append.
+    public func add(contextFreeActions: [Action]) {
+        self.contextFreeActions.append(contentsOf: contextFreeActions)
+    }
+
     /// For encoding/decoding EosioTransaction <> JSON.
     enum CodingKeys: String, CodingKey {
         case expiration
-        case refBlockNum
-        case refBlockPrefix
-        case maxNetUsageWords
-        case maxCpuUsageMs
-        case delaySec
-        case contextFreeActions
+        case refBlockNum = "ref_block_num"
+        case refBlockPrefix = "ref_block_prefix"
+        case maxNetUsageWords = "max_net_usage_words"
+        case maxCpuUsageMs = "max_cpu_usage_ms"
+        case delaySec = "delay_sec"
+        case contextFreeActions = "context_free_actions"
         case actions
-        case transactionExtensions
+        case transactionExtensions = "transaction_extensions"
     }
 
     /// Initializes the class.
@@ -94,7 +138,7 @@ public class EosioTransaction: Codable {
             throw EosioError(.deserializeError, reason: "Cannot create json from data")
         }
         let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        jsonDecoder.dateDecodingStrategy = .formatted(Date.asTransactionTimestamp)
         let transaction = try jsonDecoder.decode(EosioTransaction.self, from: data)
         transaction.serializationProvider = serializationProvider
         return transaction
@@ -102,7 +146,7 @@ public class EosioTransaction: Codable {
 
     /// Returns an array of action accounts that do not have an abi in `abis`.
     public var actionAccountsMissingAbis: [EosioName] {
-        let accounts = actions.compactMap { (action) -> EosioName in
+        let accounts = allActions.compactMap { (action) -> EosioName in
             return action.account
         }
         return abis.missingAbis(names: accounts)
@@ -110,9 +154,33 @@ public class EosioTransaction: Codable {
 
     /// Returns an array of unserialized actions.
     public var actionsWithoutSerializedData: [Action] {
-        return actions.filter { (action) -> Bool in
+        return allActions.filter { (action) -> Bool in
             !action.isDataSerialized
         }
+    }
+
+    /// Return this transaction as a json string with unserialized action data
+    public var transactionAsJsonWithUnserializedActionData: String? {
+        return transactionAsDictionary.jsonString
+    }
+
+    /// Return this transaction as a Dictionary. Action data will be unserialized.
+    public var transactionAsDictionary: [String: Any] {
+        var dictionary = [String: Any]()
+        dictionary["expiration"] = expiration.yyyyMMddTHHmmss
+        dictionary["ref_block_num"] = refBlockNum
+        dictionary["ref_block_prefix"] = refBlockPrefix
+        dictionary["max_net_usage_words"] = maxNetUsageWords
+        dictionary["max_cpu_usage_ms"] = maxCpuUsageMs
+        dictionary["delay_sec"] = delaySec
+        dictionary["context_free_actions"] = contextFreeActions.compactMap({ (action) -> [String: Any]? in
+            return action.actionAsDictionary
+        })
+        dictionary["actions"] = actions.compactMap({ (action) -> [String: Any]? in
+            return action.actionAsDictionary
+        })
+        dictionary["transaction_extensions"] = transactionExtensions
+        return dictionary
     }
 
     /// Encode the transaction as a json string. Properties will be snake_case. Action data will be serialized.
@@ -195,6 +263,7 @@ public class EosioTransaction: Codable {
     ///
     /// - Throws: If any required abis are not available, or the action `data` cannot be serialized.
     public func serializeActionData() throws {
+        guard actionsWithoutSerializedData.count > 0 else { return }
         let missingAbis = actionAccountsMissingAbis
         guard missingAbis.count == 0 else {
             throw EosioError(.serializeError, reason: "Cannot serialize action data. Abis missing for \(missingAbis).")
@@ -202,7 +271,7 @@ public class EosioTransaction: Codable {
         guard let serializer = self.serializationProvider else {
             preconditionFailure("A serializationProvider must be set!")
         }
-        for action in actions {
+        for action in allActions {
             try action.serializeData(abi: abis.jsonAbi(name: action.account), serializationProvider: serializer)
         }
     }
@@ -212,6 +281,9 @@ public class EosioTransaction: Codable {
     ///
     /// - Parameter completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
     public func serializeActionData(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+        guard actionsWithoutSerializedData.count > 0 else {
+            return completion(.success(true))
+        }
         getAbis { [weak self] (abisResult) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
@@ -226,6 +298,22 @@ public class EosioTransaction: Codable {
                 } catch {
                     return completion(.failure(error.eosioError))
                 }
+            }
+        }
+    }
+
+    /// Deserializes the `serializedData` property of each action in `actions` and sets the `data` property for each action, if not already set. Deserializing the action data requires an ABI to be available in
+    /// the `abis` class for the action.
+    ///
+    /// - Parameter exclude: Don't deserialize these actions.
+    /// - Throws: If any required abis are not available, or the action data cannot be deserialized.
+    public func deserializeActionData(exclude: [EosioName] = []) throws {
+        guard let serializer = self.serializationProvider else {
+            preconditionFailure("A serializationProvider must be set!")
+        }
+        for action in allActions {
+            if !exclude.contains(action.account) {
+                try action.deserializeData(abi: abis.jsonAbi(name: action.account), serializationProvider: serializer)
             }
         }
     }
@@ -247,7 +335,7 @@ public class EosioTransaction: Codable {
             self.abiProvider = EosioAbiProvider(rpcProvider: rpcProvider)
         }
         guard let abiProvider = self.abiProvider else {
-            return completion(.failure(EosioError(.eosioTransactionError, reason: "No abi provider available")))
+            return completion(.failure(EosioError(.eosioTransactionError, reason: "No abi provider available but missing abis for \(missingAbis)")))
         }
         guard chainId != "" else {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "Chain id is not set")))
@@ -314,7 +402,7 @@ public class EosioTransaction: Codable {
                 }
 
                 let blocksBehind = UInt64(strongSelf.config.blocksBehind)
-                var blockNum = info.headBlockNum - blocksBehind
+                var blockNum = info.headBlockNum.value - blocksBehind
                 if blockNum <= 0 {
                     blockNum = 1
                 }
@@ -351,8 +439,8 @@ public class EosioTransaction: Codable {
                 completion(.failure(error))
             case .success(let block):
                 // set tapos fields and return
-                strongSelf.refBlockNum = UInt16(block.blockNum & 0xffff)
-                strongSelf.refBlockPrefix = block.refBlockPrefix
+                strongSelf.refBlockNum = UInt16(block.blockNum.value & 0xffff)
+                strongSelf.refBlockPrefix = block.refBlockPrefix.value
                 return completion(.success(true))
             }
         })

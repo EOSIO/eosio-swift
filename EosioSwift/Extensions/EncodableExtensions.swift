@@ -13,8 +13,8 @@ public extension Encodable {
     /// Encodes an `Encodable` object as a json string.
     ///
     /// - Parameters:
-    ///   - convertToSnakeCase: should camelCase keys be converted to snake_case? (default = false)
-    ///   - prettyPrinted: should the output be prettyPrinted? (default = false)
+    ///   - convertToSnakeCase: Should camelCase keys be converted to snake_case? (default = false)
+    ///   - prettyPrinted: Should the output be prettyPrinted? (default = false)
     /// - Returns: A json string.
     /// - Throws: If the object cannot be encoded to json.
     func toJsonString(convertToSnakeCase: Bool = false, prettyPrinted: Bool = false) throws -> String {
@@ -28,9 +28,9 @@ public extension Encodable {
     /// Encodes an `Encodable` object as a json string.
     ///
     /// - Parameters:
-    ///   - convertToSnakeCase: should camelCase keys be converted to snake_case? (default = false)
-    ///   - prettyPrinted: should the output be prettyPrinted? (default = false)
-    /// - Returns: a Data object.
+    ///   - convertToSnakeCase: Should camelCase keys be converted to snake_case? (default = false)
+    ///   - prettyPrinted: Should the output be prettyPrinted? (default = false)
+    /// - Returns: A Data object.
     /// - Throws: If the object cannot be encoded into a JSON object.
     func toJsonData(convertToSnakeCase: Bool = false, prettyPrinted: Bool = false) throws -> Data {
         let jsonEncoder = JSONEncoder()
@@ -52,6 +52,14 @@ public extension Encodable {
     func toDictionary() -> [String: Any]? {
         guard let json = try? self.toJsonString() else { return nil }
         return json.toJsonDictionary
+    }
+
+    /// Encodes an `Encodable` object as a array of type `[Any]`.
+    ///
+    /// - Returns: A dictionary of type `[Any]`.
+    func toArray() -> [Any]? {
+        guard let json = try? self.toJsonString() else { return nil }
+        return json.toJsonArray
     }
 
 }

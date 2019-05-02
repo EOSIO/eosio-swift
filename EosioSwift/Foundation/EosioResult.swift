@@ -8,10 +8,14 @@
 
 import Foundation
 
-// Used to provide typed results in closure returns so that there won't be
-// any nil return states to test for.
+/// Provides typed results in closure returns so that there won't be any `nil` return states to test for.
+///
+/// - success: The success return state.
+/// - failure: The failure return state.
 public enum EosioResult<Success, Failure: Error> {
+    /// The success return state.
     case success(Success)
+    /// The failure return state.
     case failure(Failure)
 
     init?(success: Success?, failure: Failure?) {

@@ -7,265 +7,167 @@
 //
 
 import Foundation
+import PromiseKit
 
 /// Default RPC Provider implementation. Conforms to `EosioRpcProviderProtocol`.
 /// RPC Reference: https://developers.eos.io/eosio-nodeos/reference
-public struct EosioRpcProvider {
+public class EosioRpcProvider {
 
-    private let endpoint: URL
+    public var chainId = ""
+    private var endpoints: [URL]
+    private let retries: UInt
+    private var currentEndpoint: URL
 
-    /// Initialize the default RPC Provider implementation.
-    ///
-    /// - Parameter endpoint: A node URL.
-    public init(endpoint: URL) {
-        self.endpoint = endpoint
-    }
-
-    /* Chain Endpoints */
-
-    /// Call `chain/get_account`. Fetch an account by account name.
+    /// Initialize the default RPC Provider implementation with one RPC node endpoint.
     ///
     /// - Parameters:
-    ///   - requestParameters: An `EosioRpcAccountRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcAccountResponse` and an optional `EosioError`.
-    func getAccount(requestParameters: EosioRpcAccountRequest, completion:@escaping (EosioResult<EosioRpcAccountResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_account", requestParameters: requestParameters) {(result: EosioRpcAccountResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
+    ///   - endpoint: A node URL.
+    ///   - retries: Number of times to retry an endpoint before failing.
+    public init(endpoint: URL, retries: UInt = 3) {
+        self.endpoints = [endpoint]
+        self.currentEndpoint = self.endpoints[0]
+        self.retries = retries
     }
 
-    /// Call `chain/get_block`. Get a block by block number or ID.
+    /// Initialize the default RPC Provider implementation with a list of RPC node endpoints. Extra endpoints will be used for failover purposes.
+    /// - Parameters:
+    ///   - endpoints: A list of node URLs.
+    ///   - retries: Number of times to retry an endpoint before failing over to the next.
+    public init(endpoints: [URL], retries: UInt = 3) {
+        assert(endpoints.count > 0, "Assertion Failure: The endpoints array cannot be empty.")
+        self.endpoints = endpoints
+        self.currentEndpoint = self.endpoints[0]
+        self.retries = retries
+    }
+
+    private func retry<T>(maximumRetryCount: Int = 1, delayBeforeRetry: DispatchTimeInterval = .seconds(2), _ body: @escaping () -> Promise<T>) -> Promise<T> {
+        var attempts = 0
+        func attempt() -> Promise<T> {
+            attempts += 1
+            return body().recover { error -> Promise<T> in
+                // We only want to retry for when we get the proper bad status code from server!
+                guard (attempts < maximumRetryCount) && self.isRetryable(error: error) else {
+                    if error is EosioError {
+                        throw error
+                    } else {
+                        throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
+                    }
+                }
+                return after(delayBeforeRetry).then(on: nil, attempt)
+            }
+        }
+        return attempt()
+    }
+
+    private func isRetryable(error: Error) -> Bool {
+        var retVal = false
+        if let theError = error as? PMKHTTPError {
+            switch theError {
+            case .badStatusCode(let code, _, _) :
+                if code == 500 ||
+                    code == 401 ||
+                    code == 418 {
+                    retVal = false
+                } else {
+                    retVal = true
+                }
+            }
+        }
+        return retVal
+    }
+
+    /// Creates an RPC request, makes the network call, and handles the response returning a Promise.
     ///
     /// - Parameters:
-    ///   - requestParameters: An `EosioRpcBlockRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcBlockResponse` and an optional `EosioError`.
-    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_block", requestParameters: requestParameters) {(result: EosioRpcBlockResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+    ///   - _: Differentiates call signature from that of non-promise-returning endpoint method. Pass in `.promise` as the first parameter to call this method.
+    ///   - rpc: String representing endpoint path. E.g., `chain/get_account`.
+    ///   - requestParameters: The request object.
+    /// - Returns: A Promise fulfilling with a response object conforming to the `EosioRpcResponseProtocol` and rejecting with an Error.
+    func getResource<T: Decodable & EosioRpcResponseProtocol>(_: PMKNamespacer, rpc: String, requestParameters: Encodable?) -> Promise<T> {
+
+        /*
+         Logic for retry and failover implementation:
+         
+         1) First call to an endpoint needs to call getInfo to get the chainId which is stored to ensure all
+            calls and all endpoints are running the same chain ID.
+
+         2) An endpoint call is retried on failures up to the number of times specified by the RPCProvider's
+            retries property.  Failures are only retried for bad HTTP response status!  No network connection
+            is an error that will bubble up so the calling app can deal with it.
+
+         3) Failover. After all retries fail then try the process again with a subsequent endpoint.
+             a) Subsequent enpoints not having the same Chain ID as the first should be
+                discarded and the next tried if one is available.  Otherwise, bubble up the failure.
+        */
+
+        // This promise var is used for the return of Promise<T> expected in this function.
+        //  A single promise wasnt able to be used here as several processes run here and a
+        //  single promise needs to be returned.  Depending on the outcome of the logic, the
+        //  returned promise will be the correct one.
+        var promise: Promise<T>
+        if self.chainId.isEmpty {
+
+            promise = captureChainId()
+
+            promise.catch { error in
+                promise = Promise(error: error)
+            }
+
+            if rpc == "chain/get_info" {
+                // Return the getInfo result since that was the original call that triggered this func.
+                return promise
+            } else {
+                // Return the correct result for the rpc needed.
+                promise = runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
+            }
+
+        } else {
+            promise = runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
         }
+        return promise
     }
 
-    /// Call `chain/get_info`. Get information about the chain and node.
-    ///
-    /// - Parameter completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcInfoResponse` and an optional `EosioError`.
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_info", requestParameters: nil) {(result: EosioRpcInfoResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
+    private func captureChainId<T: Decodable & EosioRpcResponseProtocol>() -> Promise<T> {
+        return runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
+            .then { (response: T) -> Promise<T>  in
+                if let resp = response as? EosioRpcInfoResponse {
+                    self.chainId = resp.chainId
+                }
+                return Promise.value(response)
+            }
     }
 
-    /// Call `chain/push_transaction`. Push a transaction to the blockchain!
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcPushTransactionRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcTransactionResponse` and an optional `EosioError`.
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/push_transaction", requestParameters: requestParameters) {(result: EosioRpcTransactionResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+    private func runRequestWithRetry<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
+        var promise: Promise<T>
+        promise = retry(maximumRetryCount: Int(self.retries)) {
+            self.runRequest(rpc: rpc, requestParameters: requestParameters)
         }
+
+        promise.catch { error in
+            if error is PMKHTTPError {
+                promise = self.failOver(rpc: rpc, requestParameters: requestParameters)
+            } else {
+                promise = Promise(error: error)
+            }
+        }
+        return promise
     }
 
-    /// Call `chain/push_transactions`. Push multiple transactions to the chain.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcPushTransactionsRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcPushTransactionsResponse` and an optional `EosioError`.
-    func pushTransactions(requestParameters: EosioRpcPushTransactionsRequest, completion: @escaping (EosioResult<EosioRpcPushTransactionsResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/push_transactions", requestParameters: requestParameters.transactions) {(result: EosioRpcPushTransactionsResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
+    private func runRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
+        return buildRequest(rpc: rpc, endpoint: endpoints[0], requestParameters: requestParameters)
+            .then {
+                URLSession.shared.dataTask(.promise, with: $0).validate()
+            }.then { (data, _) in
+                self.decodeResponse(data: data)
+            }
     }
 
-    /// Call `chain/get_block_header_state`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcBlockHeaderStateRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcBlockHeaderStateResponse` and an optional `EosioError`.
-    func getBlockHeaderState(requestParameters: EosioRpcBlockHeaderStateRequest, completion: @escaping (EosioResult<EosioRpcBlockHeaderStateResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_block_header_state", requestParameters: requestParameters) {(result: EosioRpcBlockHeaderStateResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
+    private func failOver<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
+        //TODO: add failOver logic here!
+        return Promise(error: EosioError(.rpcProviderError, reason: "Failover not implemented in his PR."))
     }
 
-    /// Call `chain/get_abi`. Fetch an ABI by account/contract name.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcAbiRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcAbiResponse` and an optional `EosioError`.
-    func getAbi(requestParameters: EosioRpcAbiRequest, completion: @escaping (EosioResult<EosioRpcAbiResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_abi", requestParameters: requestParameters) {(result: EosioRpcAbiResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_currency_balance`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcCurrencyBalanceRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcCurrencyBalanceResponse` and an optional `EosioError`.
-    func getCurrencyBalance(requestParameters: EosioRpcCurrencyBalanceRequest, completion:@escaping (EosioResult<EosioRpcCurrencyBalanceResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_currency_balance", requestParameters: requestParameters) {(result: EosioRpcCurrencyBalanceResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_currency_stats`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcCurrencyStatsRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcCurrencyStatsResponse` and an optional `EosioError`.
-    func getCurrencyStats(requestParameters: EosioRpcCurrencyStatsRequest, completion:@escaping (EosioResult<EosioRpcCurrencyStatsResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_currency_stats", requestParameters: requestParameters) {(result: EosioRpcCurrencyStatsResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_required_keys`. Pass in a transaction and an array of available keys. Get back the subset of those keys required for signing the transaction.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcRequiredKeysRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcRequiredKeysResponse` and an optional `EosioError`.
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_required_keys", requestParameters: requestParameters) {(result: EosioRpcRequiredKeysResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_producers`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcProducersRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcProducersResponse` and an optional `EosioError`.
-    func getProducers(requestParameters: EosioRpcProducersRequest, completion:@escaping (EosioResult<EosioRpcProducersResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_producers", requestParameters: requestParameters) {(result: EosioRpcProducersResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_raw_code_and_abi`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcRawCodeAndAbiRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcRawCodeAndAbiResponse` and an optional `EosioError`.
-    func getRawCodeAndAbi(requestParameters: EosioRpcRawCodeAndAbiRequest, completion:@escaping (EosioResult<EosioRpcRawCodeAndAbiResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: requestParameters) {(result: EosioRpcRawCodeAndAbiResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_raw_code_and_abi`. Convenience method called with simple account name.
-    ///
-    /// - Parameters:
-    ///   - accountName: The account name, as a String.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcRawCodeAndAbiResponse` and an optional `EosioError`.
-    func getRawCodeAndAbi(accountName: String, completion:@escaping (EosioResult<EosioRpcRawCodeAndAbiResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_raw_code_and_abi", requestParameters: ["account_name": accountName]) {(result: EosioRpcRawCodeAndAbiResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_table_by_scope`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcTableByScopeRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcTableByScopeResponse` and an optional `EosioError`.
-    func getTableByScope(requestParameters: EosioRpcTableByScopeRequest, completion:@escaping (EosioResult<EosioRpcTableByScopeResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_table_by_scope", requestParameters: requestParameters) {(result: EosioRpcTableByScopeResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_table_rows`. Returns an object containing rows from the specified table.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcTableRowsRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcTableRowsResponse` and an optional `EosioError`.
-    func getTableRows(requestParameters: EosioRpcTableRowsRequest, completion:@escaping (EosioResult<EosioRpcTableRowsResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_table_rows", requestParameters: requestParameters) {(result: EosioRpcTableRowsResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_code`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcCodeRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcCodeResponse` and an optional `EosioError`.
-    func getCode(requestParameters: EosioRpcCodeRequest, completion:@escaping (EosioResult<EosioRpcCodeResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_code", requestParameters: requestParameters) {(result: EosioRpcCodeResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_code`. Convenience method called with simple account name.
-    ///
-    /// - Parameters:
-    ///   - accountName: The account/contract name, as a String.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcCodeResponse` and an optional `EosioError`.
-    func getCode(accountName: String, completion:@escaping (EosioResult<EosioRpcCodeResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_code", requestParameters: ["account_name": accountName]) {(result: EosioRpcCodeResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_raw_abi`. Get a raw abi.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcRawAbiRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcRawAbiResponse` and an optional `EosioError`.
-    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_raw_abi", requestParameters: requestParameters) {(result: EosioRpcRawAbiResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /* History Endpoints */
-
-    /// Call `history/get_actions`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcHistoryActionsRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcActionsResponse` and an optional `EosioError`.
-    func getActions(requestParameters: EosioRpcHistoryActionsRequest, completion:@escaping (EosioResult<EosioRpcActionsResponse, EosioError>) -> Void) {
-        getResource(rpc: "history/get_actions", requestParameters: requestParameters) {(result: EosioRpcActionsResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `history/get_transaction`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcHistoryTransactionRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcGetTransactionResponse` and an optional `EosioError`.
-    func getTransaction(requestParameters: EosioRpcHistoryTransactionRequest, completion:@escaping (EosioResult<EosioRpcGetTransactionResponse, EosioError>) -> Void) {
-        getResource(rpc: "history/get_transaction", requestParameters: requestParameters) {(result: EosioRpcGetTransactionResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `history/get_key_accounts`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcHistoryKeyAccountsRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcKeyAccountsResponse` and an optional `EosioError`.
-    func getKeyAccounts(requestParameters: EosioRpcHistoryKeyAccountsRequest, completion:@escaping (EosioResult<EosioRpcKeyAccountsResponse, EosioError>) -> Void) {
-        getResource(rpc: "history/get_key_accounts", requestParameters: requestParameters) {(result: EosioRpcKeyAccountsResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `history/get_controlled_accounts`.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcHistoryControlledAccountsRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcControlledAccountsResponse` and an optional `EosioError`.
-    func getControlledAccounts(requestParameters: EosioRpcHistoryControlledAccountsRequest, completion:@escaping (EosioResult<EosioRpcControlledAccountsResponse, EosioError>) -> Void) {
-        getResource(rpc: "history/get_controlled_accounts", requestParameters: requestParameters) {(result: EosioRpcControlledAccountsResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    private func getResource<T: Codable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?, callBack:@escaping (T?, EosioError?) -> Void) {
+    private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -274,96 +176,43 @@ public struct EosioRpcProvider {
                 let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
                 request.httpBody = jsonData
             } catch {
-                callBack(nil, EosioError(.rpcProviderError, reason: "Error while encoding request parameters.", originalError: error as NSError))
-                return
+                let eosioError = EosioError(.rpcProviderError, reason: "Error while encoding request parameters.", originalError: error as NSError)
+                return Promise(error: eosioError)
             }
         }
+        return Promise.value(request)
+    }
 
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                callBack(nil, EosioError(.rpcProviderError, reason: "Network error.", originalError: error as NSError))
-                return
-            }
+    private func decodeResponse<T: Decodable & EosioRpcResponseProtocol>(data: Data) -> Promise<T> {
+        let decoder = JSONDecoder()
+        do {
+            var resource = try decoder.decode(T.self, from: data)
+            resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+            return Promise.value(resource)
+        } catch let error {
+            let eosioError = EosioError(.rpcProviderError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError)
+            return Promise(error: eosioError)
+        }
+    }
 
-            guard let httpResponse = response as? HTTPURLResponse else {
-                callBack(nil, EosioError(.rpcProviderError, reason: "Server didn't respond.", originalError: nil))
-                return
-            }
-
-            guard (200...299).contains(httpResponse.statusCode) else {
-                let reason = "Status Code: \(httpResponse.statusCode) Server Response: \(String(data: data ?? Data(), encoding: .utf8) ?? "nil")"
-                callBack(nil, EosioError(.rpcProviderError, reason: reason, originalError: nil))
-                return
-            }
-
-            if let data = data {
-                let decoder = JSONDecoder()
-                guard var resource = try? decoder.decode(T.self, from: data) else {
-                    callBack(nil, EosioError(.rpcProviderError, reason: "Error decoding returned data.", originalError: nil))
-                    return
+    /// Creates an RPC request, makes the network call, and handles the response. Calls the callback when complete.
+    ///
+    /// - Parameters:
+    ///   - rpc: String representing endpoint path. E.g., `chain/get_account`.
+    ///   - requestParameters: The request object.
+    ///   - callback: Callback.
+    func getResource<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?, callback: @escaping (T?, EosioError?) -> Void) {
+        getResource(.promise, rpc: rpc, requestParameters: requestParameters)
+            .done {
+                callback($0, nil)
+            }.catch { error in
+                var eosioError: EosioError
+                if let error = error as? EosioError {
+                    eosioError = error
+                } else {
+                    eosioError = EosioError(.rpcProviderError, reason: "Other error.", originalError: error as NSError)
                 }
-                resource._rawResponse = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                callBack(resource, nil)
-            }
-        }
-        task.resume()
-    }
-
-}
-
-// MARK: - RPC methods used by `EosioTransaction`. These force conformance only to the protocols, not the entire response structs.
-extension EosioRpcProvider: EosioRpcProviderProtocol {
-
-    /// Call `chain/get_info`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
-    ///
-    /// - Parameter completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcInfoResponseProtocol` and an optional `EosioError`.
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_info", requestParameters: nil) {(result: EosioRpcInfoResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_block`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcBlockRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcBlockResponseProtocol` and an optional `EosioError`.
-    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_block", requestParameters: requestParameters) {(result: EosioRpcBlockResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_raw_abi`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcRawAbiRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcRawAbiResponseProtocol` and an optional `EosioError`.
-    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_raw_abi", requestParameters: requestParameters) {(result: EosioRpcRawAbiResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/get_required_keys`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcRequiredKeysRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcRequiredKeysResponseProtocol` and an optional `EosioError`.
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_required_keys", requestParameters: requestParameters) {(result: EosioRpcRequiredKeysResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
-        }
-    }
-
-    /// Call `chain/push_transaction`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
-    ///
-    /// - Parameters:
-    ///   - requestParameters: An `EosioRpcPushTransactionRequest`.
-    ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcTransactionResponseProtocol` and an optional `EosioError`.
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/push_transaction", requestParameters: requestParameters) {(result: EosioRpcTransactionResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+                callback(nil, eosioError)
         }
     }
 }

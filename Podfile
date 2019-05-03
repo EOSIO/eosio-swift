@@ -7,6 +7,9 @@ end
 
 platform :ios, '11.0'
 
+# ignore all warnings from all pods
+inhibit_all_warnings!
+
 if using_local_pods
   # Pull pods from sibling directories if using local pods
   target 'EosioSwiftEcc' do

@@ -60,6 +60,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     }
 
     /// Test testGetBlockHeaderState() implementation.
+    // swiftlint:disable function_body_length
     func testGetBlockHeaderState() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
@@ -116,6 +117,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+    // swiftlint:enable function_body_length
 
     /// Test testGetAbi() implementation.
     func testGetAbi() {

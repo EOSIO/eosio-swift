@@ -85,7 +85,7 @@ public class EosioRpcProvider {
 
     private func isRetryable(error: Error, tries: Int) -> Bool {
         let nextAction = nextActionFor(error: error)
-        if nextAction == .retry || (nextAction == .retryOnceThenFailover && tries == 1 ){
+        if nextAction == .retry || (nextAction == .retryOnceThenFailover && tries == 1 ) {
             return true
         } else {
             return false

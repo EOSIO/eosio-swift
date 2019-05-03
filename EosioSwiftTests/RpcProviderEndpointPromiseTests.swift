@@ -298,6 +298,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     }
 
     /// Test getBlockHeaderState() promise implementation.
+    // swiftlint:disable function_body_length
     func testGetBlockHeaderState(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
@@ -363,6 +364,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
         wait(for: [expect], timeout: 30)
     }
+    // swiftlint:enable function_body_length
 
     /// Test getBlockHeaderState promise happy path.
     func testGetBlockHeaderStateSuccess() {

@@ -13,9 +13,17 @@ import PromiseKit
 /// RPC Reference: https://developers.eos.io/eosio-nodeos/reference
 public class EosioRpcProvider {
 
-    //
+    // How to hanlde error conditions for retry / failover.
+    private enum NextAction {
+        case returnError
+        case retry
+        case failover
+        case retryOnceThenFailover
+    }
+
+    /// The Block Chain ID that all RPC calls for a active instance of EosioRpcProvider should be going to.
     public var chainId: String?
-    public var originalChainId: String?
+    private var originalChainId: String?
     private var origEndpoints: [URL]
     private let retries: Int
     private let dispatchTimeInterval: DispatchTimeInterval
@@ -42,10 +50,10 @@ public class EosioRpcProvider {
         self.origEndpoints = endpoints
         self.retries = retries
         self.dispatchTimeInterval = .seconds(delayBeforeRetry)
-        setUp()
+        setUpEndPoints()
     }
 
-    private func setUp() {
+    private func setUpEndPoints() {
         for url in origEndpoints {
             endPointQueue.enqueue(url)
         }
@@ -57,12 +65,16 @@ public class EosioRpcProvider {
         func attempt() -> Promise<T> {
             attempts += 1
             return body().recover { error -> Promise<T> in
-                // We only want to retry for when we get the proper code from server!
-                guard (attempts < maximumRetryCount) && self.isRetryable(error: error) else {
-                    if error is EosioError {
-                        throw error
-                    } else {
+                // We only want to retry for specific errors!
+                guard (attempts < maximumRetryCount) && self.isRetryable(error: error, tries: attempts) else {
+                    let nextAction = self.nextActionFor(error: error)
+                    switch nextAction {
+                    case .failover:
                         throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
+                    case .retry, .retryOnceThenFailover:
+                        throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
+                    case .returnError:
+                        throw EosioError(.rpcProviderFatalError, reason: error.localizedDescription, originalError: error as NSError)
                     }
                 }
                 return after(self.dispatchTimeInterval).then(on: nil, attempt)
@@ -71,40 +83,132 @@ public class EosioRpcProvider {
         return attempt()
     }
 
-    private func isRetryable(error: Error) -> Bool {
-        var retVal = false
+    private func isRetryable(error: Error, tries: Int) -> Bool {
+        let nextAction = nextActionFor(error: error)
+        if nextAction == .retry || (nextAction == .retryOnceThenFailover && tries == 1 ){
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private func nextActionFor(error: Error) -> NextAction {
         if let theError = error as? PMKHTTPError {
             switch theError {
             case .badStatusCode(let code, _, _) :
                 if code == 500 ||
                     code == 401 ||
                     code == 418 {
-                    retVal = false
+                    return NextAction.returnError
                 } else {
-                    retVal = true
+                    return NextAction.retry
                 }
             }
+        } else if let theError = error as? EosioError {
+            if theError.errorCode == .rpcProviderFatalError {
+                return NextAction.returnError
+            } else {
+                return NextAction.failover
+            }
+        } else {
+           return handleNSError(error: (error as NSError))
         }
-        return retVal
     }
+
+    // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
+    private func handleNSError(error: NSError) -> NextAction {
+        switch error.code {
+        case NSURLErrorAppTransportSecurityRequiresSecureConnection:
+            return NextAction.returnError
+        case NSURLErrorBackgroundSessionInUseByAnotherProcess:
+            return NextAction.returnError
+        case NSURLErrorBadServerResponse:
+            return NextAction.failover
+        case NSURLErrorBadURL:
+            return NextAction.returnError
+        case NSURLErrorCallIsActive:
+            return NextAction.returnError
+        case NSURLErrorCannotConnectToHost:
+            return NextAction.retry
+        case NSURLErrorCannotDecodeContentData:
+            return NextAction.failover
+        case NSURLErrorCannotDecodeRawData:
+            return NextAction.failover
+        case NSURLErrorCannotFindHost:
+            return NextAction.retry
+        case NSURLErrorCannotParseResponse:
+            return NextAction.failover
+        case NSURLErrorClientCertificateRejected:
+            return NextAction.failover
+        case NSURLErrorClientCertificateRequired:
+            return NextAction.failover
+        case NSURLErrorDNSLookupFailed:
+            return NextAction.retry
+        case NSURLErrorDataLengthExceedsMaximum:
+            return NextAction.failover
+        case NSURLErrorDataNotAllowed:
+            return NextAction.returnError
+        case NSURLErrorHTTPTooManyRedirects:
+            return NextAction.failover
+        case NSURLErrorInternationalRoamingOff:
+             return NextAction.returnError
+        case NSURLErrorNetworkConnectionLost:
+            return NextAction.retry
+        case NSURLErrorNotConnectedToInternet:
+            return NextAction.returnError
+        case NSURLErrorRedirectToNonExistentLocation:
+            return NextAction.failover
+        case NSURLErrorRequestBodyStreamExhausted:
+            return NextAction.returnError
+        case NSURLErrorResourceUnavailable:
+            return NextAction.failover
+        case NSURLErrorSecureConnectionFailed:
+            return NextAction.failover
+        case NSURLErrorServerCertificateHasBadDate:
+            return NextAction.failover
+        case NSURLErrorServerCertificateHasUnknownRoot:
+            return NextAction.failover
+        case NSURLErrorServerCertificateNotYetValid:
+            return NextAction.failover
+        case NSURLErrorServerCertificateUntrusted:
+            return NextAction.failover
+        case NSURLErrorTimedOut:
+            return NextAction.retry
+        case NSURLErrorUnknown:
+            return NextAction.returnError
+        case NSURLErrorUnsupportedURL:
+            return NextAction.returnError
+        case NSURLErrorUserAuthenticationRequired:
+            return NextAction.failover
+        case NSURLErrorUserCancelledAuthentication:
+            return NextAction.returnError
+        case NSURLErrorZeroByteResource:
+            return NextAction.failover
+        default:
+            return NextAction.returnError
+        }
+    }
+    // swiftlint:ensable function_body_length
+    // swiftlint:enable cyclomatic_complexity
 
     private func canErrorFailOverToNewEndpoint(error: Error) -> Bool {
 
-        // any endpoints to try?
+        let errorAction = nextActionFor(error: error)
+        guard errorAction == NextAction.failover || errorAction == NextAction.retryOnceThenFailover else {
+            return false
+        }
+
+        // Any endpoints to try?
         guard let newEndpoint = self.endPointQueue.dequeue() else {
            return false
         }
 
+        // Set up for failover run. Will force a get and compare of new endpoint's chainId.
         currentEndpoint = newEndpoint
-
-        if isRetryable(error: error) {
-            // Reset these for the failover retries. Will force a get and compare of new endpoint chainId.
-            self.originalChainId = self.chainId
-            self.chainId = nil
-            return true
-        } else {
-            return false
-        }
+        self.originalChainId = self.chainId
+        self.chainId = nil
+        return true
     }
 
     /// Creates an RPC request, makes the network call, and handles the response returning a Promise.
@@ -192,7 +296,6 @@ public class EosioRpcProvider {
         }
 
         promise.catch { error in
-
             if self.canErrorFailOverToNewEndpoint(error: error) {
                 // Recursion starts here.
                 promise = self.processRequest(rpc: rpc, requestParameters: requestParameters)
@@ -227,7 +330,7 @@ public class EosioRpcProvider {
                 let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
                 request.httpBody = jsonData
             } catch {
-                let eosioError = EosioError(.rpcProviderError, reason: "Error while encoding request parameters.", originalError: error as NSError)
+                let eosioError = EosioError(.rpcProviderFatalError, reason: "Error while encoding request parameters.", originalError: error as NSError)
                 return Promise(error: eosioError)
             }
         }
@@ -241,7 +344,7 @@ public class EosioRpcProvider {
             resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
             return Promise.value(resource)
         } catch let error {
-            let eosioError = EosioError(.rpcProviderError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError)
+            let eosioError = EosioError(.rpcProviderFatalError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError)
             return Promise(error: eosioError)
         }
     }

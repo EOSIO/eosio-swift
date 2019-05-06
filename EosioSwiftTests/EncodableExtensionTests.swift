@@ -3,7 +3,7 @@
 //  EosioSwiftTests
 //
 //  Created by Todd Bowden on 2/11/19.
-//  Copyright © 2018-2019 block.one.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 // swiftlint:disable identifier_name line_length

@@ -3,7 +3,7 @@
 //  EosioSwiftTests
 //
 //  Created by Ben Martell on 4/12/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import Foundation

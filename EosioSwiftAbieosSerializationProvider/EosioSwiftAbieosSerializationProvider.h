@@ -3,7 +3,7 @@
 //  EosioSwiftAbieos
 //
 //  Created by Steve McCoole on 11/6/18.
-//  Copyright © 2018 Block One. All rights reserved.
+// Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

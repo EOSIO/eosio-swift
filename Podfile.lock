@@ -14,7 +14,7 @@ PODS:
   - PromiseKit/UIKit (6.8.4):
     - PromiseKit/CorePromise
   - SipHash (1.2.2)
-  - SwiftLint (0.31.0)
+  - SwiftLint (0.32.0)
 
 DEPENDENCIES:
   - EosioSwift (~> 0.0.3)
@@ -34,7 +34,7 @@ SPEC CHECKSUMS:
   EosioSwift: 41a13e47aa34511fcc68846c59fd0882261aa264
   PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
-  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+  SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
 
 PODFILE CHECKSUM: 9576285f692f49902154dd65be30d09ecd1eedac
 

@@ -20,7 +20,7 @@ class EosioRpcProviderTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        rpcProvider  = EosioRpcProvider(endpoints: [url, url2, url3])
+        rpcProvider  = EosioRpcProvider(endpoint: url)
         OHHTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
         }
@@ -199,7 +199,7 @@ class EosioRpcProviderTests: XCTestCase {
                 XCTFail("testBadResponseDataHandled should have not returned a successful completion.")
             case .failure(let err):
                 print("Bad Response stub error: \(err)")
-                XCTAssertTrue(err.reason == "Error occurred in decoding/serializing returned data.")
+                XCTAssertTrue(err.reason == "RpcProviderFatalError: Error occurred in decoding/serializing returned data.")
                 expect.fulfill()
             }
         }

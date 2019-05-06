@@ -49,7 +49,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed push_transactions")
             }
@@ -93,7 +93,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_block")
             }
@@ -139,7 +139,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_raw_abi")
             }
@@ -183,7 +183,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_required_keys")
             }
@@ -226,7 +226,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed push_transaction")
             }
@@ -276,7 +276,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed push_transactions")
             }
@@ -354,7 +354,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_block_header_state")
             }
@@ -403,7 +403,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_abi")
             }
@@ -463,7 +463,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_account")
             }
@@ -507,7 +507,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_currency_balance")
             }
@@ -550,7 +550,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_currency_stats")
             }
@@ -638,7 +638,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_raw_code_and_abi")
             }
@@ -679,7 +679,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_raw_code_and_abi with string")
             }
@@ -732,7 +732,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_code")
             }
@@ -773,7 +773,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_code with string")
             }
@@ -815,7 +815,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_table_rows")
             }
@@ -857,7 +857,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_table_by_scope")
             }
@@ -905,7 +905,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_producers")
             }
@@ -947,7 +947,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_actions")
             }
@@ -993,7 +993,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_controlled_accounts")
             }
@@ -1050,7 +1050,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_transaction")
             }
@@ -1094,7 +1094,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
             } else {
                 XCTFail("Failed get_key_accounts")
             }

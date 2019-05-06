@@ -3,7 +3,7 @@
 //  EosioSwiftEcc
 //
 //  Created by Todd Bowden on 3/6/19.
-//  Copyright (c) 2018-2019 block.one
+// Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

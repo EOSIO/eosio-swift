@@ -3,7 +3,7 @@
 //  EosioSwiftSoftkeySignatureProviderTests
 //
 //  Created by Farid Rahmani on 3/14/19.
-//  Copyright © 2019 Block.one. All rights reserved.
+// Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import XCTest

@@ -569,15 +569,18 @@ class EosioRpcProviderTests: XCTestCase {
                     return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorDNSLookupFailed, reason: "Too many redirects.")
                 }
             case "endpoint2example":
-                print("endpoint2example CALL \(endpoint2exampleCall)")
-                if endpoint2exampleCall == 1 {
-                    numberOfFailovers += 1
+                if endpoint2exampleCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("endpoint2example CALL \(endpoint2exampleCall)")
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint2exampleCall, urlRelativePath: request.url?.relativePath)
+                    endpoint2exampleCall += 1
+                    return retVal
                 } else {
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint2exampleCall, urlRelativePath: request.url?.relativePath)
+                    endpoint2exampleCall += 1
+                    numberOfFailovers += 1
                     endpoint2exampleTimesTried += 1
+                    return retVal
                 }
-                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint2exampleCall, urlRelativePath: request.url?.relativePath)
-                endpoint2exampleCall += 1
-                return retVal
             default:
                 return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected! Should not have reached here in the stub!")
             }

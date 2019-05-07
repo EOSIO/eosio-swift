@@ -243,7 +243,7 @@ public class EosioRpcProvider {
                 return failOver()
             }
         }
-        return failOver()
+        return after(seconds: 0).then(on: nil, failOver)
     }
 
     private func processRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {

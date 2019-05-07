@@ -543,7 +543,7 @@ class EosioRpcProviderTests: XCTestCase {
     }
 
     /// Tests that failover with success at second enpoint will show proper relust and retries
-    func testFailoverNextEndpointSucess() {
+    func testFailoverNextEndpointSuccess() {
         rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
         var numberOfFailovers = 0
         var localHostCall = 1
@@ -584,8 +584,8 @@ class EosioRpcProviderTests: XCTestCase {
             default:
                 return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected! Should not have reached here in the stub!")
             }
-        }).name = "testFailoverNextEndpointSucess"
-        let expect = expectation(description: "testFailoverNextEndpointSucess")
+        }).name = "testFailoverNextEndpointSuccess stub"
+        let expect = expectation(description: "testFailoverNextEndpointSuccess")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
         rpcProvider.getBlock(requestParameters: requestParameters) { response in
             switch response {

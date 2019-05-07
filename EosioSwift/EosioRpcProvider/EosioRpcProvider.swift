@@ -251,6 +251,7 @@ public class EosioRpcProvider {
 
     private func processRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
 
+        print("processRequest called")
         // This promise var is used for the return of Promise<T> expected in this function.
         var promise: Promise<T>
         if self.chainId == nil {
@@ -276,24 +277,25 @@ public class EosioRpcProvider {
     }
 
     private func captureChainId<T: Decodable & EosioRpcResponseProtocol>() -> Promise<T> {
-
+        print("captureChainId called")
         return runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
             .then { (response: T) -> Promise<T>  in
                 if let resp = response as? EosioRpcInfoResponse {
-
                     if self.chainId == nil && self.originalChainId == nil {
                         self.chainId = resp.chainId
-                    } else {
-                        if let validChainId = self.originalChainId,
-                                validChainId == resp.chainId {
-                            //new endpoint chain id matches orignimal endpoint chain id
+                        self.originalChainId = resp.chainId
+                        return Promise.value(response)
+                    } else if self.chainId == nil {
+                        if self.originalChainId == resp.chainId {
                             self.chainId = resp.chainId
+                            return Promise.value(response)
                         } else {
-                            let error = EosioError(.rpcProviderError, reason: "New endpoint chain ID does not match previous endpoint chain ID.")
+                            let error = EosioError(.rpcProviderChainIdError, reason: "New endpoint chain ID does not match previous endpoint chain ID.")
                             return Promise(error: error)
                         }
                     }
                 }
+                print("captureChainId leaving")
                 return Promise.value(response)
             }
     }

@@ -542,7 +542,7 @@ class EosioRpcProviderTests: XCTestCase {
 
     }
 
-    /// Tests that failover with success at second enpoint will show proper relust and retries
+    /// Tests that failover with success at second enpoint will show proper results and retries
     func testFailoverNextEndpointSuccess() {
         rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
         var numberOfFailovers = 0
@@ -607,5 +607,97 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
+    /// Tests that failover moves to next if chain ID is not the same as previously successful endpoint
+    // swiftlint:disable cyclomatic_complexity
+    func testFailoverWithBadChainId() {
+        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
+        var numberOfFailovers = 0
+        var localHostCall = 1
+        var localHostTimesTried = 0
+        var endpoint2exampleCall = 1
+        var endpoint2exampleTimesTried = 0
+        var endpoint3exampleCall = 1
+        var endpoint3exampleTimesTried = 0
+        (stub(condition: isScheme("https")) { request in
+
+            guard let host = request.url?.host else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid URL host in request in stub")
+            }
+            switch host {
+            case "localhost":
+                if localHostCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("localhost CALL \(localHostCall)")
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: localHostCall, urlRelativePath: request.url?.relativePath)
+                    localHostCall += 1
+                    return retVal
+                } else {
+                    print("localhost CALL \(localHostCall)")
+                    localHostTimesTried += 1
+                    localHostCall += 1
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorDNSLookupFailed, reason: "Too many redirects.")
+                }
+            case "endpoint2example":
+                numberOfFailovers += 1
+                if endpoint2exampleCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("endpoint2example CALL \(endpoint2exampleCall)")
+
+                    // bad chain id that doesnt match "normal" chain id.
+                    let json = RpcTestConstants.infoResponseBadChainIdJson
+                    let data = json.data(using: .utf8)
+                    endpoint2exampleCall += 1
+                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                } else {
+                    print("endpoint2example CALL \(endpoint2exampleCall)")
+                    endpoint2exampleTimesTried += 1
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected! Should not have reached here in the stub! Chain ID should have been bad")
+                }
+            case "endpoint3example":
+                numberOfFailovers += 1
+                if endpoint3exampleCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("endpoint3example CALL \(endpoint3exampleCall)")
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint3exampleCall, urlRelativePath: request.url?.relativePath)
+                    endpoint3exampleCall += 1
+                    return retVal
+                } else {
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint3exampleCall, urlRelativePath: request.url?.relativePath)
+                    endpoint3exampleCall += 1
+                    endpoint3exampleTimesTried += 1
+                    return retVal
+                }
+            default:
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected! Should not have reached here in the stub!")
+            }
+        }).name = "testFailoverWithBadChainId stub"
+        let expect = expectation(description: "testFailoverWithBadChainId")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
+                    return XCTFail("Failed to convert rpc response")
+                }
+                XCTAssertTrue(rpcBlockResponse.blockNum == 25260032)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2249927103)
+                XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
+
+                // orig localhost should have been successful for getInfo but fails for actual call.
+                XCTAssertEqual(localHostTimesTried, 3)
+                // failover to endpoint2example should have returned improper chain id and hence no try calls for actual rpc request
+                XCTAssertEqual(endpoint2exampleCall, 1)
+
+                // 2 failovers expected; 1 for call to endpoint2example that had bad chain id, second for failover to endpoint3example
+                XCTAssertEqual(numberOfFailovers, 2)
+                // endpoint3example should have worked correctly.
+                XCTAssertEqual(endpoint3exampleTimesTried, 1)
+                expect.fulfill()
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_block attempt")
+            }
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    // swiftlint:enable cyclomatic_complexity
     // swiftlint:enable function_body_length
 }

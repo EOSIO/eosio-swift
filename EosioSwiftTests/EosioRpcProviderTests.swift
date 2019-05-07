@@ -593,8 +593,6 @@ class EosioRpcProviderTests: XCTestCase {
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
                     return XCTFail("Failed to convert rpc response")
                 }
-                XCTAssertTrue(rpcBlockResponse.blockNum == 25260032)
-                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2249927103)
                 XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
                 XCTAssertEqual(localHostTimesTried, 3)
                 XCTAssertEqual(numberOfFailovers, 1)
@@ -678,8 +676,6 @@ class EosioRpcProviderTests: XCTestCase {
                 }
 
                 // expected a valid block response and values
-                XCTAssertTrue(rpcBlockResponse.blockNum == 25260032)
-                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2249927103)
                 XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
 
                 // orig localhost should have been successfull for first required getInfo call to set the chainId but fails with retries for actual call.

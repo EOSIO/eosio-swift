@@ -5,7 +5,6 @@
 //  Created by Brandon Fancher on 4/18/19.
 //  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
-// swiftlint:disable function_body_length
 
 import XCTest
 @testable import EosioSwift

@@ -268,7 +268,10 @@ public class EosioRpcProvider {
 
         if rpc != "chain/get_info" && self.chainId != nil {
             // need to return a dummy response objec there to satisfy the promise expectation.
-            return Promise.value(EosioRpcInfoResponse(chainId: "", headBlockNum: 0, lastIrreversibleBlockNum: 0, lastIrreversibleBlockId: "", headBlockId: "", headBlockTime: ""))
+            let response = EosioRpcInfoResponse(chainId: "", headBlockNum: EosioUInt64.uint64(0),
+                                                lastIrreversibleBlockNum: EosioUInt64.uint64(0),
+                                                lastIrreversibleBlockId: "", headBlockId: "", headBlockTime: "")
+            return Promise.value(response)
         }
 
         promise = runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
@@ -290,8 +293,6 @@ public class EosioRpcProvider {
                     return Promise(error: error)
                 }
             }
-
-            print("captureChainId leaving")
             return Promise.value(response)
         }
     }

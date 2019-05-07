@@ -67,15 +67,7 @@ public class EosioRpcProvider {
             return body().recover { error -> Promise<T> in
                 // We only want to retry for specific errors!
                 guard (attempts < maximumRetryCount) && self.isRetryable(error: error, tries: attempts) else {
-                    let nextAction = self.nextActionFor(error: error)
-                    switch nextAction {
-                    case .failover:
-                        throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
-                    case .retry, .retryOnceThenFailover:
-                        throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
-                    case .returnError:
-                        throw EosioError(.rpcProviderFatalError, reason: error.localizedDescription, originalError: error as NSError)
-                    }
+                    throw error
                 }
                 return after(self.dispatchTimeInterval).then(on: nil, attempt)
             }
@@ -195,7 +187,8 @@ public class EosioRpcProvider {
     private func canErrorFailOverToNewEndpoint(error: Error) -> Bool {
 
         let errorAction = nextActionFor(error: error)
-        guard errorAction == NextAction.failover || errorAction == NextAction.retryOnceThenFailover else {
+
+        if errorAction == NextAction.returnError {
             return false
         }
 
@@ -205,7 +198,7 @@ public class EosioRpcProvider {
         }
 
         // Set up for failover run. Will force a get and compare of new endpoint's chainId.
-        currentEndpoint = newEndpoint
+        self.currentEndpoint = newEndpoint
         self.originalChainId = self.chainId
         self.chainId = nil
         return true
@@ -235,18 +228,30 @@ public class EosioRpcProvider {
                 discarded and the next tried if one is available.  Otherwise, bubble up the failure.
         */
 
-       return processRequest(rpc: rpc, requestParameters: requestParameters)
+        return runWithFailover {
+            self.processRequest(rpc: rpc, requestParameters: requestParameters)
+        }
     }
 
-    // A helper func that is used so failover can recurse the request to new endpoints as needed.
+    private func runWithFailover<T: Decodable & EosioRpcResponseProtocol>(_ body: @escaping () -> Promise<T>) -> Promise<T> {
+        func failOver() -> Promise<T> {
+            return body().recover { error -> Promise<T> in
+                // see if we can failover this error to a new endpoint!
+                guard self.canErrorFailOverToNewEndpoint(error: error) else {
+                    throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
+                }
+                return failOver()
+            }
+        }
+        return failOver()
+    }
+
     private func processRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
 
         // This promise var is used for the return of Promise<T> expected in this function.
         var promise: Promise<T>
         if self.chainId == nil {
 
-            // Need to capture the chain id to ensure all function calls
-            // to a given endpoint are running the same block chain!
             promise = captureChainId()
 
             promise.catch { error in
@@ -254,7 +259,7 @@ public class EosioRpcProvider {
             }
 
             if rpc == "chain/get_info" {
-                // Return the getInfo result since that was the original call desired that triggered this func.
+                // Return the getInfo result since that was the original call that triggered this func.
                 return promise
             } else {
                 // Return the correct result for the rpc needed.
@@ -268,18 +273,22 @@ public class EosioRpcProvider {
     }
 
     private func captureChainId<T: Decodable & EosioRpcResponseProtocol>() -> Promise<T> {
+
         return runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
             .then { (response: T) -> Promise<T>  in
                 if let resp = response as? EosioRpcInfoResponse {
 
                     if self.chainId == nil && self.originalChainId == nil {
+                        print("SETTING chainId")
                         self.chainId = resp.chainId
                     } else {
                         if let validChainId = self.originalChainId,
                                 validChainId == resp.chainId {
                             //new endpoint chain id matches orignimal endpoint chain id
+                            print("SETTING chainId that matches orginal ID")
                             self.chainId = resp.chainId
                         } else {
+                            print("RETURNING error chainId does not match orginal ID")
                             let error = EosioError(.rpcProviderError, reason: "New endpoint chain ID does not match previous endpoint chain ID.")
                             return Promise(error: error)
                         }
@@ -290,20 +299,10 @@ public class EosioRpcProvider {
     }
 
     private func runRequestWithRetry<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
-        var promise: Promise<T>
-        promise = retry(maximumRetryCount: Int(self.retries)) {
+
+        return retry(maximumRetryCount: Int(self.retries)) {
             self.runRequest(rpc: rpc, requestParameters: requestParameters)
         }
-
-        promise.catch { error in
-            if self.canErrorFailOverToNewEndpoint(error: error) {
-                // Recursion starts here.
-                promise = self.processRequest(rpc: rpc, requestParameters: requestParameters)
-            } else {
-                 promise = Promise(error: error)
-            }
-        }
-        return promise
     }
 
     private func runRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
@@ -329,7 +328,7 @@ public class EosioRpcProvider {
             do {
                 let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
                 request.httpBody = jsonData
-            } catch {
+            } catch let error {
                 let eosioError = EosioError(.rpcProviderFatalError, reason: "Error while encoding request parameters.", originalError: error as NSError)
                 return Promise(error: eosioError)
             }
@@ -338,15 +337,33 @@ public class EosioRpcProvider {
     }
 
     private func decodeResponse<T: Decodable & EosioRpcResponseProtocol>(data: Data) -> Promise<T> {
+        let errorReasonPrefix = "Error occurred in decoding/serializing returned data."
         let decoder = JSONDecoder()
         do {
             var resource = try decoder.decode(T.self, from: data)
             resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
             return Promise.value(resource)
+        } catch DecodingError.dataCorrupted(let context) {
+            let errorReason = "\(errorReasonPrefix) DataCorrupted: \(context.debugDescription)"
+            return makeFatalEosioErrorPromiseError(reason: errorReason)
+        } catch DecodingError.keyNotFound(let key, let context) {
+            let errorReason = "\(errorReasonPrefix) KeyNotFound: \(key.stringValue) \(context.debugDescription)"
+            return makeFatalEosioErrorPromiseError(reason: errorReason)
+        } catch DecodingError.typeMismatch(let type, let context) {
+            let errorReason = "\(errorReasonPrefix) TypeMismatch: \(type) was expected, \(context.debugDescription)"
+            return makeFatalEosioErrorPromiseError(reason: errorReason)
+        } catch DecodingError.valueNotFound(let type, let context) {
+            let errorReason = "\(errorReasonPrefix) ValueNotFound: no value was found for \(type), \(context.debugDescription)"
+            return makeFatalEosioErrorPromiseError(reason: errorReason)
         } catch let error {
-            let eosioError = EosioError(.rpcProviderFatalError, reason: "Error occurred in decoding/serializing returned data.", originalError: error as NSError)
-            return Promise(error: eosioError)
+            return makeFatalEosioErrorPromiseError(reason: errorReasonPrefix, originialError: error as NSError)
         }
+    }
+
+    private func makeFatalEosioErrorPromiseError<T>(reason: String, originialError: NSError? = nil) -> Promise<T> {
+        let error = EosioError(.rpcProviderFatalError, reason: reason, originalError: originialError)
+        return Promise(error: error)
+
     }
 
     /// Creates an RPC request, makes the network call, and handles the response. Calls the callback when complete.

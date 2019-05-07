@@ -49,7 +49,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed push_transactions")
             }
@@ -74,7 +74,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetBlock(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "Get Block Stub"
@@ -93,7 +93,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_block")
             }
@@ -119,7 +119,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
             let name = try? EosioName("eosio")
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, name: name!, unhappy: unhappy )
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, name: name!, unhappy: unhappy )
             callCount += 1
             return retVal
         }).name = "Get RawAbi Name stub"
@@ -139,7 +139,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_raw_abi")
             }
@@ -164,7 +164,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetRequiredKeys(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "Get Required Keys stub"
@@ -183,7 +183,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_required_keys")
             }
@@ -208,7 +208,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testPushTransaction(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "Push Transaction stub"
@@ -226,7 +226,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed push_transaction")
             }
@@ -251,7 +251,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testPushTransactions(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "PushTransactions stub"
@@ -276,7 +276,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed push_transactions")
             }
@@ -302,7 +302,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetBlockHeaderState(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetBlockHeaderState stub"
@@ -354,7 +354,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_block_header_state")
             }
@@ -380,7 +380,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetAbi(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetAbi stub"
@@ -403,7 +403,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_abi")
             }
@@ -428,7 +428,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetAccount(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetAccount stub"
@@ -463,7 +463,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_account")
             }
@@ -488,7 +488,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetCurrencyBalance(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetCurrencyBalance stub"
@@ -507,7 +507,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_currency_balance")
             }
@@ -532,7 +532,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetCurrencyStats(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetCurrencyBalance stub"
@@ -550,7 +550,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_currency_stats")
             }
@@ -620,7 +620,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetRawCodeAndAbi(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetRawCodeAndAbis stub"
@@ -638,7 +638,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_raw_code_and_abi")
             }
@@ -663,7 +663,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetRawCodeAndAbiWithStringSignature(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetRawCodeAndAbis w String stub"
@@ -679,7 +679,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_raw_code_and_abi with string")
             }
@@ -704,7 +704,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetCode(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetCode stub"
@@ -732,7 +732,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_code")
             }
@@ -757,7 +757,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetCodeWithStringSignature(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetCodeWithStringSignature stub"
@@ -773,7 +773,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_code with string")
             }
@@ -798,7 +798,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetTableRows(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetTableRows stub"
@@ -815,7 +815,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_table_rows")
             }
@@ -840,7 +840,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetTableByScope(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetTableByScope stub"
@@ -857,7 +857,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_table_by_scope")
             }
@@ -882,7 +882,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetProducers(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetProducers stub"
@@ -905,7 +905,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_producers")
             }
@@ -930,7 +930,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetActions(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetAction stub"
@@ -947,7 +947,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_actions")
             }
@@ -972,7 +972,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetControlledAccounts(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name = "GetControlledAccounts stub"
@@ -993,7 +993,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_controlled_accounts")
             }
@@ -1018,7 +1018,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetTransaction(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name =  "GetTransaction stub"
@@ -1050,7 +1050,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_transaction")
             }
@@ -1075,7 +1075,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     func testGetKeyAccounts(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, unhappy: unhappy)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
             callCount += 1
             return retVal
         }).name =  "GetKeyAccounts stub"
@@ -1094,7 +1094,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         }.catch {
             print($0)
             if unhappy {
-                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderFatalError)
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
             } else {
                 XCTFail("Failed get_key_accounts")
             }

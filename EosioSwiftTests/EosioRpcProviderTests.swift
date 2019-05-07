@@ -33,13 +33,14 @@ class EosioRpcProviderTests: XCTestCase {
         OHHTTPStubs.removeAllStubs()
     }
 
+    // MARK: Retry tests
     func test_rpcProvider_shouldNotRetryFor418HttpStatusError() {
         var numberOfTimesTried: UInt = 0
         var call = 1
         (stub(condition: isHost("localhost")) { request in
             if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
                 print("CALL \(call)")
-                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlRelativePath: request.url?.relativePath)
                 call += 1
                 return retVal
             } else {
@@ -74,7 +75,7 @@ class EosioRpcProviderTests: XCTestCase {
         (stub(condition: isHost("localhost")) { request in
             if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
                 print("CALL \(call)")
-                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlRelativePath: request.url?.relativePath)
                 call += 1
                 return retVal
             } else {
@@ -109,7 +110,7 @@ class EosioRpcProviderTests: XCTestCase {
         (stub(condition: isHost("localhost")) { request in
             if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
                 print("CALL \(call)")
-                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlRelativePath: request.url?.relativePath)
                 call += 1
                 return retVal
             } else {
@@ -138,13 +139,13 @@ class EosioRpcProviderTests: XCTestCase {
     }
 
     func test_rpcProvider_shouldRetryBeforeReturningHttpStatusError() {
-        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
+        rpcProvider = EosioRpcProvider(endpoint: url, retries: 3)
         var numberOfTimesTried: UInt = 0
         var call = 1
         (stub(condition: isHost("localhost")) { request in
             if call == 1 && request.url?.relativePath == "/v1/chain/get_info" {
                 print("CALL \(call)")
-                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlString: request.url?.absoluteString)
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: call, urlRelativePath: request.url?.relativePath)
                 call += 1
                 return retVal
             } else {
@@ -172,13 +173,14 @@ class EosioRpcProviderTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
+    // MARK: Other tests
     /// Test RPC protocol provider implementation error handling for bad response data.
     func testBadResponseDataHandled() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            if let urlString = request.url?.absoluteString {
+            if let relativePath = request.url?.relativePath {
                 if callCount == 1 {
-                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: urlString)
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: relativePath)
                     callCount += 1
                     return retVal
                 } else {
@@ -199,7 +201,7 @@ class EosioRpcProviderTests: XCTestCase {
                 XCTFail("testBadResponseDataHandled should have not returned a successful completion.")
             case .failure(let err):
                 print("Bad Response stub error: \(err)")
-                XCTAssertTrue(err.reason == "RpcProviderFatalError: Error occurred in decoding/serializing returned data.")
+                XCTAssertTrue(err.reason.contains("Error occurred in decoding/serializing returned data."))
                 expect.fulfill()
             }
         }
@@ -209,8 +211,7 @@ class EosioRpcProviderTests: XCTestCase {
     ///Test RPC protocol provider implementation error handling for no network connection.
     func testNoNetworkHandled() {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
-            let noConnectedError = NSError(domain: NSURLErrorDomain, code: URLError.notConnectedToInternet.rawValue)
-            return OHHTTPStubsResponse(error: noConnectedError)
+            return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorNotConnectedToInternet, reason: "Not connected to the internet.")
         }).name = "No Network stub"
         let expect = expectation(description: "testNoNetwork")
         rpcProvider.getInfo { response in
@@ -219,8 +220,10 @@ class EosioRpcProviderTests: XCTestCase {
                 print("\(infoResponse)")
                 XCTFail("testNoNetwork should have not returned a successful completion.")
             case .failure(let err):
+                XCTAssertTrue(err.reason == "Not connected to the internet.")
                 if let origError = err.originalError {
-                     XCTAssertTrue(origError.code == URLError.notConnectedToInternet.rawValue)
+                     print(origError)
+                     XCTAssertTrue(origError.code == NSURLErrorNotConnectedToInternet)
                 } else {
                    XCTFail("testNoNetwork should have an originial error returned.")
                 }
@@ -262,7 +265,7 @@ class EosioRpcProviderTests: XCTestCase {
     func testGetBlock() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "Get Block stub"
@@ -335,7 +338,7 @@ class EosioRpcProviderTests: XCTestCase {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
             let name = try? EosioName("eosio")
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, name: name!)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, name: name!)
             callCount += 1
             return retVal
         }).name = "Get RawAbi Name stub"
@@ -370,7 +373,7 @@ class EosioRpcProviderTests: XCTestCase {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
             let token = try? EosioName("eosio.token")
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString, name: token!)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, name: token!)
             callCount += 1
             return retVal
         }).name = "Get RawAbi Token stub"
@@ -404,7 +407,7 @@ class EosioRpcProviderTests: XCTestCase {
     func testGetRequiredKeys() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "Get Required Keys stub"
@@ -433,7 +436,7 @@ class EosioRpcProviderTests: XCTestCase {
     func testPushTransaction() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "Push Transaction stub"
@@ -460,4 +463,146 @@ class EosioRpcProviderTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
+    // MARK: Failover tests
+    /// Tests that full failover with reties over all endpoints will return proper error information.
+    // swiftlint:disable function_body_length
+    func testFullFailoverWithRetries() {
+        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
+        var numberOfTimesTried = 0
+        var numberOfFailovers = 0
+        var localHostCall = 1
+        var endpoint2exampleCall = 1
+        var endpoint3exampleCall = 1
+        (stub(condition: isScheme("https")) { request in
+
+            guard let host = request.url?.host else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid URL host in request in stub")
+            }
+            switch host {
+            case "localhost":
+                if localHostCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("localhost CALL \(localHostCall)")
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: localHostCall, urlRelativePath: request.url?.relativePath)
+                    localHostCall += 1
+                    return retVal
+                } else {
+                    print("localhost CALL \(localHostCall)")
+                    numberOfTimesTried += 1
+                    localHostCall += 1
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorNetworkConnectionLost, reason: "connection lost")
+                }
+            case "endpoint2example":
+                if endpoint2exampleCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("endpoint2example CALL \(endpoint2exampleCall)")
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint2exampleCall, urlRelativePath: request.url?.relativePath)
+                    endpoint2exampleCall += 1
+                    numberOfFailovers += 1
+                    return retVal
+                } else {
+                    print("endpoint2example CALL \(endpoint2exampleCall)")
+                    endpoint2exampleCall += 1
+                    numberOfTimesTried += 1
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorNetworkConnectionLost, reason: "connection lost")
+                }
+            case "endpoint3example":
+                if endpoint3exampleCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("endpoint3example CALL \(endpoint3exampleCall)")
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint3exampleCall, urlRelativePath: request.url?.relativePath)
+                    endpoint3exampleCall += 1
+                    numberOfFailovers += 1
+                    return retVal
+                } else {
+                    print("endpoint3example CALL \(endpoint3exampleCall)")
+                    numberOfTimesTried += 1
+                    endpoint3exampleCall += 1
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorNetworkConnectionLost, reason: "connection lost")
+                }
+
+            default:
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected host: \(host)")
+            }
+
+        }).name = "testFullFailoverFatalError"
+        let expect = expectation(description: "testFullFailoverFatalError")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                print("\(blockResponse)")
+                XCTFail("test should have not returned a successful completion.")
+            case .failure(let err):
+                XCTAssertTrue(err.reason.contains("connection lost"))
+                XCTAssertEqual(numberOfTimesTried, 9)
+                XCTAssertEqual(numberOfFailovers, 2)
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 30)
+
+    }
+
+    /// Tests that failover with success at second enpoint will show proper relust and retries
+    func testFailoverNextEndpointSucess() {
+        rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
+        var numberOfFailovers = 0
+        var localHostCall = 1
+        var localHostTimesTried = 0
+        var endpoint2exampleCall = 1
+        var endpoint2exampleTimesTried = 0
+        (stub(condition: isScheme("https")) { request in
+
+            guard let host = request.url?.host else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid URL host in request in stub")
+            }
+            switch host {
+            case "localhost":
+                if localHostCall == 1 && request.url?.relativePath == "/v1/chain/get_info" {
+                    print("localhost CALL \(localHostCall)")
+                    let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: localHostCall, urlRelativePath: request.url?.relativePath)
+                    localHostCall += 1
+                    return retVal
+                } else {
+                    print("localhost CALL \(localHostCall)")
+                    localHostTimesTried += 1
+                    localHostCall += 1
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorDNSLookupFailed, reason: "Too many redirects.")
+                }
+            case "endpoint2example":
+                print("endpoint2example CALL \(endpoint2exampleCall)")
+                if endpoint2exampleCall == 1 {
+                    numberOfFailovers += 1
+                } else {
+                    endpoint2exampleTimesTried += 1
+                }
+                let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: endpoint2exampleCall, urlRelativePath: request.url?.relativePath)
+                endpoint2exampleCall += 1
+                return retVal
+            default:
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected! Should not have reached here in the stub!")
+            }
+        }).name = "testFailoverNextEndpointSucess"
+        let expect = expectation(description: "testFailoverNextEndpointSucess")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
+                    return XCTFail("Failed to convert rpc response")
+                }
+                XCTAssertTrue(rpcBlockResponse.blockNum == 25260032)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix == 2249927103)
+                XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
+                XCTAssertEqual(localHostTimesTried, 3)
+                XCTAssertEqual(numberOfFailovers, 1)
+                XCTAssertEqual(endpoint2exampleTimesTried, 1)
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_block attempt")
+                expect.fulfill()
+            }
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    // swiftlint:enable function_body_length
 }

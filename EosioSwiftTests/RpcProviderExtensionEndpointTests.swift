@@ -32,7 +32,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testPushTransactions() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "PushTransactions stub"
@@ -64,7 +64,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetBlockHeaderState() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetBlockHeaderState stub"
@@ -123,7 +123,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetAbi() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetAbi stub"
@@ -152,7 +152,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetAccount() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetAccount stub"
@@ -192,7 +192,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetCurrencyBalance() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetCurrencyBalance stub"
@@ -217,7 +217,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetCurrencyStats() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetCurrencyStats stub"
@@ -276,7 +276,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetRawCodeAndAbi() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetRawCodeAndAbis stub"
@@ -300,7 +300,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetRawCodeAndAbiWithStringSignature() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetRawCodeAndAbis w String stub"
@@ -322,7 +322,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testgetCode() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetCode stub"
@@ -356,7 +356,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetCodeWithStringSignature() {
          var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetCodeWithStringSignature stub"
@@ -378,7 +378,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetTableRows() {
          var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetTableRows stub"
@@ -401,7 +401,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetTableByScope() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetTableByScope stub"
@@ -424,7 +424,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetProducers() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetProducers stub"
@@ -453,7 +453,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetActions() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetActions stub"
@@ -476,7 +476,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetControlledAccounts() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetControlledAccounts stub"
@@ -503,7 +503,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetTransaction() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetTransaction stub"
@@ -541,7 +541,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     func testGetKeyAccounts() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
-            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlString: request.url?.absoluteString)
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
             callCount += 1
             return retVal
         }).name = "GetKeyAccounts stub"

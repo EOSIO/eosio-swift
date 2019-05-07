@@ -3,7 +3,7 @@
 //  EosioSwift
 
 //  Created by Todd Bowden on 1/31/19.
-//  Copyright © 2018-2019 block.one.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import Foundation

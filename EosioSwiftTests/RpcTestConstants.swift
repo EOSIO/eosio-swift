@@ -3,7 +3,7 @@
 //  EosioSwiftTests
 //
 //  Created by Ben Martell on 4/12/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import Foundation
@@ -967,8 +967,154 @@ public class RpcTestConstants {
     """
     public static let actionsJson = """
     {
-        "actions": [],
-        "last_irreversible_block": 21104823
+    "actions": [
+        {
+            "global_action_seq": "6483908013",
+            "account_action_seq": 137,
+            "block_num": 55375463,
+            "block_time": "2019-04-28T17:41:39.000",
+            "action_trace": {
+                "receipt": {
+                    "receiver": "bank.m",
+                    "act_digest": "62021c2315d8245d0546180daf7825d728a5564d2831e8b2d1fc2d01309bf06b",
+                    "global_sequence": "6483908013",
+                    "recv_sequence": 1236,
+                    "auth_sequence": [
+                        [
+                            "powersurge22",
+                            77
+                        ]
+                    ],
+                    "code_sequence": 1,
+                    "abi_sequence": 1
+                },
+                "act": {
+                    "account": "eosiomeetone",
+                    "name": "transfer",
+                    "authorization": [
+                        {
+                            "actor": "powersurge22",
+                            "permission": "active"
+                        }
+                    ],
+                    "data": {
+                        "from": "powersurge22",
+                        "to": "bank.m",
+                        "quantity": "20047.0259 MEETONE",
+                        "memo": "l2sbjsdrfd.m"
+                    },
+                    "hex_data": "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f"
+                },
+                "context_free": false,
+                "elapsed": 299,
+                "console": "",
+                "trx_id": "9f6871d2f230a2a2c2d7a6eb4847dd733f47e0fa481c6b40049e58e53751c066",
+                "block_num": 55375463,
+                "block_time": "2019-04-28T17:41:39.000",
+                "producer_block_id": "034cf66765dd7ac2ea187beb5570ef8dbfbf4b9270d3940d02157ad4ac40831s",
+                "account_ram_deltas": [
+                    {
+                        "account": "bank.m",
+                        "delta": 472
+                    }
+                ],
+                "except": null,
+                "inline_traces": [{
+                        "receipt": {
+                            "receiver": "powersurge22",
+                            "act_digest": "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b",
+                            "global_sequence": "6483908012",
+                            "recv_sequence": 82,
+                            "auth_sequence": [
+                                [
+                                    "powersurge2",
+                                    76
+                                ]
+                            ],
+                            "code_sequence": 1,
+                            "abi_sequence": 1
+                        },
+                        "act": {
+                            "account": "eosiomeetone",
+                            "name": "transfer",
+                            "authorization": [
+                                {
+                                    "actor": "powersurge2",
+                                    "permission": "active"
+                                }
+                            ],
+                            "data": {
+                                "from": "powersurge22",
+                                "to": "bank.m",
+                                "quantity": "20047.0259 MEETONE",
+                                "memo": "l2sbjsd4fj.m"
+                            },
+                            "hex_data": "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2s6d"
+                        },
+                        "context_free": false,
+                        "elapsed": 6,
+                        "console": "",
+                        "trx_id": "9f6871d2f230a2a2c2d7a6eb4847dd733f47e0fa481c6b40049e58e53751c066",
+                        "block_num": 55375463,
+                        "block_time": "2019-04-28T17:41:39.000",
+                        "producer_block_id": "034cf66765dd7ac2ea187beb5570ef8dbfbf4b9270d3940d02157ad4ac408314",
+                        "account_ram_deltas": [],
+                        "except": null,
+                        "inline_traces": []
+                    }]
+            }
+        },
+        {
+            "global_action_seq": "6497451149",
+            "account_action_seq": 138,
+            "block_num": 55513304,
+            "block_time": "2019-04-29T12:50:29.000",
+            "action_trace": {
+                "receipt": {
+                    "receiver": "powersurge43",
+                    "act_digest": "5755dd0b7783fdf6c5aa5ee61473f9d22be504551d45aa3c4edaf51533401dbr",
+                    "global_sequence": "6497451149",
+                    "recv_sequence": 83,
+                    "auth_sequence": [
+                        [
+                            "pokerkbugle1",
+                            5090990
+                        ]
+                    ],
+                    "code_sequence": 4,
+                    "abi_sequence": 2
+                },
+                "act": {
+                    "account": "pokerktoken1",
+                    "name": "transfer",
+                    "authorization": [
+                        {
+                            "actor": "pokerkbugle1",
+                            "permission": "active"
+                        }
+                    ],
+                    "data": {
+                        "from": "pokerkbugle1",
+                        "to": "powersurge43",
+                        "quantity": "0.0100 KING",
+                        "memo": "Memo"
+                    },
+                    "hex_data": "105464fac0ab20ad10826257e3ab38ad6400000000000000044b494e470000009701506f6b65724b696e672e6f6e65202d2d2054686520626573742050565020546578617320486f6c64656d206f6e20454f532c20617661696c61626c65207461626c657320666f7220323420686f757273efbc81e69c80e5a5bde79a84454f53e5beb7e5b79ee68991e5858befbc8ce79c9fe6ada3e79a84505650e6b8b8e6888fefbc8c3234e5b08fe697b6e69c89e7898ce5b180efbc8t"
+                },
+                "context_free": false,
+                "elapsed": 19,
+                "console": "",
+                "trx_id": "4700d0f00f3101f3223790fd9def0afaa7508b2d7d99d62b83389fdc9ef26c4u",
+                "block_num": 55513304,
+                "block_time": "2019-04-29T12:50:29.000",
+                "producer_block_id": "034f10d8346b169b1a376f4133c9d6673883bf047dd2f6037a531909d31ddb1q",
+                "account_ram_deltas": [],
+                "except": null,
+                "inline_traces": []
+            }
+        }
+    ],
+    "last_irreversible_block": 55535908
     }
     """
     public static let controlledAccountsJson = """

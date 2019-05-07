@@ -3,7 +3,7 @@
 //  EosioSwiftTests
 //
 //  Created by Farid Rahmani on 3/8/19.
-//  Copyright © 2018-2019 block.one.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import XCTest
@@ -84,7 +84,7 @@ class EosioTransactionTests: XCTestCase {
     }
 
     func test_prepare_shouldCallGetBlockFunctionOfRPCProviderWithCorrectBlockNumber() {
-        var blockNum = rpcProvider.rpcInfo.headBlockNum - UInt64(transaction.config.blocksBehind)
+        var blockNum = rpcProvider.rpcInfo.headBlockNum.value - UInt64(transaction.config.blocksBehind)
         if blockNum <= 0 {
             blockNum = 1
         }
@@ -110,13 +110,13 @@ class EosioTransactionTests: XCTestCase {
 
     func test_getBlockAndSetTapos_shouldSetRefBlockNum() {
         transaction.getBlockAndSetTapos(blockNum: 345) { (_) in
-            XCTAssertEqual(self.transaction.refBlockNum, UInt16(self.rpcProvider.block.blockNum & 0xffff))
+            XCTAssertEqual(self.transaction.refBlockNum, UInt16(self.rpcProvider.block.blockNum.value & 0xffff))
         }
     }
 
     func test_getBlockAndSetTapos_shouldSetRefBlockPrefix() {
         transaction.getBlockAndSetTapos(blockNum: 345) { (_) in
-            XCTAssertEqual(self.transaction.refBlockPrefix, self.rpcProvider.block.refBlockPrefix)
+            XCTAssertEqual(self.transaction.refBlockPrefix, self.rpcProvider.block.refBlockPrefix.value)
         }
     }
 
@@ -354,7 +354,62 @@ class EosioTransactionTests: XCTestCase {
         }
         waitForExpectations(timeout: 10)
     }
-    //public func prepare(_: PMKNamespacer) -> Promise<Bool>
+
+    func test_add_action_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        transaction.add(action: action)
+        XCTAssertEqual(transaction.actions.count, 1)
+        XCTAssertEqual(transaction.actions[0].data["from"] as? String, "todd")
+    }
+
+    func test_add_actions_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(actions: [action1, action2])
+        XCTAssertEqual(transaction.actions.count, 2)
+        XCTAssertEqual(transaction.actions[0].data["from"] as? String, "todd")
+        XCTAssertEqual(transaction.actions[1].data["from"] as? String, "brandon")
+    }
+
+    func test_add_action_at_index_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(action: action1)
+        transaction.add(action: action2, at: 0)
+        XCTAssertEqual(transaction.actions.count, 2)
+        XCTAssertEqual(transaction.actions[0].data["from"] as? String, "brandon")
+    }
+
+    func test_add_context_free_action_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        transaction.add(contextFreeAction: action)
+        XCTAssertEqual(transaction.contextFreeActions.count, 1)
+        XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "todd")
+    }
+
+    func test_add_context_free_actions_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(contextFreeActions: [action1, action2])
+        XCTAssertEqual(transaction.contextFreeActions.count, 2)
+        XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "todd")
+        XCTAssertEqual(transaction.contextFreeActions[1].data["from"] as? String, "brandon")
+    }
+
+    func test_add_context_free_action_at_index_shouldSucceed() {
+        let transaction = EosioTransaction()
+        guard let action1 = try? makeTransferAction(from: EosioName("todd"), to: EosioName("brandon")) else { return XCTFail("Invalid Action") }
+        guard let action2 = try? makeTransferAction(from: EosioName("brandon"), to: EosioName("todd")) else { return XCTFail("Invalid Action") }
+        transaction.add(contextFreeAction: action1)
+        transaction.add(contextFreeAction: action2, at: 0)
+        XCTAssertEqual(transaction.contextFreeActions.count, 2)
+        XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "brandon")
+    }
 }
 
 class RPCProviderMock: EosioRpcProviderProtocol {
@@ -371,16 +426,16 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     let rpcInfo = EosioRpcInfoResponse(
         serverVersion: "verion",
         chainId: "chainId",
-        headBlockNum: 234,
-        lastIrreversibleBlockNum: 2342,
+        headBlockNum: EosioUInt64.uint64(234),
+        lastIrreversibleBlockNum: EosioUInt64.uint64(2342),
         lastIrreversibleBlockId: "lastIrversible",
         headBlockId: "headBlockId",
         headBlockTime: "2009-01-03T18:15:05.000",
         headBlockProducer: "producer",
-        virtualBlockCpuLimit: 234,
-        virtualBlockNetLimit: 234,
-        blockCpuLimit: 334,
-        blockNetLimit: 897,
+        virtualBlockCpuLimit: EosioUInt64.uint64(234),
+        virtualBlockNetLimit: EosioUInt64.uint64(234),
+        blockCpuLimit: EosioUInt64.uint64(334),
+        blockNetLimit: EosioUInt64.uint64(897),
         serverVersionString: "server version")
 
     func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
@@ -409,8 +464,8 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         headerExtensions: ["extension"],
         producerSignature: "signature",
         id: "klj",
-        blockNum: 89,
-        refBlockPrefix: 0980
+        blockNum: EosioUInt64.uint64(89),
+        refBlockPrefix: EosioUInt64.uint64(0980)
     )
 
     func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
@@ -537,4 +592,29 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
         }
         completion(availableKeysResponse)
     }
+}
+
+struct Transfer: Codable {
+    var from: EosioName
+    var to: EosioName // swiftlint:disable:this identifier_name
+    var quantity: String
+    var memo: String
+}
+
+func makeTransferAction(from: EosioName, to: EosioName) throws -> EosioTransaction.Action { // swiftlint:disable:this identifier_name
+
+    let action = try EosioTransaction.Action(
+        account: EosioName("eosio.token"),
+        name: EosioName("transfer"),
+        authorization: [EosioTransaction.Action.Authorization(
+            actor: from,
+            permission: EosioName("active"))
+        ],
+        data: Transfer(
+            from: from,
+            to: to,
+            quantity: "42.0000 SYS",
+            memo: "Grasshopper Rocks")
+    )
+    return action
 }

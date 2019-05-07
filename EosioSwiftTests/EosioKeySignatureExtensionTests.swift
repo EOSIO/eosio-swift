@@ -3,7 +3,7 @@
 //  EosioSwiftTests
 //
 //  Created by Todd Bowden on 3/11/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import Foundation
@@ -32,6 +32,11 @@ class EosioKeySignatureExtensionTests: XCTestCase {
     let privateKeyK1 = "PVT_K1_5KGziAsYALbLJiaaynE1GyG9fAq6p5n48K1B1JTQqCDfAJnioJD"
     let privateKeyInvalid1 = "5KGziAsYALbLJiaaynE1GyG9fAq6p5n48K1B1JTQqCDfAJnioJC"
     let privateKeyInvalid2 = "PVT_K1_6KGziAsYALbLJiaaynE1GyG9fAq6p5n48K1B1JTQqCDfAJnioJD"
+
+    let privateKeyR1a = "PVT_R1_2qq22p3UUuaXC3qAE6oSjGm1GzYLykdqrYBaECa29uYJG3AByD"
+    let privateKeyR1b = "PVT_R1_AYTFoQZVuqk8wDqnns9wTcPrVMKQQbnyQfYjDTyF7nkzatxy3"
+    let privateKeyR1c = "PVT_R1_2neSmTc8BvXbs2F3BiQNcvgDzbh9d2hpp89n6GWuKXcUKx9Gnv"
+
 
     let message = "Hello World".data(using: .utf8)!
     let signature0Hex = "304402207b80d705cc3f57f13000d79f6972c734a42d66aa42b8f698de998ff7594551f6022039b8d83f8ceba229e3b9e1d7efd844c978436e33b5cf79c19e92fbd69de7e4a5"
@@ -88,6 +93,32 @@ class EosioKeySignatureExtensionTests: XCTestCase {
         XCTAssertThrowsError(try Data(eosioPrivateKey: privateKeyInvalid1))
         XCTAssertThrowsError(try Data(eosioPrivateKey: privateKeyInvalid2))
     }
+
+
+    func test_privateK1_round_trip() {
+        guard let data = try? Data(eosioPrivateKey: privateKeyK1) else {
+            return XCTFail("Failed to convert public K1 key to Data()")
+        }
+        XCTAssertEqual(data.toEosioK1PrivateKey, privateKeyK1)
+    }
+
+    func test_privateR1_round_trip() {
+        guard let data1 = try? Data(eosioPrivateKey: privateKeyR1a) else {
+            return XCTFail("Failed to convert public R1 key to Data()")
+        }
+        XCTAssertEqual(data1.toEosioR1PrivateKey, privateKeyR1a)
+
+        guard let data2 = try? Data(eosioPrivateKey: privateKeyR1b) else {
+            return XCTFail("Failed to convert public R1 key to Data()")
+        }
+        XCTAssertEqual(data2.toEosioR1PrivateKey, privateKeyR1b)
+
+        guard let data3 = try? Data(eosioPrivateKey: privateKeyR1c) else {
+            return XCTFail("Failed to convert public R1 key to Data()")
+        }
+        XCTAssertEqual(data3.toEosioR1PrivateKey, privateKeyR1c)
+    }
+
 
     func test_toEosioK1Signature() {
         let data = try? Data(hex: signature0Hex)

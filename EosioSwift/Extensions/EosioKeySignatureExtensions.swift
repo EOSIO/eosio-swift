@@ -3,7 +3,7 @@
 //  EosioSwift
 //
 //  Created by Todd Bowden on 5/5/18.
-//  Copyright © 2018-2019 block.one.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 // swiftlint:disable large_tuple
@@ -105,9 +105,16 @@ public extension Data {
         return "SIG_K1_" + (Data(self) + check).base58EncodedString
     }
 
-    /// Returns an EOSIO private key as a string formatted PVT_R1_xxxxxxxxxxxxxxxxxxx.
+    /// Returns an EOSIO private key as a string formatted PVT_R1_xxxxxxxxxxxxxxxxxxx
     var toEosioR1PrivateKey: String {
-        return "PVT_R1_" + self.addPrefix(0x80).append4ByteDoubleSha256Suffix.base58EncodedString
+        let r1 = Data(self) + "R1".data(using: .utf8)! // swiftlint:disable:this identifier_name
+        let check = Data(RIPEMD160.hash(message: r1).prefix(4))
+        return "PVT_R1_" + ((self + check).base58EncodedString)
+    }
+
+    /// Returns an EOSIO private key as a string formatted PVT_K1_xxxxxxxxxxxxxxxxxxx
+    var toEosioK1PrivateKey: String {
+        return "PVT_K1_" + self.addPrefix(0x80).append4ByteDoubleSha256Suffix.base58EncodedString
     }
 
     /// Init data signature from EOSIO R1 signature string.

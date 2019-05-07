@@ -3,7 +3,7 @@
 //  EosioSwift
 //
 //  Created by Farid Rahmani on 4/3/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ public protocol EosioRpcInfoResponseProtocol {
     /// The chain ID.
     var chainId: String { get }
     /// The block number of the latest (head) block.
-    var headBlockNum: UInt64 { get }
+    var headBlockNum: EosioUInt64 { get }
     /// The timestamp on the latest (head) block.
     var headBlockTime: String { get }
 }
@@ -21,9 +21,9 @@ public protocol EosioRpcInfoResponseProtocol {
 /// Protocol for get_block responses. RPC responses must contain these properties, at a minimum, in order to be compatible with the core EOSIO SDK for Swift library.
 public protocol EosioRpcBlockResponseProtocol {
     /// The block number of the block fetched.
-    var blockNum: UInt64 { get }
+    var blockNum: EosioUInt64 { get }
     /// The block prefix for the block fetched.
-    var refBlockPrefix: UInt64 { get }
+    var refBlockPrefix: EosioUInt64 { get }
 }
 
 /// Protocol for get_raw_abi responses. RPC responses must contain these properties, at a minimum, in order to be compatible with the core EOSIO SDK for Swift library.

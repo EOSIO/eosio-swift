@@ -3,8 +3,9 @@
 //  EosioSwiftTests
 //
 //  Created by Brandon Fancher on 4/18/19.
-//  Copyright © 2019 block.one. All rights reserved.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
+// swiftlint:disable function_body_length
 
 import XCTest
 @testable import EosioSwift
@@ -44,7 +45,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetInfo unhappy path should not fulfill promise!")
             }
             XCTAssertTrue($0.serverVersion == "0f6695cb")
-            XCTAssertTrue($0.headBlockNum == 25260035)
+            XCTAssertTrue($0.headBlockNum.value == 25260035)
             XCTAssertTrue($0.headBlockId == "01817003aecb618966706f2bca7e8525d814e873b5db9a95c57ad248d10d3c05")
         }.catch {
             print($0)
@@ -87,8 +88,8 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             if unhappy {
                 XCTFail("testGetBlock unhappy path should not fulfill promise!")
             }
-            XCTAssertTrue($0.blockNum == 25260032)
-            XCTAssertTrue($0.refBlockPrefix == 2249927103)
+            XCTAssertTrue($0.blockNum.value == 25260032)
+            XCTAssertTrue($0.refBlockPrefix.value == 2249927103)
             XCTAssertTrue($0.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
         }.catch {
             print($0)
@@ -444,7 +445,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             let eosioRpcAccountResponse = $0
             XCTAssertNotNil(eosioRpcAccountResponse)
             XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
-            XCTAssert(eosioRpcAccountResponse.ramQuota == 13639863)
+            XCTAssert(eosioRpcAccountResponse.ramQuota.value == 13639863)
             XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
             if let dict = eosioRpcAccountResponse.totalResources {
                 if let owner = dict["owner"] as? String {
@@ -812,6 +813,15 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetTableRows unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.rows)
+            XCTAssert($0.rows.count == 1)
+            if let row = $0.rows[0] as? [String: Any],
+                let balance = row["balance"] as? String {
+                XCTAssert(balance == "986420.1921 EOS")
+            } else {
+                XCTFail("Cannot get returned table row or balance string.")
+            }
+            XCTAssertFalse($0.more)
         }.catch {
             print($0)
             if unhappy {
@@ -854,6 +864,15 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetTableByScope unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0.rows)
+            XCTAssert($0.rows.count == 10)
+            let row = $0.rows[8]
+            XCTAssert(row.code == "eosio.token")
+            XCTAssert(row.scope == "eosio")
+            XCTAssert(row.table == "accounts")
+            XCTAssert(row.payer == "eosio")
+            XCTAssert(row.count == 1)
+            XCTAssert($0.more == "eosio.ramfee")
         }.catch {
             print($0)
             if unhappy {
@@ -899,7 +918,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             XCTAssertNotNil($0.rows)
             XCTAssert($0.rows.count == 2)
             XCTAssert($0.rows[0].owner == "blkproducer2")
-            XCTAssert($0.rows[0].unpaidBlocks == 0)
+            XCTAssert($0.rows[0].unpaidBlocks.value == 0)
             XCTAssert($0.rows[1].owner == "blkproducer3")
             XCTAssert($0.rows[0].isActive == 1)
         }.catch {
@@ -944,6 +963,23 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetActions unhappy path should not fulfill promise!")
             }
             XCTAssertNotNil($0._rawResponse)
+            XCTAssertNotNil($0._rawResponse)
+            XCTAssert($0.lastIrreversibleBlock.value == 55535908)
+            XCTAssert($0.timeLimitExceededError == false)
+            XCTAssert($0.actions.first?.globalActionSequence.value == 6483908013)
+            XCTAssert($0.actions.first?.actionTrace.receipt.receiverSequence.value == 1236)
+            XCTAssert($0.actions.first?.actionTrace.receipt.authorizationSequence.count == 1)
+            if let firstSequence = $0.actions.first?.actionTrace.receipt.authorizationSequence.first as? [Any] {
+                guard let accountName = firstSequence.first as? String, accountName == "powersurge22" else {
+                    return XCTFail("Should be able to find account name")
+                }
+            }
+            XCTAssert($0.actions.first?.actionTrace.action.name == "transfer")
+            XCTAssert($0.actions.first?.actionTrace.action.authorization.first?.permission == "active")
+            XCTAssert($0.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
+            XCTAssert($0.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
+            XCTAssert($0.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
+            XCTAssert($0.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
         }.catch {
             print($0)
             if unhappy {
@@ -1032,7 +1068,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 XCTFail("testGetTransaction unhappy path should not fulfill promise!")
             }
             XCTAssert($0.id == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")
-            XCTAssert($0.blockNum == 21098575)
+            XCTAssert($0.blockNum.value == 21098575)
             guard let dict = $0.trx["trx"] as? [String: Any] else {
                 XCTFail("Should find trx.trx dictionary.")
                 return

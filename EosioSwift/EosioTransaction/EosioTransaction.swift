@@ -3,7 +3,7 @@
 //  EosioSwift
 //
 //  Created by Todd Bowden on 2/5/19.
-//  Copyright © 2018-2019 block.one.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 // swiftlint:disable line_length
@@ -54,9 +54,9 @@ public class EosioTransaction: Codable {
     /// Transaction property: Causes the transaction to be executed a specified number of seconds after being included in a block. It may be canceled during this delay.
     public var delaySec: UInt = 0
     /// Transaction property: Context Free Actions.
-    public var contextFreeActions = [Action]()
+    public private(set) var contextFreeActions = [Action]()
     /// Transaction property: Array of actions to be executed.
-    public var actions = [Action]()
+    public private(set) var actions = [Action]()
     /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
     /// Transaction data serialized into a binary representation in preparation for broadcast.
@@ -66,9 +66,47 @@ public class EosioTransaction: Codable {
     /// Transaction ID.
     public private(set) var transactionId: String?
 
-    /// Combined array of actions and contextFreeActions
+    /// Combined array of actions and contextFreeActions.
     private var allActions: [Action] {
         return actions + contextFreeActions
+    }
+
+    /// Add an Action.
+    ///
+    /// - Parameters:
+    ///   - action: The Action to add.
+    ///   - at: An optional index at which to insert the Action. If not provided, the Action will be appended to the end of the actions array.
+    public func add(action: Action, at: Int? = nil) {
+        if let at = at {
+            actions.insert(action, at: at)
+        } else {
+            actions.append(action)
+        }
+    }
+
+    /// Add an array of Actions.
+    /// - Parameter actions: The array of Actions to append.
+    public func add(actions: [Action]) {
+        self.actions.append(contentsOf: actions)
+    }
+
+    /// Add a context free Action.
+    ///
+    /// - Parameters:
+    ///   - contextFreeAction: The context free Action to add.
+    ///   - at: An optional index at which to insert the context free Action. If not provided, the Action will be appended to the end of the contextFreeActions array.
+    public func add(contextFreeAction: Action, at: Int? = nil) {
+        if let at = at {
+            contextFreeActions.insert(contextFreeAction, at: at)
+        } else {
+            contextFreeActions.append(contextFreeAction)
+        }
+    }
+
+    /// Add an array of context free Actions.
+    /// - Parameter contextFreeActions: The array of context free Actions to append.
+    public func add(contextFreeActions: [Action]) {
+        self.contextFreeActions.append(contentsOf: contextFreeActions)
     }
 
     /// For encoding/decoding EosioTransaction <> JSON.
@@ -364,7 +402,7 @@ public class EosioTransaction: Codable {
                 }
 
                 let blocksBehind = UInt64(strongSelf.config.blocksBehind)
-                var blockNum = info.headBlockNum - blocksBehind
+                var blockNum = info.headBlockNum.value - blocksBehind
                 if blockNum <= 0 {
                     blockNum = 1
                 }
@@ -401,8 +439,8 @@ public class EosioTransaction: Codable {
                 completion(.failure(error))
             case .success(let block):
                 // set tapos fields and return
-                strongSelf.refBlockNum = UInt16(block.blockNum & 0xffff)
-                strongSelf.refBlockPrefix = block.refBlockPrefix
+                strongSelf.refBlockNum = UInt16(block.blockNum.value & 0xffff)
+                strongSelf.refBlockPrefix = block.refBlockPrefix.value
                 return completion(.success(true))
             }
         })

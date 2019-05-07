@@ -599,10 +599,10 @@ class EosioRpcProviderTests: XCTestCase {
                 XCTAssertEqual(localHostTimesTried, 3)
                 XCTAssertEqual(numberOfFailovers, 1)
                 XCTAssertEqual(endpoint2exampleTimesTried, 1)
+                expect.fulfill()
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_block attempt")
-                expect.fulfill()
             }
         }
         wait(for: [expect], timeout: 30)

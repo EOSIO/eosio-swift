@@ -194,7 +194,10 @@ public class EosioRpcProvider {
 
         // Any endpoints to try?
         guard let newEndpoint = self.endPointQueue.dequeue() else {
-           return false
+           // All endpoints have been exhausted.
+           // Set endpoint to orignal one so the rpc proider instance is not DOA for subsequent calls (that may very well error)!
+            self.currentEndpoint = self.origEndpoints[0]
+            return false
         }
 
         // Set up for failover run. Will force a get and compare of new endpoint's chainId.
@@ -279,16 +282,13 @@ public class EosioRpcProvider {
                 if let resp = response as? EosioRpcInfoResponse {
 
                     if self.chainId == nil && self.originalChainId == nil {
-                        print("SETTING chainId")
                         self.chainId = resp.chainId
                     } else {
                         if let validChainId = self.originalChainId,
                                 validChainId == resp.chainId {
                             //new endpoint chain id matches orignimal endpoint chain id
-                            print("SETTING chainId that matches orginal ID")
                             self.chainId = resp.chainId
                         } else {
-                            print("RETURNING error chainId does not match orginal ID")
                             let error = EosioError(.rpcProviderError, reason: "New endpoint chain ID does not match previous endpoint chain ID.")
                             return Promise(error: error)
                         }

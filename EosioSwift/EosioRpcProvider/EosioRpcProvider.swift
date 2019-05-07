@@ -195,7 +195,7 @@ public class EosioRpcProvider {
         // Any endpoints to try?
         guard let newEndpoint = self.endPointQueue.dequeue() else {
            // All endpoints have been exhausted.
-           // Set endpoint to orignal one so the rpc proider instance is not DOA for subsequent calls (that may very well error)!
+           // Set endpoint to orignal one so the rpc proider instance is not DOA for subsequent calls.
             self.currentEndpoint = self.origEndpoints[0]
             return false
         }
@@ -251,53 +251,49 @@ public class EosioRpcProvider {
 
     private func processRequest<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
 
-        print("processRequest called")
         // This promise var is used for the return of Promise<T> expected in this function.
         var promise: Promise<T>
-        if self.chainId == nil {
-
-            promise = captureChainId()
-
-            promise.catch { error in
-                promise = Promise(error: error)
-            }
-
-            if rpc == "chain/get_info" {
-                // Return the getInfo result since that was the original call that triggered this func.
-                return promise
+        promise = captureChainId(rpc: rpc).then { (response: EosioRpcInfoResponse) -> Promise<T> in
+            if rpc == "chain/get_info", let resp = response as? T {
+                return Promise.value(resp)
             } else {
-                // Return the correct result for the rpc needed.
-                promise = runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
+                return self.runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
             }
-
-        } else {
-            promise = runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
         }
         return promise
     }
 
-    private func captureChainId<T: Decodable & EosioRpcResponseProtocol>() -> Promise<T> {
-        print("captureChainId called")
-        return runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
-            .then { (response: T) -> Promise<T>  in
-                if let resp = response as? EosioRpcInfoResponse {
-                    if self.chainId == nil && self.originalChainId == nil {
-                        self.chainId = resp.chainId
-                        self.originalChainId = resp.chainId
-                        return Promise.value(response)
-                    } else if self.chainId == nil {
-                        if self.originalChainId == resp.chainId {
-                            self.chainId = resp.chainId
-                            return Promise.value(response)
-                        } else {
-                            let error = EosioError(.rpcProviderChainIdError, reason: "New endpoint chain ID does not match previous endpoint chain ID.")
-                            return Promise(error: error)
-                        }
-                    }
-                }
-                print("captureChainId leaving")
+    private func captureChainId(rpc: String) -> Promise<EosioRpcInfoResponse> {
+        var promise: Promise<EosioRpcInfoResponse>
+
+        if rpc != "chain/get_info" && self.chainId != nil {
+            // need to return a dummy response objec there to satisfy the promise expectation.
+            return Promise.value(EosioRpcInfoResponse(chainId: "", headBlockNum: 0, lastIrreversibleBlockNum: 0, lastIrreversibleBlockId: "", headBlockId: "", headBlockTime: ""))
+        }
+
+        promise = runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
+
+        return promise.then { (response: EosioRpcInfoResponse) -> Promise<EosioRpcInfoResponse>  in
+            if self.chainId == nil && self.originalChainId == nil {
+                // very first setting of chainId
+                self.chainId = response.chainId
+                self.originalChainId = response.chainId
                 return Promise.value(response)
+            } else if self.chainId == nil {
+                if self.originalChainId == response.chainId {
+                    // this check would occur if failover is happening.
+                    // the new endpoint chainId matches the original chainId for previous valid endponts running the same block chain.
+                    self.chainId = response.chainId
+                    return Promise.value(response)
+                } else {
+                    let error = EosioError(.rpcProviderChainIdError, reason: "New endpoint chain ID does not match previous endpoint chain ID.")
+                    return Promise(error: error)
+                }
             }
+
+            print("captureChainId leaving")
+            return Promise.value(response)
+        }
     }
 
     private func runRequestWithRetry<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {

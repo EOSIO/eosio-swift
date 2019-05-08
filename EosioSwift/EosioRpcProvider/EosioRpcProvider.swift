@@ -309,7 +309,7 @@ public class EosioRpcProvider {
             } else if self.chainId == nil {
                 if self.originalChainId == response.chainId {
                     // This check would occur if failover is happening.
-                    // The new endpoint chainId matches the original chainId for previous valid endpoints running the same blockchain.
+                    // The new endpoint blockchain ID matches the original blockchain ID for previous valid endpoints running the same blockchain.
                     self.chainId = response.chainId
                     return Promise.value(response)
                 } else {

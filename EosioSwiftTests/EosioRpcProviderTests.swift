@@ -542,7 +542,7 @@ class EosioRpcProviderTests: XCTestCase {
 
     }
 
-    /// Tests that failover with success at second enpoint will show proper results and retries.
+    /// Tests that failover with success at second endpoint will show proper results and retries.
     func testFailoverNextEndpointSuccess() {
         rpcProvider = EosioRpcProvider(endpoints: [url, url2, url3], retries: 3)
         var numberOfFailovers = 0

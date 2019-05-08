@@ -238,7 +238,7 @@ public class EosioRpcProvider {
             is an error that will bubble up so the calling app can deal with it. See nextActionFor(error: Error) -> NextAction.
 
          3) Failover. After all retries fail then try the process again with a subsequent endpoint.
-             a) Subsequent enpoints not having the same blockdhain ID as the first should be
+             a) Subsequent enpoints not having the same blockchain ID as the first should be
                 discarded and the next tried if one is available. Otherwise, bubble up the failure.
              b) Certain failures are considered fatal and will not failover to a new endpoint. E.g., no network connection, etc.
                 See nextActionFor(error: Error) -> NextAction.
@@ -291,7 +291,7 @@ public class EosioRpcProvider {
         var promise: Promise<EosioRpcInfoResponse>
 
         if rpc != self.getInfoRpc && self.chainId != nil {
-            // need to return a dummy response objec there to satisfy the promise expectation.
+            // Need to return a dummy response objec there to satisfy the promise expectation.
             let response = EosioRpcInfoResponse(chainId: "", headBlockNum: EosioUInt64.uint64(0),
                                                 lastIrreversibleBlockNum: EosioUInt64.uint64(0),
                                                 lastIrreversibleBlockId: "", headBlockId: "", headBlockTime: "")

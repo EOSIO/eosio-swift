@@ -13,7 +13,8 @@ import PromiseKit
 /// RPC Reference: https://developers.eos.io/eosio-nodeos/reference
 public class EosioRpcProvider {
 
-    // How to hanlde error conditions for retry / failover.
+    private let getInfoRpc = "chain/get_info"
+    // How to handle error conditions for retry / failover.
     private enum NextAction {
         case returnError
         case retry
@@ -21,7 +22,7 @@ public class EosioRpcProvider {
         case retryOnceThenFailover
     }
 
-    /// The Block Chain ID that all RPC calls for a active instance of EosioRpcProvider should be going to.
+    /// The blockchain ID that all RPC calls for an active instance of EosioRpcProvider should be interacting with.
     public var chainId: String?
     private var originalChainId: String?
     private var origEndpoints: [URL]
@@ -60,13 +61,23 @@ public class EosioRpcProvider {
         self.currentEndpoint = endPointQueue.dequeue()
     }
 
-    private func retry<T>(maximumRetryCount: Int = 1, _ body: @escaping () -> Promise<T>) -> Promise<T> {
+    // This is based on the retry/polling pattern found at:
+    // https://github.com/mxcl/PromiseKit/blob/master/Documentation/CommonPatterns.md#retry--polling
+    //
+    // The 'body' here refers to a promise func that is wrapped by this retry promise.
+    // The inner attempt() func is dispatched for every promise try.
+    // Usage of this func will look like:
+    //  retry {
+    //        someFunc() -> Promise<T>
+    //  }
+    //
+    private func retry<T>(_ body: @escaping () -> Promise<T>) -> Promise<T> {
         var attempts = 0
         func attempt() -> Promise<T> {
             attempts += 1
             return body().recover { error -> Promise<T> in
                 // We only want to retry for specific errors!
-                guard (attempts < maximumRetryCount) && self.isRetryable(error: error, tries: attempts) else {
+                guard (attempts < self.retries) && self.isRetryable(error: error, tries: attempts) else {
                     throw error
                 }
                 return after(self.dispatchTimeInterval).then(on: nil, attempt)
@@ -181,7 +192,7 @@ public class EosioRpcProvider {
             return NextAction.returnError
         }
     }
-    // swiftlint:ensable function_body_length
+    // swiftlint:enable function_body_length
     // swiftlint:enable cyclomatic_complexity
 
     private func canErrorFailOverToNewEndpoint(error: Error) -> Bool {
@@ -195,7 +206,7 @@ public class EosioRpcProvider {
         // Any endpoints to try?
         guard let newEndpoint = self.endPointQueue.dequeue() else {
            // All endpoints have been exhausted.
-           // Set endpoint to orignal one so the rpc proider instance is not DOA for subsequent calls.
+           // Set endpoint to original one so the RPC provider instance is not DOA for subsequent calls.
             self.currentEndpoint = self.origEndpoints[0]
             return false
         }
@@ -219,16 +230,18 @@ public class EosioRpcProvider {
         /*
          Logic for retry and failover implementation:
          
-         1) First call to an endpoint needs to call getInfo to get the chainId which is stored to ensure all
-            calls and all endpoints are running the same chain ID.
+         1) First call to an endpoint needs to call getInfo to get the blockchain ID which is stored to ensure all
+            calls and all endpoints are running on the same blockchain.
 
          2) An endpoint call is retried on failures up to the number of times specified by the RPCProvider's
-            retries property.  Failures are only retried for bad HTTP response status!  No network connection
-            is an error that will bubble up so the calling app can deal with it.
+         retries property.  Retry only occures for specific failures. E.g., no network connection
+            is an error that will bubble up so the calling app can deal with it. See nextActionFor(error: Error) -> NextAction.
 
          3) Failover. After all retries fail then try the process again with a subsequent endpoint.
-             a) Subsequent enpoints not having the same Chain ID as the first should be
-                discarded and the next tried if one is available.  Otherwise, bubble up the failure.
+             a) Subsequent enpoints not having the same blockdhain ID as the first should be
+                discarded and the next tried if one is available. Otherwise, bubble up the failure.
+             b) Certain failures are considered fatal and will not failover to a new endpoint. E.g., no network connection, etc.
+                See nextActionFor(error: Error) -> NextAction.
         */
 
         return runWithFailover {
@@ -236,10 +249,21 @@ public class EosioRpcProvider {
         }
     }
 
+    // This is based on the retry/polling pattern found at:
+    // https://github.com/mxcl/PromiseKit/blob/master/Documentation/CommonPatterns.md#retry--polling
+    //
+    // The 'body' here refers to a promise func that is wrapped by this runWithFailover promise.
+    // The inner failover() func is dispatched for every promise try.
+    // Usage of this func will look like:
+    //  runWithFailover {
+    //        someFunc() -> Promise<T>
+    //  }
+    //
+    // This particular implementation is typing the return promise to a Decodable & EosioRpcResponseProtocol object.
     private func runWithFailover<T: Decodable & EosioRpcResponseProtocol>(_ body: @escaping () -> Promise<T>) -> Promise<T> {
         func failOver() -> Promise<T> {
             return body().recover { error -> Promise<T> in
-                // see if we can failover this error to a new endpoint!
+                // See if we can failover this error to a new endpoint!
                 guard self.canErrorFailOverToNewEndpoint(error: error) else {
                     throw EosioError(.rpcProviderError, reason: error.localizedDescription, originalError: error as NSError)
                 }
@@ -254,7 +278,7 @@ public class EosioRpcProvider {
         // This promise var is used for the return of Promise<T> expected in this function.
         var promise: Promise<T>
         promise = captureChainId(rpc: rpc).then { (response: EosioRpcInfoResponse) -> Promise<T> in
-            if rpc == "chain/get_info", let resp = response as? T {
+            if rpc == self.getInfoRpc, let resp = response as? T {
                 return Promise.value(resp)
             } else {
                 return self.runRequestWithRetry(rpc: rpc, requestParameters: requestParameters)
@@ -266,7 +290,7 @@ public class EosioRpcProvider {
     private func captureChainId(rpc: String) -> Promise<EosioRpcInfoResponse> {
         var promise: Promise<EosioRpcInfoResponse>
 
-        if rpc != "chain/get_info" && self.chainId != nil {
+        if rpc != self.getInfoRpc && self.chainId != nil {
             // need to return a dummy response objec there to satisfy the promise expectation.
             let response = EosioRpcInfoResponse(chainId: "", headBlockNum: EosioUInt64.uint64(0),
                                                 lastIrreversibleBlockNum: EosioUInt64.uint64(0),
@@ -274,18 +298,18 @@ public class EosioRpcProvider {
             return Promise.value(response)
         }
 
-        promise = runRequestWithRetry(rpc: "chain/get_info", requestParameters: nil)
+        promise = runRequestWithRetry(rpc: self.getInfoRpc, requestParameters: nil)
 
         return promise.then { (response: EosioRpcInfoResponse) -> Promise<EosioRpcInfoResponse>  in
             if self.chainId == nil && self.originalChainId == nil {
-                // very first setting of chainId
+                // Very first setting of chainId
                 self.chainId = response.chainId
                 self.originalChainId = response.chainId
                 return Promise.value(response)
             } else if self.chainId == nil {
                 if self.originalChainId == response.chainId {
-                    // this check would occur if failover is happening.
-                    // the new endpoint chainId matches the original chainId for previous valid endponts running the same block chain.
+                    // This check would occur if failover is happening.
+                    // The new endpoint chainId matches the original chainId for previous valid endpoints running the same blockchain.
                     self.chainId = response.chainId
                     return Promise.value(response)
                 } else {
@@ -299,7 +323,7 @@ public class EosioRpcProvider {
 
     private func runRequestWithRetry<T: Decodable & EosioRpcResponseProtocol>(rpc: String, requestParameters: Encodable?) -> Promise<T> {
 
-        return retry(maximumRetryCount: Int(self.retries)) {
+        return retry {
             self.runRequest(rpc: rpc, requestParameters: requestParameters)
         }
     }
@@ -343,16 +367,16 @@ public class EosioRpcProvider {
             resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
             return Promise.value(resource)
         } catch DecodingError.dataCorrupted(let context) {
-            let errorReason = "\(errorReasonPrefix) DataCorrupted: \(context.debugDescription)"
+            let errorReason = "\(errorReasonPrefix) DataCorrupted: \(context.debugDescription)."
             return makeFatalEosioErrorPromiseError(reason: errorReason)
         } catch DecodingError.keyNotFound(let key, let context) {
-            let errorReason = "\(errorReasonPrefix) KeyNotFound: \(key.stringValue) \(context.debugDescription)"
+            let errorReason = "\(errorReasonPrefix) KeyNotFound: \(key.stringValue) \(context.debugDescription)."
             return makeFatalEosioErrorPromiseError(reason: errorReason)
         } catch DecodingError.typeMismatch(let type, let context) {
-            let errorReason = "\(errorReasonPrefix) TypeMismatch: \(type) was expected, \(context.debugDescription)"
+            let errorReason = "\(errorReasonPrefix) TypeMismatch: \(type) was expected, \(context.debugDescription)."
             return makeFatalEosioErrorPromiseError(reason: errorReason)
         } catch DecodingError.valueNotFound(let type, let context) {
-            let errorReason = "\(errorReasonPrefix) ValueNotFound: no value was found for \(type), \(context.debugDescription)"
+            let errorReason = "\(errorReasonPrefix) ValueNotFound: no value was found for \(type), \(context.debugDescription)."
             return makeFatalEosioErrorPromiseError(reason: errorReason)
         } catch let error {
             return makeFatalEosioErrorPromiseError(reason: errorReasonPrefix, originialError: error as NSError)

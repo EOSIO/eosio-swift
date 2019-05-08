@@ -234,7 +234,7 @@ public class EosioRpcProvider {
             calls and all endpoints are running on the same blockchain.
 
          2) An endpoint call is retried on failures up to the number of times specified by the RPCProvider's
-         retries property.  Retry only occures for specific failures. E.g., no network connection
+         retries property.  Retry only occurs for specific failures. E.g., no network connection
             is an error that will bubble up so the calling app can deal with it. See nextActionFor(error: Error) -> NextAction.
 
          3) Failover. After all retries fail then try the process again with a subsequent endpoint.

@@ -291,7 +291,7 @@ public class EosioRpcProvider {
         var promise: Promise<EosioRpcInfoResponse>
 
         if rpc != self.getInfoRpc && self.chainId != nil {
-            // Need to return a dummy response objec there to satisfy the promise expectation.
+            // Need to return a dummy response object there to satisfy the promise expectation.
             let response = EosioRpcInfoResponse(chainId: "", headBlockNum: EosioUInt64.uint64(0),
                                                 lastIrreversibleBlockNum: EosioUInt64.uint64(0),
                                                 lastIrreversibleBlockId: "", headBlockId: "", headBlockTime: "")

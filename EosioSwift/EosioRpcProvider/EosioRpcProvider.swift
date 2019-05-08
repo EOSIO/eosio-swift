@@ -238,7 +238,7 @@ public class EosioRpcProvider {
             is an error that will bubble up so the calling app can deal with it. See nextActionFor(error: Error) -> NextAction.
 
          3) Failover. After all retries fail then try the process again with a subsequent endpoint.
-             a) Subsequent enpoints not having the same blockchain ID as the first should be
+             a) Subsequent endpoints not having the same blockchain ID as the first should be
                 discarded and the next tried if one is available. Otherwise, bubble up the failure.
              b) Certain failures are considered fatal and will not failover to a new endpoint. E.g., no network connection, etc.
                 See nextActionFor(error: Error) -> NextAction.

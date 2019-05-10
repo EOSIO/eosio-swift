@@ -48,7 +48,7 @@ ECC provides the following methods, among others. This list will expand as more 
 
 ## Documentation
 
-Please refer to the generated code documentation by cloning this repo and opening the `docs/code/index.html` file in your browser.
+Please refer to the generated code documentation at https://eosio.github.io/eosio-swift-ecc or by cloning this repo and opening the `docs/index.html` file in your browser.
 
 ## Want to help?
 

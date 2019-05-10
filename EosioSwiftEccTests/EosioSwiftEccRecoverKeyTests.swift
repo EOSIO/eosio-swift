@@ -3,10 +3,11 @@
 //  EosioSwiftEccTests
 
 //  Created by Todd Bowden on 3/7/19
-//  Copyright (c) 2018-2019 block.one
+// Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import XCTest
+import EosioSwift
 @testable import EosioSwiftEcc
 
 class EosioSwiftEccRecoverKeyTests: XCTestCase {
@@ -17,6 +18,12 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
     let message = "Hello World".data(using: .utf8)!
     let signature0Hex = "304402207b80d705cc3f57f13000d79f6972c734a42d66aa42b8f698de998ff7594551f6022039b8d83f8ceba229e3b9e1d7efd844c978436e33b5cf79c19e92fbd69de7e4a5"
     let signature1Hex = "3044022061d3c08b3727396c56db35e94debf9c899c81cf888e0e9b5b7f1881e30b370620220035c9eb0f3f4e787784fcdfefd0147e222c18d25fe368b300cf583acedebbbc1"
+
+    let privateKeyK1 = "PVT_K1_5KGziAsYALbLJiaaynE1GyG9fAq6p5n48K1B1JTQqCDfAJnioJD"
+    let publicKeyK1 = "PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"
+
+    let privateKeyR1 = "PVT_R1_2qq22p3UUuaXC3qAE6oSjGm1GzYLykdqrYBaECa29uYJG3AByD"
+    let publicKeyR1 = "PUB_R1_7aokxfwih6JV5f8vZWaPtZGPYRLQFe89hXbXNiQPMh1jUP2dDJ"
 
     func test_recoverPublicKey_from_private_key() {
         do {
@@ -63,6 +70,28 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             XCTFail("Unexpected error thrown: \(error)")
         }
 
+    }
+
+    func test_eosioK1_private_to_public() {
+        do {
+            let privateKey = try Data(eosioPrivateKey: privateKeyK1)
+            let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
+            let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioK1PublicKey
+            XCTAssertEqual(publicKeyK1, eosioPubKey)
+        } catch {
+            XCTFail("Unexpected error thrown")
+        }
+    }
+
+    func test_eosioR1_private_to_public() {
+        do {
+            let privateKey = try Data(eosioPrivateKey: privateKeyR1)
+            let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .r1)
+            let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
+            XCTAssertEqual(publicKeyR1, eosioPubKey)
+        } catch {
+            XCTFail("Unexpected error thrown")
+        }
     }
 
 }

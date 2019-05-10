@@ -430,6 +430,7 @@
 <li><a href="#working-with-transactions">Working With Transactions</a></li>
 <li><a href="#the-transaction-factory">The Transaction Factory</a></li>
 <li><a href="#usage-with-promisekit">Usage With PromiseKit</a></li>
+<li><a href="#key-management-and-signing-utilities">Key Management and Signing Utilities</a></li>
 </ul></li>
 <li><a href="#ios-example-app">iOS Example App</a></li>
 <li><a href="#documentation">Documentation</a></li>
@@ -454,10 +455,10 @@
 <pre class="highlight ruby"><code><span class="n">use_frameworks!</span>
 
 <span class="n">target</span> <span class="s2">"Your Target"</span> <span class="k">do</span>
-  <span class="n">pod</span> <span class="s2">"EosioSwift"</span><span class="p">,</span> <span class="s2">"~&gt; 0.0.3"</span> <span class="c1"># pod for this library</span>
+  <span class="n">pod</span> <span class="s2">"EosioSwift"</span><span class="p">,</span> <span class="s2">"~&gt; 0.1.0"</span> <span class="c1"># pod for this library</span>
   <span class="c1"># Providers for EOSIO SDK for Swift</span>
-  <span class="n">pod</span> <span class="s2">"EosioSwiftAbieosSerializationProvider"</span><span class="p">,</span> <span class="s2">"~&gt; 0.0.4"</span> <span class="c1"># serialization provider</span>
-  <span class="n">pod</span> <span class="s2">"EosioSwiftSoftkeySignatureProvider"</span><span class="p">,</span> <span class="s2">"~&gt; 0.0.3"</span> <span class="c1"># experimental signature provider for development only</span>
+  <span class="n">pod</span> <span class="s2">"EosioSwiftAbieosSerializationProvider"</span><span class="p">,</span> <span class="s2">"~&gt; 0.1.0"</span> <span class="c1"># serialization provider</span>
+  <span class="n">pod</span> <span class="s2">"EosioSwiftSoftkeySignatureProvider"</span><span class="p">,</span> <span class="s2">"~&gt; 0.1.0"</span> <span class="c1"># experimental signature provider for development only</span>
 <span class="k">end</span>
 </code></pre>
 
@@ -531,6 +532,9 @@
     <span class="c1">// Handle error.</span>
 <span class="p">}</span>
 </code></pre>
+<h3 id='key-management-and-signing-utilities' class='heading'>Key Management and Signing Utilities</h3>
+
+<p>Utilities for key generation and management and other signing functionality can be found in the <a href="https://github.com/EOSIO/eosio-swift-vault">EOSIO SDK for Swift: Vault</a> library.</p>
 <h2 id='ios-example-app' class='heading'>iOS Example App</h2>
 
 <p>If you&rsquo;d like to see EOSIO SDK for Swift in action, check out our open source <a href="https://github.com/EOSIO/eosio-swift-ios-example-app">iOS Example App</a>&ndash;a working application that fetches an account&rsquo;s token balance and pushes a transfer action.</p>

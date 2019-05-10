@@ -3,7 +3,7 @@
 //  EosioSwift
 //
 //  Created by Todd Bowden on 7/11/18.
-//  Copyright © 2018-2019 block.one.
+//  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
 import Foundation
@@ -61,6 +61,10 @@ public enum EosioErrorCode: String, Codable {
     case serializeError = "SerializeError"
     /// Error was encountered while deserializing transaction.
     case deserializeError = "DeserializeError"
+    /// Fatal Error was encountered in RpcProvider.
+    case rpcProviderFatalError = "RpcProviderFatalError"
+    /// Chain ID Error was encountered in RpcProvider.
+    case rpcProviderChainIdError = "RpcProviderChainIdError"
 
     // Non-provider errors (added as these are encountered in Eosio Extensions and Foundation).
 
@@ -154,10 +158,13 @@ open class EosioError: Error, CustomStringConvertible, Codable {
             return NSLocalizedString("Error was encountered in key management.", comment: "Error was encountered in key management.")
         case .keySigningError:
             return NSLocalizedString("Error was encountered while signing with a key.", comment: "Error was encountered while signing with a key.")
+        case .rpcProviderFatalError:
+            return NSLocalizedString("Fatal non-recoverable Error was encountered in RpcProvider.", comment: "Error in RPC processing flow.")
+        case .rpcProviderChainIdError:
+            return NSLocalizedString("Error was encountered in comparing chain Ids in RpcProvider.", comment: "Error in RPC processing flow.")
         case .unexpectedError:
             return NSLocalizedString("There was an unexpected error.", comment: "Unexpected Error")
         }
-
     }
 
     /// Initialize an `EosioError`.

@@ -18,6 +18,7 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
     - [Working With Transactions](#working-with-transactions)
     - [The Transaction Factory](#the-transaction-factory)
     - [Usage With PromiseKit](#usage-with-promisekit)
+    - [Key Management and Signing Utilities](#key-management-and-signing-utilities)
 - [iOS Example App](#ios-example-app)
 - [Documentation](#documentation)
 - [Provider Protocol Architecture](#provider-protocol-architecture)
@@ -43,10 +44,10 @@ To use EOSIO SDK for Swift in your app, add the following pods to your [Podfile]
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwift", "~> 0.0.3" # pod for this library
+  pod "EosioSwift", "~> 0.1.0" # pod for this library
   # Providers for EOSIO SDK for Swift
-  pod "EosioSwiftAbieosSerializationProvider", "~> 0.0.4" # serialization provider
-  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.0.3" # experimental signature provider for development only
+  pod "EosioSwiftAbieosSerializationProvider", "~> 0.1.0" # serialization provider
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.1.0" # experimental signature provider for development only
 end
 ```
 
@@ -132,6 +133,10 @@ firstly {
     // Handle error.
 }
 ```
+
+### Key Management and Signing Utilities
+
+Utilities for key generation and management and other signing functionality can be found in the [EOSIO SDK for Swift: Vault](https://github.com/EOSIO/eosio-swift-vault) library.
 
 ## iOS Example App
 

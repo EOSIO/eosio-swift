@@ -6,3 +6,119 @@ hide_documentation_coverage: true
 undocumented_text: ""
 output: docs
 clean: true
+custom_categories:
+  - name: Transactions
+    children:
+    - EosioTransaction
+    - EosioTransactionFactory
+  - name: Provider Protocols
+    children:
+    - EosioSignatureProviderProtocol
+    - EosioSerializationProviderProtocol
+    - EosioAbiProviderProtocol
+    - EosioRpcProviderProtocol
+  - name: Built-In Default Providers
+    children:
+    - EosioRpcProvider
+    - EosioAbiProvider
+  - name: General Helpers & Types
+    children:
+    - EosioName
+    - EosioResult
+    - RIPEMD160
+    - JsonOutput
+    - Base58String
+    - Queue
+    - LinkedList
+    - Node
+  - name: Extensions
+    children:
+    - Array
+    - Data
+    - Date
+    - Dictionary
+    - Encodable
+    - Resolver
+    - String
+  - name: Errors
+    children:
+    - EosioError
+    - EosioErrorCode
+    - Error
+  - name: Signature Provider Types
+    children:
+    - EosioAvailableKeysResponse
+    - EosioTransactionSignatureRequest
+    - EosioTransactionSignatureResponse
+  - name: RPC Provider Protocols
+    children:
+    - EosioRpcResponseProtocol
+    - EosioRpcInfoResponseProtocol
+    - EosioRpcBlockResponseProtocol
+    - EosioRpcRawAbiResponseProtocol
+    - EosioRpcRequiredKeysResponseProtocol
+    - EosioRpcTransactionResponseProtocol
+  - name: Default RPC Requests
+    children:
+    - EosioRpcAbiRequest
+    - EosioRpcAccountRequest
+    - EosioRpcHistoryActionsRequest
+    - EosioRpcBlockHeaderStateRequest
+    - EosioRpcBlockRequest
+    - EosioRpcCodeRequest
+    - EosioRpcHistoryControlledAccountsRequest
+    - EosioRpcCurrencyBalanceRequest
+    - EosioRpcCurrencyStatsRequest
+    - EosioRpcHistoryTransactionRequest
+    - EosioRpcHistoryKeyAccountsRequest
+    - EosioRpcProducersRequest
+    - EosioRpcPushTransactionRequest
+    - EosioRpcPushTransactionsRequest
+    - EosioRpcRawAbiRequest
+    - EosioRpcRawCodeAndAbiRequest
+    - EosioRpcRequiredKeysRequest
+    - EosioRpcTableByScopeRequest
+    - EosioRpcTableRowsRequest
+  - name: Default RPC Responses
+    children:
+    - EosioRpcAbiResponse
+    - EosioRpcAccountResponse
+    - EosioRpcActionsResponse
+    - EosioRpcBlockHeaderStateResponse
+    - EosioRpcBlockResponse
+    - EosioRpcCodeResponse
+    - EosioRpcControlledAccountsResponse
+    - EosioRpcCurrencyBalanceResponse
+    - EosioRpcCurrencyStatsResponse
+    - EosioRpcGetTransactionResponse
+    - EosioRpcKeyAccountsResponse
+    - EosioRpcInfoResponse
+    - EosioRpcProducersResponse
+    - EosioRpcTransactionResponse
+    - EosioRpcPushTransactionsResponse
+    - EosioRpcRawAbiResponse
+    - EosioRpcRawCodeAndAbiResponse
+    - EosioRpcRequiredKeysResponse
+    - EosioRpcTableByScopeResponse
+    - EosioRpcTableRowsResponse
+  - name: Other RPC-Related Types
+    children:
+    - RawResponse
+    - EosioUInt64
+    - EosioAccountInfo
+    - EosioRpcActionsResponseAction
+    - EosioRpcActionsResponseActionTrActDeltas
+    - EosioRpcActionsResponseActionTrReceipt
+    - EosioRpcActionsResponseActionTrace
+    - EosioRpcActionsResponseActionTraceAction
+    - EosioRpcActionsResponseActionTraceAuth
+    - EosioRpcBlockHeaderStateResponseHeader
+    - Authority
+    - CurrencyStats
+    - KeyWeight
+    - Permission
+    - PermissionLevel
+    - PermissionLevelWeight
+    - ProducerRows
+    - TableByScopeRows
+    - WaitWeight

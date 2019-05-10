@@ -85,7 +85,7 @@ signProvider.signTransaction(request: signRequest) { (response) in
 
 ## Documentation
 
-Please refer to the generated code documentation by cloning this repo and opening the `docs/code/index.html` file in your browser.
+Please refer to the generated code documentation at https://eosio.github.io/eosio-swift-softkey-signature-provider or by cloning this repo and opening the `docs/index.html` file in your browser.
 
 ## iOS Example App
 

@@ -139,7 +139,7 @@ If you'd like to see EOSIO SDK for Swift in action, check out our open source [i
 
 ## Documentation
 
-Please refer to the generated code documentation by cloning this repo and opening the `docs/code/index.html` file in your browser.
+Please refer to the generated code documentation at https://eosio.github.io/eosio-swift/ or by cloning this repo and opening the `docs/index.html` file in your browser.
 
 ## Provider Protocol Architecture
 

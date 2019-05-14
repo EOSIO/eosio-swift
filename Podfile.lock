@@ -1,7 +1,7 @@
 PODS:
   - BigInt (3.1.0):
     - SipHash (~> 1.2)
-  - EosioSwift (0.0.3):
+  - EosioSwift (0.1.0):
     - BigInt (~> 3.1)
     - PromiseKit (~> 6.8)
   - PromiseKit (6.8.4):
@@ -17,7 +17,7 @@ PODS:
   - SwiftLint (0.32.0)
 
 DEPENDENCIES:
-  - EosioSwift (~> 0.0.3)
+  - EosioSwift (~> 0.1.0)
   - SwiftLint
 
 SPEC REPOS:
@@ -31,11 +31,11 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
-  EosioSwift: 41a13e47aa34511fcc68846c59fd0882261aa264
+  EosioSwift: acc8e85c548daca511c7451dd585738dd2868fbf
   PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
 
-PODFILE CHECKSUM: 9576285f692f49902154dd65be30d09ecd1eedac
+PODFILE CHECKSUM: cf290a41070a3f97caef2d04282a856b3e492131
 
 COCOAPODS: 1.6.1

@@ -25,6 +25,13 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
     let privateKeyR1 = "PVT_R1_2qq22p3UUuaXC3qAE6oSjGm1GzYLykdqrYBaECa29uYJG3AByD"
     let publicKeyR1 = "PUB_R1_7aokxfwih6JV5f8vZWaPtZGPYRLQFe89hXbXNiQPMh1jUP2dDJ"
 
+    let privateKeyR1a = "PVT_R1_2sXhBwN8hCLSWRxxfZg6hqwGymKSudtQ7Qa5wUWyuW54E1Gd7P"
+    let publicKeyR1a = "PUB_R1_6UYnNnXv2CutCtTLgCQxJbHBeWDG3JZaSQJK9tQ7K3JUdzXw9p"
+
+    let privateKeyR1b = "PVT_R1_2fJmPgaik4rUeU1NDchQjnSPkQkga4iKzdK5hhdbKf2PQFJ57t"
+    let publicKeyR1b = "PUB_R1_5MVdX3uzs6qDHUYpdSksZFc5rAu5P4ba6MDaySuYyzQqmCw96Q"
+
+
     func test_recoverPublicKey_from_private_key() {
         do {
             let privateKey = try Data(hex: privateKeyHex)
@@ -89,6 +96,30 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .r1)
             let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
             XCTAssertEqual(publicKeyR1, eosioPubKey)
+        } catch {
+            XCTFail("Unexpected error thrown")
+        }
+    }
+
+    func test_eosioR1a_private_to_public() {
+        do {
+            let privateKey = try Data(eosioPrivateKey: privateKeyR1a)
+            let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .r1)
+            let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
+            print(eosioPubKey)
+            XCTAssertEqual(publicKeyR1a, eosioPubKey)
+        } catch {
+            XCTFail("Unexpected error thrown")
+        }
+    }
+
+    func test_eosioR1b_private_to_public() {
+        do {
+            let privateKey = try Data(eosioPrivateKey: privateKeyR1b)
+            let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .r1)
+            let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
+            print(eosioPubKey)
+            XCTAssertEqual(publicKeyR1b, eosioPubKey)
         } catch {
             XCTFail("Unexpected error thrown")
         }

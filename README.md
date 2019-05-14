@@ -32,7 +32,7 @@ To use ECC in your application, add the following pod to your [Podfile](https://
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwiftEcc", "~> 0.0.3"
+  pod "EosioSwiftEcc", "~> 0.0.4"
 end
 ```
 

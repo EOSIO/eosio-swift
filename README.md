@@ -71,7 +71,7 @@ Then, inside a `do...catch` or throwing function, do the following:
 let transaction = EosioTransaction()
 transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
 transaction.serializationProvider = EosioAbieosSerializationProvider()
-transaction.signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
 
 /// Actions can now be added to the transaction, which can, in turn, be signed and broadcast:
 
@@ -107,7 +107,7 @@ Alternatively, to avoid having to set the providers on every transaction, you ca
 
 ```swift
 let rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
-let signatureProvider = try EosioSwiftSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+let signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
 let serializationProvider = EosioAbieosSerializationProvider()
 
 let myTestnet = EosioTransactionFactory(rpcProvider: rpcProvider, signatureProvider: signatureProvider, serializationProvider: serializationProvider)

@@ -1,4 +1,4 @@
-![Swift Logo](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/blob/master/img/swift-logo.png)
+![Swift Logo](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/raw/master/img/swift-logo.png)
 # EOSIO SDK for Swift: ABIEOS Serialization Provider ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)

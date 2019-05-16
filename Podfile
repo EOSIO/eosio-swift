@@ -1,10 +1,5 @@
 using_local_pods = false
 
-unless using_local_pods
-  source 'https://github.com/EOSIO/eosio-swift-pod-specs.git'
-  source 'https://github.com/CocoaPods/Specs.git'
-end
-
 platform :ios, '12.0'
 
 if using_local_pods

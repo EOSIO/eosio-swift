@@ -1,4 +1,4 @@
-![Swift Logo](https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/img/swift-logo.png)
+![Swift Logo](https://github.com/EOSIO/eosio-swift-softkey-signature-provider/raw/master/img/swift-logo.png)
 # EOSIO SDK for Swift: Softkey Signature Provider ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)

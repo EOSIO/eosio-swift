@@ -39,10 +39,10 @@ To use ABIEOS Serialization Provider with EOSIO SDK for Swift in your app, add t
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwift", "~> 0.1.0" # EOSIO SDK for Swift core library
-  pod "EosioSwiftAbieos", "~> 0.1.0" # pod for this library
+  pod "EosioSwift", "~> 0.1.1" # EOSIO SDK for Swift core library
+  pod "EosioSwiftAbieos", "~> 0.1.1" # pod for this library
   # add other providers for EOSIO SDK for Swift
-  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.1.0" # experimental provider for development only
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.1.1" # experimental provider for development only
 end
 ```
 

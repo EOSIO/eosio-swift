@@ -17,7 +17,7 @@ PODS:
   - SwiftLint (0.32.0)
 
 DEPENDENCIES:
-  - EosioSwift (~> 0.1.0)
+  - EosioSwift (~> 0.1.1)
   - SwiftLint
 
 SPEC REPOS:
@@ -35,6 +35,6 @@ SPEC CHECKSUMS:
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
 
-PODFILE CHECKSUM: f1e1161021649d6aa119b7bfaa1fe86e0d569412
+PODFILE CHECKSUM: 105442ca416ef42d52be790ae5dd7b7a4e449b38
 
 COCOAPODS: 1.6.1

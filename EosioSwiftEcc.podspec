@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftEcc'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'Elliptical Curve Cryptography (ECC) functions for EOSIO. '
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-ecc'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
@@ -39,5 +39,5 @@ Pod::Spec.new do |s|
 						                'ENABLE_BITCODE' => 'YES' }
 
   s.ios.dependency 'GRKOpenSSLFramework', '~> 1.0'
-  s.ios.dependency 'EosioSwift', '~> 0.1.0'
+  s.ios.dependency 'EosioSwift', '~> 0.1.1'
 end

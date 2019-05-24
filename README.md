@@ -5,7 +5,7 @@
 [![Swift 4.2](https://img.shields.io/badge/Language-Swift_4.2-orange.svg)](https://swift.org)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg)
 
-EOSIO SDK for Swift is an API for integrating with EOSIO-based blockchains using the [EOSIO RPC API](https://developers.eos.io/eosio-nodeos/reference).
+EOSIO SDK for Swift is an API for integrating with EOSIO-based blockchains using the [EOSIO RPC API](https://developers.eos.io/eosio-nodeos/reference). For a high-level introduction to our Swift and Java SDKs, check out our announcement on Medium: [EOSIO™ Software Release: Native SDKs for Swift and Java](https://medium.com/eosio/eosio-software-release-native-sdks-for-swift-and-java-e6086ddd37b8).
 
 To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is for the core library to run anywhere Swift runs, adding other targets (macOS, watchOS, tvOS) as the library matures.
 

@@ -8,6 +8,7 @@ Interested in contributing? That's awesome! Here are some guidelines to get star
   - [Change Requests](#change-requests)
 - [Working on ECC](#working-on-ecc)
   - [Feature Branches](#feature-branches)
+  - [Developing With Local Pods](#developing-with-local-pods)
   - [Submitting Pull Requests](#submitting-pull-requests)
   - [Testing and Quality Assurance](#testing-and-quality-assurance)
   - [Code Style and Linting](#code-style-and-linting)
@@ -65,6 +66,14 @@ To get it out of the way:
 
 - **[develop](/../../tree/develop)** is the development branch. All work on the next release happens here so you should generally branch off `develop`. Do **NOT** use this branch for a production site.
 - **[master](/../../tree/master)** contains the latest release of ECC. This branch may be used in production. Do **NOT** use this branch to work on ECC's source.
+
+### Developing With Local Pods
+
+By default, pods are installed from remote CocoaPods. If, however, you wish to develop locally and you'd like to integrate with locally-cloned versions of EOSIO SDK for Swift and/or other Providers, follow these instructions:
+
+1. Clone this and other repos into the same directory, as siblings of one another.
+1. Export the environment variable `USE_LOCAL_PODS` and set it to `'true'` and then run `pod install` in this and other projects as necessary or for only one repository you can combine the two with `USE_LOCAL_PODS='true' pod install`.  If `USE_LOCAL_PODS` is not set or is any other value than `'true'` then the pods will all be installed from remote CocoaPods.
+1. Develop!
 
 ### Submitting Pull Requests
 

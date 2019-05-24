@@ -1,4 +1,4 @@
-using_local_pods = false
+using_local_pods = ENV['USE_LOCAL_PODS'] == 'true' || false
 
 platform :ios, '12.0'
 

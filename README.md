@@ -160,6 +160,7 @@ EOSIO SDK for Swift _does not include_ a signature provider implementation; one 
 
 * [Vault Signature Provider](https://github.com/EOSIO/eosio-swift-vault-signature-provider) - Signature provider implementation for signing transactions using keys stored in Keychain or the device's Secure Enclave.
 * [Softkey Signature Provider](https://github.com/EOSIO/eosio-swift-softkey-signature-provider) - Example signature provider for signing transactions using K1 keys in memory. _This signature provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet._
+* [Reference iOS Authenticator Signature Provider](https://github.com/EOSIO/eosio-swift-reference-ios-authenticator-signature-provider) - Native iOS Apps using this signature provider are able to integrate with the [EOSIO Reference iOS Authenticator App](https://github.com/EOSIO/eosio-reference-ios-authenticator-app), allowing their users to sign in and approve transactions via the authenticator app.
 
 ### RPC Provider Protocol
 

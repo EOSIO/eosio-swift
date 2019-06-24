@@ -193,6 +193,12 @@ public struct EosioRpcHistoryActionsRequest: Codable {
         self.offset = offset
         self.accountName = accountName
     }
+
+    enum CodingKeys: String, CodingKey {
+        case position = "pos"
+        case offset
+        case accountName = "account_name"
+    }
 }
 
 /// The request struct for `get_transaction_request` RPC requests.

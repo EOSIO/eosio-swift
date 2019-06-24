@@ -844,7 +844,7 @@ public struct EosioRpcActionsResponseActionTrReceipt: Decodable, EosioRpcRespons
 
     public var receiver: String
     public var actionDigest: String
-    public var globalSequence: String // Convert to BigInt
+    public var globalSequence: EosioUInt64
     public var receiverSequence: EosioUInt64
     public var authorizationSequence: [Any]
     public var codeSequence: EosioUInt64
@@ -865,7 +865,7 @@ public struct EosioRpcActionsResponseActionTrReceipt: Decodable, EosioRpcRespons
 
         receiver = try container.decode(String.self, forKey: .receiver)
         actionDigest = try container.decode(String.self, forKey: .actionDigest)
-        globalSequence = try container.decode(String.self, forKey: .globalSequence)
+        globalSequence = try container.decode(EosioUInt64.self, forKey: .globalSequence)
         receiverSequence = try container.decode(EosioUInt64.self, forKey: .receiveSequence)
         var authorizationSequenceContainer = try? container.nestedUnkeyedContainer(forKey: .authorizationSequence)
         authorizationSequence = authorizationSequenceContainer?.decodeDynamicValues() ?? [Any]()

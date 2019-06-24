@@ -926,7 +926,7 @@ public struct EosioRpcActionsResponseActionTrActDeltas: Decodable, EosioRpcRespo
     public var _rawResponse: Any?
 
     public var account: String
-    public var delta: EosioUInt64
+    public var delta: Int64
 
     enum CustomCodingKeys: String, CodingKey {
         case account
@@ -937,7 +937,7 @@ public struct EosioRpcActionsResponseActionTrActDeltas: Decodable, EosioRpcRespo
         let container = try decoder.container(keyedBy: CustomCodingKeys.self)
 
         account = try container.decode(String.self, forKey: .account)
-        delta = try container.decode(EosioUInt64.self, forKey: .delta)
+        delta = try container.decode(Int64.self, forKey: .delta)
     }
 }
 

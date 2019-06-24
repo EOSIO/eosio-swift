@@ -881,7 +881,7 @@ public struct EosioRpcActionsResponseActionTraceAction: Decodable, EosioRpcRespo
     public var name: String
     public var authorization: [EosioRpcActionsResponseActionTraceAuth]
     public var data: [String: Any]
-    public var hexData: String
+    public var hexData: String?
 
     enum CustomCodingKeys: String, CodingKey {
         case account
@@ -899,7 +899,7 @@ public struct EosioRpcActionsResponseActionTraceAction: Decodable, EosioRpcRespo
         authorization = try container.decode([EosioRpcActionsResponseActionTraceAuth].self, forKey: .authorization)
         let dataContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .data)
         data = dataContainer?.decodeDynamicKeyValues() ?? [String: Any]()
-        hexData = try container.decode(String.self, forKey: .hexData)
+        hexData = try? container.decode(String.self, forKey: .hexData)
     }
 }
 

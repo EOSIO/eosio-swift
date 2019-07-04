@@ -13,4 +13,5 @@ target 'EosioSwift' do
   pod 'BigInt', '~> 3.1', :inhibit_warnings => true
   pod 'SwiftLint'
   pod 'PromiseKit', '~> 6.8'
+  pod 'Base16'
 end

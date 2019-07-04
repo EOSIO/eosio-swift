@@ -8,6 +8,7 @@
 
 import Foundation
 import CommonCrypto
+import Base16
 
 public extension Data {
 
@@ -57,17 +58,8 @@ public extension Data {
     ///
     /// - Parameter hexString: A Base16 encoded string.
     init?(hexString: String) {
-        let len = hexString.count / 2
-        var data = Data(capacity: len)
-        for i in 0..<len {
-            let j = hexString.index(hexString.startIndex, offsetBy: i*2) // swiftlint:disable:this identifier_name
-            let k = hexString.index(j, offsetBy: 2) // swiftlint:disable:this identifier_name
-            let bytes = hexString[j..<k]
-            if var num = UInt8(bytes, radix: 16) {
-                data.append(&num, count: 1)
-            } else {
-                return nil
-            }
+        guard let data = try? Base16.decode(hexString) else {
+            return nil
         }
         self = data
     }

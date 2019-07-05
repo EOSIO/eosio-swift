@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.source           = { :git => 'https://github.com/EOSIO/eosio-swift.git', :tag => "v" + s.version.to_s }
 
-  s.swift_version         = '5.0'
+  s.swift_version         = '4.2'
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'EosioSwift/**/*.swift'

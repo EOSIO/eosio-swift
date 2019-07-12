@@ -609,8 +609,25 @@ public class RpcTestConstants {
                         "weight": 1
                     }
                 ],
-                "accounts": [],
-                "waits": []
+                "accounts": [
+                      {
+                        "permission": {
+                          "actor": "eosaccount1",
+                          "permission": "active"
+                        },
+                        "weight": 1
+                      },
+                ],
+                "waits": [
+                    {
+                        "wait_sec": 259200,
+                        "weight": 1
+                    },
+                    {
+                        "wait_sec": 604800,
+                        "weight": 2
+                    }
+                ]
             }
         },
         {

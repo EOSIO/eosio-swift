@@ -1,24 +1,24 @@
 PODS:
   - BigInt (3.1.0):
     - SipHash (~> 1.2)
-  - EosioSwift (0.1.1):
+  - EosioSwift (0.1.2):
     - BigInt (~> 3.1)
     - PromiseKit (~> 6.8)
   - GRKOpenSSLFramework (1.0.2.16)
-  - PromiseKit (6.8.4):
-    - PromiseKit/CorePromise (= 6.8.4)
-    - PromiseKit/Foundation (= 6.8.4)
-    - PromiseKit/UIKit (= 6.8.4)
-  - PromiseKit/CorePromise (6.8.4)
-  - PromiseKit/Foundation (6.8.4):
+  - PromiseKit (6.10.0):
+    - PromiseKit/CorePromise (= 6.10.0)
+    - PromiseKit/Foundation (= 6.10.0)
+    - PromiseKit/UIKit (= 6.10.0)
+  - PromiseKit/CorePromise (6.10.0)
+  - PromiseKit/Foundation (6.10.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.8.4):
+  - PromiseKit/UIKit (6.10.0):
     - PromiseKit/CorePromise
   - SipHash (1.2.2)
   - SwiftLint (0.32.0)
 
 DEPENDENCIES:
-  - EosioSwift (~> 0.1.1)
+  - EosioSwift (~> 0.1.2)
   - GRKOpenSSLFramework (~> 1.0)
   - SwiftLint
 
@@ -33,12 +33,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
-  EosioSwift: d0710f56b8afc6408faf766427538f2af046c595
+  EosioSwift: eba029dba3f8bdee6ccdd0ef6b2671d960c37b40
   GRKOpenSSLFramework: 35944e317e6336b2944ad70b059d84db6b2d8532
-  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
+  PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
 
-PODFILE CHECKSUM: 89053ee2cc1ac8a6de9eee8c448796e137d43b91
+PODFILE CHECKSUM: 2b8e24eedfd342715f0d71172956f79a417a465f
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.3

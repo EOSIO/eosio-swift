@@ -22,14 +22,14 @@ else
   target 'EosioSwiftSoftkeySignatureProvider' do
     use_frameworks!
 
-    pod 'EosioSwift', '~> 0.1.1'
-    pod 'EosioSwiftEcc', '~> 0.1.1'
+    pod 'EosioSwift', '~> 0.1.2'
+    pod 'EosioSwiftEcc', '~> 0.1.2'
     pod 'SwiftLint'
 
     target 'EosioSwiftSoftkeySignatureProviderTests' do
       inherit! :search_paths
-      pod 'EosioSwift', '~> 0.1.1'
-      pod 'EosioSwiftEcc', '~> 0.1.1'
+      pod 'EosioSwift', '~> 0.1.2'
+      pod 'EosioSwiftEcc', '~> 0.1.2'
     end
   end
 end

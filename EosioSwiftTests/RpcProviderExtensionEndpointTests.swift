@@ -149,6 +149,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     }
 
     /// Test testGetAccount() implementation.
+    // swiftlint:disable function_body_length
     func testGetAccount() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
@@ -203,6 +204,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+    // swiftlint:enable function_body_length
 
     /// Test testGetCurrencyBalance() implementation.
     func testGetCurrencyBalance() {

@@ -425,6 +425,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     }
 
     /// Test getAccount() promise implementation.
+    // swiftlint:disable function_body_length
     func testGetAccount(unhappy: Bool = false) {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
@@ -489,6 +490,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
         wait(for: [expect], timeout: 30)
     }
+    // swiftlint:enable function_body_length
 
     /// Test getAccount promise happy path.
     func testGetAccountSuccess() {

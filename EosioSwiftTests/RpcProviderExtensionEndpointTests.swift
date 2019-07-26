@@ -149,6 +149,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     }
 
     /// Test testGetAccount() implementation.
+    // swiftlint:disable function_body_length
     func testGetAccount() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
@@ -164,6 +165,22 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssertNotNil(eosioRpcAccountResponse)
                 XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
                 XCTAssert(eosioRpcAccountResponse.ramQuota.value == 13639863)
+                let permissions = eosioRpcAccountResponse.permissions
+                XCTAssertNotNil(permissions)
+                guard let activePermission = permissions.filter({$0.permName == "active"}).first else {
+                    return XCTFail("Cannot find Active permission in permissions structure of the account")
+                }
+                XCTAssert(activePermission.parent == "owner")
+                guard let keysAndWeight = activePermission.requiredAuth.keys.first else {
+                    return XCTFail("Cannot find key in keys structure of the account")
+                }
+                XCTAssert(keysAndWeight.key == "EOS5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCvzbYpba")
+                guard let firstPermission = activePermission.requiredAuth.accounts.first else {
+                    return XCTFail("Can't find permission in keys structure of the account")
+                }
+                XCTAssert(firstPermission.permission.actor == "eosaccount1")
+                XCTAssert(firstPermission.permission.permission == "active")
+                XCTAssert(activePermission.requiredAuth.waits.first?.waitSec.value == 259200)
                 XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
                 if let dict = eosioRpcAccountResponse.totalResources {
                     if let owner = dict["owner"] as? String {
@@ -187,6 +204,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+    // swiftlint:enable function_body_length
 
     /// Test testGetCurrencyBalance() implementation.
     func testGetCurrencyBalance() {

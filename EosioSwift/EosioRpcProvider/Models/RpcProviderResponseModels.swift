@@ -267,11 +267,11 @@ public struct PermissionLevel: Decodable {
 /// Response type for `permission_level_weight in RPC endpoint responses.
 public struct PermissionLevelWeight: Decodable {
     public var weight: EosioUInt64
-    public var accounts: [PermissionLevel]
+    public var permission: PermissionLevel
 
     enum CodingKeys: String, CodingKey {
         case weight
-        case accounts
+        case permission
     }
 }
 
@@ -291,11 +291,13 @@ public struct Authority: Decodable {
     public var threshold: EosioUInt64
     public var keys: [KeyWeight]
     public var waits: [WaitWeight]
+    public var accounts: [PermissionLevelWeight]
 
     enum CodingKeys: String, CodingKey {
         case threshold
         case keys
         case waits
+        case accounts
     }
 }
 
@@ -303,10 +305,12 @@ public struct Authority: Decodable {
 public struct Permission: Decodable {
     public var permName: String
     public var parent: String
+    public var requiredAuth: Authority
 
     enum CodingKeys: String, CodingKey {
         case permName = "perm_name"
         case parent
+        case requiredAuth = "required_auth"
     }
 }
 

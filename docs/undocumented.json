@@ -745,7 +745,7 @@
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 270,
-      "symbol": "PermissionLevelWeight.accounts",
+      "symbol": "PermissionLevelWeight.permission",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
@@ -786,917 +786,931 @@
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 304,
+      "line": 294,
+      "symbol": "Authority.accounts",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 306,
       "symbol": "Permission.permName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 305,
+      "line": 307,
       "symbol": "Permission.parent",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 317,
-      "symbol": "EosioRpcAccountResponse.accountName",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 318,
-      "symbol": "EosioRpcAccountResponse.headBlockNum",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 319,
-      "symbol": "EosioRpcAccountResponse.headBlockTime",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 320,
-      "symbol": "EosioRpcAccountResponse.privileged",
+      "line": 308,
+      "symbol": "Permission.requiredAuth",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 321,
-      "symbol": "EosioRpcAccountResponse.lastCodeUpdate",
+      "symbol": "EosioRpcAccountResponse.accountName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 322,
-      "symbol": "EosioRpcAccountResponse.created",
+      "symbol": "EosioRpcAccountResponse.headBlockNum",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 323,
-      "symbol": "EosioRpcAccountResponse.coreLiquidBalance",
+      "symbol": "EosioRpcAccountResponse.headBlockTime",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 324,
-      "symbol": "EosioRpcAccountResponse.ramQuota",
+      "symbol": "EosioRpcAccountResponse.privileged",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 325,
-      "symbol": "EosioRpcAccountResponse.netWeight",
+      "symbol": "EosioRpcAccountResponse.lastCodeUpdate",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 326,
-      "symbol": "EosioRpcAccountResponse.cpuWeight",
+      "symbol": "EosioRpcAccountResponse.created",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 327,
-      "symbol": "EosioRpcAccountResponse.netLimit",
+      "symbol": "EosioRpcAccountResponse.coreLiquidBalance",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 328,
-      "symbol": "EosioRpcAccountResponse.cpuLimit",
+      "symbol": "EosioRpcAccountResponse.ramQuota",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 329,
-      "symbol": "EosioRpcAccountResponse.ramUsage",
+      "symbol": "EosioRpcAccountResponse.netWeight",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 330,
-      "symbol": "EosioRpcAccountResponse.permissions",
+      "symbol": "EosioRpcAccountResponse.cpuWeight",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 331,
-      "symbol": "EosioRpcAccountResponse.totalResources",
+      "symbol": "EosioRpcAccountResponse.netLimit",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 332,
-      "symbol": "EosioRpcAccountResponse.selfDelegatedBandwidth",
+      "symbol": "EosioRpcAccountResponse.cpuLimit",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 333,
-      "symbol": "EosioRpcAccountResponse.refundRequest",
+      "symbol": "EosioRpcAccountResponse.ramUsage",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 334,
+      "symbol": "EosioRpcAccountResponse.permissions",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 335,
+      "symbol": "EosioRpcAccountResponse.totalResources",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 336,
+      "symbol": "EosioRpcAccountResponse.selfDelegatedBandwidth",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 337,
+      "symbol": "EosioRpcAccountResponse.refundRequest",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 338,
       "symbol": "EosioRpcAccountResponse.voterInfo",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 395,
+      "line": 399,
       "symbol": "EosioRpcGetTransactionResponse.id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 396,
+      "line": 400,
       "symbol": "EosioRpcGetTransactionResponse.trx",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 397,
+      "line": 401,
       "symbol": "EosioRpcGetTransactionResponse.blockTime",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 398,
+      "line": 402,
       "symbol": "EosioRpcGetTransactionResponse.blockNum",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 399,
+      "line": 403,
       "symbol": "EosioRpcGetTransactionResponse.lastIrreversibleBlock",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 400,
+      "line": 404,
       "symbol": "EosioRpcGetTransactionResponse.traces",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 429,
+      "line": 433,
       "symbol": "EosioRpcCurrencyBalanceResponse.currencyBalance",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 439,
+      "line": 443,
       "symbol": "CurrencyStats.supply",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 440,
+      "line": 444,
       "symbol": "CurrencyStats.maxSupply",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 441,
+      "line": 445,
       "symbol": "CurrencyStats.issuer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 462,
+      "line": 466,
       "symbol": "EosioRpcCurrencyStatsResponse.symbol",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 463,
+      "line": 467,
       "symbol": "EosioRpcCurrencyStatsResponse.currencyStats",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 484,
+      "line": 488,
       "symbol": "EosioRpcRawCodeAndAbiResponse.accountName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 485,
+      "line": 489,
       "symbol": "EosioRpcRawCodeAndAbiResponse.wasm",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 486,
+      "line": 490,
       "symbol": "EosioRpcRawCodeAndAbiResponse.abi",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 506,
+      "line": 510,
       "symbol": "EosioRpcCodeResponse.accountName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 507,
+      "line": 511,
       "symbol": "EosioRpcCodeResponse.codeHash",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 508,
+      "line": 512,
       "symbol": "EosioRpcCodeResponse.wast",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 509,
+      "line": 513,
       "symbol": "EosioRpcCodeResponse.wasm",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 510,
+      "line": 514,
       "symbol": "EosioRpcCodeResponse.abi",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 538,
+      "line": 542,
       "symbol": "EosioRpcAbiResponse.accountName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 539,
+      "line": 543,
       "symbol": "EosioRpcAbiResponse.abi",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 557,
+      "line": 561,
       "symbol": "ProducerRows.owner",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 558,
+      "line": 562,
       "symbol": "ProducerRows.totalVotes",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 559,
+      "line": 563,
       "symbol": "ProducerRows.producerKey",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 560,
+      "line": 564,
       "symbol": "ProducerRows.isActive",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 561,
+      "line": 565,
       "symbol": "ProducerRows.url",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 562,
+      "line": 566,
       "symbol": "ProducerRows.unpaidBlocks",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 563,
+      "line": 567,
       "symbol": "ProducerRows.lastClaimTime",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 564,
+      "line": 568,
       "symbol": "ProducerRows.location",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 594,
+      "line": 598,
       "symbol": "EosioRpcProducersResponse.rows",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 595,
+      "line": 599,
       "symbol": "EosioRpcProducersResponse.totalProducerVoteWeight",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 596,
+      "line": 600,
       "symbol": "EosioRpcProducersResponse.more",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 616,
+      "line": 620,
       "symbol": "EosioRpcPushTransactionsResponse.transactionResponses",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 629,
+      "line": 633,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.timestamp",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 630,
+      "line": 634,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.producer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 631,
+      "line": 635,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.confirmed",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 632,
+      "line": 636,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.previous",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 633,
+      "line": 637,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.transactionMroot",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 634,
+      "line": 638,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.actionMroot",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 635,
+      "line": 639,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.scheduleVersion",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 636,
+      "line": 640,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.headerExtensions",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 637,
+      "line": 641,
       "symbol": "EosioRpcBlockHeaderStateResponseHeader.producerSignature",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 671,
+      "line": 675,
       "symbol": "EosioRpcBlockHeaderStateResponse.id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 672,
+      "line": 676,
       "symbol": "EosioRpcBlockHeaderStateResponse.blockNumber",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 673,
+      "line": 677,
       "symbol": "EosioRpcBlockHeaderStateResponse.header",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 674,
+      "line": 678,
       "symbol": "EosioRpcBlockHeaderStateResponse.dposProposedIrreversibleBlockNumber",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 675,
+      "line": 679,
       "symbol": "EosioRpcBlockHeaderStateResponse.dposIrreversibleBlockNumber",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 676,
+      "line": 680,
       "symbol": "EosioRpcBlockHeaderStateResponse.bftIrreversibleBlockNumber",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 677,
+      "line": 681,
       "symbol": "EosioRpcBlockHeaderStateResponse.pendingScheduleLibNumber",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 678,
+      "line": 682,
       "symbol": "EosioRpcBlockHeaderStateResponse.pendingScheduleHash",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 679,
+      "line": 683,
       "symbol": "EosioRpcBlockHeaderStateResponse.pendingSchedule",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 680,
+      "line": 684,
       "symbol": "EosioRpcBlockHeaderStateResponse.activeSchedule",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 681,
+      "line": 685,
       "symbol": "EosioRpcBlockHeaderStateResponse.blockRootMerkle",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 682,
+      "line": 686,
       "symbol": "EosioRpcBlockHeaderStateResponse.blockSigningKey",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 683,
+      "line": 687,
       "symbol": "EosioRpcBlockHeaderStateResponse.confirmCount",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 684,
+      "line": 688,
       "symbol": "EosioRpcBlockHeaderStateResponse.confirmations",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 685,
+      "line": 689,
       "symbol": "EosioRpcBlockHeaderStateResponse.producerToLastProduced",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 686,
+      "line": 690,
       "symbol": "EosioRpcBlockHeaderStateResponse.producerToLastImpliedIrb",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 744,
+      "line": 748,
       "symbol": "EosioRpcActionsResponse.actions",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 745,
+      "line": 749,
       "symbol": "EosioRpcActionsResponse.lastIrreversibleBlock",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 746,
+      "line": 750,
       "symbol": "EosioRpcActionsResponse.timeLimitExceededError",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 763,
+      "line": 767,
       "symbol": "EosioRpcActionsResponseAction",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 766,
+      "line": 770,
       "symbol": "EosioRpcActionsResponseAction.globalActionSequence",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 767,
+      "line": 771,
       "symbol": "EosioRpcActionsResponseAction.accountActionSequence",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 768,
+      "line": 772,
       "symbol": "EosioRpcActionsResponseAction.blockNumber",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 769,
+      "line": 773,
       "symbol": "EosioRpcActionsResponseAction.blockTime",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 770,
+      "line": 774,
       "symbol": "EosioRpcActionsResponseAction.actionTrace",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 791,
+      "line": 795,
       "symbol": "EosioRpcActionsResponseActionTrace",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 794,
+      "line": 798,
       "symbol": "EosioRpcActionsResponseActionTrace.receipt",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 795,
+      "line": 799,
       "symbol": "EosioRpcActionsResponseActionTrace.action",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 796,
+      "line": 800,
       "symbol": "EosioRpcActionsResponseActionTrace.contextFree",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 797,
+      "line": 801,
       "symbol": "EosioRpcActionsResponseActionTrace.elapsed",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 798,
+      "line": 802,
       "symbol": "EosioRpcActionsResponseActionTrace.console",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 799,
+      "line": 803,
       "symbol": "EosioRpcActionsResponseActionTrace.transactionId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 800,
+      "line": 804,
       "symbol": "EosioRpcActionsResponseActionTrace.blockNumber",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 801,
+      "line": 805,
       "symbol": "EosioRpcActionsResponseActionTrace.blockTime",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 802,
+      "line": 806,
       "symbol": "EosioRpcActionsResponseActionTrace.producerBlockId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 803,
+      "line": 807,
       "symbol": "EosioRpcActionsResponseActionTrace.accountRamDeltas",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 804,
+      "line": 808,
       "symbol": "EosioRpcActionsResponseActionTrace.exception",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 805,
+      "line": 809,
       "symbol": "EosioRpcActionsResponseActionTrace.inlineTrances",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 842,
+      "line": 846,
       "symbol": "EosioRpcActionsResponseActionTrReceipt",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 845,
+      "line": 849,
       "symbol": "EosioRpcActionsResponseActionTrReceipt.receiver",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 846,
+      "line": 850,
       "symbol": "EosioRpcActionsResponseActionTrReceipt.actionDigest",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 847,
+      "line": 851,
       "symbol": "EosioRpcActionsResponseActionTrReceipt.globalSequence",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 848,
+      "line": 852,
       "symbol": "EosioRpcActionsResponseActionTrReceipt.receiverSequence",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 849,
+      "line": 853,
       "symbol": "EosioRpcActionsResponseActionTrReceipt.authorizationSequence",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 850,
+      "line": 854,
       "symbol": "EosioRpcActionsResponseActionTrReceipt.codeSequence",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 851,
+      "line": 855,
       "symbol": "EosioRpcActionsResponseActionTrReceipt.abiSequence",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 877,
+      "line": 881,
       "symbol": "EosioRpcActionsResponseActionTraceAction",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 880,
+      "line": 884,
       "symbol": "EosioRpcActionsResponseActionTraceAction.account",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 881,
+      "line": 885,
       "symbol": "EosioRpcActionsResponseActionTraceAction.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 882,
+      "line": 886,
       "symbol": "EosioRpcActionsResponseActionTraceAction.authorization",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 883,
+      "line": 887,
       "symbol": "EosioRpcActionsResponseActionTraceAction.data",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 884,
+      "line": 888,
       "symbol": "EosioRpcActionsResponseActionTraceAction.hexData",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 906,
+      "line": 910,
       "symbol": "EosioRpcActionsResponseActionTraceAuth",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 909,
+      "line": 913,
       "symbol": "EosioRpcActionsResponseActionTraceAuth.actor",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 910,
+      "line": 914,
       "symbol": "EosioRpcActionsResponseActionTraceAuth.permission",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 925,
+      "line": 929,
       "symbol": "EosioRpcActionsResponseActionTrActDeltas",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 928,
+      "line": 932,
       "symbol": "EosioRpcActionsResponseActionTrActDeltas.account",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 929,
+      "line": 933,
       "symbol": "EosioRpcActionsResponseActionTrActDeltas.delta",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 947,
+      "line": 951,
       "symbol": "EosioRpcControlledAccountsResponse.controlledAccounts",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 957,
+      "line": 961,
       "symbol": "EosioRpcTableRowsResponse.rows",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 958,
+      "line": 962,
       "symbol": "EosioRpcTableRowsResponse.more",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 975,
+      "line": 979,
       "symbol": "TableByScopeRows.code",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 976,
+      "line": 980,
       "symbol": "TableByScopeRows.scope",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 977,
+      "line": 981,
       "symbol": "TableByScopeRows.table",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 978,
+      "line": 982,
       "symbol": "TableByScopeRows.payer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 979,
+      "line": 983,
       "symbol": "TableByScopeRows.count",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 985,
+      "line": 989,
       "symbol": "EosioRpcTableByScopeResponse.rows",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/brandonfancher/Projects/Work/eosio-swift-repos/eosio-swift/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 986,
+      "line": 990,
       "symbol": "EosioRpcTableByScopeResponse.more",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"

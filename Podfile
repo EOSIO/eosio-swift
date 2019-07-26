@@ -20,12 +20,12 @@ else
   target 'EosioSwiftAbieosSerializationProvider' do
     use_frameworks!
 
-    pod 'EosioSwift', '~> 0.1.1'
+    pod 'EosioSwift', '~> 0.1.2'
     pod 'SwiftLint'
 
     target 'EosioSwiftAbieosTests' do
       inherit! :search_paths
-      pod 'EosioSwift', '~> 0.1.1'
+      pod 'EosioSwift', '~> 0.1.2'
     end
   end
 end

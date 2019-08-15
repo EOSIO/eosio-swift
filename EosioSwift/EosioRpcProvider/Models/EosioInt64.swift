@@ -28,7 +28,7 @@ public enum EosioInt64: Codable {
     /// Initialize from a decoder, attempting to decode as a `Int64` first. If that is unsuccessful, attempt to decode as `String`.
     ///
     /// - Parameter decoder: Decoder to read from.
-    /// - Throws: DecodingError if the value cannot be decoded as `UInt64` or `String`.
+    /// - Throws: DecodingError if the value cannot be decoded as `Int64` or `String`.
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         do {

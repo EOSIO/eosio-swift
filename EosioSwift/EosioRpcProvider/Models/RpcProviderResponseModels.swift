@@ -848,7 +848,7 @@ public struct EosioRpcActionsResponseActionTrReceipt: Decodable, EosioRpcRespons
 
     public var receiver: String
     public var actionDigest: String
-    public var globalSequence: String // Convert to BigInt
+    public var globalSequence: EosioUInt64
     public var receiverSequence: EosioUInt64
     public var authorizationSequence: [Any]
     public var codeSequence: EosioUInt64
@@ -869,7 +869,7 @@ public struct EosioRpcActionsResponseActionTrReceipt: Decodable, EosioRpcRespons
 
         receiver = try container.decode(String.self, forKey: .receiver)
         actionDigest = try container.decode(String.self, forKey: .actionDigest)
-        globalSequence = try container.decode(String.self, forKey: .globalSequence)
+        globalSequence = try container.decode(EosioUInt64.self, forKey: .globalSequence)
         receiverSequence = try container.decode(EosioUInt64.self, forKey: .receiveSequence)
         var authorizationSequenceContainer = try? container.nestedUnkeyedContainer(forKey: .authorizationSequence)
         authorizationSequence = authorizationSequenceContainer?.decodeDynamicValues() ?? [Any]()
@@ -885,7 +885,7 @@ public struct EosioRpcActionsResponseActionTraceAction: Decodable, EosioRpcRespo
     public var name: String
     public var authorization: [EosioRpcActionsResponseActionTraceAuth]
     public var data: [String: Any]
-    public var hexData: String
+    public var hexData: String?
 
     enum CustomCodingKeys: String, CodingKey {
         case account
@@ -903,7 +903,7 @@ public struct EosioRpcActionsResponseActionTraceAction: Decodable, EosioRpcRespo
         authorization = try container.decode([EosioRpcActionsResponseActionTraceAuth].self, forKey: .authorization)
         let dataContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .data)
         data = dataContainer?.decodeDynamicKeyValues() ?? [String: Any]()
-        hexData = try container.decode(String.self, forKey: .hexData)
+        hexData = try? container.decode(String.self, forKey: .hexData)
     }
 }
 

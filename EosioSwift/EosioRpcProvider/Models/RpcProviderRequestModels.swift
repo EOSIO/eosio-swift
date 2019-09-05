@@ -40,9 +40,9 @@ public typealias EosioRpcAbiRequest = EosioAccountInfo
 public struct EosioRpcCurrencyBalanceRequest: Codable {
     public var code: String
     public var account: String
-    public var symbol: String
+    public var symbol: String?
 
-    public init(code: String, account: String, symbol: String) {
+    public init(code: String, account: String, symbol: String?) {
         self.code = code
         self.account = account
         self.symbol = symbol
@@ -192,6 +192,12 @@ public struct EosioRpcHistoryActionsRequest: Codable {
         self.position = position
         self.offset = offset
         self.accountName = accountName
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case position = "pos"
+        case offset
+        case accountName = "account_name"
     }
 }
 

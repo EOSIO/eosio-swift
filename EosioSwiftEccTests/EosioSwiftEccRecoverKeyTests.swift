@@ -31,7 +31,6 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
     let privateKeyR1b = "PVT_R1_2fJmPgaik4rUeU1NDchQjnSPkQkga4iKzdK5hhdbKf2PQFJ57t"
     let publicKeyR1b = "PUB_R1_5MVdX3uzs6qDHUYpdSksZFc5rAu5P4ba6MDaySuYyzQqmCw96Q"
 
-
     func test_recoverPublicKey_from_private_key() {
         do {
             let privateKey = try Data(hex: privateKeyHex)

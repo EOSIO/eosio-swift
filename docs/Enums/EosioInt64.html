@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Dictionary Extension Reference</title>
+    <title>EosioInt64 Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Extension/Dictionary" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/EosioInt64" class="dashAnchor"></a>
 
-    <a title="Dictionary Extension Reference"></a>
+    <a title="EosioInt64 Enumeration Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">EosioSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Dictionary Extension Reference
+      EosioInt64 Enumeration Reference
     </p>
 
     <div class="content-wrapper">
@@ -416,14 +416,15 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Dictionary</h1>
+            <h1>EosioInt64</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Dictionary</span><span class="o">&lt;</span><span class="kt">Key</span><span class="p">,</span> <span class="kt">Value</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">Key</span> <span class="p">:</span> <span class="kt">Hashable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">EosioInt64</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                 </div>
               </div>
-            
+            <p>Meta type that can hold a 64 bit signed value that can come from the server as a Int64 or a String.</p>
+
           </div>
         </section>
 
@@ -434,9 +435,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:SD10EosioSwiftE10jsonStringSSSgvp"></a>
-                    <a name="//apple_ref/swift/Property/jsonString" class="dashAnchor"></a>
-                    <a class="token" href="#/s:SD10EosioSwiftE10jsonStringSSSgvp">jsonString</a>
+                    <a name="/s:10EosioSwift0A5Int64O5int64yACs0C0VcACmF"></a>
+                    <a name="//apple_ref/swift/Element/int64(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A5Int64O5int64yACs0C0VcACmF">int64(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -444,19 +445,186 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a JSON string representation of the dictionary or nil if the dictionary can&rsquo;t be encoded to a JSON string.</p>
+                        <p>Value as a <code>Int64</code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">jsonString</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">int64</span><span class="p">(</span><span class="kt">Int64</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Extensions/DictionaryExtensions.swift#L14-L17">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/EosioInt64.swift#L14">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A5Int64O6stringyACSScACmF"></a>
+                    <a name="//apple_ref/swift/Element/string(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A5Int64O6stringyACSScACmF">string(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Value as a <code>String</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">string</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/EosioInt64.swift#L16">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A5Int64O5values0C0Vvp"></a>
+                    <a name="//apple_ref/swift/Property/value" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A5Int64O5values0C0Vvp">value</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Int64</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/EosioInt64.swift#L18-L26">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A5Int64O4fromACs7Decoder_p_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(from:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A5Int64O4fromACs7Decoder_p_tKcfc">init(from:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize from a decoder, attempting to decode as a <code>Int64</code> first. If that is unsuccessful, attempt to decode as <code>String</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    DecodingError if the value cannot be decoded as <code>Int64</code> or <code>String</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">from</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">Decoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>decoder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Decoder to read from.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/EosioInt64.swift#L32-L43">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A5Int64O6encode2toys7Encoder_p_tKF"></a>
+                    <a name="//apple_ref/swift/Method/encode(to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A5Int64O6encode2toys7Encoder_p_tKF">encode(to:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Encode to an encoder, attempting to encode as a <code>Int64</code> first. If that is unsuccessful, attempt to encode as <code>String</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    EncodingError if the value cannot be encoded as <code>Int64</code> or <code>String</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="n">to</span> <span class="nv">encoder</span><span class="p">:</span> <span class="kt">Encoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>encoder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Encoder to encode to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/EosioInt64.swift#L49-L57">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

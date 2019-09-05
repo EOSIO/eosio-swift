@@ -150,6 +150,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
 
     /// Test testGetAccount() implementation.
     // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
     func testGetAccount() {
         var callCount = 1
         (stub(condition: isHost("localhost")) { request in
@@ -204,7 +205,73 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         }
         wait(for: [expect], timeout: 30)
     }
+
+    func testGetAccountNegativeUsageValues() {
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            if let urlString = request.url?.absoluteString {
+                if callCount == 1 && urlString == "https://localhost/v1/chain/get_info" {
+                    callCount += 1
+                    return RpcTestConstants.getInfoOHHTTPStubsResponse()
+                } else if callCount == 2 && urlString == "https://localhost/v1/chain/get_account" {
+                    return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.accountNegativeUsageValuesJson)
+                } else {
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected call count in stub: \(callCount)")
+                }
+            } else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid url string in request in stub")
+            }
+        }).name = "Get Account Negative Usage Values stub"
+        let expect = expectation(description: "testGetAccountNegativeUsageValues")
+        let requestParameters = EosioRpcAccountRequest(accountName: "cryptkeeper")
+        rpcProvider?.getAccount(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let eosioRpcAccountResponse):
+                XCTAssertNotNil(eosioRpcAccountResponse)
+                XCTAssert(eosioRpcAccountResponse.accountName == "cryptkeeper")
+                XCTAssert(eosioRpcAccountResponse.ramQuota.value == -1)
+                XCTAssert(eosioRpcAccountResponse.cpuWeight.value == -1)
+                let permissions = eosioRpcAccountResponse.permissions
+                XCTAssertNotNil(permissions)
+                guard let activePermission = permissions.filter({$0.permName == "active"}).first else {
+                    return XCTFail("Cannot find Active permission in permissions structure of the account")
+                }
+                XCTAssert(activePermission.parent == "owner")
+                guard let keysAndWeight = activePermission.requiredAuth.keys.first else {
+                    return XCTFail("Cannot find key in keys structure of the account")
+                }
+                XCTAssert(keysAndWeight.key == "EOS5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCvzbYpba")
+                guard let firstPermission = activePermission.requiredAuth.accounts.first else {
+                    return XCTFail("Can't find permission in keys structure of the account")
+                }
+                XCTAssert(firstPermission.permission.actor == "eosaccount1")
+                XCTAssert(firstPermission.permission.permission == "active")
+                XCTAssert(activePermission.requiredAuth.waits.first?.waitSec.value == 259200)
+                XCTAssertNotNil(eosioRpcAccountResponse.totalResources)
+                if let dict = eosioRpcAccountResponse.totalResources {
+                    if let owner = dict["owner"] as? String {
+                        XCTAssert(owner == "cryptkeeper")
+                    } else {
+                        XCTFail("Should be able to get total_resources owner as String and should equal cryptkeeper.")
+                    }
+                    if let rambytes = dict["ram_bytes"] as? UInt64 {
+                        XCTAssert(rambytes == 13639863)
+                    } else {
+                        XCTFail("Should be able to get total_resources ram_bytes as UIn64 and should equal 13639863.")
+                    }
+                } else {
+                    XCTFail("Should be able to get total_resources as [String : Any].")
+                }
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_account")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
     // swiftlint:enable function_body_length
+    // swiftlint:enable cyclomatic_complexity
 
     /// Test testGetCurrencyBalance() implementation.
     func testGetCurrencyBalance() {
@@ -514,6 +581,53 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_actions")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
+    func testGetActionsNegativeDelta() {
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            if let urlString = request.url?.absoluteString {
+                if callCount == 1 && urlString == "https://localhost/v1/chain/get_info" {
+                    callCount += 1
+                    return RpcTestConstants.getInfoOHHTTPStubsResponse()
+                } else if callCount == 2 && urlString == "https://localhost/v1/history/get_actions" {
+                    return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.actionsNegativeDeltaJson)
+                } else {
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected call count in stub: \(callCount)")
+                }
+            } else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid url string in request in stub")
+            }
+        }).name = "Get Actions Negative Delta stub"
+        let expect = expectation(description: "testGetActionsNegativeDelta")
+        let requestParameters = EosioRpcHistoryActionsRequest(position: -1, offset: -20, accountName: "cryptkeeper")
+        rpcProvider?.getActions(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let eosioRpcActionsResponse):
+                XCTAssertNotNil(eosioRpcActionsResponse._rawResponse)
+                XCTAssert(eosioRpcActionsResponse.lastIrreversibleBlock.value == 55535908)
+                XCTAssert(eosioRpcActionsResponse.timeLimitExceededError == false)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.globalActionSequence.value == 6483908013)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.receiverSequence.value == 1236)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.count == 1)
+                if let firstSequence = eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.first as? [Any] {
+                    guard let accountName = firstSequence.first as? String, accountName == "powersurge22" else {
+                        return XCTFail("Should be able to find account name")
+                    }
+                }
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.name == "transfer")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.authorization.first?.permission == "active")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == -1)
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
             case .failure(let err):
                 print(err.description)

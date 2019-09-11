@@ -50,6 +50,7 @@ public class EosioEccSign {
                     var derPointer: UnsafeMutablePointer<UInt8>? = derPointer
                     numBytes = i2d_ECDSA_SIG(sig, &derPointer)
                 }
+                ECDSA_SIG_free(sig)
             }
             der = der.prefix(Int(numBytes))
 
@@ -85,6 +86,10 @@ public class EosioEccSign {
             }
         }
         print("attempts required = \(attemptsRequired)")
+
+        EC_GROUP_free(group)
+        EC_KEY_free(key)
+        BN_free(privKeyBN)
 
         if let signature = signature {
             return signature

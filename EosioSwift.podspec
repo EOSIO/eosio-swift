@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwift'
-  s.version          = '0.1.1'
+  s.version          = '0.1.3'
   s.summary          = 'EOSIO SDK for Swift - API for integrating with EOSIO-based blockchains.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.source           = { :git => 'https://github.com/EOSIO/eosio-swift.git', :tag => "v" + s.version.to_s }
 
-  s.swift_version         = '4.2'
+  s.swift_version         = '5.0'
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'EosioSwift/**/*.swift'

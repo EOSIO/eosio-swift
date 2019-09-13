@@ -15,6 +15,7 @@ public class RpcTestConstants {
     public static func getInfoOHHTTPStubsResponse() -> OHHTTPStubsResponse {
         return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.infoResponseJson)
     }
+
     public static func getErrorOHHTTPStubsResponse(code: Int = NSURLErrorBadURL, reason: String?) -> OHHTTPStubsResponse {
         guard let message = reason else {
             let error = NSError(domain: NSURLErrorDomain, code: code, userInfo: nil)
@@ -23,19 +24,23 @@ public class RpcTestConstants {
         let error = NSError(domain: NSURLErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: message])
         return OHHTTPStubsResponse(error: error)
     }
+
     public static func getOHHTTPStubsResponseForJson(json: String, unhappy: Bool = false) -> OHHTTPStubsResponse {
         let data = json.data(using: .utf8)
         return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
     }
+
     /*
         Test helpers to DRY out test logic: This is for funcs in Rpc Provider that make a first call to getInfo to obtain chain info for subsequent call under test
     */
     public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?) -> OHHTTPStubsResponse {
         return RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: urlRelativePath, name: nil)
     }
+
     public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?, unhappy: Bool) -> OHHTTPStubsResponse {
         return RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: urlRelativePath, name: nil, unhappy: unhappy)
     }
+
     // swiftlint:disable function_body_length
     // swiftlint:disable cyclomatic_complexity
     public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?, name: EosioName?, unhappy: Bool = false) -> OHHTTPStubsResponse {
@@ -101,9 +106,9 @@ public class RpcTestConstants {
             }
         }
     }
-     // swiftlint:enable cyclomatic_complexity
-    // swiftlint:enable function_body_length
 
+    // swiftlint:enable cyclomatic_complexity
+    // swiftlint:enable function_body_length
     public static let infoResponseJson = """
     {
     "server_version": "0f6695cb",
@@ -195,6 +200,7 @@ public class RpcTestConstants {
     "ref_block_prefix": 2249927103
     }
     """
+
     public static let blockResponseWithTransactionJson = """
     {
     "timestamp": "2019-01-28T16:15:37.500",
@@ -278,6 +284,7 @@ public class RpcTestConstants {
     "ref_block_prefix": 2809448984
     }
     """
+
     public static let requiredKeysResponseJson = """
         {
             "required_keys": [
@@ -285,6 +292,7 @@ public class RpcTestConstants {
                              ]
         }
         """
+
     public static let pushTransActionResponseJson = """
     {
     "transaction_id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
@@ -481,6 +489,7 @@ public class RpcTestConstants {
         }
     }
     """
+
     public static let blockHeaderStateJson = """
     {
     "id": "0137c067c65e9db8f8ee467c856fb6d1779dfeb0332a971754156d075c9a37ca",
@@ -574,6 +583,7 @@ public class RpcTestConstants {
     "confirmations": []
     }
     """
+
     public static let accountJson = """
     {
     "account_name": "cryptkeeper",
@@ -609,8 +619,25 @@ public class RpcTestConstants {
                         "weight": 1
                     }
                 ],
-                "accounts": [],
-                "waits": []
+                "accounts": [
+                      {
+                        "permission": {
+                          "actor": "eosaccount1",
+                          "permission": "active"
+                        },
+                        "weight": 1
+                      },
+                ],
+                "waits": [
+                    {
+                        "wait_sec": 259200,
+                        "weight": 1
+                    },
+                    {
+                        "wait_sec": 604800,
+                        "weight": 2
+                    }
+                ]
             }
         },
         {
@@ -640,6 +667,91 @@ public class RpcTestConstants {
     "voter_info": null
     }
     """
+
+    public static let accountNegativeUsageValuesJson = """
+    {
+    "account_name": "cryptkeeper",
+    "head_block_num": 20571121,
+    "head_block_time": "2019-01-25T15:00:10.500",
+    "privileged": false,
+    "last_code_update": "1970-01-01T00:00:00.000",
+    "created": "2018-10-10T14:52:42.500",
+    "core_liquid_balance": "986418.1921 EOS",
+    "ram_quota": -1,
+    "net_weight": -1,
+    "cpu_weight": "-1",
+    "net_limit": {
+        "used": 1805,
+        "available": "797834381252",
+        "max": "797834383057"
+    },
+    "cpu_limit": {
+        "used": 17773,
+        "available": "152174814200",
+        "max": "152174831973"
+    },
+    "ram_usage": -1,
+    "permissions": [
+        {
+            "perm_name": "active",
+            "parent": "owner",
+            "required_auth": {
+                "threshold": 1,
+                "keys": [
+                    {
+                        "key": "EOS5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCvzbYpba",
+                        "weight": 1
+                    }
+                ],
+                "accounts": [
+                      {
+                        "permission": {
+                          "actor": "eosaccount1",
+                          "permission": "active"
+                        },
+                        "weight": 1
+                      },
+                ],
+                "waits": [
+                    {
+                        "wait_sec": 259200,
+                        "weight": 1
+                    },
+                    {
+                        "wait_sec": 604800,
+                        "weight": 2
+                    }
+                ]
+            }
+        },
+        {
+            "perm_name": "owner",
+            "parent": "",
+            "required_auth": {
+                "threshold": 1,
+                "keys": [
+                    {
+                        "key": "EOS74RoiasFcUQp1a8qdo3WUoHLGG3NTTts4UcyiqS4qh9eZy1Vxh",
+                        "weight": 1
+                    }
+                ],
+                "accounts": [],
+                "waits": []
+            }
+        }
+    ],
+    "total_resources": {
+        "owner": "cryptkeeper",
+        "net_weight": "1000.0000 EOS",
+        "cpu_weight": "1000.0000 EOS",
+        "ram_bytes": 13639863
+    },
+    "self_delegated_bandwidth": null,
+    "refund_request": null,
+    "voter_info": null
+    }
+    """
+
     public static let abiJson = """
     {
     "account_name": "eosio.token",
@@ -783,11 +895,13 @@ public class RpcTestConstants {
     }
     }
     """
+
     public static let currencyBalanceJson = """
     [
     "957998.0000 EOS"
     ]
     """
+
     public static let currencyStats = """
     {
     "EOS": {
@@ -797,6 +911,7 @@ public class RpcTestConstants {
     }
     }
     """
+
     public static let currencyStatsSYS = """
     {
     "SYS": {
@@ -806,6 +921,7 @@ public class RpcTestConstants {
     }
     }
     """
+
     public static let rawCodeAndAbiJson = """
     {
     "account_name": "eosio.token",
@@ -813,6 +929,7 @@ public class RpcTestConstants {
     "abi": "DmVvc2lvOjphYmkvMS4wAQxhY2NvdW50X25hbWUEbmFtZQUIdHJhbnNmZXIABARmcm9tDGFjY291bnRfbmFtZQJ0bwxhY2NvdW50X25hbWUIcXVhbnRpdHkFYXNzZXQEbWVtbwZzdHJpbmcGY3JlYXRlAAIGaXNzdWVyDGFjY291bnRfbmFtZQ5tYXhpbXVtX3N1cHBseQVhc3NldAVpc3N1ZQADAnRvDGFjY291bnRfbmFtZQhxdWFudGl0eQVhc3NldARtZW1vBnN0cmluZwdhY2NvdW50AAEHYmFsYW5jZQVhc3NldA5jdXJyZW5jeV9zdGF0cwADBnN1cHBseQVhc3NldAptYXhfc3VwcGx5BWFzc2V0Bmlzc3VlcgxhY2NvdW50X25hbWUDAAAAVy08zc0IdHJhbnNmZXK8By0tLQp0aXRsZTogVG9rZW4gVHJhbnNmZXIKc3VtbWFyeTogVHJhbnNmZXIgdG9rZW5zIGZyb20gb25lIGFjY291bnQgdG8gYW5vdGhlci4KaWNvbjogaHR0cHM6Ly9jZG4udGVzdG5ldC5kZXYuYjFvcHMubmV0L3Rva2VuLXRyYW5zZmVyLnBuZyNjZTUxZWY5ZjllZWNhMzQzNGU4NTUwN2UwZWQ0OWU3NmZmZjEyNjU0MjJiZGVkMDI1NWYzMTk2ZWE1OWM4YjBjCi0tLQoKIyMgVHJhbnNmZXIgVGVybXMgJiBDb25kaXRpb25zCgpJLCB7e2Zyb219fSwgY2VydGlmeSB0aGUgZm9sbG93aW5nIHRvIGJlIHRydWUgdG8gdGhlIGJlc3Qgb2YgbXkga25vd2xlZGdlOgoKMS4gSSBjZXJ0aWZ5IHRoYXQge3txdWFudGl0eX19IGlzIG5vdCB0aGUgcHJvY2VlZHMgb2YgZnJhdWR1bGVudCBvciB2aW9sZW50IGFjdGl2aXRpZXMuCjIuIEkgY2VydGlmeSB0aGF0LCB0byB0aGUgYmVzdCBvZiBteSBrbm93bGVkZ2UsIHt7dG99fSBpcyBub3Qgc3VwcG9ydGluZyBpbml0aWF0aW9uIG9mIHZpb2xlbmNlIGFnYWluc3Qgb3RoZXJzLgozLiBJIGhhdmUgZGlzY2xvc2VkIGFueSBjb250cmFjdHVhbCB0ZXJtcyAmIGNvbmRpdGlvbnMgd2l0aCByZXNwZWN0IHRvIHt7cXVhbnRpdHl9fSB0byB7e3RvfX0uCgpJIHVuZGVyc3RhbmQgdGhhdCBmdW5kcyB0cmFuc2ZlcnMgYXJlIG5vdCByZXZlcnNpYmxlIGFmdGVyIHRoZSB7eyR0cmFuc2FjdGlvbi5kZWxheV9zZWN9fSBzZWNvbmRzIG9yIG90aGVyIGRlbGF5IGFzIGNvbmZpZ3VyZWQgYnkge3tmcm9tfX0ncyBwZXJtaXNzaW9ucy4KCklmIHRoaXMgYWN0aW9uIGZhaWxzIHRvIGJlIGlycmV2ZXJzaWJseSBjb25maXJtZWQgYWZ0ZXIgcmVjZWl2aW5nIGdvb2RzIG9yIHNlcnZpY2VzIGZyb20gJ3t7dG99fScsIEkgYWdyZWUgdG8gZWl0aGVyIHJldHVybiB0aGUgZ29vZHMgb3Igc2VydmljZXMgb3IgcmVzZW5kIHt7cXVhbnRpdHl9fSBpbiBhIHRpbWVseSBtYW5uZXIuAAAAAAClMXYFaXNzdWUAAAAAAKhs1EUGY3JlYXRlAAIAAAA4T00RMgNpNjQBCGN1cnJlbmN5AQZ1aW50NjQHYWNjb3VudAAAAAAAkE3GA2k2NAEIY3VycmVuY3kBBnVpbnQ2NA5jdXJyZW5jeV9zdGF0cwAAAAA=="
     }
     """
+
     public static let codeJson = """
     {
     "account_name": "tropical",
@@ -849,6 +966,7 @@ public class RpcTestConstants {
     }
     }
     """
+
     //Input defaults do not produce a working request, not sure if all fields still valid.  Some requests from [eosjs/4.-Reading blockchain-Examples.md](https://github.com/EOSIO/eosjs/blob/41bb99b319c1a3b24110a52c3a6e1558df0f326a/docs/4.-Reading%20blockchain-Examples.md) tried.  Some work, some do not.  One working example:
     public static let tableRowsJson = """
     {
@@ -860,6 +978,7 @@ public class RpcTestConstants {
     "more": false
     }
     """
+
     public static let tableScopeJson = """
     {
     "rows": [
@@ -937,6 +1056,7 @@ public class RpcTestConstants {
     "more": "eosio.ramfee"
     }
     """
+
     public static let producersJson = """
     {
     "rows": [
@@ -965,6 +1085,7 @@ public class RpcTestConstants {
     "more": ""
     }
     """
+
     public static let actionsJson = """
     {
     "actions": [
@@ -1117,6 +1238,160 @@ public class RpcTestConstants {
     "last_irreversible_block": 55535908
     }
     """
+
+    public static let actionsNegativeDeltaJson = """
+    {
+    "actions": [
+        {
+            "global_action_seq": "6483908013",
+            "account_action_seq": 137,
+            "block_num": 55375463,
+            "block_time": "2019-04-28T17:41:39.000",
+            "action_trace": {
+                "receipt": {
+                    "receiver": "bank.m",
+                    "act_digest": "62021c2315d8245d0546180daf7825d728a5564d2831e8b2d1fc2d01309bf06b",
+                    "global_sequence": "6483908013",
+                    "recv_sequence": 1236,
+                    "auth_sequence": [
+                        [
+                            "powersurge22",
+                            77
+                        ]
+                    ],
+                    "code_sequence": 1,
+                    "abi_sequence": 1
+                },
+                "act": {
+                    "account": "eosiomeetone",
+                    "name": "transfer",
+                    "authorization": [
+                        {
+                            "actor": "powersurge22",
+                            "permission": "active"
+                        }
+                    ],
+                    "data": {
+                        "from": "powersurge22",
+                        "to": "bank.m",
+                        "quantity": "20047.0259 MEETONE",
+                        "memo": "l2sbjsdrfd.m"
+                    },
+                    "hex_data": "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f"
+                },
+                "context_free": false,
+                "elapsed": 299,
+                "console": "",
+                "trx_id": "9f6871d2f230a2a2c2d7a6eb4847dd733f47e0fa481c6b40049e58e53751c066",
+                "block_num": 55375463,
+                "block_time": "2019-04-28T17:41:39.000",
+                "producer_block_id": "034cf66765dd7ac2ea187beb5570ef8dbfbf4b9270d3940d02157ad4ac40831s",
+                "account_ram_deltas": [
+                    {
+                        "account": "bank.m",
+                        "delta": -1
+                    }
+                ],
+                "except": null,
+                "inline_traces": [{
+                        "receipt": {
+                            "receiver": "powersurge22",
+                            "act_digest": "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b",
+                            "global_sequence": "6483908012",
+                            "recv_sequence": 82,
+                            "auth_sequence": [
+                                [
+                                    "powersurge2",
+                                    76
+                                ]
+                            ],
+                            "code_sequence": 1,
+                            "abi_sequence": 1
+                        },
+                        "act": {
+                            "account": "eosiomeetone",
+                            "name": "transfer",
+                            "authorization": [
+                                {
+                                    "actor": "powersurge2",
+                                    "permission": "active"
+                                }
+                            ],
+                            "data": {
+                                "from": "powersurge22",
+                                "to": "bank.m",
+                                "quantity": "20047.0259 MEETONE",
+                                "memo": "l2sbjsd4fj.m"
+                            },
+                            "hex_data": "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2s6d"
+                        },
+                        "context_free": false,
+                        "elapsed": 6,
+                        "console": "",
+                        "trx_id": "9f6871d2f230a2a2c2d7a6eb4847dd733f47e0fa481c6b40049e58e53751c066",
+                        "block_num": 55375463,
+                        "block_time": "2019-04-28T17:41:39.000",
+                        "producer_block_id": "034cf66765dd7ac2ea187beb5570ef8dbfbf4b9270d3940d02157ad4ac408314",
+                        "account_ram_deltas": [],
+                        "except": null,
+                        "inline_traces": []
+                    }]
+            }
+        },
+        {
+            "global_action_seq": "6497451149",
+            "account_action_seq": 138,
+            "block_num": 55513304,
+            "block_time": "2019-04-29T12:50:29.000",
+            "action_trace": {
+                "receipt": {
+                    "receiver": "powersurge43",
+                    "act_digest": "5755dd0b7783fdf6c5aa5ee61473f9d22be504551d45aa3c4edaf51533401dbr",
+                    "global_sequence": "6497451149",
+                    "recv_sequence": 83,
+                    "auth_sequence": [
+                        [
+                            "pokerkbugle1",
+                            5090990
+                        ]
+                    ],
+                    "code_sequence": 4,
+                    "abi_sequence": 2
+                },
+                "act": {
+                    "account": "pokerktoken1",
+                    "name": "transfer",
+                    "authorization": [
+                        {
+                            "actor": "pokerkbugle1",
+                            "permission": "active"
+                        }
+                    ],
+                    "data": {
+                        "from": "pokerkbugle1",
+                        "to": "powersurge43",
+                        "quantity": "0.0100 KING",
+                        "memo": "Memo"
+                    },
+                    "hex_data": "105464fac0ab20ad10826257e3ab38ad6400000000000000044b494e470000009701506f6b65724b696e672e6f6e65202d2d2054686520626573742050565020546578617320486f6c64656d206f6e20454f532c20617661696c61626c65207461626c657320666f7220323420686f757273efbc81e69c80e5a5bde79a84454f53e5beb7e5b79ee68991e5858befbc8ce79c9fe6ada3e79a84505650e6b8b8e6888fefbc8c3234e5b08fe697b6e69c89e7898ce5b180efbc8t"
+                },
+                "context_free": false,
+                "elapsed": 19,
+                "console": "",
+                "trx_id": "4700d0f00f3101f3223790fd9def0afaa7508b2d7d99d62b83389fdc9ef26c4u",
+                "block_num": 55513304,
+                "block_time": "2019-04-29T12:50:29.000",
+                "producer_block_id": "034f10d8346b169b1a376f4133c9d6673883bf047dd2f6037a531909d31ddb1q",
+                "account_ram_deltas": [],
+                "except": null,
+                "inline_traces": []
+            }
+        }
+    ],
+    "last_irreversible_block": 55535908
+    }
+    """
+
     public static let controlledAccountsJson = """
     {
         "controlled_accounts": [
@@ -1125,6 +1400,7 @@ public class RpcTestConstants {
         ]
     }
     """
+
     public static let transactionJson = """
     {
     "id": "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a",
@@ -1204,6 +1480,7 @@ public class RpcTestConstants {
     "traces": []
     }
     """
+
     public static let keyAccountsJson = """
     {
     "account_names": [
@@ -1212,6 +1489,7 @@ public class RpcTestConstants {
     ]
     }
     """
+
     public static let pushTransactionsJson = """
     [
     {
@@ -1604,6 +1882,7 @@ public class RpcTestConstants {
     }
     ]
     """
+
     public static func createRawApiResponseJson(account: EosioName) -> String? {
         let json: String
         switch account.string {

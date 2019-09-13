@@ -267,11 +267,11 @@ public struct PermissionLevel: Decodable {
 /// Response type for `permission_level_weight in RPC endpoint responses.
 public struct PermissionLevelWeight: Decodable {
     public var weight: EosioUInt64
-    public var accounts: [PermissionLevel]
+    public var permission: PermissionLevel
 
     enum CodingKeys: String, CodingKey {
         case weight
-        case accounts
+        case permission
     }
 }
 
@@ -291,11 +291,13 @@ public struct Authority: Decodable {
     public var threshold: EosioUInt64
     public var keys: [KeyWeight]
     public var waits: [WaitWeight]
+    public var accounts: [PermissionLevelWeight]
 
     enum CodingKeys: String, CodingKey {
         case threshold
         case keys
         case waits
+        case accounts
     }
 }
 
@@ -303,10 +305,12 @@ public struct Authority: Decodable {
 public struct Permission: Decodable {
     public var permName: String
     public var parent: String
+    public var requiredAuth: Authority
 
     enum CodingKeys: String, CodingKey {
         case permName = "perm_name"
         case parent
+        case requiredAuth = "required_auth"
     }
 }
 
@@ -321,12 +325,12 @@ public struct EosioRpcAccountResponse: Decodable, EosioRpcResponseProtocol {
     public var lastCodeUpdate: String = ""
     public var created: String = ""
     public var coreLiquidBalance: String = ""
-    public var ramQuota: EosioUInt64 = EosioUInt64.uint64(0)
-    public var netWeight: EosioUInt64 = EosioUInt64.uint64(0)
-    public var cpuWeight: EosioUInt64 = EosioUInt64.uint64(0)
+    public var ramQuota: EosioInt64 = EosioInt64.int64(0)
+    public var netWeight: EosioInt64 = EosioInt64.int64(0)
+    public var cpuWeight: EosioInt64 = EosioInt64.int64(0)
     public var netLimit: [String: Any]
     public var cpuLimit: [String: Any]
-    public var ramUsage: EosioUInt64 = EosioUInt64.uint64(0)
+    public var ramUsage: EosioInt64 = EosioInt64.int64(0)
     public var permissions: [Permission]
     public var totalResources: [String: Any]?
     public var selfDelegatedBandwidth: [String: Any]?
@@ -364,9 +368,9 @@ public struct EosioRpcAccountResponse: Decodable, EosioRpcResponseProtocol {
         lastCodeUpdate = try container.decodeIfPresent(String.self, forKey: .lastCodeUpdate) ?? ""
         created = try container.decodeIfPresent(String.self, forKey: .created) ?? ""
         coreLiquidBalance = try container.decodeIfPresent(String.self, forKey: .coreLiquidBalance) ?? ""
-        ramQuota = try container.decodeIfPresent(EosioUInt64.self, forKey: .ramQuota) ?? EosioUInt64.uint64(0)
-        netWeight = try container.decodeIfPresent(EosioUInt64.self, forKey: .netWeight) ?? EosioUInt64.uint64(0)
-        cpuWeight = try container.decodeIfPresent(EosioUInt64.self, forKey: .cpuWeight) ?? EosioUInt64.uint64(0)
+        ramQuota = try container.decodeIfPresent(EosioInt64.self, forKey: .ramQuota) ?? EosioInt64.int64(0)
+        netWeight = try container.decodeIfPresent(EosioInt64.self, forKey: .netWeight) ?? EosioInt64.int64(0)
+        cpuWeight = try container.decodeIfPresent(EosioInt64.self, forKey: .cpuWeight) ?? EosioInt64.int64(0)
 
         // netLimit = try container.decodeIfPresent(JSONValue.self, forKey: .netLimit)?.toDictionary() ?? [String: Any]()
 
@@ -375,7 +379,7 @@ public struct EosioRpcAccountResponse: Decodable, EosioRpcResponseProtocol {
         let cpuLimitContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .cpuLimit)
         cpuLimit = cpuLimitContainer?.decodeDynamicKeyValues() ?? [String: Any]()
 
-        ramUsage = try container.decodeIfPresent(EosioUInt64.self, forKey: .ramUsage) ?? EosioUInt64.uint64(0)
+        ramUsage = try container.decodeIfPresent(EosioInt64.self, forKey: .ramUsage) ?? EosioInt64.int64(0)
         permissions = try container.decodeIfPresent([Permission].self, forKey: .permissions) ?? [Permission]()
         let totalResourcesContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .totalResources)
         totalResources = totalResourcesContainer?.decodeDynamicKeyValues()
@@ -844,7 +848,7 @@ public struct EosioRpcActionsResponseActionTrReceipt: Decodable, EosioRpcRespons
 
     public var receiver: String
     public var actionDigest: String
-    public var globalSequence: String // Convert to BigInt
+    public var globalSequence: EosioUInt64
     public var receiverSequence: EosioUInt64
     public var authorizationSequence: [Any]
     public var codeSequence: EosioUInt64
@@ -865,7 +869,7 @@ public struct EosioRpcActionsResponseActionTrReceipt: Decodable, EosioRpcRespons
 
         receiver = try container.decode(String.self, forKey: .receiver)
         actionDigest = try container.decode(String.self, forKey: .actionDigest)
-        globalSequence = try container.decode(String.self, forKey: .globalSequence)
+        globalSequence = try container.decode(EosioUInt64.self, forKey: .globalSequence)
         receiverSequence = try container.decode(EosioUInt64.self, forKey: .receiveSequence)
         var authorizationSequenceContainer = try? container.nestedUnkeyedContainer(forKey: .authorizationSequence)
         authorizationSequence = authorizationSequenceContainer?.decodeDynamicValues() ?? [Any]()
@@ -881,7 +885,7 @@ public struct EosioRpcActionsResponseActionTraceAction: Decodable, EosioRpcRespo
     public var name: String
     public var authorization: [EosioRpcActionsResponseActionTraceAuth]
     public var data: [String: Any]
-    public var hexData: String
+    public var hexData: String?
 
     enum CustomCodingKeys: String, CodingKey {
         case account
@@ -899,7 +903,7 @@ public struct EosioRpcActionsResponseActionTraceAction: Decodable, EosioRpcRespo
         authorization = try container.decode([EosioRpcActionsResponseActionTraceAuth].self, forKey: .authorization)
         let dataContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .data)
         data = dataContainer?.decodeDynamicKeyValues() ?? [String: Any]()
-        hexData = try container.decode(String.self, forKey: .hexData)
+        hexData = try? container.decode(String.self, forKey: .hexData)
     }
 }
 
@@ -926,7 +930,7 @@ public struct EosioRpcActionsResponseActionTrActDeltas: Decodable, EosioRpcRespo
     public var _rawResponse: Any?
 
     public var account: String
-    public var delta: EosioUInt64
+    public var delta: EosioInt64
 
     enum CustomCodingKeys: String, CodingKey {
         case account
@@ -937,7 +941,7 @@ public struct EosioRpcActionsResponseActionTrActDeltas: Decodable, EosioRpcRespo
         let container = try decoder.container(keyedBy: CustomCodingKeys.self)
 
         account = try container.decode(String.self, forKey: .account)
-        delta = try container.decode(EosioUInt64.self, forKey: .delta)
+        delta = try container.decode(EosioInt64.self, forKey: .delta)
     }
 }
 

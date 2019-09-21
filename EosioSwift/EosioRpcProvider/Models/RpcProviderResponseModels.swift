@@ -839,7 +839,7 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
 
         let exceptionContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .exception)
         exception = exceptionContainer?.decodeDynamicKeyValues() ?? [String: Any]()
-        inlineTrances = try container.decode([EosioRpcActionsResponseActionTrace].self, forKey: .inlineTrances)
+        inlineTrances = (try? container.decode([EosioRpcActionsResponseActionTrace].self, forKey: .inlineTrances)) ?? []
     }
 }
 

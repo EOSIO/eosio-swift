@@ -9,7 +9,14 @@
 import XCTest
 @testable import EosioSwift
 import PromiseKit
+
+#if canImport(OHHTTPStubs)
 import OHHTTPStubs
+#elseif canImport(OHHTTPStubsSwift)
+import OHHTTPStubsCore
+import OHHTTPStubsSwift
+#endif
+
 
 class RpcProviderEndpointPromiseTests: XCTestCase {
     var rpcProvider: EosioRpcProvider?

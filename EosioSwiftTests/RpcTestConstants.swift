@@ -8,7 +8,14 @@
 
 import Foundation
 import EosioSwift
+
+#if canImport(OHHTTPStubs)
 import OHHTTPStubs
+#elseif canImport(OHHTTPStubsSwift)
+import OHHTTPStubsCore
+import OHHTTPStubsSwift
+#endif
+
 
 // swiftlint:disable line_length
 public class RpcTestConstants {

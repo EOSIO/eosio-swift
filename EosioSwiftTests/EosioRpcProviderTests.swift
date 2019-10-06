@@ -9,7 +9,13 @@
 import Foundation
 import XCTest
 @testable import EosioSwift
+
+#if canImport(OHHTTPStubs)
 import OHHTTPStubs
+#elseif canImport(OHHTTPStubsSwift)
+import OHHTTPStubsCore
+import OHHTTPStubsSwift
+#endif
 
 class EosioRpcProviderTests: XCTestCase {
 

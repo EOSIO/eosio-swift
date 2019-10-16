@@ -79,7 +79,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             return retVal
         }).name = "Get Block Stub"
         let expect = expectation(description: "testGetBlock")
-        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
 
         firstly {
             (rpcProvider?.getBlock(.promise, requestParameters: requestParameters))!
@@ -307,7 +307,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             return retVal
         }).name = "GetBlockHeaderState stub"
         let expect = expectation(description: "testGetBlockHeaderState")
-        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: 25260035)
+        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: "25260035")
 
         firstly {
             (rpcProvider?.getBlockHeaderState(.promise, requestParameters: requestParameters))!

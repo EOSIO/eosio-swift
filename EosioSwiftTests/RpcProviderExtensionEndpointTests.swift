@@ -69,7 +69,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             return retVal
         }).name = "GetBlockHeaderState stub"
         let expect = expectation(description: "testGetBlockHeaderState")
-        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: 25260035)
+        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: "25260035")
         rpcProvider?.getBlockHeaderState(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcBlockHeaderStateResponse):

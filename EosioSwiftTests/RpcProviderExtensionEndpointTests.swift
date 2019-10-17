@@ -581,7 +581,6 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
-                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_actions")
@@ -628,7 +627,6 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == -1)
-                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_actions")

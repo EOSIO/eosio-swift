@@ -806,7 +806,6 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
     public var producerBlockId: String?
     public var accountRamDeltas: [EosioRpcActionsResponseActionTrActDeltas]
     public var exception: [String: Any]?
-    public var inlineTrances: [EosioRpcActionsResponseActionTrace]
 
     enum CustomCodingKeys: String, CodingKey {
         case receipt
@@ -820,7 +819,6 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
         case producerBlockId = "producer_block_id"
         case accountRamDeltas = "account_ram_deltas"
         case exception = "except"
-        case inlineTrances = "inline_traces"
     }
 
     public init(from decoder: Decoder) throws {
@@ -839,7 +837,6 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
 
         let exceptionContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .exception)
         exception = exceptionContainer?.decodeDynamicKeyValues() ?? [String: Any]()
-        inlineTrances = try container.decode([EosioRpcActionsResponseActionTrace].self, forKey: .inlineTrances)
     }
 }
 

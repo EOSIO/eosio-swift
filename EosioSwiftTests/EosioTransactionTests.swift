@@ -470,7 +470,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
     func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         getBlockCalled = true
-        blockNumberRequested = requestParameters.blockNumOrIdString
+        blockNumberRequested = requestParameters.blockNumberOrId
         let result: EosioResult<EosioRpcBlockResponseProtocol, EosioError>
         if getBlockReturnsFailure {
             result = EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))

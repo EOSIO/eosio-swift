@@ -53,27 +53,26 @@ public struct EosioRpcPushTransactionRequest: Codable {
 /// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
 public struct EosioRpcBlockRequest: Codable {
     enum CodingKeys: String, CodingKey {
-        case blockNumOrIdString = "block_num_or_id"
+        case blockNumberOrId = "block_num_or_id"
     }
     /// The number or ID of the block you are fetching.
-    @available(*, deprecated, message: "Please use blockNumOrIdString instead.")
+    @available(*, deprecated, message: "Please use blockNumberOrId instead.")
     public var blockNumOrId: UInt64 {
         get {
-            return UInt64(blockNumOrIdString) ?? 0
+            return UInt64(blockNumberOrId) ?? 0
         }
         set {
-            blockNumOrIdString = String(newValue)
+            blockNumberOrId = String(newValue)
         }
     }
     /// The number or ID of the block you are fetching.
-    public var blockNumOrIdString: String
+    public var blockNumberOrId: String
     /// Initialize an `EosioRpcBlockRequest`.
-    @available(*, deprecated, message: "Please use a String for blockNumOrId instead.")
     public init(blockNumOrId: UInt64 = 1) {
-        self.blockNumOrIdString = String(blockNumOrId)
+        self.blockNumberOrId = String(blockNumOrId)
     }
     public init(blockNumOrId: String) {
-        self.blockNumOrIdString = blockNumOrId
+        self.blockNumberOrId = blockNumOrId
     }
 }
 

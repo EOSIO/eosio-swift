@@ -67,10 +67,11 @@ public struct EosioRpcBlockRequest: Codable {
     }
     /// The number or ID of the block you are fetching.
     public var blockNumberOrId: String
-    /// Initialize an `EosioRpcBlockRequest`.
+    /// Initialize an `EosioRpcBlockRequest` with a block number.
     public init(blockNumOrId: UInt64 = 1) {
         self.blockNumberOrId = String(blockNumOrId)
     }
+    /// Initialize an `EosioRpcBlockRequest` with a block number or id.
     public init(blockNumOrId: String) {
         self.blockNumberOrId = blockNumOrId
     }

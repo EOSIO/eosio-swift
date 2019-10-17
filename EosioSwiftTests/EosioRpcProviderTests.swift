@@ -345,6 +345,34 @@ class EosioRpcProviderTests: XCTestCase {
         wait(for: [expect], timeout: 30)
     }
 
+    /// Test getBlock() protocol implementation with using a block id.
+    func testGetBlockById() {
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
+            callCount += 1
+            return retVal
+        }).name = "Get Block stub"
+        let expect = expectation(description: "testGetBlock")
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
+        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let blockResponse):
+                guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
+                    return XCTFail("Failed to convert rpc response")
+                }
+                XCTAssertTrue(rpcBlockResponse.blockNum.value == 25260032)
+                XCTAssertTrue(rpcBlockResponse.refBlockPrefix.value == 2249927103)
+                XCTAssertTrue(rpcBlockResponse.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_block attempt")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
     /// Test getBlock() extended structure implementation.
     func testGetExtendedBlock() {
         var callCount = 1

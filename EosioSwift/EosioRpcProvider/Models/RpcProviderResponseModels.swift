@@ -778,17 +778,17 @@ public struct EosioRpcActionsResponseAction: Decodable, EosioRpcResponseProtocol
         case accountActionSequence = "account_action_seq"
         case blockNumber = "block_num"
         case blockTime = "block_time"
-        case actionTrance = "action_trace"
+        case actionTrace = "action_trace"
     }
 
     public init(from decoder: Decoder) throws {
-        let contanter = try decoder.container(keyedBy: CustomCodingKeys.self)
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
 
-        globalActionSequence = try contanter.decode(EosioUInt64.self, forKey: .globalActionSequence)
-        accountActionSequence = try contanter.decode(Int32.self, forKey: .accountActionSequence)
-        blockNumber = try contanter.decode(UInt32.self, forKey: .blockNumber)
-        blockTime = try contanter.decode(String.self, forKey: .blockTime)
-        actionTrace = try contanter.decode(EosioRpcActionsResponseActionTrace.self, forKey: .actionTrance)
+        globalActionSequence = try container.decode(EosioUInt64.self, forKey: .globalActionSequence)
+        accountActionSequence = try container.decode(Int32.self, forKey: .accountActionSequence)
+        blockNumber = try container.decode(UInt32.self, forKey: .blockNumber)
+        blockTime = try container.decode(String.self, forKey: .blockTime)
+        actionTrace = try container.decode(EosioRpcActionsResponseActionTrace.self, forKey: .actionTrace)
     }
 }
 

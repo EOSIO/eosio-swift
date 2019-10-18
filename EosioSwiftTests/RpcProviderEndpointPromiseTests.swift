@@ -996,7 +996,6 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             XCTAssert($0.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
             XCTAssert($0.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
             XCTAssert($0.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
-            XCTAssert($0.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
         }.catch {
             print($0)
             if unhappy {

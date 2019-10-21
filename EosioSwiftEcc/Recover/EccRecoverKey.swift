@@ -53,12 +53,23 @@ public class EccRecoverKey {
             let xBN = BN_new()!
             let yBN = BN_new()!
             EC_POINT_get_affine_coordinates_GFp(group, pubKeyPoint, xBN, yBN, nil)
-            let xHex = String(cString: BN_bn2hex(xBN))
-            let yHex = String(cString: BN_bn2hex(yBN))
+
+            let xBNstr = BN_bn2hex(xBN)!
+            let yBNstr = BN_bn2hex(yBN)!
+            let xHex = String(cString: xBNstr)
+            let yHex = String(cString: yBNstr)
+            CRYPTO_free(xBNstr)
+            CRYPTO_free(yBNstr)
+
             BN_free(xBN)
             BN_free(yBN)
+            EC_POINT_free(pubKeyPoint)
             recoveredPubKeyHex = "04" + xHex + yHex
         }
+        EC_GROUP_free(group)
+        BN_CTX_free(ctx)
+        EC_KEY_free(key)
+        BN_free(privKeyBN)
         return try Data(hex: recoveredPubKeyHex)
     }
 
@@ -98,14 +109,19 @@ public class EccRecoverKey {
                 let yBN = BN_new()!
                 let group = EC_GROUP_new_by_curve_name(curveName)
                 EC_POINT_get_affine_coordinates_GFp(group, recoveredPubKey, xBN, yBN, nil)
-                let xHex = String(cString: BN_bn2hex(xBN))
-                let yHex = String(cString: BN_bn2hex(yBN))
+                let xBNstr = BN_bn2hex(xBN)!
+                let yBNstr = BN_bn2hex(yBN)!
+                let xHex = String(cString: xBNstr)
+                let yHex = String(cString: yBNstr)
+                CRYPTO_free(xBNstr)
+                CRYPTO_free(yBNstr)
                 BN_free(xBN)
                 BN_free(yBN)
                 EC_GROUP_free(group)
                 recoveredPubKeyHex = "04" + xHex + yHex
             }
             ECDSA_SIG_free(sig)
+            EC_KEY_free(recoveredKey)
         }
         return try Data(hex: recoveredPubKeyHex)
     }

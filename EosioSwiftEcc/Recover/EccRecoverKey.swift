@@ -43,9 +43,11 @@ public class EccRecoverKey {
         EC_KEY_set_group(key, group)
 
         var recoveredPubKeyHex = ""
-        privateKey.withUnsafeBytes { rawBufferPointer in
+        try privateKey.withUnsafeBytes { rawBufferPointer in
             let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
-            guard let pkbytes = bufferPointer.baseAddress else { return }
+            guard let pkbytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
+            }
 
             BN_bin2bn(pkbytes, Int32(privateKey.count), privKeyBN)
             EC_KEY_set_private_key(key, privKeyBN)
@@ -97,7 +99,9 @@ public class EccRecoverKey {
         var recoveredPubKeyHex = ""
         try signatureDer.withUnsafeBytes { rawBufferPointer -> Void in
             let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
-            guard let derBytes = bufferPointer.baseAddress else { return }
+            guard let derBytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of signatureDer is nil.")
+            }
 
             let recoveredKey = EC_KEY_new_by_curve_name(curveName)
             var sig = ECDSA_SIG_new()
@@ -106,9 +110,11 @@ public class EccRecoverKey {
             guard sig != nil else {
                 throw EosioError(.keySigningError, reason: "Signature \(signatureDer.hex) is not valid" )
             }
-            message.withUnsafeBytes { rawBufferPointer in
+            try message.withUnsafeBytes { rawBufferPointer in
                 let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
-                guard let messageBytes = bufferPointer.baseAddress else { return }
+                guard let messageBytes = bufferPointer.baseAddress else {
+                    throw EosioError(.keySigningError, reason: "Base address of message is nil.")
+                }
 
                 ECDSA_SIG_recover_key_GFp(recoveredKey, sig, messageBytes, Int32(message.count), Int32(recid), 1)
                 guard let recoveredPubKey = EC_KEY_get0_public_key(recoveredKey) else { return }

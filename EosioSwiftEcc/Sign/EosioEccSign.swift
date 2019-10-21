@@ -30,9 +30,12 @@ public class EosioEccSign {
         let group = EC_GROUP_new_by_curve_name(NID_secp256k1)
         EC_KEY_set_group(key, group)
 
-        privateKey.withUnsafeBytes { rawBufferPointer in
+        try privateKey.withUnsafeBytes { rawBufferPointer in
             let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
-            guard let pkbytes = bufferPointer.baseAddress else { return }
+            guard let pkbytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
+            }
+
             BN_bin2bn(pkbytes, Int32(privateKey.count), privKeyBN)
             EC_KEY_set_private_key(key, privKeyBN)
         }
@@ -46,9 +49,12 @@ public class EosioEccSign {
         for i in 1...k1SignMaxAttempts {
             var der = Data(count: 100)
             var numBytes: Int32 = 0
-            digest.withUnsafeBytes { rawBufferPointer in
+            try digest.withUnsafeBytes { rawBufferPointer in
                 let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
-                guard let digestBytes = bufferPointer.baseAddress else { return }
+                guard let digestBytes = bufferPointer.baseAddress else {
+                    throw EosioError(.keySigningError, reason: "Base address of digest is nil.")
+                }
+
                 let sig = ECDSA_do_sign(digestBytes, Int32(digest.count), key)
                 der.withUnsafeMutableBytes { mutableRawBufferPointer in
                     let mutableBufferPointer = mutableRawBufferPointer.bindMemory(to: UInt8.self)

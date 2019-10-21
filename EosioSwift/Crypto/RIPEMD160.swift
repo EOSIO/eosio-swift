@@ -306,8 +306,9 @@ public struct RIPEMD160 {
     }
     
     public mutating func update(data: Data) {
-        data.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) in
-            var ptr = ptr
+        data.withUnsafeBytes { ptr in
+            let typedPtr = ptr.bindMemory(to: UInt8.self)
+            guard var ptr = typedPtr.baseAddress else { return }
             var length = data.count
             var X = [UInt32](repeating: 0, count: 16)
             
@@ -315,7 +316,10 @@ public struct RIPEMD160 {
             if buffer.count > 0 && buffer.count + length >= 64 {
                 let amount = 64 - buffer.count
                 buffer.append(ptr, count: amount)
-                buffer.withUnsafeBytes { _ = memcpy(&X, $0, 64) }
+                buffer.withUnsafeBytes { ptr in
+                    guard let baseAddress = ptr.baseAddress else { return }
+                    _ = memcpy(&X, baseAddress, 64)
+                }
                 compress(X)
                 ptr += amount
                 length -= amount
@@ -329,15 +333,18 @@ public struct RIPEMD160 {
             }
             // Save remaining unprocessed bytes:
             buffer = Data(bytes: ptr, count: length)
+            count += Int64(data.count)
         }
-        count += Int64(data.count)
     }
     
     public mutating func finalize() -> Data {
         var X = [UInt32](repeating: 0, count: 16)
         /* append the bit m_n == 1 */
         buffer.append(0x80)
-        buffer.withUnsafeBytes { _ = memcpy(&X, $0, buffer.count) }
+        buffer.withUnsafeBytes { ptr in
+            guard let baseAddress = ptr.baseAddress else { return }
+            _ = memcpy(&X, baseAddress, buffer.count)
+        }
         
         if (count & 63) > 55 {
             /* length goes to next block */
@@ -353,12 +360,14 @@ public struct RIPEMD160 {
         compress(X)
         
         var data = Data(count: 20)
-        data.withUnsafeMutableBytes { (ptr: UnsafeMutablePointer<UInt32>) in
-            ptr[0] = MDbuf.0
-            ptr[1] = MDbuf.1
-            ptr[2] = MDbuf.2
-            ptr[3] = MDbuf.3
-            ptr[4] = MDbuf.4
+        data.withUnsafeMutableBytes { ptr in
+            let typedPtr = ptr.bindMemory(to: UInt32.self)
+            guard let baseAddress = typedPtr.baseAddress else { return }
+            baseAddress[0] = MDbuf.0
+            baseAddress[1] = MDbuf.1
+            baseAddress[2] = MDbuf.2
+            baseAddress[3] = MDbuf.3
+            baseAddress[4] = MDbuf.4
         }
         
         buffer = Data()
@@ -386,8 +395,8 @@ public extension RIPEMD160 {
         var key = key
         key.count = 64 // Truncate to 64 bytes or fill-up with zeros.
         
-        let outerKeyPad = Data(bytes: key.map { $0 ^ 0x5c })
-        let innerKeyPad = Data(bytes: key.map { $0 ^ 0x36 })
+        let outerKeyPad = Data(key.map { $0 ^ 0x5c })
+        let innerKeyPad = Data(key.map { $0 ^ 0x36 })
         
         var innerMd = RIPEMD160()
         innerMd.update(data: innerKeyPad)

@@ -56,7 +56,7 @@ public extension Data {
         let x = uncompressedKey[1...32] // swiftlint:disable:this identifier_name
         let yLastByte = uncompressedKey[64]
         let flag: UInt8 = 2 + (yLastByte % 2)
-        let compressedKey = Data(bytes: [flag]) + x
+        let compressedKey = Data([flag]) + x
         return compressedKey
     }
 
@@ -229,7 +229,7 @@ public extension Data {
         }
 
         if key.count == 33 {
-            guard key.prefix(1) == Data(bytes: [0x80]) else {
+            guard key.prefix(1) == Data([0x80]) else {
                 throw EosioError(.signatureProviderError, reason: "33 byte private key: \(key.hex) does not begin with 80")
             }
             key = key.suffix(key.count-1)

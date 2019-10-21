@@ -75,10 +75,11 @@ public extension Data {
     /// Returns the SHA256 hash of the data.
     var sha256: Data {
         var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        self.withUnsafeBytes {
-            _ = CC_SHA256($0, CC_LONG(self.count), &hash)
+        self.withUnsafeBytes { ptr in
+            guard let baseAddress = ptr.baseAddress else { return }
+            _ = CC_SHA256(baseAddress, CC_LONG(self.count), &hash)
         }
-        return Data(bytes: hash)
+        return Data(hash)
     }
 
     /// Returns the current Data as a base58 encoded String.

@@ -23,7 +23,7 @@ DEPENDENCIES:
   - SwiftLint
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - BigInt
     - EosioSwift
     - GRKOpenSSLFramework
@@ -41,4 +41,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 63b97c6b73a6c3c179084e989cc4b414bfd6f593
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.3

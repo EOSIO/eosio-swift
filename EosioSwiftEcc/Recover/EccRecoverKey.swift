@@ -43,7 +43,9 @@ public class EccRecoverKey {
         EC_KEY_set_group(key, group)
 
         var recoveredPubKeyHex = ""
-        privateKey.withUnsafeBytes { (pkbytes: UnsafePointer<UInt8>) -> Void in
+        privateKey.withUnsafeBytes { rawBufferPointer in
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            guard let pkbytes = bufferPointer.baseAddress else { return }
 
             BN_bin2bn(pkbytes, Int32(privateKey.count), privKeyBN)
             EC_KEY_set_private_key(key, privKeyBN)
@@ -93,7 +95,10 @@ public class EccRecoverKey {
         }
 
         var recoveredPubKeyHex = ""
-        try signatureDer.withUnsafeBytes { (derBytes: UnsafePointer<UInt8>) -> Void in
+        try signatureDer.withUnsafeBytes { rawBufferPointer -> Void in
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            guard let derBytes = bufferPointer.baseAddress else { return }
+
             let recoveredKey = EC_KEY_new_by_curve_name(curveName)
             var sig = ECDSA_SIG_new()
             var mutableDerBytes: UnsafePointer<UInt8>? = derBytes
@@ -101,7 +106,9 @@ public class EccRecoverKey {
             guard sig != nil else {
                 throw EosioError(.keySigningError, reason: "Signature \(signatureDer.hex) is not valid" )
             }
-            message.withUnsafeBytes { (messageBytes: UnsafePointer<UInt8>) -> Void in
+            message.withUnsafeBytes { rawBufferPointer in
+                let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+                guard let messageBytes = bufferPointer.baseAddress else { return }
 
                 ECDSA_SIG_recover_key_GFp(recoveredKey, sig, messageBytes, Int32(message.count), Int32(recid), 1)
                 guard let recoveredPubKey = EC_KEY_get0_public_key(recoveredKey) else { return }

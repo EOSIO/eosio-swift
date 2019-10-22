@@ -197,7 +197,7 @@ public extension Error {
             return eosioError
         }
 
-        return EosioError(EosioErrorCode.unexpectedError, reason: self.localizedDescription)
+        return EosioError(EosioErrorCode.unexpectedError, reason: self.localizedDescription, originalError: self as NSError)
     }
 
 }

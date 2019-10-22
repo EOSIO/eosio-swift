@@ -228,3 +228,23 @@ public struct EosioRpcHistoryControlledAccountsRequest: Codable {
         self.controllingAccount = controllingAccount
     }
 }
+
+/// The request struct for `send_transaction` RPC requests.
+public struct EosioRpcSendTransactionRequest: Codable {
+    /// Array of signatures as Strings.
+    public var signatures = [String]()
+    /// Compression
+    public var compression = 0
+    /// Context free data, packed.
+    public var packedContextFreeData = ""
+    /// The serialized transaction as a hex String.
+    public var packedTrx = ""
+
+    /// Initialize an `EosioRpcSendTransactionRequest`.
+    public init(signatures: [String] = [], compression: Int = 0, packedContextFreeData: String = "", packedTrx: String = "") {
+        self.signatures = signatures
+        self.compression = compression
+        self.packedContextFreeData = packedContextFreeData
+        self.packedTrx = packedTrx
+    }
+}

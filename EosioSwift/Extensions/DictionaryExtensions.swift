@@ -12,7 +12,8 @@ public extension Dictionary {
 
     /// Returns a JSON string representation of the dictionary or nil if the dictionary can't be encoded to a JSON string.
     var jsonString: String? {
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [.sortedKeys]) else { return nil }
+        guard JSONSerialization.isValidJSONObject(self),
+            let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [.sortedKeys]) else { return nil }
         return String(data: jsonData, encoding: .utf8)
     }
 

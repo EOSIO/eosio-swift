@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftAbieosSerializationProvider'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'Binary <> JSON conversion using ABIs. Compatible with languages which can interface to C.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-abieos-serialization-provider'
   s.license          = { :type => 'MIT', :text => <<-LICENSE

@@ -19,12 +19,14 @@ Pod::Spec.new do |s|
                          'Serguei Vinnitskii' => 'serguei.vinnitskii@block.one',
                          'Farid Rahmani' => 'farid.rahmani@block.one',
                          'Brandon Fancher' => 'brandon.fancher@block.one',
+                         'Mark Johnson' => 'mark.johnson@block.one',
+                         'Paul Kim' => 'paul.kim@block.one',
                          'Steve McCoole' => 'steve.mccoole@objectpartners.com',
                          'Ben Martell' => 'ben.martell@objectpartners.com' }
 
   s.source           = { :git => 'https://github.com/EOSIO/eosio-swift-ecc.git', :tag => "v" + s.version.to_s }
 
-  s.swift_version         = '4.2'
+  s.swift_version         = '5.0'
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'EosioSwiftEcc/**/*.{c,h,m,cpp,hpp}',

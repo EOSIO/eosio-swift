@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftSoftkeySignatureProvider'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'Experimental Software Key Signature Provider for Eosio SDK for Swift.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-softkey-signature-provider'
   s.license          = { :type => 'MIT', :text => <<-LICENSE

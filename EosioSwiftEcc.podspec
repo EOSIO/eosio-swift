@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftEcc'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'Elliptical Curve Cryptography (ECC) functions for EOSIO. '
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-ecc'
   s.license          = { :type => 'MIT', :text => <<-LICENSE

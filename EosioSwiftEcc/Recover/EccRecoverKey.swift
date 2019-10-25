@@ -43,7 +43,11 @@ public class EccRecoverKey {
         EC_KEY_set_group(key, group)
 
         var recoveredPubKeyHex = ""
-        privateKey.withUnsafeBytes { (pkbytes: UnsafePointer<UInt8>) -> Void in
+        try privateKey.withUnsafeBytes { rawBufferPointer in
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            guard let pkbytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
+            }
 
             BN_bin2bn(pkbytes, Int32(privateKey.count), privKeyBN)
             EC_KEY_set_private_key(key, privKeyBN)
@@ -53,12 +57,23 @@ public class EccRecoverKey {
             let xBN = BN_new()!
             let yBN = BN_new()!
             EC_POINT_get_affine_coordinates_GFp(group, pubKeyPoint, xBN, yBN, nil)
-            let xHex = String(cString: BN_bn2hex(xBN))
-            let yHex = String(cString: BN_bn2hex(yBN))
+
+            let xBNstr = BN_bn2hex(xBN)!
+            let yBNstr = BN_bn2hex(yBN)!
+            let xHex = String(cString: xBNstr)
+            let yHex = String(cString: yBNstr)
+            CRYPTO_free(xBNstr)
+            CRYPTO_free(yBNstr)
+
             BN_free(xBN)
             BN_free(yBN)
+            EC_POINT_free(pubKeyPoint)
             recoveredPubKeyHex = "04" + xHex + yHex
         }
+        EC_GROUP_free(group)
+        BN_CTX_free(ctx)
+        EC_KEY_free(key)
+        BN_free(privKeyBN)
         return try Data(hex: recoveredPubKeyHex)
     }
 
@@ -82,7 +97,12 @@ public class EccRecoverKey {
         }
 
         var recoveredPubKeyHex = ""
-        try signatureDer.withUnsafeBytes { (derBytes: UnsafePointer<UInt8>) -> Void in
+        try signatureDer.withUnsafeBytes { rawBufferPointer -> Void in
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            guard let derBytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of signatureDer is nil.")
+            }
+
             let recoveredKey = EC_KEY_new_by_curve_name(curveName)
             var sig = ECDSA_SIG_new()
             var mutableDerBytes: UnsafePointer<UInt8>? = derBytes
@@ -90,7 +110,11 @@ public class EccRecoverKey {
             guard sig != nil else {
                 throw EosioError(.keySigningError, reason: "Signature \(signatureDer.hex) is not valid" )
             }
-            message.withUnsafeBytes { (messageBytes: UnsafePointer<UInt8>) -> Void in
+            try message.withUnsafeBytes { rawBufferPointer in
+                let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+                guard let messageBytes = bufferPointer.baseAddress else {
+                    throw EosioError(.keySigningError, reason: "Base address of message is nil.")
+                }
 
                 ECDSA_SIG_recover_key_GFp(recoveredKey, sig, messageBytes, Int32(message.count), Int32(recid), 1)
                 guard let recoveredPubKey = EC_KEY_get0_public_key(recoveredKey) else { return }
@@ -98,14 +122,19 @@ public class EccRecoverKey {
                 let yBN = BN_new()!
                 let group = EC_GROUP_new_by_curve_name(curveName)
                 EC_POINT_get_affine_coordinates_GFp(group, recoveredPubKey, xBN, yBN, nil)
-                let xHex = String(cString: BN_bn2hex(xBN))
-                let yHex = String(cString: BN_bn2hex(yBN))
+                let xBNstr = BN_bn2hex(xBN)!
+                let yBNstr = BN_bn2hex(yBN)!
+                let xHex = String(cString: xBNstr)
+                let yHex = String(cString: yBNstr)
+                CRYPTO_free(xBNstr)
+                CRYPTO_free(yBNstr)
                 BN_free(xBN)
                 BN_free(yBN)
                 EC_GROUP_free(group)
                 recoveredPubKeyHex = "04" + xHex + yHex
             }
             ECDSA_SIG_free(sig)
+            EC_KEY_free(recoveredKey)
         }
         return try Data(hex: recoveredPubKeyHex)
     }

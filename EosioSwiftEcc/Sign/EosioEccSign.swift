@@ -30,12 +30,17 @@ public class EosioEccSign {
         let group = EC_GROUP_new_by_curve_name(NID_secp256k1)
         EC_KEY_set_group(key, group)
 
-        privateKey.withUnsafeBytes { (pkbytes: UnsafePointer<UInt8>) -> Void in
+        try privateKey.withUnsafeBytes { rawBufferPointer in
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            guard let pkbytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
+            }
+
             BN_bin2bn(pkbytes, Int32(privateKey.count), privKeyBN)
             EC_KEY_set_private_key(key, privKeyBN)
         }
 
-        var digest = data.sha256
+        let digest = data.sha256
 
         var signature: Data?
         var signingError: Error?
@@ -44,13 +49,21 @@ public class EosioEccSign {
         for i in 1...k1SignMaxAttempts {
             var der = Data(count: 100)
             var numBytes: Int32 = 0
-            digest.withUnsafeBytes { (digestBytes: UnsafePointer<UInt8>) -> Void in
+            try digest.withUnsafeBytes { rawBufferPointer in
+                let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+                guard let digestBytes = bufferPointer.baseAddress else {
+                    throw EosioError(.keySigningError, reason: "Base address of digest is nil.")
+                }
+
                 let sig = ECDSA_do_sign(digestBytes, Int32(digest.count), key)
-                der.withUnsafeMutableBytes { (derPointer: UnsafeMutablePointer<UInt8>) -> Void in
-                    var derPointer: UnsafeMutablePointer<UInt8>? = derPointer
+                der.withUnsafeMutableBytes { mutableRawBufferPointer in
+                    let mutableBufferPointer = mutableRawBufferPointer.bindMemory(to: UInt8.self)
+                    var derPointer: UnsafeMutablePointer<UInt8>? = mutableBufferPointer.baseAddress
                     numBytes = i2d_ECDSA_SIG(sig, &derPointer)
                 }
+                ECDSA_SIG_free(sig)
             }
+
             der = der.prefix(Int(numBytes))
 
             guard der.count >= 70 else { continue }
@@ -85,6 +98,10 @@ public class EosioEccSign {
             }
         }
         print("attempts required = \(attemptsRequired)")
+
+        EC_GROUP_free(group)
+        EC_KEY_free(key)
+        BN_free(privKeyBN)
 
         if let signature = signature {
             return signature

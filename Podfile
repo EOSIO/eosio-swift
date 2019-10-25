@@ -12,11 +12,11 @@ if using_local_pods
 
     target 'EosioSwiftEccTests' do
       inherit! :search_paths
-      pod 'GRKOpenSSLFramework', '1.0.2.16'
+      pod 'GRKOpenSSLFramework', '1.0.2.19'
       pod 'EosioSwift', :path => '../eosio-swift'
     end
 
-    pod 'GRKOpenSSLFramework', '1.0.2.16'
+    pod 'GRKOpenSSLFramework', '1.0.2.19'
     pod 'EosioSwift', :path => '../eosio-swift'
     pod 'SwiftLint'
   end
@@ -27,12 +27,12 @@ else
 
     target 'EosioSwiftEccTests' do
       inherit! :search_paths
-      pod 'GRKOpenSSLFramework', '1.0.2.16'
-      pod 'EosioSwift', '~> 0.1.3'
+      pod 'GRKOpenSSLFramework', '1.0.2.19'
+      pod 'EosioSwift', '~> 0.2.0'
     end
 
-    pod 'GRKOpenSSLFramework', '1.0.2.16'
-    pod 'EosioSwift', '~> 0.1.3'
+    pod 'GRKOpenSSLFramework', '1.0.2.19'
+    pod 'EosioSwift', '~> 0.2.0'
     pod 'SwiftLint'
   end
 end

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>LinkedList Structure Reference</title>
+    <title>EosioRpcSendTransactionRequest Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/LinkedList" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/EosioRpcSendTransactionRequest" class="dashAnchor"></a>
 
-    <a title="LinkedList Structure Reference"></a>
+    <a title="EosioRpcSendTransactionRequest Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">EosioSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      LinkedList Structure Reference
+      EosioRpcSendTransactionRequest Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -424,14 +424,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>LinkedList</h1>
+            <h1>EosioRpcSendTransactionRequest</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">LinkedList</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">EosioRpcSendTransactionRequest</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
 
                 </div>
               </div>
-            <p>A LinkedList utility implementation for tracking item nodes.</p>
+            <p>The request struct for <code>send_transaction</code> RPC requests.</p>
 
           </div>
         </section>
@@ -443,9 +443,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10EosioSwift10LinkedListVACyxGycfc"></a>
-                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10EosioSwift10LinkedListVACyxGycfc">init()</a>
+                    <a name="/s:10EosioSwift0A25RpcSendTransactionRequestV10signaturesSaySSGvp"></a>
+                    <a name="//apple_ref/swift/Property/signatures" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A25RpcSendTransactionRequestV10signaturesSaySSGvp">signatures</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -453,19 +453,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The default init.</p>
+                        <p>Array of signatures as Strings.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">signatures</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Foundation/LinkedList.swift#L17">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L235">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -473,9 +473,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10EosioSwift10LinkedListV7isEmptySbvp"></a>
-                    <a name="//apple_ref/swift/Property/isEmpty" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10EosioSwift10LinkedListV7isEmptySbvp">isEmpty</a>
+                    <a name="/s:10EosioSwift0A25RpcSendTransactionRequestV11compressionSivp"></a>
+                    <a name="//apple_ref/swift/Property/compression" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A25RpcSendTransactionRequestV11compressionSivp">compression</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -483,22 +483,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Compression</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isEmpty</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">compression</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A <code>Bool</code> indicating if the <code>LinkedList</code> is empty.</p>
-                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Foundation/LinkedList.swift#L20-L22">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L237">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -506,9 +503,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10EosioSwift10LinkedListV5firstAA4NodeCyxGSgvp"></a>
-                    <a name="//apple_ref/swift/Property/first" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10EosioSwift10LinkedListV5firstAA4NodeCyxGSgvp">first</a>
+                    <a name="/s:10EosioSwift0A25RpcSendTransactionRequestV21packedContextFreeDataSSvp"></a>
+                    <a name="//apple_ref/swift/Property/packedContextFreeData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A25RpcSendTransactionRequestV21packedContextFreeDataSSvp">packedContextFreeData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -516,19 +513,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Property for the first item in the <code>LinkedList</code>.</p>
+                        <p>Context free data, packed.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">first</span><span class="p">:</span> <span class="kt"><a href="../Classes/Node.html">Node</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">packedContextFreeData</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Foundation/LinkedList.swift#L25-L27">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L239">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -536,9 +533,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10EosioSwift10LinkedListV6appendyyxF"></a>
-                    <a name="//apple_ref/swift/Method/append(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10EosioSwift10LinkedListV6appendyyxF">append(_:)</a>
+                    <a name="/s:10EosioSwift0A25RpcSendTransactionRequestV9packedTrxSSvp"></a>
+                    <a name="//apple_ref/swift/Property/packedTrx" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A25RpcSendTransactionRequestV9packedTrxSSvp">packedTrx</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -546,38 +543,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Adds a new element of type <T> to the end of this <code>LinkedList</code>.</p>
+                        <p>The serialized transaction as a hex String.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">append</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">packedTrx</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>value</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The object of type T to append to the <code>LinkedList</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Foundation/LinkedList.swift#L32-L41">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L241">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -585,9 +563,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10EosioSwift10LinkedListV6removeyxAA4NodeCyxGF"></a>
-                    <a name="//apple_ref/swift/Method/remove(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10EosioSwift10LinkedListV6removeyxAA4NodeCyxGF">remove(_:)</a>
+                    <a name="/s:10EosioSwift0A25RpcSendTransactionRequestV10signatures11compression21packedContextFreeData0I3TrxACSaySSG_SiS2Stcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(signatures:compression:packedContextFreeData:packedTrx:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A25RpcSendTransactionRequestV10signatures11compression21packedContextFreeData0I3TrxACSaySSG_SiS2Stcfc">init(signatures:compression:packedContextFreeData:packedTrx:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -595,72 +573,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Removes a <code><a href="../Classes/Node.html">Node</a></code> from this <code>LinkedList</code>.</p>
+                        <p>Initialize an <code>EosioRpcSendTransactionRequest</code>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">remove</span><span class="p">(</span><span class="n">_</span> <span class="nv">node</span><span class="p">:</span> <span class="kt"><a href="../Classes/Node.html">Node</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>node</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code><a href="../Classes/Node.html">Node</a></code> object to remove.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>The <code><a href="../Classes/Node.html">Node</a></code> value of the <code><a href="../Classes/Node.html">Node</a></code> that was removed from the <code>LinkedList</code>.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Foundation/LinkedList.swift#L47-L66">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10EosioSwift10LinkedListV11descriptionSSvp"></a>
-                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10EosioSwift10LinkedListV11descriptionSSvp">description</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Property describing the <code>LinkedList</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">signatures</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">compression</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">packedContextFreeData</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span> <span class="nv">packedTrx</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">""</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/Foundation/LinkedList.swift#L69-L79">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L244-L249">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

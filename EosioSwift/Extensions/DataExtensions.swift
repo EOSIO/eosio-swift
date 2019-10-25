@@ -57,28 +57,48 @@ public extension Data {
     ///
     /// - Parameter hexString: A Base16 encoded string.
     init?(hexString: String) {
+        guard let hexData = hexString.data(using: .ascii) else { return nil }
+
         let len = hexString.count / 2
-        var data = Data(capacity: len)
-        for i in 0..<len {
-            let j = hexString.index(hexString.startIndex, offsetBy: i*2) // swiftlint:disable:this identifier_name
-            let k = hexString.index(j, offsetBy: 2) // swiftlint:disable:this identifier_name
-            let bytes = hexString[j..<k]
-            if var num = UInt8(bytes, radix: 16) {
-                data.append(&num, count: 1)
-            } else {
-                return nil
+        var data: Data?
+
+        hexData.withUnsafeBytes { ptr in
+            var dataPtrOffset = 0
+
+            guard let baseAddress = ptr.baseAddress else { return }
+            let dataPtr = UnsafeMutablePointer<UInt8>.allocate(capacity: len)
+
+            for offset in stride(from: 0, to: hexString.count, by: 2) {
+                let bytes = Data(bytes: baseAddress+offset, count: 2)
+
+                guard let string = String(data: bytes, encoding: .ascii) else {
+                    dataPtr.deallocate()
+                    return
+                }
+
+                guard let num = UInt8(string, radix: 16) else {
+                    dataPtr.deallocate()
+                    return
+                }
+                dataPtr[dataPtrOffset] = num
+                dataPtrOffset += 1
             }
+
+            data = Data(bytesNoCopy: dataPtr, count: len, deallocator: .free)
         }
-        self = data
+
+        guard let validData = data else { return nil }
+        self = validData
     }
 
     /// Returns the SHA256 hash of the data.
     var sha256: Data {
         var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        self.withUnsafeBytes {
-            _ = CC_SHA256($0, CC_LONG(self.count), &hash)
+        self.withUnsafeBytes { ptr in
+            guard let baseAddress = ptr.baseAddress else { return }
+            _ = CC_SHA256(baseAddress, CC_LONG(self.count), &hash)
         }
-        return Data(bytes: hash)
+        return Data(hash)
     }
 
     /// Returns the current Data as a base58 encoded String.

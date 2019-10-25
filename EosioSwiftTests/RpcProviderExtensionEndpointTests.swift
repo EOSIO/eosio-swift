@@ -69,7 +69,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             return retVal
         }).name = "GetBlockHeaderState stub"
         let expect = expectation(description: "testGetBlockHeaderState")
-        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: 25260035)
+        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: "25260035")
         rpcProvider?.getBlockHeaderState(requestParameters: requestParameters) { response in
             switch response {
             case .success(let eosioRpcBlockHeaderStateResponse):
@@ -581,7 +581,6 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
-                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_actions")
@@ -628,7 +627,6 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == -1)
-                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_actions")
@@ -722,6 +720,37 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_key_accounts")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+
+    /// Test sendTransaction() implementation.
+    func testSendTransaction() {
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath)
+            callCount += 1
+            return retVal
+        }).name = "Send Transaction stub"
+        let expect = expectation(description: "testSendTransaction")
+        // swiftlint:disable line_length
+        let requestParameters = EosioRpcSendTransactionRequest(signatures: ["SIG_K1_JzFA9ffefWfrTBvpwMwZi81kR6tvHF4mfsRekVXrBjLWWikg9g1FrS9WupYuoGaRew5mJhr4d39tHUjHiNCkxamtEfxi68"], compression: 0, packedContextFreeData: "", packedTrx: "C62A4F5C1CEF3D6D71BD000000000290AFC2D800EA3055000000405DA7ADBA0072CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB155624800A6823403EA3055000000572D3CCDCD0100AEAA4AC15CFD4500000000A8ED32323B00AEAA4AC15CFD4500000060D234CD3DA06806000000000004454F53000000001A746865206772617373686F70706572206C69657320686561767900")
+        // swiftlint:enable line_length
+        rpcProvider?.sendTransaction(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let sentTransactionResponse):
+                XCTAssertTrue(sentTransactionResponse.transactionId == "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9")
+                if let processed = sentTransactionResponse.processed as [String: Any]?,
+                    let receipt = processed["receipt"] as? [String: Any],
+                    let status = receipt["status"] as? String {
+                    XCTAssert(status == "executed")
+                } else {
+                    XCTFail("Should be able to find processed.receipt.status and verify its value.")
+                }
+            case .failure(let err):
+                XCTFail("\(err.description)")
             }
             expect.fulfill()
         }

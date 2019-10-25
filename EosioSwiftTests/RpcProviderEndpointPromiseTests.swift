@@ -79,7 +79,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             return retVal
         }).name = "Get Block Stub"
         let expect = expectation(description: "testGetBlock")
-        let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
+        let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
 
         firstly {
             (rpcProvider?.getBlock(.promise, requestParameters: requestParameters))!
@@ -307,7 +307,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             return retVal
         }).name = "GetBlockHeaderState stub"
         let expect = expectation(description: "testGetBlockHeaderState")
-        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: 25260035)
+        let requestParameters = EosioRpcBlockHeaderStateRequest(blockNumOrId: "25260035")
 
         firstly {
             (rpcProvider?.getBlockHeaderState(.promise, requestParameters: requestParameters))!
@@ -996,7 +996,6 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
             XCTAssert($0.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
             XCTAssert($0.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
             XCTAssert($0.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
-            XCTAssert($0.actions.first?.actionTrace.inlineTrances.first?.receipt.actionDigest == "62021c2315d8245d0546180daf825d728a5564d2831e8b2d1f2d01309bf06b")
         }.catch {
             print($0)
             if unhappy {

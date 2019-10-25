@@ -25,6 +25,7 @@
 		3EE762A22268C48D00D8DC33 /* EosioRpcProviderEndpointsPromises.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE762A12268C48D00D8DC33 /* EosioRpcProviderEndpointsPromises.swift */; };
 		3EE762A422690E9200D8DC33 /* RpcProviderEndpointPromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE762A322690E9200D8DC33 /* RpcProviderEndpointPromiseTests.swift */; };
 		4FD31C65A4889CF91BFCE984 /* Pods_EosioSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E4478EE834B70DDF06A7FA /* Pods_EosioSwift.framework */; };
+		5D8C430D235F986700F3A146 /* DictionaryExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8C430C235F986700F3A146 /* DictionaryExtensionTests.swift */; };
 		6B80D26921FA6DDF00716A7B /* EosioSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80D25F21FA6DDF00716A7B /* EosioSwift.framework */; };
 		6B80D27021FA6DDF00716A7B /* EosioSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B80D26221FA6DDF00716A7B /* EosioSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F49E8CF225E6E6A00082631 /* RpcProviderRequestModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F49E8CE225E6E6A00082631 /* RpcProviderRequestModels.swift */; };
@@ -99,6 +100,7 @@
 		3EE762A322690E9200D8DC33 /* RpcProviderEndpointPromiseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RpcProviderEndpointPromiseTests.swift; sourceTree = "<group>"; };
 		5835070C5F7998E17BF06017 /* Pods_EosioSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EosioSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ACC322368A39C81F88A1553 /* Pods-EosioSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EosioSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EosioSwift/Pods-EosioSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		5D8C430C235F986700F3A146 /* DictionaryExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionTests.swift; sourceTree = "<group>"; };
 		6B80D25F21FA6DDF00716A7B /* EosioSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EosioSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B80D26221FA6DDF00716A7B /* EosioSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EosioSwift.h; sourceTree = "<group>"; };
 		6B80D26321FA6DDF00716A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				8F6B04CA22287B1D00215CD0 /* DataExtensionsTests.swift */,
+				5D8C430C235F986700F3A146 /* DictionaryExtensionTests.swift */,
 				8F6B04C722287B1D00215CD0 /* EncodableExtensionTests.swift */,
 				8F6B04CB22287B1D00215CD0 /* EosioNameTests.swift */,
 				8F6B04C922287B1D00215CD0 /* StringExtensionsTests.swift */,
@@ -440,10 +443,11 @@
 				TargetAttributes = {
 					6B80D25E21FA6DDF00716A7B = {
 						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1110;
 					};
 					6B80D26721FA6DDF00716A7B = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1110;
 					};
 				};
 			};
@@ -616,6 +620,7 @@
 				8F6B04CE22287B1D00215CD0 /* StringExtensionsTests.swift in Sources */,
 				BBAC7BCE225266A40035CDBC /* DateExtensionTests.swift in Sources */,
 				8F77127D2232FD6D004256D3 /* EosioTransactionTests.swift in Sources */,
+				5D8C430D235F986700F3A146 /* DictionaryExtensionTests.swift in Sources */,
 				1F9DCB7A22569A2600853105 /* EosioRpcProviderTests.swift in Sources */,
 				B4E8F6C222320EB700FA7E63 /* RIPEMD160Tests.swift in Sources */,
 				8F6B04CF22287B1D00215CD0 /* DataExtensionsTests.swift in Sources */,
@@ -785,11 +790,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = one.block.EosioSwift;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -814,10 +820,11 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = one.block.EosioSwift;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -838,7 +845,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = one.block.EosioSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -859,7 +866,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = one.block.EosioSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

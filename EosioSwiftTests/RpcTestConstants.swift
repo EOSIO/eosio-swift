@@ -95,6 +95,8 @@ public class RpcTestConstants {
                 return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.transactionJson, unhappy: unhappy)
             case "/v1/history/get_key_accounts" :
                 return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.keyAccountsJson, unhappy: unhappy)
+            case "/v1/chain/send_transaction":
+                return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.sendTransActionResponseJson, unhappy: unhappy)
             default :
                 return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "Unexpected relative path passed to stub: \(String(describing: urlRelativePath))")
             }
@@ -1881,6 +1883,172 @@ public class RpcTestConstants {
         }
     }
     ]
+    """
+
+    public static let sendTransActionResponseJson = """
+    {
+        "processed": {
+            "account_ram_delta": null,
+            "action_traces": [
+                {
+                    "account_ram_deltas": [],
+                    "act": {
+                        "account": "eosio.token",
+                        "authorization": [
+                            {
+                                "actor": "swdev1212121",
+                                "permission": "active"
+                            }
+                        ],
+                        "data": {
+                            "from": "swdev1212121",
+                            "memo": "",
+                            "quantity": "1.0000 EOS",
+                            "to": "paulk1111111"
+                        },
+                        "hex_data": "1044104184ad12c7104208210418b5a9102700000000000004454f530000000000",
+                        "name": "transfer"
+                    },
+                    "action_ordinal": 1,
+                    "block_num": 56110902,
+                    "block_time": "2019-10-22T15:32:46.000",
+                    "closest_unnotified_ancestor_action_ordinal": 0,
+                    "console": "",
+                    "context_free": false,
+                    "creator_action_ordinal": 0,
+                    "elapsed": 65,
+                    "error_code": null,
+                    "except": null,
+                    "producer_block_id": null,
+                    "receipt": {
+                        "abi_sequence": 4,
+                        "act_digest": "fc7afe8d172f698189449bf95d6a2a193e27759a264e21741e00872a48a5ec39",
+                        "auth_sequence": [
+                            [
+                                "swdev1212121",
+                                28
+                            ]
+                        ],
+                        "code_sequence": 5,
+                        "global_sequence": 498392582,
+                        "receiver": "eosio.token",
+                        "recv_sequence": 76627315
+                    },
+                    "receiver": "eosio.token",
+                    "trx_id": "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9"
+                },
+                {
+                    "account_ram_deltas": [],
+                    "act": {
+                        "account": "eosio.token",
+                        "authorization": [
+                            {
+                                "actor": "swdev1212121",
+                                "permission": "active"
+                            }
+                        ],
+                        "data": {
+                            "from": "swdev1212121",
+                            "memo": "",
+                            "quantity": "1.0000 EOS",
+                            "to": "paulk1111111"
+                        },
+                        "hex_data": "1044104184ad12c7104208210418b5a9102700000000000004454f530000000000",
+                        "name": "transfer"
+                    },
+                    "action_ordinal": 2,
+                    "block_num": 56110902,
+                    "block_time": "2019-10-22T15:32:46.000",
+                    "closest_unnotified_ancestor_action_ordinal": 1,
+                    "console": "",
+                    "context_free": false,
+                    "creator_action_ordinal": 1,
+                    "elapsed": 2,
+                    "error_code": null,
+                    "except": null,
+                    "producer_block_id": null,
+                    "receipt": {
+                        "abi_sequence": 4,
+                        "act_digest": "fc7afe8d172f698189449bf95d6a2a193e27759a264e21741e00872a48a5ec39",
+                        "auth_sequence": [
+                            [
+                                "swdev1212121",
+                                29
+                            ]
+                        ],
+                        "code_sequence": 5,
+                        "global_sequence": 498392583,
+                        "receiver": "swdev1212121",
+                        "recv_sequence": 18
+                    },
+                    "receiver": "swdev1212121",
+                    "trx_id": "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9"
+                },
+                {
+                    "account_ram_deltas": [],
+                    "act": {
+                        "account": "eosio.token",
+                        "authorization": [
+                            {
+                                "actor": "swdev1212121",
+                                "permission": "active"
+                            }
+                        ],
+                        "data": {
+                            "from": "swdev1212121",
+                            "memo": "",
+                            "quantity": "1.0000 EOS",
+                            "to": "paulk1111111"
+                        },
+                        "hex_data": "1044104184ad12c7104208210418b5a9102700000000000004454f530000000000",
+                        "name": "transfer"
+                    },
+                    "action_ordinal": 3,
+                    "block_num": 56110902,
+                    "block_time": "2019-10-22T15:32:46.000",
+                    "closest_unnotified_ancestor_action_ordinal": 1,
+                    "console": "",
+                    "context_free": false,
+                    "creator_action_ordinal": 1,
+                    "elapsed": 7,
+                    "error_code": null,
+                    "except": null,
+                    "producer_block_id": null,
+                    "receipt": {
+                        "abi_sequence": 4,
+                        "act_digest": "fc7afe8d172f698189449bf95d6a2a193e27759a264e21741e00872a48a5ec39",
+                        "auth_sequence": [
+                            [
+                                "swdev1212121",
+                                30
+                            ]
+                        ],
+                        "code_sequence": 5,
+                        "global_sequence": 498392584,
+                        "receiver": "paulk1111111",
+                        "recv_sequence": 19
+                    },
+                    "receiver": "paulk1111111",
+                    "trx_id": "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9"
+                }
+            ],
+            "block_num": 56110902,
+            "block_time": "2019-10-22T15:32:46.000",
+            "elapsed": 237,
+            "error_code": null,
+            "except": null,
+            "id": "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9",
+            "net_usage": 128,
+            "producer_block_id": null,
+            "receipt": {
+                "cpu_usage_us": 237,
+                "net_usage_words": 16,
+                "status": "executed"
+            },
+            "scheduled": false
+        },
+        "transaction_id": "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9"
+    }
     """
 
     public static func createRawApiResponseJson(account: EosioName) -> String? {

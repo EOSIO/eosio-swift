@@ -60,14 +60,14 @@ public extension String {
     /// Converts the string to a dictionary if it is convertible to a dictionary (i.e., it is a JSON string.) and returns the dictionary. Otherwise, returns `nil`.
     var toJsonDictionary: [String: Any]? {
         guard let data = self.data(using: .utf8) else { return nil }
-        let dict = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: Any]) ?? nil
+        let dict = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any]
         return dict
     }
 
     /// Converts the string to a array if it is convertible to a array (i.e., it is a JSON string.) and returns the array. Otherwise, returns `nil`.
     var toJsonArray: [Any]? {
         guard let data = self.data(using: .utf8) else { return nil }
-        let array = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [Any]) ?? nil
+        let array = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [Any]
         return array
     }
 

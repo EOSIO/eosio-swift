@@ -1,6 +1,6 @@
 PODS:
   - BigInt (5.0.0)
-  - EosioSwift (0.2.0):
+  - EosioSwift (0.2.1):
     - BigInt (~> 5.0)
     - PromiseKit (~> 6.8)
   - GRKOpenSSLFramework (1.0.2.19)
@@ -16,7 +16,7 @@ PODS:
   - SwiftLint (0.32.0)
 
 DEPENDENCIES:
-  - EosioSwift (~> 0.2.0)
+  - EosioSwift (~> 0.2.1)
   - GRKOpenSSLFramework (= 1.0.2.19)
   - SwiftLint
 
@@ -30,11 +30,11 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
-  EosioSwift: 5d8585bd3a7276c02fc2e894d67702c833c2585a
+  EosioSwift: 21ca0d61e7928a982a64c82b623e7342d7dd86dc
   GRKOpenSSLFramework: 4abc733a8fcbc37060619a86a54202d2938dd70e
   PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
 
-PODFILE CHECKSUM: 94fdbbb79187d95ff0d8765d6dbcae4bb2385569
+PODFILE CHECKSUM: a1c786da58b08fb3e5dc082106b7f40f5de40b21
 
 COCOAPODS: 1.8.4

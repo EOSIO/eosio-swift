@@ -60,15 +60,22 @@ public class EccRecoverKey {
 
             let xBNstr = BN_bn2hex(xBN)!
             let yBNstr = BN_bn2hex(yBN)!
+
             let xHex = String(cString: xBNstr)
+            let xPad = max(64, xHex.count)
+            let xHexPadded = String(repeatElement("0", count: xPad - xHex.count) + xHex)
+
             let yHex = String(cString: yBNstr)
+            let yPad = max(64, yHex.count)
+            let yHexPadded = String(repeatElement("0", count: yPad - yHex.count) + yHex)
+
             CRYPTO_free(xBNstr)
             CRYPTO_free(yBNstr)
 
             BN_free(xBN)
             BN_free(yBN)
             EC_POINT_free(pubKeyPoint)
-            recoveredPubKeyHex = "04" + xHex + yHex
+            recoveredPubKeyHex = "04" + xHexPadded + yHexPadded
         }
         EC_GROUP_free(group)
         BN_CTX_free(ctx)

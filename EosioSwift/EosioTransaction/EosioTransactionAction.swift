@@ -39,6 +39,23 @@ public extension EosioTransaction {
             return dataSerialized != nil
         }
 
+        /// Add an Authorization.
+        ///
+        /// - Parameters:
+        ///   - authorization: The Authorization to add.
+        ///   - at: An optional index at which to insert the Authorization. If not provided, the Authorization will be appended to the end of the authorization array.
+        public func add(authorization auth: Authorization, at: Int? = nil) {
+            authorization.insert(auth, at: at ?? authorization.count)
+        }
+
+        /// Remove an Authorization.
+        ///
+        /// - Parameters:
+        ///   - at: The position of the authorization to remove. index must be a valid index of the collection that is not equal to the collection’s end index
+        public func removeAuthorization(at: Int) -> Authorization? {
+            return authorization.remove(at: at)
+        }
+
         /// Coding keys
         enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
             case account

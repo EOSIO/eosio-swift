@@ -119,6 +119,32 @@ class EosioTransactionActionTests: XCTestCase {
         XCTAssertTrue(action.dataHex == "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73")
     }
 
+    func testAddAuthorizationAtIndexShouldSucceed() {
+        guard let action = try? makeTransferActionWithEosioNames() else {
+            return XCTFail("Could not create an action")
+        }
+
+        guard let authorization = try? EosioTransaction.Action.Authorization(actor: "12character", permission: "12character") else {
+            return XCTFail("Could not create an authorization")
+        }
+
+        action.add(authorization: authorization, at: 0)
+        XCTAssertEqual(action.authorization.count, 2)
+        XCTAssertEqual(action.authorization[0], authorization)
+    }
+
+    func testRemoveAuthorizationAtIndexShouldSucceed() {
+        guard let action = try? makeTransferActionWithEosioNames() else {
+            return XCTFail("Could not create an action")
+        }
+
+        let authorization = action.authorization[0]
+        let removedAuthorization = action.removeAuthorization(at: 0)
+
+        XCTAssertEqual(action.authorization.count, 0)
+        XCTAssertEqual(authorization, removedAuthorization)
+    }
+
     ///////////////////////////////// convenience methods /////////////////////////////////
 
     struct Transfer: Codable {

@@ -67,11 +67,36 @@ public extension EosioTransaction {
         ///   - authorization: Authorization (actor and permission).
         ///   - data: Action data (codable struct).
         /// - Throws: If the strings are not valid eosio names or data cannot be encoded.
-        public init(account: EosioName, name: EosioName, authorization: [Authorization], data: Encodable) throws {
+        public convenience init(account: EosioName, name: EosioName, authorization: [Authorization], data: Encodable) throws {
+            let dict = try data.toJsonString().jsonToDictionary()
+            self.init(account: account, name: name, authorization: authorization, data: dict)
+        }
+
+        /// Init Action struct with strings and a Dictionary for data. Strings will be used to init EosioNames.
+        ///
+        /// - Parameters:
+        ///   - account: Contract account name.
+        ///   - name: Contract action name.
+        ///   - authorization: Authorization (actor and permission).
+        ///   - data: Dictionary.
+        /// - Throws: If the strings are not valid EOSIO names or data cannot be encoded.
+        public convenience init(account: String, name: String, authorization: [Authorization], data: [String: Any]) throws {
+            try self.init(account: EosioName(account), name: EosioName(name), authorization: authorization, data: data)
+        }
+
+        /// Init Action struct with `EosioName`s and a Dictionary for data.
+        ///
+        /// - Parameters:
+        ///   - account: Contract account name.
+        ///   - name: Contract action name.
+        ///   - authorization: Authorization (actor and permission).
+        ///   - data: Dictionary.
+        /// - Throws: If the strings are not valid eosio names or data cannot be encoded.
+        public init(account: EosioName, name: EosioName, authorization: [Authorization], data: [String: Any]) {
             self.account = account
             self.name = name
             self.authorization = authorization
-            self.data = try data.toJsonString().jsonToDictionary()
+            self.data = data
         }
 
         /// Init Action struct with strings and serialized data. Strings will be used to init EosioNames.

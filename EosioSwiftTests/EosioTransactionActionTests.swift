@@ -36,6 +36,10 @@ class EosioTransactionActionTests: XCTestCase {
         XCTAssertNotNil(try? makeTransferActionWithStrings())
     }
 
+    func testNewTransferActionWithDictionary() {
+        XCTAssertNotNil(try? makeTransferActionWithDictionary())
+    }
+
     func testNewTransferActionError() {
         do {
             try _ = makeTransferActionWithError()
@@ -202,6 +206,20 @@ class EosioTransactionActionTests: XCTestCase {
             ],
             dataSerialized: Data(hexString: "00000000009012cd00000060d234cd3da0680600000000000453595300000000114772617373686f7070657220526f636b73")!
         )
+        return action
+    }
+
+    func makeTransferActionWithDictionary() throws -> EosioTransaction.Action {
+        let action = try EosioTransaction.Action(
+            account: "eosio.token",
+            name: "transfer",
+            authorization: [EosioTransaction.Action.Authorization(
+                actor: "todd",
+                permission: "active")
+            ],
+            data: makeComplexData().toDictionary()!
+        )
+
         return action
     }
 

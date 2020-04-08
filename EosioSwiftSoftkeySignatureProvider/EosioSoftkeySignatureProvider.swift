@@ -48,6 +48,18 @@ public final class EosioSoftkeySignatureProvider: EosioSignatureProviderProtocol
     ///
     /// - Parameters:
     ///   - request: An `EosioTransactionSignatureRequest` struct (as defined in the `EosioSwift` library).
+    ///   - prompt: Prompt for biometric challenge if required.  Ignored as softkey provider does no biometric auth.
+    ///   - completion: Calls the completion with an `EosioTransactionSignatureResponse` struct (as defined in the `EosioSwift` library).
+    public func signTransaction(request: EosioTransactionSignatureRequest,
+                                prompt: String,
+                                completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
+        self.signTransaction(request: request, completion: completion)
+    }
+
+    /// Asynchronous method signing a transaction request. Invoked by an `EosioTransaction` during the signing process.
+    ///
+    /// - Parameters:
+    ///   - request: An `EosioTransactionSignatureRequest` struct (as defined in the `EosioSwift` library).
     ///   - completion: Calls the completion with an `EosioTransactionSignatureResponse` struct (as defined in the `EosioSwift` library).
     public func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var response = EosioTransactionSignatureResponse()

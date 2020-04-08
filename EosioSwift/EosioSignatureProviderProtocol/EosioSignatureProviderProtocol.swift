@@ -76,7 +76,6 @@ public struct EosioAvailableKeysResponse: Codable {
 
 /// The protocol to which signature provider implementations must conform.
 public protocol EosioSignatureProviderProtocol {
-
     /// The method signature for transaction signing requests to conforming signature providers.
     ///
     /// - Parameters:
@@ -84,8 +83,26 @@ public protocol EosioSignatureProviderProtocol {
     ///   - completion: The completion that the signature provider implementation will call in response.
     func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void)
 
+    /// The method signature for transaction signing requests to conforming signature providers while specifying
+    /// a prompt to use for biometric validation if desired.
+    ///
+    /// - Parameters:
+    ///   - request: The request as an `EosioTransactionSignatureRequest`.
+    ///   - prompt: Prompt for biometric authentication, if required.
+    ///   - completion: The completion that the signature provider implementation will call in response.
+    func signTransaction(request: EosioTransactionSignatureRequest,
+                                prompt: String,
+                                completion: @escaping (EosioTransactionSignatureResponse) -> Void)
+
     /// The method signature for public key requests to conforming signature providers.
     ///
     /// - Parameter completion: The method signature for key requests to conforming signature providers.
     func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void)
+}
+
+extension EosioSignatureProviderProtocol {
+    func signTransaction(request: EosioTransactionSignatureRequest,
+                                prompt: String,
+                                completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
+    }
 }

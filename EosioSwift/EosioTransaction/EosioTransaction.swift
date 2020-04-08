@@ -448,8 +448,10 @@ public class EosioTransaction: Codable {
 
     /// Signs a transaction by getting the available keys from the `signatureProvider` and calling `sign(availableKeys:, completion:)`.
     ///
-    /// - Parameter completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
-    public func sign(completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    /// - Parameter:
+    ///   - prompt: Prompt to present with biometrics authentication, if required.
+    ///   - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
+    public func sign(prompt: String = "Sign Transaction", completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let signatureProvider = signatureProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
         }
@@ -460,7 +462,7 @@ public class EosioTransaction: Codable {
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }
-            strongSelf.sign(availableKeys: availableKeys, completion: completion)
+            strongSelf.sign(availableKeys: availableKeys, prompt: prompt, completion: completion)
         }
     }
 
@@ -468,8 +470,9 @@ public class EosioTransaction: Codable {
     ///
     /// - Parameters:
     ///   - availableKeys: An array of public key strings that correspond to the private keys availble for signing.
+    ///   - prompt: Prompt to present with biometrics authentication, if required.
     ///   - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
-    public func sign(availableKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    public func sign(availableKeys: [String], prompt: String = "Sign Transaction", completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         prepare { [weak self] (result) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
@@ -478,7 +481,7 @@ public class EosioTransaction: Codable {
             case .failure(let error):
                 completion(.failure(error))
             case .success:
-                strongSelf.signPreparedTransaction(availableKeys: availableKeys, completion: completion)
+                strongSelf.signPreparedTransaction(availableKeys: availableKeys, prompt: prompt, completion: completion)
             }
         }
     }
@@ -487,8 +490,9 @@ public class EosioTransaction: Codable {
     ///
     /// - Parameters:
     ///   - availableKeys: An array of public key strings that correspond to the private keys availble for signing.
+    ///   - prompt: Prompt to present with biometrics authentication, if required.
     ///   - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
-    private func signPreparedTransaction(availableKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    private func signPreparedTransaction(availableKeys: [String], prompt: String, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let rpcProvider = rpcProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No rpc provider available")))
         }
@@ -498,7 +502,7 @@ public class EosioTransaction: Codable {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let requiredKeys):
-                self.sign(publicKeys: requiredKeys.requiredKeys, completion: completion)
+                self.sign(publicKeys: requiredKeys.requiredKeys, prompt: prompt, completion: completion)
             }
         }
     }
@@ -507,8 +511,9 @@ public class EosioTransaction: Codable {
     ///
     /// - Parameters:
     ///   - publicKeys: An array of public key strings that correspond to the private keys to sign the transaction with.
+    ///   - prompt: Prompt to present with biometric authentication if required.
     ///   - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
-    public func sign(publicKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    public func sign(publicKeys: [String], prompt: String = "Sign Transaction", completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         self.serializeTransaction { [weak self] (result) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
@@ -517,7 +522,7 @@ public class EosioTransaction: Codable {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let serializedTransaction):
-                strongSelf.sign(serializedTransaction: serializedTransaction, publicKeys: publicKeys, completion: completion)
+                strongSelf.sign(serializedTransaction: serializedTransaction, publicKeys: publicKeys, prompt: prompt, completion: completion)
             }
         }
     }
@@ -527,8 +532,9 @@ public class EosioTransaction: Codable {
     /// - Parameters:
     ///   - serializedTransaction: The serialized transaction as `Data`.
     ///   - publicKeys: An array of public key strings that correspond to the private keys to sign the transaction with.
+    ///   - prompt: Prompt to present with biometric authentication if required.
     ///   - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
-    private func sign(serializedTransaction: Data, publicKeys: [String], completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
+    private func sign(serializedTransaction: Data, publicKeys: [String], prompt: String, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
         guard let signatureProvider = signatureProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
         }
@@ -545,7 +551,7 @@ public class EosioTransaction: Codable {
         }
         transactionSignatureRequest.abis = binaryAbis
 
-        signatureProvider.signTransaction(request: transactionSignatureRequest) { [weak self] (transactionSignatureResponse) in
+        signatureProvider.signTransaction(request: transactionSignatureRequest, prompt: prompt) { [weak self] (transactionSignatureResponse) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }

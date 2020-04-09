@@ -58,19 +58,8 @@ public class EccRecoverKey {
             let yBN = BN_new()!
             EC_POINT_get_affine_coordinates_GFp(group, pubKeyPoint, xBN, yBN, nil)
 
-            let xBNstr = BN_bn2hex(xBN)!
-            let yBNstr = BN_bn2hex(yBN)!
-
-            let xHex = String(cString: xBNstr)
-            let xPad = max(64, xHex.count)
-            let xHexPadded = String(repeatElement("0", count: xPad - xHex.count) + xHex)
-
-            let yHex = String(cString: yBNstr)
-            let yPad = max(64, yHex.count)
-            let yHexPadded = String(repeatElement("0", count: yPad - yHex.count) + yHex)
-
-            CRYPTO_free(xBNstr)
-            CRYPTO_free(yBNstr)
+            let xHexPadded = BNToHexString(bignum: xBN)
+            let yHexPadded = BNToHexString(bignum: yBN)
 
             BN_free(xBN)
             BN_free(yBN)
@@ -129,21 +118,30 @@ public class EccRecoverKey {
                 let yBN = BN_new()!
                 let group = EC_GROUP_new_by_curve_name(curveName)
                 EC_POINT_get_affine_coordinates_GFp(group, recoveredPubKey, xBN, yBN, nil)
-                let xBNstr = BN_bn2hex(xBN)!
-                let yBNstr = BN_bn2hex(yBN)!
-                let xHex = String(cString: xBNstr)
-                let yHex = String(cString: yBNstr)
-                CRYPTO_free(xBNstr)
-                CRYPTO_free(yBNstr)
+                let xHexPadded = BNToHexString(bignum: xBN)
+                let yHexPadded = BNToHexString(bignum: yBN)
                 BN_free(xBN)
                 BN_free(yBN)
                 EC_GROUP_free(group)
-                recoveredPubKeyHex = "04" + xHex + yHex
+                recoveredPubKeyHex = "04" + xHexPadded + yHexPadded
             }
             ECDSA_SIG_free(sig)
             EC_KEY_free(recoveredKey)
         }
         return try Data(hex: recoveredPubKeyHex)
+    }
+
+    /// Take a BIGNUM and return the hex string for it, padded out to 64 characters.
+    /// - Parameters:
+    ///   - bn: BIGNUM to convert.
+    /// Returns: The 64 count hex string representation of the provided BIGNUM.
+    private class func BNToHexString(bignum: UnsafeMutablePointer<BIGNUM>) -> String {
+        let bnstr = BN_bn2hex(bignum)!
+        let hex = String(cString: bnstr)
+        let pad = max(64, hex.count)
+        let padded = String(repeatElement("0", count: pad - hex.count) + hex)
+        CRYPTO_free(bnstr)
+        return padded
     }
 
  /// Get the recovery id (recid) for a signature, message and target public key.

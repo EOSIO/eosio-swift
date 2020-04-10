@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwift'
-  s.version          = '0.2.1'
+  s.version          = '0.3.0'
   s.summary          = 'EOSIO SDK for Swift - API for integrating with EOSIO-based blockchains.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift'
   s.license          = { :type => 'MIT', :text => <<-LICENSE

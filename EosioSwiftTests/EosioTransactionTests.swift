@@ -566,6 +566,12 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
 
     var getAvailableKeysShouldReturnFailure = false
 
+    func signTransaction(request: EosioTransactionSignatureRequest,
+                         prompt: String,
+                         completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
+        return self.signTransaction(request: request, completion: completion)
+    }
+    
     func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var transactionSignatureResponse = EosioTransactionSignatureResponse()
 

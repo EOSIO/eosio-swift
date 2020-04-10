@@ -1,21 +1,21 @@
 PODS:
   - BigInt (5.0.0)
-  - EosioSwift (0.2.1):
+  - EosioSwift (0.3.0):
     - BigInt (~> 5.0)
     - PromiseKit (~> 6.8)
-  - PromiseKit (6.11.0):
-    - PromiseKit/CorePromise (= 6.11.0)
-    - PromiseKit/Foundation (= 6.11.0)
-    - PromiseKit/UIKit (= 6.11.0)
-  - PromiseKit/CorePromise (6.11.0)
-  - PromiseKit/Foundation (6.11.0):
+  - PromiseKit (6.13.1):
+    - PromiseKit/CorePromise (= 6.13.1)
+    - PromiseKit/Foundation (= 6.13.1)
+    - PromiseKit/UIKit (= 6.13.1)
+  - PromiseKit/CorePromise (6.13.1)
+  - PromiseKit/Foundation (6.13.1):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (6.11.0):
+  - PromiseKit/UIKit (6.13.1):
     - PromiseKit/CorePromise
   - SwiftLint (0.32.0)
 
 DEPENDENCIES:
-  - EosioSwift (~> 0.2.1)
+  - EosioSwift (~> 0.3.0)
   - SwiftLint
 
 SPEC REPOS:
@@ -27,10 +27,10 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
-  EosioSwift: 21ca0d61e7928a982a64c82b623e7342d7dd86dc
-  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
+  EosioSwift: 2e83d749303e05c2cae1100dd1e740e19e0b346e
+  PromiseKit: 28fda91c973cc377875d8c0ea4f973013c05b6db
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
 
-PODFILE CHECKSUM: 8e77933fe3f924dbdee83c095370090175cd5839
+PODFILE CHECKSUM: 9e9c282c1466b7a9fa0123de09f4d8df8db31520
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

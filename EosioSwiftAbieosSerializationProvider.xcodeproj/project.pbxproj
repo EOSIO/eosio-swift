@@ -767,7 +767,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.3.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "one.block.eosio-swift-abieos";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -819,7 +819,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.3.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "one.block.eosio-swift-abieos";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

@@ -28,11 +28,11 @@ else
     target 'EosioSwiftEccTests' do
       inherit! :search_paths
       pod 'GRKOpenSSLFramework', '1.0.2.19'
-      pod 'EosioSwift', '~> 0.2.1'
+      pod 'EosioSwift', '~> 0.3.0'
     end
 
     pod 'GRKOpenSSLFramework', '1.0.2.19'
-    pod 'EosioSwift', '~> 0.2.1'
+    pod 'EosioSwift', '~> 0.3.0'
     pod 'SwiftLint'
   end
 end

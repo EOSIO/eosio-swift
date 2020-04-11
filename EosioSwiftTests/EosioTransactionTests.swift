@@ -566,12 +566,14 @@ class SignatureProviderMock: EosioSignatureProviderProtocol {
 
     var getAvailableKeysShouldReturnFailure = false
 
+    // The tests will run correctly without this implemented as well showing that
+    // the default implementation in the protocol is functioning properly.
     func signTransaction(request: EosioTransactionSignatureRequest,
                          prompt: String,
                          completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         return self.signTransaction(request: request, completion: completion)
     }
-    
+
     func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
         var transactionSignatureResponse = EosioTransactionSignatureResponse()
 

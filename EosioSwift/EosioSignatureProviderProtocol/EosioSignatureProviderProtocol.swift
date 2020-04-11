@@ -91,8 +91,8 @@ public protocol EosioSignatureProviderProtocol {
     ///   - prompt: Prompt for biometric authentication, if required.
     ///   - completion: The completion that the signature provider implementation will call in response.
     func signTransaction(request: EosioTransactionSignatureRequest,
-                                prompt: String,
-                                completion: @escaping (EosioTransactionSignatureResponse) -> Void)
+                         prompt: String,
+                         completion: @escaping (EosioTransactionSignatureResponse) -> Void)
 
     /// The method signature for public key requests to conforming signature providers.
     ///
@@ -100,9 +100,10 @@ public protocol EosioSignatureProviderProtocol {
     func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void)
 }
 
-extension EosioSignatureProviderProtocol {
+public extension EosioSignatureProviderProtocol {
     func signTransaction(request: EosioTransactionSignatureRequest,
-                                prompt: String,
-                                completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
+                         prompt: String,
+                         completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
+        self.signTransaction(request: request, completion: completion)
     }
 }

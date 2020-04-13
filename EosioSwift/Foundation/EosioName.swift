@@ -12,7 +12,7 @@ import Foundation
 /// throwing errors on attempts to create an invalid name.
 ///
 /// EOSIO names are a max of 12 characters, `a-z`, `1-5` & `.`.
-/// Names may not begin or end with a period (`.`) or have two periods (`..`) in a row.
+/// Names may not begin or end with a period (`.`).
 public struct EosioName: Codable, CustomStringConvertible, Equatable, Hashable {
 
     /// - Returns: The EOSIO name as a String.
@@ -62,7 +62,7 @@ public extension String {
 
     /// - Returns: `true` if a string is a valid EOSIO name.
     var isValidEosioName: Bool {
-        let pattern: String = "^[a-z1-5]{1,2}$|^[a-z1-5]{1}((?!\\.\\.)[a-z1-5\\.]){1,10}[a-z1-5]{1}$"
+        let pattern = "^[a-z1-5]{1,2}$|^[a-z1-5]{1}([a-z1-5\\.]){1,10}[a-z1-5]{1}$"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return false }
         let match = regex.matches(in: self, options: [], range: NSRange(location: 0, length: self.count))
         return match.count > 0

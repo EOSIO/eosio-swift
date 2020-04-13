@@ -683,6 +683,116 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10EosioSwift0A11TransactionC6ActionC3add13authorization2atyAE13AuthorizationV_SiSgtF"></a>
+                    <a name="//apple_ref/swift/Method/add(authorization:at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A11TransactionC6ActionC3add13authorization2atyAE13AuthorizationV_SiSgtF">add(authorization:at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add an Authorization.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="n"><a href="../../Classes/EosioTransaction/Action.html#/s:10EosioSwift0A11TransactionC6ActionC13authorizationSayAE13AuthorizationVGvp">authorization</a></span> <span class="nv">auth</span><span class="p">:</span> <span class="kt"><a href="../../Classes/EosioTransaction/Action/Authorization.html">Authorization</a></span><span class="p">,</span> <span class="nv">at</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authorization</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Authorization to add.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>at</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional index at which to insert the Authorization. If not provided, the Authorization will be appended to the end of the authorization array.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L47-L49">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A11TransactionC6ActionC19removeAuthorization2atAE0F0VSgSi_tF"></a>
+                    <a name="//apple_ref/swift/Method/removeAuthorization(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A11TransactionC6ActionC19removeAuthorization2atAE0F0VSgSi_tF">removeAuthorization(at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remove an Authorization.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">removeAuthorization</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../../Classes/EosioTransaction/Action/Authorization.html">Authorization</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>at</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The position of the authorization to remove. index must be a valid index of the collection that is not equal to the collection’s end index</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L55-L57">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10EosioSwift0A11TransactionC6ActionC7account4name13authorization4dataAESS_SSSayAE13AuthorizationVGSE_ptKcfc"></a>
                     <a name="//apple_ref/swift/Method/init(account:name:authorization:data:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10EosioSwift0A11TransactionC6ActionC7account4name13authorization4dataAESS_SSSayAE13AuthorizationVGSE_ptKcfc">init(account:name:authorization:data:)</a>
@@ -765,7 +875,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L58-L60">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L75-L77">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -795,7 +905,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">account</span><span class="p">:</span> <span class="kt"><a href="../../Structs/EosioName.html">EosioName</a></span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../../Structs/EosioName.html">EosioName</a></span><span class="p">,</span> <span class="nv">authorization</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/EosioTransaction/Action/Authorization.html">Authorization</a></span><span class="p">],</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">account</span><span class="p">:</span> <span class="kt"><a href="../../Structs/EosioName.html">EosioName</a></span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../../Structs/EosioName.html">EosioName</a></span><span class="p">,</span> <span class="nv">authorization</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/EosioTransaction/Action/Authorization.html">Authorization</a></span><span class="p">],</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -855,7 +965,187 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L70-L75">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L87-L90">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A11TransactionC6ActionC7account4name13authorization4dataAESS_SSSayAE13AuthorizationVGSDySSypGtKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(account:name:authorization:data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A11TransactionC6ActionC7account4name13authorization4dataAESS_SSSayAE13AuthorizationVGSDySSypGtKcfc">init(account:name:authorization:data:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Init Action struct with strings and a Dictionary for data. Strings will be used to init EosioNames.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the strings are not valid EOSIO names or data cannot be encoded.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">account</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">authorization</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/EosioTransaction/Action/Authorization.html">Authorization</a></span><span class="p">],</span> <span class="nv">data</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>account</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Contract account name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Contract action name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authorization</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Authorization (actor and permission).</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Dictionary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L100-L102">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A11TransactionC6ActionC7account4name13authorization4dataAeA0A4NameV_AKSayAE13AuthorizationVGSDySSypGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(account:name:authorization:data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A11TransactionC6ActionC7account4name13authorization4dataAeA0A4NameV_AKSayAE13AuthorizationVGSDySSypGtcfc">init(account:name:authorization:data:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Init Action struct with <code><a href="../../Structs/EosioName.html">EosioName</a></code>s and a Dictionary for data.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the strings are not valid eosio names or data cannot be encoded.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">account</span><span class="p">:</span> <span class="kt"><a href="../../Structs/EosioName.html">EosioName</a></span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../../Structs/EosioName.html">EosioName</a></span><span class="p">,</span> <span class="nv">authorization</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../../Classes/EosioTransaction/Action/Authorization.html">Authorization</a></span><span class="p">],</span> <span class="nv">data</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>account</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Contract account name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Contract action name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authorization</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Authorization (actor and permission).</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Dictionary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L112-L117">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -945,7 +1235,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L85-L87">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L127-L129">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1030,7 +1320,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L96-L102">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L138-L144">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1084,7 +1374,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L108-L124">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L150-L166">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1138,7 +1428,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L130-L136">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L172-L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1168,7 +1458,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L139-L146">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L181-L188">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1234,7 +1524,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L154-L164">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L196-L206">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1300,7 +1590,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L172-L179">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L214-L221">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1335,7 +1625,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L188-L216">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/EosioSwift/EosioTransaction/EosioTransactionAction.swift#L230-L258">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

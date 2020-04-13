@@ -44,10 +44,10 @@ To use EOSIO SDK for Swift in your app, add the following pods to your [Podfile]
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwift", "~> 0.3.1" # pod for this library
+  pod "EosioSwift", "~> 0.4.0" # pod for this library
   # Providers for EOSIO SDK for Swift
-  pod "EosioSwiftAbieosSerializationProvider", "~> 0.3.0" # serialization provider
-  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.3.0" # experimental signature provider for development only
+  pod "EosioSwiftAbieosSerializationProvider", "~> 0.4.0" # serialization provider
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.4.0" # experimental signature provider for development only
 end
 ```
 

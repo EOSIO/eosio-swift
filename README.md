@@ -50,10 +50,10 @@ To use Softkey Signature Provider with EOSIO SDK for Swift in your app, add the 
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwift", "~> 0.3.0" # EOSIO SDK for Swift core library
-  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.3.0" # pod for this library
+  pod "EosioSwift", "~> 0.4.0" # EOSIO SDK for Swift core library
+  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.4.0" # pod for this library
   # add other providers for EOSIO SDK for Swift
-  pod "EosioSwiftAbieosSerializationProvider", "~> 0.3.0" # serialization provider
+  pod "EosioSwiftAbieosSerializationProvider", "~> 0.4.0" # serialization provider
 
 ```
 

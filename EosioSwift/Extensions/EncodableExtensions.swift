@@ -43,6 +43,10 @@ public extension Encodable {
             jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
         }
         jsonEncoder.dateEncodingStrategy = .formatted(Date.asTransactionTimestamp)
+        jsonEncoder.dataEncodingStrategy = .custom({ (data, encoder) in
+            var container = encoder.singleValueContainer()
+            try container.encode(data.hex)
+        })
         return try jsonEncoder.encode(self)
     }
 

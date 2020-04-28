@@ -113,4 +113,16 @@ public extension Data {
     static func decode(base58: String) -> Data? {
         return Data(base58Decoding: base58)
     }
+
+
+
+    init<T>(from value: T) {
+           self = Swift.withUnsafeBytes(of: value) { Data($0) }
+    }
+
+
+    static func varUInt32(value: UInt32) -> Data {
+        return Data(Data(from: value | 0x80000000).reversed())
+    }
+    
 }

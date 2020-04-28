@@ -53,10 +53,12 @@ public class EosioTransaction: Codable {
     public var maxCpuUsageMs: UInt = 0
     /// Transaction property: Causes the transaction to be executed a specified number of seconds after being included in a block. It may be canceled during this delay.
     public var delaySec: UInt = 0
-    /// Transaction property: Context Free Actions.
-    public private(set) var contextFreeActions = [Action]()
     /// Transaction property: Array of actions to be executed.
     public private(set) var actions = [Action]()
+    /// Transaction property: Context Free Actions.
+    public private(set) var contextFreeActions = [Action]()
+    /// Context free data
+    public var contextFreeData = Data()
     /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
     /// Transaction data serialized into a binary representation in preparation for broadcast.
@@ -540,6 +542,7 @@ public class EosioTransaction: Codable {
         }
         var transactionSignatureRequest = EosioTransactionSignatureRequest()
         transactionSignatureRequest.serializedTransaction = serializedTransaction
+        transactionSignatureRequest.contextFreeData = (Data.varUInt32(value: UInt32(contextFreeData.count)) + contextFreeData)
         transactionSignatureRequest.publicKeys = publicKeys
         transactionSignatureRequest.chainId = self.chainId
         var binaryAbis = [EosioTransactionSignatureRequest.BinaryAbi]()
@@ -620,6 +623,7 @@ public class EosioTransaction: Codable {
         var pushTransactionRequest = EosioRpcPushTransactionRequest()
         pushTransactionRequest.packedTrx = serializedTransaction.hex
         pushTransactionRequest.signatures = signatures
+        pushTransactionRequest.packedContextFreeData = (Data.varUInt32(value: UInt32(contextFreeData.count)) + contextFreeData).hex
         rpcProvider.pushTransaction(requestParameters: pushTransactionRequest) { [weak self] (response) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))

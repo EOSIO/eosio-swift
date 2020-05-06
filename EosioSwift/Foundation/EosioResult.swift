@@ -27,4 +27,13 @@ public enum EosioResult<Success, Failure: Error> {
             return nil
         }
     }
+
+    var asResult: Result<Success, Failure> {
+        switch self {
+        case .success(let result):
+            return .success(result)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
 }

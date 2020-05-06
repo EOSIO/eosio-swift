@@ -9,6 +9,9 @@
 import XCTest
 @testable import EosioSwift
 @testable import PromiseKit
+#if canImport(Combine)
+  import Combine
+#endif
 
 class EosioTransactionTests: XCTestCase {
     var transaction = EosioTransaction()
@@ -409,6 +412,290 @@ class EosioTransactionTests: XCTestCase {
         transaction.add(contextFreeAction: action2, at: 0)
         XCTAssertEqual(transaction.contextFreeActions.count, 2)
         XCTAssertEqual(transaction.contextFreeActions[0].data["from"] as? String, "brandon")
+    }
+}
+
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+extension EosioTransactionTests {
+    // MARK: - EosioTransaction extension tests using Combine Publishers
+    func test_signAndBroadcastPublisher_shouldSucceed() {
+        let expect = expectation(description: "signAndBroadcastPublisher_shouldSucceed")
+        var cancellable: AnyCancellable? = self.transaction.signAndBroadcastPublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Should not have thrown an error: \(error.localizedDescription)")
+            case .finished:
+                break
+            }
+        }, receiveValue: { value in
+            print(value)
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_signAndbroadcastPublisher_shouldFail() {
+        let expect = expectation(description: "test_signAndbroadcastPublisher_shouldFail")
+        let signatureProvider = SignatureProviderMock()
+        signatureProvider.getAvailableKeysShouldReturnFailure = true
+        self.transaction.signatureProvider = signatureProvider
+        var cancellable: AnyCancellable? = self.transaction.signAndBroadcastPublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                expect.fulfill()
+            case .finished:
+                break
+            }
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown an error!")
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_signPublisher_shouldSucceed() {
+        let expect = expectation(description: "test_signPublisher_shouldSucceed")
+        var cancellable: AnyCancellable? = self.transaction.signPublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Should not have thrown an error: \(error.localizedDescription)")
+            case .finished:
+                break
+            }
+        }, receiveValue: { value in
+            print(value)
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_signPublisher_shouldFail() {
+        let expect = expectation(description: "test_signPublisher_shouldFail")
+        self.transaction.signatureProvider = nil
+        var cancellable: AnyCancellable? = self.transaction.signPublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                expect.fulfill()
+            case .finished:
+                break
+            }
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown an error!")
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_broadcastPublisher_shouldSucceed() {
+        let expect = expectation(description: "test_broadcastPublisher_shouldSucceed")
+        var cancellable: AnyCancellable? = self.transaction.signPublisher()
+        .flatMap { value -> AnyPublisher<Bool, EosioError> in
+            print(value)
+            return self.transaction.broadcastPublisher()
+        }
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Should not have thrown an error: \(error.localizedDescription)")
+            case .finished:
+                break
+            }
+        }, receiveValue: { value in
+            print(value)
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_broadcastPublisher_shouldFail() {
+        let expect = expectation(description: "test_broadcastPublisher_shouldFail")
+        //broadcast should fail as transaction needs to be signed first
+        var cancellable: AnyCancellable? = self.transaction.broadcastPublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                expect.fulfill()
+            case .finished:
+                break
+            }
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown an error!")
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_signPublisherWithAvailableKeys_shouldSucceed() {
+        let expect = expectation(description: "test_signPublisherWithAvailableKeys_shouldSucceed")
+        var cancellable: AnyCancellable? = self.transaction.signPublisher(availableKeys: ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"])
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Should not have thrown an error: \(error.localizedDescription)")
+            case .finished:
+                break
+            }
+        }, receiveValue: { value in
+            print(value)
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_signPublisherWithAvailableKeys_shouldFail() {
+        let expect = expectation(description: "test_signPublisherWithAvailableKeys_shouldFail")
+        rpcProvider.getRequiredKeysReturnsfailure = true
+        var cancellable: AnyCancellable? = self.transaction.signPublisher(availableKeys: ["bad_key"])
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                expect.fulfill()
+            case .finished:
+                break
+            }
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown an error!")
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_signPublisherWithPublicKeys_shouldSucceed() {
+        let expect = expectation(description: "test_signPublisherWithPublicKeys_shouldSucceed")
+        var cancellable: AnyCancellable? = self.transaction.signPublisher(publicKeys: ["PUB_K1_5AzPqKAx4caCrRSAuyojY6rRKA3KJf4A1MY3paNVqV5eGGP63Y"])
+               .sink(receiveCompletion: { result in
+                   switch result {
+                   case .failure(let error):
+                       XCTFail("Should not have thrown an error: \(error.localizedDescription)")
+                   case .finished:
+                       break
+                   }
+               }, receiveValue: { value in
+                   print(value)
+                   expect.fulfill()
+               })
+               waitForExpectations(timeout: 10)
+               cancellable?.cancel()
+               cancellable = nil
+    }
+
+    func test_signPublisherWithPublicKeys_shouldFail() {
+        let expect = expectation(description: "test_signPublisherWithPublicKeys_shouldFail")
+        var cancellable: AnyCancellable? = self.transaction.signPublisher(publicKeys: ["bad_key"])
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                expect.fulfill()
+            case .finished:
+                break
+            }
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown an error!")
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_serializeTransactionPublisher_shouldSucceed() {
+        let expect = expectation(description: "test_serializeTransactionPublisher_shouldSucceed")
+        var cancellable: AnyCancellable? = self.transaction.serializeTransactionPublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Should not have thrown an error: \(error.localizedDescription)")
+            case .finished:
+                break
+            }
+        }, receiveValue: { value in
+            print(value)
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_serializeTransactionPublisher_shouldFail() {
+        let expect = expectation(description: "test_serializeTransactionPublisher_shouldFail")
+        let serializationProvider = SerializationProviderMock()
+        serializationProvider.serializeTransactionReturnsfailure = true
+        self.transaction.serializationProvider = serializationProvider
+        var cancellable: AnyCancellable? = self.transaction.serializeTransactionPublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                expect.fulfill()
+            case .finished:
+                break
+            }
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown an error!")
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_preparePublisher_shouldSucceed() {
+        let expect = expectation(description: "test_preparePublisher_shouldSucceed")
+        var cancellable: AnyCancellable? = self.transaction.preparePublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                XCTFail("Should not have thrown an error: \(error.localizedDescription)")
+            case .finished:
+                break
+            }
+        }, receiveValue: { value in
+            print(value)
+            expect.fulfill()
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func test_preparePublisher_shouldFail() {
+        let expect = expectation(description: "test_preparePublisher_shouldFail")
+        rpcProvider.getInfoReturnsfailure = true
+        var cancellable: AnyCancellable? = self.transaction.preparePublisher()
+        .sink(receiveCompletion: { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+                expect.fulfill()
+            case .finished:
+                break
+            }
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown an error!")
+        })
+        waitForExpectations(timeout: 10)
+        cancellable?.cancel()
+        cancellable = nil
     }
 }
 

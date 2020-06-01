@@ -12,8 +12,8 @@ import Foundation
 public struct EosioTransactionSignatureRequest: Codable {
     /// The serialized transaction as `Data`.
     public var serializedTransaction = Data()
-    /// Context free data
-    public var contextFreeData = Data()
+    /// Serialized context free data
+    public var serializedContextFreeData = Data()
     /// The chain ID as a `String`.
     public var chainId = ""
     /// An array of public keys identifying the private keys with which the transaction should be signed.
@@ -46,8 +46,10 @@ public struct EosioTransactionSignatureResponse: Codable {
 
     /// The structure for a `SignedTransaction`.
     public struct SignedTransaction: Codable {
-        /// The serialized transaction, as `Data`. This may be different the transaction requested if the transaction was modified by the signature provider.
+        /// The serialized transaction, as `Data`. This may be different from the transaction requested if the transaction was modified by the signature provider.
         public var serializedTransaction = Data()
+        /// Serialized context free data. This may be different from the transaction requested if the context free data was modified by the signature provider.
+        public var serializedContextFreeData = Data()
         /// An array of signatures as `String`s.
         public var signatures = [String]()
         /// Initializer for the `SignedTransaction`.

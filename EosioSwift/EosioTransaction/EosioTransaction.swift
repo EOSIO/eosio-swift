@@ -148,6 +148,23 @@ public class EosioTransaction: Codable {
         return transaction
     }
 
+    /// Serialize context free data
+    /// - Parameter contextFreeData: array of context free data
+    /// - Returns: The serialized context free data
+    static public func serialize(contextFreeData: [Data]) -> Data {
+        guard contextFreeData.count > 0 else {
+            return Data()
+        }
+        var cfData = Data()
+        cfData.append(Data.varUInt(UInt32(contextFreeData.count)))
+        for i in 0..<contextFreeData.count {
+            let data = contextFreeData[i]
+            cfData.append(Data.varUInt(UInt32(data.count)))
+            cfData.append(data)
+        }
+        return cfData
+    }
+
     /// Returns an array of action accounts that do not have an abi in `abis`.
     public var actionAccountsMissingAbis: [EosioName] {
         let accounts = allActions.compactMap { (action) -> EosioName in

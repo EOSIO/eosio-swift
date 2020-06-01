@@ -593,7 +593,7 @@ public class EosioTransaction: Codable {
     ///   - originalSerializedTransaction: The original serialized transaction, as `Data`.
     ///   - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
     private func process(signedTransaction: EosioTransactionSignatureResponse.SignedTransaction, originalSerializedTransaction: Data, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
-        if signedTransaction.serializedTransaction == originalSerializedTransaction {
+        if signedTransaction.serializedTransaction == originalSerializedTransaction && signedTransaction.serializedContextFreeData == self.serializedContextFreeData {
             self.serializedTransaction = signedTransaction.serializedTransaction
             self.signatures = signedTransaction.signatures
             return completion(.success(true))
@@ -622,6 +622,7 @@ public class EosioTransaction: Codable {
 
             // set the serializedTransaction and signatures
             self.serializedTransaction = signedTransaction.serializedTransaction
+            self.serializedContextFreeData = signedTransaction.serializedContextFreeData
             self.signatures = signedTransaction.signatures
             return completion(.success(true))
         } catch {

@@ -62,10 +62,6 @@ public final class EosioSoftkeySignatureProvider: EosioSignatureProviderProtocol
     ///   - request: An `EosioTransactionSignatureRequest` struct (as defined in the `EosioSwift` library).
     ///   - completion: Calls the completion with an `EosioTransactionSignatureResponse` struct (as defined in the `EosioSwift` library).
     public func signTransaction(request: EosioTransactionSignatureRequest, completion: @escaping (EosioTransactionSignatureResponse) -> Void) {
-        print("1")
-        print(request)
-        print(request.publicKeys)
-        print("-------")
         var response = EosioTransactionSignatureResponse()
         do {
             var signatures = [String]()

@@ -58,7 +58,9 @@ public class EosioTransaction: Codable {
     /// Transaction property: Context Free Actions.
     public private(set) var contextFreeActions = [Action]()
     /// Context free data
-    public var contextFreeData = Data()
+    public var contextFreeData = [Data]()
+    /// Serialized Context free data
+    public private(set) var serializedContextFreeData = Data()
     /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
     /// Transaction data serialized into a binary representation in preparation for broadcast.

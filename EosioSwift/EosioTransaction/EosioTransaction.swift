@@ -559,9 +559,10 @@ public class EosioTransaction: Codable {
         guard let signatureProvider = signatureProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
         }
+        serializedContextFreeData = EosioTransaction.serialize(contextFreeData: contextFreeData)
         var transactionSignatureRequest = EosioTransactionSignatureRequest()
         transactionSignatureRequest.serializedTransaction = serializedTransaction
-        transactionSignatureRequest.contextFreeData = (Data.varUInt32(value: UInt32(contextFreeData.count)) + contextFreeData)
+        transactionSignatureRequest.serializedContextFreeData = serializedContextFreeData
         transactionSignatureRequest.publicKeys = publicKeys
         transactionSignatureRequest.chainId = self.chainId
         var binaryAbis = [EosioTransactionSignatureRequest.BinaryAbi]()

@@ -53,10 +53,14 @@ public class EosioTransaction: Codable {
     public var maxCpuUsageMs: UInt = 0
     /// Transaction property: Causes the transaction to be executed a specified number of seconds after being included in a block. It may be canceled during this delay.
     public var delaySec: UInt = 0
-    /// Transaction property: Context Free Actions.
-    public private(set) var contextFreeActions = [Action]()
     /// Transaction property: Array of actions to be executed.
     public private(set) var actions = [Action]()
+    /// Transaction property: Context Free Actions.
+    public private(set) var contextFreeActions = [Action]()
+    /// Context free data
+    public var contextFreeData = [Data]()
+    /// Serialized Context free data
+    public private(set) var serializedContextFreeData = Data()
     /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
     /// Transaction data serialized into a binary representation in preparation for broadcast.
@@ -142,6 +146,23 @@ public class EosioTransaction: Codable {
         let transaction = try jsonDecoder.decode(EosioTransaction.self, from: data)
         transaction.serializationProvider = serializationProvider
         return transaction
+    }
+
+    /// Serialize context free data
+    /// - Parameter contextFreeData: array of context free data
+    /// - Returns: The serialized context free data
+    static public func serialize(contextFreeData: [Data]) -> Data {
+        guard contextFreeData.count > 0 else {
+            return Data()
+        }
+        var cfData = Data()
+        cfData.append(Data.varUInt(UInt32(contextFreeData.count)))
+        for i in 0..<contextFreeData.count {
+            let data = contextFreeData[i]
+            cfData.append(Data.varUInt(UInt32(data.count)))
+            cfData.append(data)
+        }
+        return cfData
     }
 
     /// Returns an array of action accounts that do not have an abi in `abis`.
@@ -538,8 +559,10 @@ public class EosioTransaction: Codable {
         guard let signatureProvider = signatureProvider else {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No signature provider available")))
         }
+        serializedContextFreeData = EosioTransaction.serialize(contextFreeData: contextFreeData)
         var transactionSignatureRequest = EosioTransactionSignatureRequest()
         transactionSignatureRequest.serializedTransaction = serializedTransaction
+        transactionSignatureRequest.serializedContextFreeData = serializedContextFreeData
         transactionSignatureRequest.publicKeys = publicKeys
         transactionSignatureRequest.chainId = self.chainId
         var binaryAbis = [EosioTransactionSignatureRequest.BinaryAbi]()
@@ -570,7 +593,7 @@ public class EosioTransaction: Codable {
     ///   - originalSerializedTransaction: The original serialized transaction, as `Data`.
     ///   - completion: Called with an `EosioResult` consisting of a `Bool` for success and an optional `EosioError`.
     private func process(signedTransaction: EosioTransactionSignatureResponse.SignedTransaction, originalSerializedTransaction: Data, completion: @escaping (EosioResult<Bool, EosioError>) -> Void) {
-        if signedTransaction.serializedTransaction == originalSerializedTransaction {
+        if signedTransaction.serializedTransaction == originalSerializedTransaction && signedTransaction.serializedContextFreeData == self.serializedContextFreeData {
             self.serializedTransaction = signedTransaction.serializedTransaction
             self.signatures = signedTransaction.signatures
             return completion(.success(true))
@@ -599,6 +622,7 @@ public class EosioTransaction: Codable {
 
             // set the serializedTransaction and signatures
             self.serializedTransaction = signedTransaction.serializedTransaction
+            self.serializedContextFreeData = signedTransaction.serializedContextFreeData
             self.signatures = signedTransaction.signatures
             return completion(.success(true))
         } catch {
@@ -620,6 +644,7 @@ public class EosioTransaction: Codable {
         var pushTransactionRequest = EosioRpcPushTransactionRequest()
         pushTransactionRequest.packedTrx = serializedTransaction.hex
         pushTransactionRequest.signatures = signatures
+        pushTransactionRequest.packedContextFreeData = (Data.varUInt32(value: UInt32(contextFreeData.count)) + contextFreeData).hex
         rpcProvider.pushTransaction(requestParameters: pushTransactionRequest) { [weak self] (response) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))

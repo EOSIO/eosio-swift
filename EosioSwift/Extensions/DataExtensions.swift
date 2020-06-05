@@ -113,4 +113,23 @@ public extension Data {
     static func decode(base58: String) -> Data? {
         return Data(base58Decoding: base58)
     }
+
+    /// Variable length unsigned integer
+    /// Encoded as base 128 with the high bit of the last byte 0, and all other bytes 1
+    /// - Parameter value: The value as a UInt32
+    /// - Returns: The variable length unsigned integer as Data
+    static func varUInt(_ value: UInt32) -> Data {
+        var vui = [UInt8]()
+        var val = value
+        while val >= 128 {
+            vui.append(UInt8(val % 128))
+            val /= 128
+        }
+        vui.append(UInt8(val))
+
+        for i in 0..<vui.count-1 {
+            vui[i] += 128
+        }
+        return Data(vui)
+    }
 }

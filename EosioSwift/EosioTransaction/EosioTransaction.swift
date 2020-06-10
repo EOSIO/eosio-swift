@@ -644,7 +644,7 @@ public class EosioTransaction: Codable {
         var pushTransactionRequest = EosioRpcPushTransactionRequest()
         pushTransactionRequest.packedTrx = serializedTransaction.hex
         pushTransactionRequest.signatures = signatures
-        pushTransactionRequest.packedContextFreeData = (Data.varUInt32(value: UInt32(contextFreeData.count)) + contextFreeData).hex
+        pushTransactionRequest.packedContextFreeData = serializedContextFreeData.hex
         rpcProvider.pushTransaction(requestParameters: pushTransactionRequest) { [weak self] (response) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))

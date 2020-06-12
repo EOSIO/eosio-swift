@@ -641,11 +641,11 @@ public class EosioTransaction: Codable {
         guard let rpcProvider = rpcProvider else {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
-        var pushTransactionRequest = EosioRpcPushTransactionRequest()
-        pushTransactionRequest.packedTrx = serializedTransaction.hex
-        pushTransactionRequest.signatures = signatures
-        pushTransactionRequest.packedContextFreeData = serializedContextFreeData.hex
-        rpcProvider.pushTransaction(requestParameters: pushTransactionRequest) { [weak self] (response) in
+        var sendTransactionRequest = EosioRpcSendTransactionRequest()
+        sendTransactionRequest.packedTrx = serializedTransaction.hex
+        sendTransactionRequest.signatures = signatures
+        sendTransactionRequest.packedContextFreeData = serializedContextFreeData.hex
+        rpcProvider.sendTransaction(requestParameters: sendTransactionRequest) { [weak self] (response) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }

@@ -64,6 +64,30 @@ extension EosioRpcProvider {
             completion(EosioResult(success: result, failure: error)!)
         }
     }
+
+    /// Call `chain/send_transaction`. Send a transaction to the blockchain!
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An `EosioRpcSendTransactionRequest`.
+    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcTransactionResponse` and an optional `EosioError`.
+    public func sendTransaction(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/send_transaction", requestParameters: requestParameters) {(result: EosioRpcTransactionResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
+
+    /// Call `chain/send_transactions`. Send multiple transactions to the chain.
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An `EosioRpcSendTransactionsRequest`.
+    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcSendTransactionsResponse` and an optional `EosioError`.
+    public func sendTransactions(requestParameters: EosioRpcSendTransactionsRequest, completion: @escaping (EosioResult<EosioRpcSendTransactionsResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/send_transactions", requestParameters: requestParameters.transactions) {(result: EosioRpcSendTransactionsResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
+
+
     /// Call `chain/get_block_header_state`.
     ///
     /// - Parameters:

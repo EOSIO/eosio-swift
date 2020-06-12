@@ -628,6 +628,23 @@ public struct EosioRpcPushTransactionsResponse: Decodable, EosioRpcResponseProto
         }
     }
 }
+
+/// Response type for the `send_transactions` RPC endpoint.
+public struct EosioRpcSendTransactionsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+
+    public var transactionResponses: [EosioRpcTransactionResponse]
+
+    public init(from decoder: Decoder) throws {
+        transactionResponses = [EosioRpcTransactionResponse]()
+        if var container = try? decoder.unkeyedContainer() {
+            while container.isAtEnd == false {
+                transactionResponses.append(try container.decode(EosioRpcTransactionResponse.self))
+            }
+        }
+    }
+}
+
 /// Response struct for `header` struct returned in the `get_block_header_state` RPC endpoint response.
 public struct EosioRpcBlockHeaderStateResponseHeader: Decodable {
     public let timestamp: String

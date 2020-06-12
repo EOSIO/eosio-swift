@@ -30,6 +30,14 @@ public struct EosioRpcPushTransactionsRequest: Codable {
     }
 }
 
+/// The request struct for `send_transactions` RPC requests.
+public struct EosioRpcSendTransactionsRequest: Codable {
+    public let transactions: [EosioRpcSendTransactionRequest]
+    public init(transactions: [EosioRpcSendTransactionRequest]) {
+        self.transactions = transactions
+    }
+}
+
 /// The request type for `get_block_header_state` RPC requests.
 public typealias EosioRpcBlockHeaderStateRequest = EosioRpcBlockRequest
 

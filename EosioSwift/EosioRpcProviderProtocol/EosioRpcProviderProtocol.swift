@@ -36,4 +36,9 @@ public protocol EosioRpcProviderProtocol {
     /// - Parameter completion: Completion called with an `EosioResult`.
     func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void)
 
+    /// Calls /v1/chain/push_transaction.
+    ///
+    /// - Parameter completion: Completion called with an `EosioResult`.
+    func sendTransaction(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping(EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void)
+
 }

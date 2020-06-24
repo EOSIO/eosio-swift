@@ -62,6 +62,26 @@ extension EosioRpcProvider {
         return Promise { pushTransactions(requestParameters: requestParameters, completion: $0.resolve) }
     }
 
+    /// Call `chain/send_transaction` and get a Promise back. Send a transaction to the blockchain!
+    ///
+    /// - Parameters:
+    ///   - _: Differentiates call signature from that of non-promise-returning endpoint method. Pass in `.promise` as the first parameter to call this method.
+    ///   - requestParameters: An `EosioRpcSendTransactionRequest`.
+    /// - Returns: A Promise fulfilled with an `EosioRpcTransactionResponse` or rejected with an `EosioError`.
+    public func sendTransaction(_: PMKNamespacer, requestParameters: EosioRpcSendTransactionRequest) -> Promise<EosioRpcTransactionResponse> {
+        return Promise { sendTransaction(requestParameters: requestParameters, completion: $0.resolve) }
+    }
+
+    /// Call `chain/send_transactions` and get a Promise back. Send multiple transactions to the chain.
+    ///
+    /// - Parameters:
+    ///   - _: Differentiates call signature from that of non-promise-returning endpoint method. Pass in `.promise` as the first parameter to call this method.
+    ///   - requestParameters: An `EosioRpcSendTransactionsRequest`.
+    /// - Returns: A Promise fulfilled with an `EosioRpcSendTransactionsResponse` or rejected with an `EosioError`.
+    public func sendTransactions(_: PMKNamespacer, requestParameters: EosioRpcSendTransactionsRequest) -> Promise<EosioRpcSendTransactionsResponse> {
+        return Promise { sendTransactions(requestParameters: requestParameters, completion: $0.resolve) }
+    }
+
     /// Call `chain/get_block_header_state` and get a Promise back.
     ///
     /// - Parameters:

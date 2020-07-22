@@ -7,9 +7,10 @@
 //
 
 import XCTest
-@testable import EosioSwift
 import PromiseKit
 import OHHTTPStubs
+import OHHTTPStubsSwift
+@testable import EosioSwift
 
 class RpcProviderEndpointPromiseTests: XCTestCase {
     var rpcProvider: EosioRpcProvider?
@@ -17,7 +18,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         super.setUp()
         let url = URL(string: "https://localhost")
         rpcProvider = EosioRpcProvider(endpoint: url!)
-        OHHTTPStubs.onStubActivation { (request, stub, _) in
+        HTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
         }
     }
@@ -25,7 +26,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         //remove all stubs on tear down
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     /// Test getInfo promise implementation.
@@ -33,7 +34,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
         (stub(condition: isAbsoluteURLString("https://localhost/v1/chain/get_info")) { _ in
             let json = RpcTestConstants.infoResponseJson
             let data = json.data(using: .utf8)
-            return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+            return HTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
         }).name = "Get Info stub"
         let expect = expectation(description: "testGetInfo")
 
@@ -589,7 +590,7 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
                 } else if callCount == 2 && urlString == "https://localhost/v1/chain/get_currency_stats" {
                     let json = RpcTestConstants.currencyStatsSYS
                     let data = json.data(using: .utf8)
-                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                    return HTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
                 } else {
                     return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected call count in stub: \(callCount)")
                 }

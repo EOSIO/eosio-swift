@@ -801,6 +801,12 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         let result: EosioResult<EosioRpcTransactionResponseProtocol, EosioError>  = EosioResult.success(pushTransactionResponse)
         completion(result)
     }
+
+    func sendTransaction(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
+        let response = EosioRpcTransactionResponse(transactionId: "mocktransactionid")
+        let result: EosioResult<EosioRpcTransactionResponseProtocol, EosioError>  = EosioResult.success(response)
+        completion(result)
+    }
 }
 
 final class SerializationProviderMock: EosioSerializationProviderProtocol {

@@ -12,38 +12,38 @@ import OHHTTPStubs
 
 // swiftlint:disable line_length
 public class RpcTestConstants {
-    public static func getInfoOHHTTPStubsResponse() -> OHHTTPStubsResponse {
+    public static func getInfoOHHTTPStubsResponse() -> HTTPStubsResponse {
         return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.infoResponseJson)
     }
 
-    public static func getErrorOHHTTPStubsResponse(code: Int = NSURLErrorBadURL, reason: String?) -> OHHTTPStubsResponse {
+    public static func getErrorOHHTTPStubsResponse(code: Int = NSURLErrorBadURL, reason: String?) -> HTTPStubsResponse {
         guard let message = reason else {
             let error = NSError(domain: NSURLErrorDomain, code: code, userInfo: nil)
-            return OHHTTPStubsResponse(error: error)
+            return HTTPStubsResponse(error: error)
         }
         let error = NSError(domain: NSURLErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: message])
-        return OHHTTPStubsResponse(error: error)
+        return HTTPStubsResponse(error: error)
     }
 
-    public static func getOHHTTPStubsResponseForJson(json: String, unhappy: Bool = false) -> OHHTTPStubsResponse {
+    public static func getOHHTTPStubsResponseForJson(json: String, unhappy: Bool = false) -> HTTPStubsResponse {
         let data = json.data(using: .utf8)
-        return OHHTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
+        return HTTPStubsResponse(data: data!, statusCode: unhappy ? 500 : 200, headers: nil)
     }
 
     /*
         Test helpers to DRY out test logic: This is for funcs in Rpc Provider that make a first call to getInfo to obtain chain info for subsequent call under test
     */
-    public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?) -> OHHTTPStubsResponse {
+    public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?) -> HTTPStubsResponse {
         return RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: urlRelativePath, name: nil)
     }
 
-    public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?, unhappy: Bool) -> OHHTTPStubsResponse {
+    public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?, unhappy: Bool) -> HTTPStubsResponse {
         return RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: urlRelativePath, name: nil, unhappy: unhappy)
     }
 
     // swiftlint:disable function_body_length
     // swiftlint:disable cyclomatic_complexity
-    public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?, name: EosioName?, unhappy: Bool = false) -> OHHTTPStubsResponse {
+    public static func getHHTTPStubsResponse(callCount: Int, urlRelativePath: String?, name: EosioName?, unhappy: Bool = false) -> HTTPStubsResponse {
         guard urlRelativePath != nil else {
             return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No urlRelativePath string available on request!")
         }

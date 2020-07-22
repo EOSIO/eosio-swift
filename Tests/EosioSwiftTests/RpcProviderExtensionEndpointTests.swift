@@ -7,8 +7,9 @@
 //
 
 import XCTest
-@testable import EosioSwift
 import OHHTTPStubs
+import OHHTTPStubsSwift
+@testable import EosioSwift
 
 class RpcProviderExtensionEndpointTests: XCTestCase {
 
@@ -17,7 +18,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         super.setUp()
         let url = URL(string: "https://localhost")
         rpcProvider = EosioRpcProvider(endpoint: url!)
-        OHHTTPStubs.onStubActivation { (request, stub, _) in
+        HTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
         }
     }
@@ -25,7 +26,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         //remove all stubs on tear down
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     /// Test pushTransactions implementation.
@@ -333,7 +334,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 } else if callCount == 2 && urlString == "https://localhost/v1/chain/get_currency_stats" {
                     let json = RpcTestConstants.currencyStatsSYS
                     let data = json.data(using: .utf8)
-                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                    return HTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
                 } else {
                     return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected call count in stub: \(callCount)")
                 }

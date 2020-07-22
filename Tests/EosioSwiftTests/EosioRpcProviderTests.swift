@@ -8,8 +8,9 @@
 
 import Foundation
 import XCTest
-@testable import EosioSwift
 import OHHTTPStubs
+import OHHTTPStubsSwift
+@testable import EosioSwift
 
 class EosioRpcProviderTests: XCTestCase {
 
@@ -21,7 +22,7 @@ class EosioRpcProviderTests: XCTestCase {
     override func setUp() {
         super.setUp()
         rpcProvider  = EosioRpcProvider(endpoint: url)
-        OHHTTPStubs.onStubActivation { (request, stub, _) in
+        HTTPStubs.onStubActivation { (request, stub, _) in
             print("\(request.url!) stubbed by \(stub.name!).")
         }
     }
@@ -30,7 +31,7 @@ class EosioRpcProviderTests: XCTestCase {
         super.tearDown()
 
         //remove all stubs on tear down
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
     }
 
     // MARK: Retry tests
@@ -49,7 +50,7 @@ class EosioRpcProviderTests: XCTestCase {
                 numberOfTimesTried += 1
                 let json = RpcTestConstants.infoResponseJson
                 let data = json.data(using: .utf8)
-                return OHHTTPStubsResponse(data: data!, statusCode: 418, headers: nil)
+                return HTTPStubsResponse(data: data!, statusCode: 418, headers: nil)
             }
         }).name = "Retry Http Status 418 Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor418HttpStatusError")
@@ -84,7 +85,7 @@ class EosioRpcProviderTests: XCTestCase {
                 numberOfTimesTried += 1
                 let json = RpcTestConstants.infoResponseJson
                 let data = json.data(using: .utf8)
-                return OHHTTPStubsResponse(data: data!, statusCode: 401, headers: nil)
+                return HTTPStubsResponse(data: data!, statusCode: 401, headers: nil)
             }
         }).name = "Retry Http Status 401 Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor401HttpStatusError")
@@ -119,7 +120,7 @@ class EosioRpcProviderTests: XCTestCase {
                 numberOfTimesTried += 1
                 let json = RpcTestConstants.infoResponseJson
                 let data = json.data(using: .utf8)
-                return OHHTTPStubsResponse(data: data!, statusCode: 500, headers: nil)
+                return HTTPStubsResponse(data: data!, statusCode: 500, headers: nil)
             }
         }).name = "Retry Http Status 500 Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor500HttpStatusError")
@@ -154,7 +155,7 @@ class EosioRpcProviderTests: XCTestCase {
                 numberOfTimesTried += 1
                 let json = RpcTestConstants.infoResponseJson
                 let data = json.data(using: .utf8)
-                return OHHTTPStubsResponse(data: data!, statusCode: 501, headers: nil)
+                return HTTPStubsResponse(data: data!, statusCode: 501, headers: nil)
             }
         }).name = "Retry Http Status Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldRetryBeforeReturningHttpStatusError")
@@ -186,7 +187,7 @@ class EosioRpcProviderTests: XCTestCase {
                 } else {
                     let json = RpcTestConstants.infoResponseJson
                     let data = json.data(using: .utf8)
-                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                    return HTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
                 }
             } else {
                 return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid url string in request in stub")
@@ -699,7 +700,7 @@ class EosioRpcProviderTests: XCTestCase {
                     // bad chain id that doesnt match "normal" chain id.
                     let json = RpcTestConstants.infoResponseBadChainIdJson
                     let data = json.data(using: .utf8)
-                    return OHHTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
+                    return HTTPStubsResponse(data: data!, statusCode: 200, headers: nil)
                 } else {
                     print("endpoint2example CALL \(endpoint2exampleCall)")
                     endpoint2exampleTimesTried += 1

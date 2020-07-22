@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwift'
-  s.version          = '0.4.0'
+  s.version          = '1.0.0'
   s.summary          = 'EOSIO SDK for Swift - API for integrating with EOSIO-based blockchains.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   s.swift_version         = '5.0'
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'EosioSwift/**/*.swift'
+  s.source_files = 'Sources/**/*.swift'
 
   s.pod_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
 						                'CLANG_ENABLE_MODULES' => 'YES',

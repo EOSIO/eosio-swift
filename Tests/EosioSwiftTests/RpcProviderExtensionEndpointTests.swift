@@ -741,14 +741,18 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         // swiftlint:enable line_length
         rpcProvider?.sendTransaction(requestParameters: requestParameters) { response in
             switch response {
-            case .success(let sentTransactionResponse):
-                XCTAssertTrue(sentTransactionResponse.transactionId == "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9")
-                if let processed = sentTransactionResponse.processed as [String: Any]?,
-                    let receipt = processed["receipt"] as? [String: Any],
-                    let status = receipt["status"] as? String {
-                    XCTAssert(status == "executed")
+            case .success(let sentResponse):
+                XCTAssertTrue(sentResponse.transactionId == "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9")
+                if let sentTransactionResponse = sentResponse as? EosioRpcTransactionResponse {
+                    if let processed = sentTransactionResponse.processed as [String: Any]?,
+                        let receipt = processed["receipt"] as? [String: Any],
+                        let status = receipt["status"] as? String {
+                        XCTAssert(status == "executed")
+                    } else {
+                        XCTFail("Should be able to find processed.receipt.status and verify its value.")
+                    }
                 } else {
-                    XCTFail("Should be able to find processed.receipt.status and verify its value.")
+                    XCTFail("Concrete response type should be EosioRpcTransactionResponse.")
                 }
             case .failure(let err):
                 XCTFail("\(err.description)")

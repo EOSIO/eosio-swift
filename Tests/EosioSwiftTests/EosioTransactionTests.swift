@@ -725,7 +725,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         blockNetLimit: EosioUInt64.uint64(897),
         serverVersionString: "server version")
 
-    func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
+    func getInfoBase(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         getInfoCalled = true
         if getInfoReturnsfailure {
             let error = EosioError(.getInfoError, reason: "Failed for test propose")
@@ -755,7 +755,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         refBlockPrefix: EosioUInt64.uint64(0980)
     )
 
-    func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
+    func getBlockBase(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         getBlockCalled = true
         blockNumberRequested = requestParameters.blockNumberOrId
         let result: EosioResult<EosioRpcBlockResponseProtocol, EosioError>
@@ -769,7 +769,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
     }
 
-    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping
+    public func getRawAbiBase(requestParameters: EosioRpcRawAbiRequest, completion: @escaping
         (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
         var result: EosioResult<EosioRpcRawAbiResponseProtocol, EosioError> =
             EosioResult.failure(EosioError(.rpcProviderError, reason: "Abi response conversion error."))
@@ -785,7 +785,7 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         completion(result)
     }
 
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
+    public func getRequiredKeysBase(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
         let result: EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>
         if getRequiredKeysReturnsfailure {
             result = EosioResult.failure(EosioError(.rpcProviderError, reason: "No required keys found."))
@@ -796,13 +796,13 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         completion(result)
     }
 
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
+    public func pushTransactionBase(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
         let pushTransactionResponse = EosioRpcTransactionResponse(transactionId: "mocktransactionid")
         let result: EosioResult<EosioRpcTransactionResponseProtocol, EosioError>  = EosioResult.success(pushTransactionResponse)
         completion(result)
     }
 
-    func sendTransaction(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
+    func sendTransactionBase(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
         let response = EosioRpcTransactionResponse(transactionId: "mocktransactionid")
         let result: EosioResult<EosioRpcTransactionResponseProtocol, EosioError>  = EosioResult.success(response)
         completion(result)

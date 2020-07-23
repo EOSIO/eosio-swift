@@ -398,7 +398,7 @@ public class EosioTransaction: Codable {
         }
 
         // get chain info
-        rpcProvider.getInfo { [weak self] (infoResponse) in
+        rpcProvider.getInfoBase { [weak self] (infoResponse) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.getInfoError, reason: "self does not exist")))
             }
@@ -451,7 +451,7 @@ public class EosioTransaction: Codable {
 
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: blockNum)
 
-        rpcProvider.getBlock(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
+        rpcProvider.getBlockBase(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.getBlockError, reason: "self does not exist")))
             }
@@ -518,7 +518,7 @@ public class EosioTransaction: Codable {
             return completion(.failure(EosioError(.signatureProviderError, reason: "No rpc provider available")))
         }
         let requiredKeysRequest = EosioRpcRequiredKeysRequest(availableKeys: availableKeys, transaction: self)
-        rpcProvider.getRequiredKeys(requestParameters: requiredKeysRequest) { (response) in
+        rpcProvider.getRequiredKeysBase(requestParameters: requiredKeysRequest) { (response) in
             switch response {
             case .failure(let error):
                 completion(.failure(error))
@@ -645,7 +645,7 @@ public class EosioTransaction: Codable {
         sendTransactionRequest.packedTrx = serializedTransaction.hex
         sendTransactionRequest.signatures = signatures
         sendTransactionRequest.packedContextFreeData = serializedContextFreeData.hex
-        rpcProvider.sendTransaction(requestParameters: sendTransactionRequest) { [weak self] (response) in
+        rpcProvider.sendTransactionBase(requestParameters: sendTransactionRequest) { [weak self] (response) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.unexpectedError, reason: "self does not exist")))
             }

@@ -31,7 +31,7 @@ extension EosioRpcProvider {
     ///   - requestParameters: An `EosioRpcBlockRequest`.
     /// - Returns: A Promise fulfilled with an `EosioRpcBlockResponse` or rejected with an `EosioError`.
     public func getBlock(_: PMKNamespacer, requestParameters: EosioRpcBlockRequest) -> Promise<EosioRpcBlockResponse> {
-        return Promise { _getBlock(requestParameters: requestParameters, completion: $0.resolve) }
+        return Promise { getBlock(requestParameters: requestParameters, completion: $0.resolve) }
     }
 
     /// Call `chain/get_info` and get a Promise back. Get information about the chain and node.
@@ -39,7 +39,7 @@ extension EosioRpcProvider {
     /// - Parameter _: Differentiates call signature from that of non-promise-returning endpoint method. Pass in `.promise` as the first parameter to call this method.
     /// - Returns: A Promise fulfilled with an `EosioRpcInfoResponse` or rejected with an `EosioError`.
     public func getInfo(_: PMKNamespacer) -> Promise<EosioRpcInfoResponse> {
-        return Promise { _getInfo(completion: $0.resolve) }
+        return Promise { getInfo(completion: $0.resolve) }
     }
 
     /// Call `chain/push_transaction` and get a Promise back. Push a transaction to the blockchain!
@@ -49,7 +49,7 @@ extension EosioRpcProvider {
     ///   - requestParameters: An `EosioRpcPushTransactionRequest`.
     /// - Returns: A Promise fulfilled with an `EosioRpcTransactionResponse` or rejected with an `EosioError`.
     public func pushTransaction(_: PMKNamespacer, requestParameters: EosioRpcPushTransactionRequest) -> Promise<EosioRpcTransactionResponse> {
-        return Promise { _pushTransaction(requestParameters: requestParameters, completion: $0.resolve) }
+        return Promise { pushTransaction(requestParameters: requestParameters, completion: $0.resolve) }
     }
 
     /// Call `chain/push_transactions` and get a Promise back. Push multiple transactions to the chain.
@@ -69,7 +69,7 @@ extension EosioRpcProvider {
     ///   - requestParameters: An `EosioRpcSendTransactionRequest`.
     /// - Returns: A Promise fulfilled with an `EosioRpcTransactionResponse` or rejected with an `EosioError`.
     public func sendTransaction(_: PMKNamespacer, requestParameters: EosioRpcSendTransactionRequest) -> Promise<EosioRpcTransactionResponse> {
-        return Promise { _sendTransaction(requestParameters: requestParameters, completion: $0.resolve) }
+        return Promise { sendTransaction(requestParameters: requestParameters, completion: $0.resolve) }
     }
 
     /// Call `chain/send_transactions` and get a Promise back. Send multiple transactions to the chain.
@@ -129,7 +129,7 @@ extension EosioRpcProvider {
     ///   - requestParameters: An `EosioRpcRequiredKeysRequest`.
     /// - Returns: A Promise fulfilled with an `EosioRpcRequiredKeysResponse` or rejected with an `EosioError`.
     public func getRequiredKeys(_: PMKNamespacer, requestParameters: EosioRpcRequiredKeysRequest) -> Promise<EosioRpcRequiredKeysResponse> {
-        return Promise { _getRequiredKeys(requestParameters: requestParameters, completion: $0.resolve) }
+        return Promise { getRequiredKeys(requestParameters: requestParameters, completion: $0.resolve) }
     }
 
     /// Call `chain/get_producers` and get a Promise back.
@@ -209,7 +209,7 @@ extension EosioRpcProvider {
     ///   - requestParameters: An `EosioRpcRawAbiRequest`.
     /// - Returns: A Promise fulfilled with an `EosioRpcRawAbiResponse` or rejected with an `EosioError`.
     public func getRawAbi(_: PMKNamespacer, requestParameters: EosioRpcRawAbiRequest) -> Promise<EosioRpcRawAbiResponse> {
-        return Promise { _getRawAbi(requestParameters: requestParameters, completion: $0.resolve) }
+        return Promise { getRawAbi(requestParameters: requestParameters, completion: $0.resolve) }
     }
 
     /* History Endpoints */

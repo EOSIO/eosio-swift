@@ -739,7 +739,7 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
         // swiftlint:disable line_length
         let requestParameters = EosioRpcSendTransactionRequest(signatures: ["SIG_K1_JzFA9ffefWfrTBvpwMwZi81kR6tvHF4mfsRekVXrBjLWWikg9g1FrS9WupYuoGaRew5mJhr4d39tHUjHiNCkxamtEfxi68"], compression: 0, packedContextFreeData: "", packedTrx: "C62A4F5C1CEF3D6D71BD000000000290AFC2D800EA3055000000405DA7ADBA0072CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB155624800A6823403EA3055000000572D3CCDCD0100AEAA4AC15CFD4500000000A8ED32323B00AEAA4AC15CFD4500000060D234CD3DA06806000000000004454F53000000001A746865206772617373686F70706572206C69657320686561767900")
         // swiftlint:enable line_length
-        rpcProvider?.sendTransaction(requestParameters: requestParameters) { response in
+        rpcProvider?.sendTransactionBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let sentResponse):
                 XCTAssertTrue(sentResponse.transactionId == "2e611730d904777d5da89e844cac4936da0ff844ad8e3c7eccd5da912423c9e9")

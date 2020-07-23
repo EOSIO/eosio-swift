@@ -14,7 +14,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     /// Call `chain/get_info`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
     ///
     /// - Parameter completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcInfoResponseProtocol` and an optional `EosioError`.
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
+    public func getInfoBase(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/get_info", requestParameters: nil) {(result: EosioRpcInfoResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
@@ -25,7 +25,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     /// - Parameters:
     ///   - requestParameters: An `EosioRpcBlockRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcBlockResponseProtocol` and an optional `EosioError`.
-    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
+    public func getBlockBase(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/get_block", requestParameters: requestParameters) {(result: EosioRpcBlockResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
@@ -36,7 +36,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     /// - Parameters:
     ///   - requestParameters: An `EosioRpcRawAbiRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcRawAbiResponseProtocol` and an optional `EosioError`.
-    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
+    public func getRawAbiBase(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/get_raw_abi", requestParameters: requestParameters) {(result: EosioRpcRawAbiResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
@@ -47,7 +47,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     /// - Parameters:
     ///   - requestParameters: An `EosioRpcRequiredKeysRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcRequiredKeysResponseProtocol` and an optional `EosioError`.
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
+    public func getRequiredKeysBase(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/get_required_keys", requestParameters: requestParameters) {(result: EosioRpcRequiredKeysResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
@@ -58,7 +58,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     /// - Parameters:
     ///   - requestParameters: An `EosioRpcPushTransactionRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcTransactionResponseProtocol` and an optional `EosioError`.
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
+    public func pushTransactionBase(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/push_transaction", requestParameters: requestParameters) {(result: EosioRpcTransactionResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
@@ -69,7 +69,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     /// - Parameters:
     ///   - requestParameters: An `EosioRpcSendTransactionRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcTransactionResponseProtocol` and an optional `EosioError`.
-    public func sendTransaction(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
+    public func sendTransactionBase(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
         getResource(rpc: "chain/send_transaction", requestParameters: requestParameters) {(result: EosioRpcTransactionResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }

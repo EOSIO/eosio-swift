@@ -55,7 +55,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Retry Http Status 418 Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor418HttpStatusError")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -90,7 +90,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Retry Http Status 401 Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor401HttpStatusError")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -125,7 +125,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Retry Http Status 500 Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldNotRetryFor500HttpStatusError")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -160,7 +160,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Retry Http Status Error stub"
         let expect = expectation(description: "test_rpcProvider_shouldRetryBeforeReturningHttpStatusError")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -195,7 +195,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Bad Response Handled stub"
         let expect = expectation(description: "testBadResponseDataHandled")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -215,7 +215,7 @@ class EosioRpcProviderTests: XCTestCase {
             return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorNotConnectedToInternet, reason: "Not connected to the internet.")
         }).name = "No Network stub"
         let expect = expectation(description: "testNoNetwork")
-        rpcProvider.getInfo { response in
+        rpcProvider.getInfoBase { response in
             switch response {
             case .success(let infoResponse):
                 print("\(infoResponse)")
@@ -241,7 +241,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Get Info stub"
 
         let expect = expectation(description: "testGetInfo")
-        rpcProvider.getInfo { response in
+        rpcProvider.getInfoBase { response in
             switch response {
             case .success(let infoResponse):
                 guard let rpcInfoResponse = infoResponse as? EosioRpcInfoResponse else {
@@ -272,7 +272,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Get Block stub"
         let expect = expectation(description: "testGetBlock")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
@@ -300,7 +300,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Get Block stub"
         let expect = expectation(description: "testGetBlock")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: 25260032)
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
@@ -328,7 +328,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "Get Block stub"
         let expect = expectation(description: "testGetBlock")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
@@ -366,7 +366,7 @@ class EosioRpcProviderTests: XCTestCase {
 
         let expect = expectation(description: "testGetBlockExtended")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
@@ -404,7 +404,7 @@ class EosioRpcProviderTests: XCTestCase {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio")
             let requestParameters = EosioRpcRawAbiRequest(accountName: name)
-            rpcProvider.getRawAbi(requestParameters: requestParameters) { response in
+            rpcProvider.getRawAbiBase(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let rawAbiResponse):
                     guard let rpcRawAbiResponse = rawAbiResponse as? EosioRpcRawAbiResponse else {
@@ -439,7 +439,7 @@ class EosioRpcProviderTests: XCTestCase {
             let expect = expectation(description: "testGetRawAbi")
             let name = try EosioName("eosio.token")
             let requestParameters = EosioRpcRawAbiRequest(accountName: name)
-            rpcProvider.getRawAbi(requestParameters: requestParameters) { response in
+            rpcProvider.getRawAbiBase(requestParameters: requestParameters) { response in
                 switch response {
                 case .success(let rawAbiResponse):
                     guard let rpcRawAbiResponse = rawAbiResponse as? EosioRpcRawAbiResponse else {
@@ -472,7 +472,7 @@ class EosioRpcProviderTests: XCTestCase {
         let transaction = EosioTransaction()
         let requestParameters = EosioRpcRequiredKeysRequest(availableKeys: ["PUB_K1_5j67P1W2RyBXAL8sNzYcDLox3yLpxyrxgkYy1xsXzVCw1oi9eG"], transaction: transaction)
 
-        rpcProvider.getRequiredKeys(requestParameters: requestParameters) { response in
+        rpcProvider.getRequiredKeysBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let requiredKeysResponse):
                 guard let rpcRequiredKeysResponse = requiredKeysResponse as? EosioRpcRequiredKeysResponse else {
@@ -501,7 +501,7 @@ class EosioRpcProviderTests: XCTestCase {
         // swiftlint:disable line_length
         let requestParameters = EosioRpcPushTransactionRequest(signatures: ["SIG_K1_JzFA9ffefWfrTBvpwMwZi81kR6tvHF4mfsRekVXrBjLWWikg9g1FrS9WupYuoGaRew5mJhr4d39tHUjHiNCkxamtEfxi68"], compression: 0, packedContextFreeData: "", packedTrx: "C62A4F5C1CEF3D6D71BD000000000290AFC2D800EA3055000000405DA7ADBA0072CBDD956F52ACD910C3C958136D72F8560D1846BC7CF3157F5FBFB72D3001DE4597F4A1FDBECDA6D59C96A43009FC5E5D7B8F639B1269C77CEC718460DCC19CB30100A6823403EA3055000000572D3CCDCD0143864D5AF0FE294D44D19C612036CBE8C098414C4A12A5A7BB0BFE7DB155624800A6823403EA3055000000572D3CCDCD0100AEAA4AC15CFD4500000000A8ED32323B00AEAA4AC15CFD4500000060D234CD3DA06806000000000004454F53000000001A746865206772617373686F70706572206C69657320686561767900")
         // swiftlint:enable line_length
-        rpcProvider.pushTransaction(requestParameters: requestParameters) { response in
+        rpcProvider.pushTransactionBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let pushedTransactionResponse):
                 XCTAssertTrue(pushedTransactionResponse.transactionId == "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a")
@@ -583,7 +583,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "testFullFailoverFatalError"
         let expect = expectation(description: "testFullFailoverFatalError")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 print("\(blockResponse)")
@@ -644,7 +644,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "testFailoverNextEndpointSuccess stub"
         let expect = expectation(description: "testFailoverNextEndpointSuccess")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {
@@ -725,7 +725,7 @@ class EosioRpcProviderTests: XCTestCase {
         }).name = "testFailoverWithBadChainId stub"
         let expect = expectation(description: "testFailoverWithBadChainId")
         let requestParameters = EosioRpcBlockRequest(blockNumOrId: "25260032")
-        rpcProvider.getBlock(requestParameters: requestParameters) { response in
+        rpcProvider.getBlockBase(requestParameters: requestParameters) { response in
             switch response {
             case .success(let blockResponse):
                 guard let rpcBlockResponse = blockResponse as? EosioRpcBlockResponse else {

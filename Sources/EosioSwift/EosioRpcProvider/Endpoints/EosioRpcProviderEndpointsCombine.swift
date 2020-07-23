@@ -32,7 +32,7 @@ extension EosioRpcProvider {
     /// - Returns: A Publisher fulfilled with an `EosioRpcBlockResponse` or rejected with an `EosioError`.
     public func getBlockPublisher(requestParameters: EosioRpcBlockRequest) -> AnyPublisher<EosioRpcBlockResponse, EosioError> {
         return Future<EosioRpcBlockResponse, EosioError> { [weak self] promise in
-            self?._getBlock(requestParameters: requestParameters, completion: { promise($0.asResult) })
+            self?.getBlock(requestParameters: requestParameters, completion: { promise($0.asResult) })
         }.eraseToAnyPublisher()
     }
 
@@ -41,7 +41,7 @@ extension EosioRpcProvider {
     /// - Returns: A Publisher fulfilled with an `EosioRpcInfoResponse` or rejected with an `EosioError`.
     public func getInfoPublisher() -> AnyPublisher<EosioRpcInfoResponse, EosioError> {
         return Future<EosioRpcInfoResponse, EosioError> { [weak self] promise in
-            self?._getInfo(completion: { promise($0.asResult) } as ((EosioResult<EosioRpcInfoResponse, EosioError>) -> Void))
+            self?.getInfo(completion: { promise($0.asResult) } as ((EosioResult<EosioRpcInfoResponse, EosioError>) -> Void))
         }.eraseToAnyPublisher()
     }
 
@@ -52,7 +52,7 @@ extension EosioRpcProvider {
     /// - Returns: A Publisher fulfilled with an `EosioRpcTransactionResponse` or rejected with an `EosioError`.
     public func pushTransactionPublisher(requestParameters: EosioRpcPushTransactionRequest) -> AnyPublisher<EosioRpcTransactionResponse, EosioError> {
         return Future<EosioRpcTransactionResponse, EosioError> { [weak self] promise in
-            self?._pushTransaction(requestParameters: requestParameters, completion: { promise($0.asResult) })
+            self?.pushTransaction(requestParameters: requestParameters, completion: { promise($0.asResult) })
         }.eraseToAnyPublisher()
     }
 
@@ -74,7 +74,7 @@ extension EosioRpcProvider {
     /// - Returns: A Publisher fulfilled with an `EosioRpcTransactionResponse` or rejected with an `EosioError`.
     public func sendTransactionPublisher(requestParameters: EosioRpcSendTransactionRequest) -> AnyPublisher<EosioRpcTransactionResponse, EosioError> {
         return Future<EosioRpcTransactionResponse, EosioError> { [weak self] promise in
-            self?._sendTransaction(requestParameters: requestParameters, completion: { promise($0.asResult) })
+            self?.sendTransaction(requestParameters: requestParameters, completion: { promise($0.asResult) })
         }.eraseToAnyPublisher()
     }
 
@@ -140,7 +140,7 @@ extension EosioRpcProvider {
     /// - Returns: A Publisher fulfilled with an `EosioRpcRequiredKeysResponse` or rejected with an `EosioError`.
     public func getRequiredKeysPublisher(requestParameters: EosioRpcRequiredKeysRequest) -> AnyPublisher<EosioRpcRequiredKeysResponse, EosioError> {
         return Future<EosioRpcRequiredKeysResponse, EosioError> { [weak self] promise in
-            self?._getRequiredKeys(requestParameters: requestParameters, completion: { promise($0.asResult) })
+            self?.getRequiredKeys(requestParameters: requestParameters, completion: { promise($0.asResult) })
         }.eraseToAnyPublisher()
     }
 
@@ -228,7 +228,7 @@ extension EosioRpcProvider {
     /// - Returns: A Publisher fulfilled with an `EosioRpcRawAbiResponse` or rejected with an `EosioError`.
     public func getRawAbiPublisher(requestParameters: EosioRpcRawAbiRequest) -> AnyPublisher<EosioRpcRawAbiResponse, EosioError> {
         return Future<EosioRpcRawAbiResponse, EosioError> { [weak self] promise in
-            self?._getRawAbi(requestParameters: requestParameters, completion: { promise($0.asResult) })
+            self?.getRawAbi(requestParameters: requestParameters, completion: { promise($0.asResult) })
         }.eraseToAnyPublisher()
     }
 

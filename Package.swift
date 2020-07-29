@@ -24,14 +24,7 @@ let package = Package(
         .target(
             name: "EosioSwiftEcc_CPP",
             dependencies: ["openssl"],
-            path: "Sources/CPP",
-            cxxSettings: [
-                // SPM doesn't support specifying the gnu++17 or c++17 standard yet, not even
-                // scheduled for 5.3 :-(
-                .unsafeFlags([
-                    "-std=gnu++17"
-                ])
-            ]
+            path: "Sources/CPP"
         ),
         .target(
             name: "EosioSwiftEcc",

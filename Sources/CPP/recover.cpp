@@ -7,7 +7,13 @@
 #include "recover.h"
 
 namespace {
-    
+
+    #if OPENSSL_VERSION_NUMBER >= 0x10100000L
+    typedef struct ECDSA_SIG_st {
+        BIGNUM *r;
+        BIGNUM *s;
+    } ECDSA_SIG;
+    #endif
     
     /**
      * Perform ECDSA key recovery (see SEC1 4.1.6) for curves over (mod p)-fields
@@ -62,7 +68,7 @@ namespace {
         if (!BN_bin2bn(msg, msglen, e)) { ret=-1; goto err; }
         if (8*msglen > n) BN_rshift(e, e, 8-(n & 7));
         zero = BN_CTX_get(ctx);
-        if (!BN_zero(zero)) { ret=-1; goto err; }
+        if (!BN_set_word((zero),0)) { ret=-1; goto err; }
         if (!BN_mod_sub(e, zero, e, order, ctx)) { ret=-1; goto err; }
         rr = BN_CTX_get(ctx);
         if (!BN_mod_inverse(rr, ecsig->r, order, ctx)) { ret=-1; goto err; }

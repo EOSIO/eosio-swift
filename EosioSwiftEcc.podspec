@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftEcc'
-  s.version          = '0.4.0'
+  s.version          = '1.0.0'
   s.summary          = 'Elliptical Curve Cryptography (ECC) functions for EOSIO. '
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-ecc'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
@@ -29,8 +29,8 @@ Pod::Spec.new do |s|
   s.swift_version         = '5.0'
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'EosioSwiftEcc/**/*.{c,h,m,cpp,hpp}',
-  		             'EosioSwiftEcc/**/*.swift'
+  s.source_files = 'Sources/**/*.{c,h,m,cpp,hpp}',
+  		             'Sources/**/*.swift'
 
   s.libraries           = "c++"
   s.pod_target_xcconfig = { 'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',

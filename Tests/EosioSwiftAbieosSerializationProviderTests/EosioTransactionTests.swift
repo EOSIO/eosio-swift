@@ -280,7 +280,8 @@ class RpcMockProvider: EosioRpcProviderProtocol {
     required init(endpoint: URL) {
         self.url = endpoint
     }
-    public func getInfo(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
+
+    public func getInfoBase(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         let res = createInfoResponse()
         var result: EosioResult<EosioRpcInfoResponseProtocol, EosioError>
         if let res = res {
@@ -290,7 +291,8 @@ class RpcMockProvider: EosioRpcProviderProtocol {
         }
         completion(result)
     }
-    public func getBlock(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
+
+    public func getBlockBase(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
         let res = createBlockResponse()
         var result: EosioResult<EosioRpcBlockResponseProtocol, EosioError>
         if let res = res {
@@ -300,7 +302,8 @@ class RpcMockProvider: EosioRpcProviderProtocol {
         }
         completion(result)
     }
-    public func getRawAbi(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
+
+    public func getRawAbiBase(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
         let res = createRawAbiResponse(account: requestParameters.accountName)
         var result: EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>
         if let res = res {
@@ -310,10 +313,16 @@ class RpcMockProvider: EosioRpcProviderProtocol {
         }
         completion(result)
     }
-    public func getRequiredKeys(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
+
+    public func getRequiredKeysBase(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
     }
-    public func pushTransaction(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
+
+    public func pushTransactionBase(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
     }
+
+    func sendTransactionBase(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
+    }
+
     private func createInfoResponse() -> EosioRpcInfoResponse? {
         let json = """
         {
@@ -338,6 +347,7 @@ class RpcMockProvider: EosioRpcProviderProtocol {
         }
         return response
     }
+
     private func createBlockResponse() -> EosioRpcBlockResponse? {
         let json = """
             {
@@ -364,6 +374,7 @@ class RpcMockProvider: EosioRpcProviderProtocol {
         }
         return response
     }
+
     private func createRawAbiResponse(account: EosioName) -> EosioRpcRawAbiResponse? {
         let json: String
         // swiftlint:disable line_length

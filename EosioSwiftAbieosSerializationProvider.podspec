@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EosioSwiftAbieosSerializationProvider'
-  s.version          = '0.4.0'
+  s.version          = '1.0.0'
   s.summary          = 'Binary <> JSON conversion using ABIs. Compatible with languages which can interface to C.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-abieos-serialization-provider'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
@@ -28,21 +28,21 @@ Pod::Spec.new do |s|
   s.swift_version         = '5.0'
   s.ios.deployment_target = '12.0'
 
-  s.public_header_files = 'EosioSwiftAbieosSerializationProvider/EosioSwiftAbieosSerializationProvider.h',
-                          'EosioSwiftAbieosSerializationProvider/abieos.h'
+  s.public_header_files = 'Sources/EosioSwiftAbieosSerializationProvider.h',
+                          'Sources/Abieos/include/abieos.h'
 
-  s.source_files = 'EosioSwiftAbieosSerializationProvider/**/*.{c,h,m,cpp,hpp}',
-                   'EosioSwiftAbieosSerializationProvider/**/*.swift'
+  s.source_files = 'Sources/**/*.{c,h,m,cpp,hpp}',
+                   'Sources/**/*.swift'
 
-  s.preserve_paths = 'EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json',
-                     'EosioSwiftAbieosSerializationProvider/transaction.abi.json',
-                     'EosioSwiftAbieosSerializationProvider/abi.abi.json'
+  s.preserve_paths = 'Sources/EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json',
+                     'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json',
+                     'Sources/EosioSwiftAbieosSerializationProvider/abi.abi.json'
 
-  s.ios.resource_bundle = { 'EosioSwiftAbieosSerializationProvider' => 'EosioSwiftAbieosSerializationProvider/*.abi.json' }
+  s.ios.resource_bundle = { 'EosioSwiftAbieosSerializationProvider' => 'Sources/EosioSwiftAbieosSerializationProvider/*.abi.json' }
 
-  s.resources = 'EosioSwiftAbieosSerializationProvider/transaction.abi.json',
-                'EosioSwiftAbieosSerializationProvider/abi.abi.json',
-                'EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json'
+  s.resources = 'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json',
+                'Sources/EosioSwiftAbieosSerializationProvider/abi.abi.json',
+                'Sources/EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json'
 
   s.libraries = "c++"
   s.pod_target_xcconfig = { 'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
@@ -52,5 +52,5 @@ Pod::Spec.new do |s|
                             'SWIFT_COMPILATION_MODE' => 'wholemodule',
                             'ENABLE_BITCODE' => 'YES'}
 
-  s.ios.dependency 'EosioSwift', '~> 0.4.0'
+  s.ios.dependency 'EosioSwift', '~> 1.0.0'
 end

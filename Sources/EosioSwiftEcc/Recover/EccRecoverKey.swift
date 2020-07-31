@@ -8,7 +8,7 @@
 
 import Foundation
 import EosioSwift
-import EosioSwiftEcc_CPP
+import Recover
 
 /// Utilities for recovering supported ECC keys.
 public class EccRecoverKey {

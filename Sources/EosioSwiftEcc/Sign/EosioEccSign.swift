@@ -9,7 +9,7 @@
 // swiftlint:disable identifier_name
 import Foundation
 import EosioSwift
-import EosioSwiftEcc_CPP
+import Recover
 
 /// EosioEccSign manages ECC signing.
 public class EosioEccSign {

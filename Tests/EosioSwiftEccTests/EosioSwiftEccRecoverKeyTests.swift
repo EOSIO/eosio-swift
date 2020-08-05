@@ -42,10 +42,9 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
         return Data(bytes)
     }
 
-    /*
     func testK1Compare() {
         do {
-            for i in 1...10000 {
+            for i in 1...1000 {
                 guard let privateKey = generatePrivateKeyBytes() else { return XCTFail("bad key") }
                 let pubKey1 = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
                 let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
@@ -97,8 +96,8 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
     func test_recoverPublicKey_from_private_keyProblem() {
         do {
             let privateKey = try Data(hex: problemPrivateKeyHex)
-            let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
-            XCTAssertEqual(pubKey.hex, problemPublicKeyHex)
+            //let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
+            //XCTAssertEqual(pubKey.hex, problemPublicKeyHex)
 
             let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
             XCTAssertEqual(pubKey2.hex, problemPublicKeyHex)
@@ -121,7 +120,6 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
         }
 
     }
-    */
 
     func test_recid() {
         do {
@@ -191,9 +189,9 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
             XCTAssertEqual(publicKeyR1, eosioPubKey)
 
-            //let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
-            //let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
-            //XCTAssertEqual(publicKeyR1, eosioPubKey2)
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
+            let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
+            XCTAssertEqual(publicKeyR1, eosioPubKey2)
         } catch {
             XCTFail("Unexpected error thrown")
         }
@@ -207,10 +205,10 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             print(eosioPubKey)
             XCTAssertEqual(publicKeyR1a, eosioPubKey)
 
-            //let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
-            //let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
-            //print(eosioPubKey2)
-            //XCTAssertEqual(publicKeyR1a, eosioPubKey2)
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
+            let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
+            print(eosioPubKey2)
+            XCTAssertEqual(publicKeyR1a, eosioPubKey2)
         } catch {
             XCTFail("Unexpected error thrown")
         }
@@ -224,10 +222,10 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             print(eosioPubKey)
             XCTAssertEqual(publicKeyR1b, eosioPubKey)
 
-            //let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
-            //let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
-            //print(eosioPubKey2)
-            //XCTAssertEqual(publicKeyR1b, eosioPubKey2)
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
+            let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
+            print(eosioPubKey2)
+            XCTAssertEqual(publicKeyR1b, eosioPubKey2)
         } catch {
             XCTFail("Unexpected error thrown")
         }

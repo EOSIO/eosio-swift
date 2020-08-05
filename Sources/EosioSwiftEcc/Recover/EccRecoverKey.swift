@@ -52,15 +52,50 @@ public class EccRecoverKey {
     }
 
     public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
-        var curveParams: UnsafePointer<ec_str_params>?
+
+        var curveParams: ec_params = ec_params()
         switch curve {
         case .k1:
-            curveParams = ec_get_curve_params_by_type(USER_DEFINED_SECP256K1)
+            let curveStrParams = ec_get_curve_params_by_type(USER_DEFINED_SECP256K1)
+            import_params(&curveParams, curveStrParams)
         case .r1:
-            curveParams = ec_get_curve_params_by_type(SECP256R1)
+            let curveStrParams = ec_get_curve_params_by_type(SECP256R1)
+            import_params(&curveParams, curveStrParams)
         }
 
-        return Data()
+        var pubXData = Data()
+        var pubYData = Data()
+        try privateKey.withUnsafeBytes { rawBufferPointer in
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            guard let pkbytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
+            }
+            let fpSize = Int((curveParams.ec_fp.p_bitlen + 7) / 8)
+            let publicKeyX = UnsafeMutablePointer<UInt8>.allocate(capacity: fpSize)
+            publicKeyX.initialize(repeating: 0, count: fpSize)
+            let publicKeyY = UnsafeMutablePointer<UInt8>.allocate(capacity: fpSize)
+            publicKeyY.initialize(repeating: 0, count: fpSize)
+            defer {
+                publicKeyX.deinitialize(count: fpSize)
+                publicKeyX.deallocate()
+                publicKeyY.deinitialize(count: fpSize)
+                publicKeyY.deallocate()
+            }
+
+            var privateKeyNum: nn = nn()
+            nn_init_from_buf(&privateKeyNum, pkbytes, UInt16(privateKey.count))
+            var pub: prj_pt = prj_pt()
+            prj_pt_mul_monty(&pub, &privateKeyNum, &curveParams.ec_gen)
+            var pubAff: aff_pt = aff_pt()
+            prj_pt_to_aff(&pubAff, &pub)
+            fp_export_to_buf(publicKeyX, UInt16(fpSize), &pubAff.x)
+            fp_export_to_buf(publicKeyY, UInt16(fpSize), &pubAff.y)
+            pubXData = Data(bytes: publicKeyX, count: fpSize)
+            pubYData = Data(bytes: publicKeyY, count: fpSize)
+        }
+        let publicKeyData = Data(bytes: [0x04], count: 1) + pubXData + pubYData
+
+        return publicKeyData
     }
 
     /*

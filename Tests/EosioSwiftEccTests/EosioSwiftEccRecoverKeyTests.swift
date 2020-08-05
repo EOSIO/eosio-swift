@@ -70,9 +70,6 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
 
                 let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
                 XCTAssertEqual(pubKey2.hex, pubKeyHex)
-                if pubKey2.hex != pubKeyHex {
-                    break
-                }
             } catch {
                 XCTFail("Unexpected error thrown")
             }

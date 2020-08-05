@@ -96,8 +96,8 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
     func test_recoverPublicKey_from_private_keyProblem() {
         do {
             let privateKey = try Data(hex: problemPrivateKeyHex)
-            //let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
-            //XCTAssertEqual(pubKey.hex, problemPublicKeyHex)
+            let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
+            XCTAssertEqual(pubKey.hex, problemPublicKeyHex)
 
             let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
             XCTAssertEqual(pubKey2.hex, problemPublicKeyHex)

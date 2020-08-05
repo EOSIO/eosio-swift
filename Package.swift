@@ -12,7 +12,7 @@ let package = Package(
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "EosioSwiftEcc",
-            targets: ["Recover", "EosioSwiftEcc"]),
+            targets: ["uECC", "Recover", "EosioSwiftEcc"]),
     ],
     dependencies: [
         .package(name: "EosioSwift", url: "https://github.com/EOSIO/eosio-swift", .branch("spm-support")),
@@ -22,13 +22,31 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "uECC",
+            dependencies: [],
+            path: "Sources/uECC",
+            exclude: [
+                "asm_arm.inc",
+                "asm_arm_mult_square.inc",
+                "asm_arm_mult_square_umaal.inc",
+                "asm_avr.inc",
+                "asm_avr_mult_square.inc",
+                "curve-specific.inc",
+                "platform-specific.inc"
+            ],
+            cSettings: [
+                .define("uECC_ENABLE_VLI_API", to: "1"),
+                .define("uECC_SQUARE_FUNC", to: "1")
+            ]
+        ),
+        .target(
             name: "Recover",
             dependencies: ["openssl"],
             path: "Sources/Recover"
         ),
         .target(
             name: "EosioSwiftEcc",
-            dependencies: ["Recover", "EosioSwift"],
+            dependencies: ["uECC", "Recover", "EosioSwift"],
             path: "Sources/EosioSwiftEcc"
         ),
         .testTarget(

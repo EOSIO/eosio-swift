@@ -9,6 +9,7 @@
 import Foundation
 import EosioSwift
 import Recover
+import uECC
 
 /// Utilities for recovering supported ECC keys.
 public class EccRecoverKey {
@@ -16,6 +17,73 @@ public class EccRecoverKey {
     /// Default init.
     public init() {
 
+    }
+
+    public class func createKey(curve: EllipticCurveType) -> (String, String) {
+        var curveName: Int32
+        switch curve {
+        case .r1:
+            curveName = NID_X9_62_prime256v1
+        case .k1:
+            curveName = NID_secp256k1
+        }
+
+        let createdKey = EC_KEY_new_by_curve_name(curveName)
+        EC_KEY_generate_key(createdKey)
+
+        let privateKey = EC_KEY_get0_private_key(createdKey)
+        let publicKey = EC_KEY_get0_public_key(createdKey)
+
+        var pubKeyHex = ""
+        let xBN = BN_new()!
+        let yBN = BN_new()!
+        let group = EC_GROUP_new_by_curve_name(curveName)
+        EC_POINT_get_affine_coordinates_GFp(group, publicKey, xBN, yBN, nil)
+        let xHexPadded = pad(hex: String(cString: BN_bn2hex(xBN)!))
+        let yHexPadded = pad(hex: String(cString: BN_bn2hex(yBN)!))
+        BN_free(xBN)
+        BN_free(yBN)
+        EC_GROUP_free(group)
+        pubKeyHex = "04" + xHexPadded + yHexPadded
+
+        let priKeyHex = String(cString: BN_bn2hex(privateKey)!)
+        EC_KEY_free(createdKey)
+        return (priKeyHex.lowercased(), pubKeyHex.lowercased())
+    }
+
+    public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
+        var eccCurve: uECC_Curve
+        switch curve {
+        case .k1:
+            eccCurve = uECC_secp256k1()
+        case .r1:
+            eccCurve = uECC_secp256r1()
+        }
+
+        var recoveredData = Data()
+        try privateKey.withUnsafeBytes { rawBufferPointer in
+            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
+            guard let pkbytes = bufferPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
+            }
+            let keySize = 64
+            let publicKeyPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: keySize)
+            publicKeyPointer.initialize(repeating: 0, count: keySize)
+            defer {
+                publicKeyPointer.deinitialize(count: keySize)
+                publicKeyPointer.deallocate()
+            }
+            let result = uECC_compute_public_key(pkbytes,
+                                                 publicKeyPointer,
+                                                 eccCurve)
+            guard result == 1 else {
+                throw EosioError(.keySigningError, reason: "Failed to extract public key.")
+            }
+
+            recoveredData = Data(bytes: publicKeyPointer, count: keySize)
+        }
+        let publicKeyData = Data(bytes: [0x04], count: 1) + recoveredData
+        return publicKeyData
     }
 
     /// Recover a public key from the private key.

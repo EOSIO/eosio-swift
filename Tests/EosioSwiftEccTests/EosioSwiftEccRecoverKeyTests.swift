@@ -8,6 +8,7 @@
 
 import XCTest
 import EosioSwift
+@testable import Recover
 @testable import EosioSwiftEcc
 
 class EosioSwiftEccRecoverKeyTests: XCTestCase {
@@ -31,11 +32,92 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
     let privateKeyR1b = "PVT_R1_2fJmPgaik4rUeU1NDchQjnSPkQkga4iKzdK5hhdbKf2PQFJ57t"
     let publicKeyR1b = "PUB_R1_5MVdX3uzs6qDHUYpdSksZFc5rAu5P4ba6MDaySuYyzQqmCw96Q"
 
+    let problemPrivateKeyHex = "2868b6ca8c9128c883a34938f974de7f0df4c9d5eaed5788188186ab19756d"
+    let problemPublicKeyHex = "04df98d5b3e679293f322c831ee6d7837078a568818dd4389324cafebc17716dd1f177f5d78cd43eb615689bc6c7eddd6d332fdfa95a23bed27bda21a74761aa21"
+
+    func generatePrivateKeyBytes() -> Data? {
+        var bytes = [UInt8](repeating: 0, count: 32)
+        let status = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+        guard status == errSecSuccess else { return nil }
+        return Data(bytes)
+    }
+
+    func testK1Compare() {
+        do {
+            for i in 1...10000 {
+                guard let privateKey = generatePrivateKeyBytes() else { return XCTFail("bad key") }
+                let pubKey1 = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
+                let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
+                print(i)
+                print(pubKey1.hex)
+                print(pubKey2.hex)
+                print("")
+                XCTAssertEqual(pubKey1, pubKey2)
+            }
+        } catch {
+            XCTFail(error.eosioError.reason)
+        }
+    }
+
+    func test_createK1Key_and_Recover() {
+        for i in 1...1000 {
+            let (priKeyHex, pubKeyHex) = EccRecoverKey.createKey(curve: .k1)
+            print("Try: \(i), private key: \(priKeyHex), public key: \(pubKeyHex)")
+            do {
+                let privateKey = try Data(hex: priKeyHex)
+                let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
+                XCTAssertEqual(pubKey.hex, pubKeyHex)
+
+                let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
+                XCTAssertEqual(pubKey2.hex, pubKeyHex)
+                if pubKey2.hex != pubKeyHex {
+                    break
+                }
+            } catch {
+                XCTFail("Unexpected error thrown")
+            }
+        }
+    }
+
+    func test_createR1Key_and_Recover() {
+        for i in 1...1000 {
+            let (priKeyHex, pubKeyHex) = EccRecoverKey.createKey(curve: .r1)
+            print("Try: \(i), private key: \(priKeyHex), public key: \(pubKeyHex)")
+            do {
+                let privateKey = try Data(hex: priKeyHex)
+                let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .r1)
+                XCTAssertEqual(pubKey.hex, pubKeyHex)
+
+                let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
+                XCTAssertEqual(pubKey2.hex, pubKeyHex)
+            } catch {
+                XCTFail("Unexpected error thrown")
+            }
+        }
+    }
+
+    func test_recoverPublicKey_from_private_keyProblem() {
+        do {
+            let privateKey = try Data(hex: problemPrivateKeyHex)
+            let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
+            XCTAssertEqual(pubKey.hex, problemPublicKeyHex)
+
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
+            XCTAssertEqual(pubKey2.hex, problemPublicKeyHex)
+        } catch {
+            XCTFail("Unexpected error thrown")
+        }
+
+    }
+
     func test_recoverPublicKey_from_private_key() {
         do {
             let privateKey = try Data(hex: privateKeyHex)
             let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
             XCTAssertEqual(pubKey.hex, publicKeyHex)
+
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .k1)
+            XCTAssertEqual(pubKey2.hex, publicKeyHex)
         } catch {
             XCTFail("Unexpected error thrown")
         }
@@ -109,6 +191,10 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .r1)
             let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
             XCTAssertEqual(publicKeyR1, eosioPubKey)
+
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
+            let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
+            XCTAssertEqual(publicKeyR1, eosioPubKey2)
         } catch {
             XCTFail("Unexpected error thrown")
         }
@@ -121,6 +207,11 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
             print(eosioPubKey)
             XCTAssertEqual(publicKeyR1a, eosioPubKey)
+
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
+            let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
+            print(eosioPubKey2)
+            XCTAssertEqual(publicKeyR1a, eosioPubKey2)
         } catch {
             XCTFail("Unexpected error thrown")
         }
@@ -133,6 +224,11 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioR1PublicKey
             print(eosioPubKey)
             XCTAssertEqual(publicKeyR1b, eosioPubKey)
+
+            let pubKey2 = try EccRecoverKey.recoverPublicKey2(privateKey: privateKey, curve: .r1)
+            let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioR1PublicKey
+            print(eosioPubKey2)
+            XCTAssertEqual(publicKeyR1b, eosioPubKey2)
         } catch {
             XCTFail("Unexpected error thrown")
         }

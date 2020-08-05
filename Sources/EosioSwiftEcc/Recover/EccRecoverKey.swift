@@ -9,7 +9,7 @@
 import Foundation
 import EosioSwift
 import Recover
-import uECC
+import libecc
 
 /// Utilities for recovering supported ECC keys.
 public class EccRecoverKey {
@@ -52,6 +52,19 @@ public class EccRecoverKey {
     }
 
     public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
+        var curveParams: UnsafePointer<ec_str_params>?
+        switch curve {
+        case .k1:
+            curveParams = ec_get_curve_params_by_type(USER_DEFINED_SECP256K1)
+        case .r1:
+            curveParams = ec_get_curve_params_by_type(SECP256R1)
+        }
+
+        return Data()
+    }
+
+    /*
+    public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
         var eccCurve: uECC_Curve
         switch curve {
         case .k1:
@@ -85,6 +98,7 @@ public class EccRecoverKey {
         let publicKeyData = Data(bytes: [0x04], count: 1) + recoveredData
         return publicKeyData
     }
+ */
 
     /// Recover a public key from the private key.
     ///

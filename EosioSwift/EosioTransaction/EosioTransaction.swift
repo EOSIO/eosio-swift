@@ -213,7 +213,7 @@ public class EosioTransaction: Codable {
             preconditionFailure("A serializationProvider must be set!")
         }
         let json = try self.toJson()
-        return try Data(hex: serializer.serializeTransaction(json: json))
+        return try Data.construct(hex: serializer.serializeTransaction(json: json))
     }
 
     /// Asynchronous version of serializeTransaction that calls `prepare(completion:)` before attemping to create a serialized transaction. If an error is encountered, this method will call the

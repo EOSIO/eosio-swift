@@ -13,4 +13,6 @@ target 'EosioSwift' do
   pod 'BigInt', '~> 5.0'
   pod 'SwiftLint'
   pod 'PromiseKit', '~> 6.8'
+
+  pod 'UIExtensions.swift', git: 'https://github.com/horizontalsystems/gui-kit/'
 end

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIExtensions
 
 public extension String {
 
@@ -113,7 +114,7 @@ public extension String {
         if let string = String(data: data, encoding: .utf8) {
             self = string
         } else {
-            throw EosioError(.serializeError, reason: "Cannot create json from data \(data.hexEncodedString())")
+            throw EosioError(.serializeError, reason: "Cannot create json from data \(data.hex)")
         }
     }
 

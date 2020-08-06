@@ -31,7 +31,7 @@ public extension EosioTransaction {
 
         /// Action data in serialized form as a hex string.
         public var dataHex: String? {
-            return dataSerialized?.hexEncodedString()
+            dataSerialized?.hex
         }
 
         /// Is the action data serialized?
@@ -155,7 +155,7 @@ public extension EosioTransaction {
             self.data = [String: Any]()
 
             if let dataString = try? container.decode(String.self, forKey: .data) {
-                if let ds = Data(hexString: dataString) { // swiftlint:disable:this identifier_name
+                if let ds = Data(hex: dataString) { // swiftlint:disable:this identifier_name
                     dataSerialized = ds
                 } else {
                     throw EosioError(.eosioTransactionError, reason: "\(dataString) is not a valid hex string")
@@ -199,7 +199,7 @@ public extension EosioTransaction {
                 throw EosioError(.serializeError, reason: "Cannot convert data to json")
             }
             let hex = try serializationProvider.serialize(contract: account.string, name: name.string, type: nil, json: json, abi: abi)
-            guard let binaryData = Data(hexString: hex) else {
+            guard let binaryData = Data(hex: hex) else {
                 throw EosioError(.serializeError, reason: "Cannot decode hex \(hex)")
             }
             self.dataSerialized = binaryData

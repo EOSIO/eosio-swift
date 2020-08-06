@@ -12,7 +12,7 @@ let package = Package(
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "EosioSwiftEcc",
-            targets: ["libecc", "Recover", "EosioSwiftEcc"]),
+            targets: ["libtom", "Recover", "EosioSwiftEcc"]),
     ],
     dependencies: [
         .package(name: "EosioSwift", url: "https://github.com/EOSIO/eosio-swift", .branch("spm-support")),
@@ -22,11 +22,17 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "libecc",
+            name: "libtom",
             dependencies: [],
-            path: "Sources/libecc",
+            path: "Sources/libtom",
             cSettings: [
-                .define("WITH_STDLIB", to: "1")
+                .define("MP_NO_DEV_URANDOM"),
+                .define("LTM_DESC"),
+                .define("USE_LTM"),
+                .define("LTC_SOURCE"),
+                .define("LTC_NO_TEST"),
+                .headerSearchPath("libtomcrypt/headers"),
+                .headerSearchPath("libtommath")
             ]
         ),
         .target(
@@ -36,7 +42,7 @@ let package = Package(
         ),
         .target(
             name: "EosioSwiftEcc",
-            dependencies: ["libecc", "Recover", "EosioSwift"],
+            dependencies: ["libtom", "Recover", "EosioSwift"],
             path: "Sources/EosioSwiftEcc"
         ),
         .testTarget(

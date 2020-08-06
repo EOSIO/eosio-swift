@@ -9,7 +9,7 @@
 import Foundation
 import EosioSwift
 import Recover
-import libecc
+import libtom
 
 /// Utilities for recovering supported ECC keys.
 public class EccRecoverKey {
@@ -51,6 +51,11 @@ public class EccRecoverKey {
         return (priKeyHex.lowercased(), pubKeyHex.lowercased())
     }
 
+    public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
+        return Data()
+    }
+
+    /*
     public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
 
         var curveParams: ec_params = ec_params()
@@ -97,6 +102,7 @@ public class EccRecoverKey {
 
         return publicKeyData
     }
+ */
 
     /*
     public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {

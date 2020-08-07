@@ -133,6 +133,12 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let recid1 = try EccRecoverKey.recid(signatureDer: signature1, message: message.sha256, targetPublicKey: publicKey, curve: .k1)
             XCTAssertEqual(recid1, 1)
 
+            let recid2_0 = try EccRecoverKey.recid2(signatureDer: signature0, message: message.sha256, targetPublicKey: publicKey, curve: .k1)
+            XCTAssertEqual(recid2_0, 0)
+
+            let recid2_1 = try EccRecoverKey.recid2(signatureDer: signature1, message: message.sha256, targetPublicKey: publicKey, curve: .k1)
+            XCTAssertEqual(recid2_1, 1)
+
         } catch {
             XCTFail("Unexpected error thrown")
         }
@@ -150,6 +156,12 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let recoveredPubKey1 = try EccRecoverKey.recoverPublicKey(signatureDer: signature1, message: message.sha256, recid: 1, curve: .k1)
             XCTAssertEqual(publicKeyHex, recoveredPubKey1.hex)
 
+            let recoveredPubKey2_0 = try EccRecoverKey.recoverPublicKey2(signatureDer: signature0, message: message.sha256, recid: 0, curve: .k1)
+            XCTAssertEqual(publicKeyHex, recoveredPubKey2_0.hex)
+
+            let recoveredPubKey2_1 = try EccRecoverKey.recoverPublicKey2(signatureDer: signature1, message: message.sha256, recid: 1, curve: .k1)
+            XCTAssertEqual(publicKeyHex, recoveredPubKey2_1.hex)
+
         } catch {
             print(error)
             XCTFail("Unexpected error thrown: \(error)")
@@ -166,6 +178,13 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
                 return
             }
             XCTAssert(eosLegacyPublicKey == "EOS7mbBaD7UFLQKVE3oGkAp4ToFaFjaedjJA2WBpTBY8yXgnwK53e")
+
+            let publicKey2 =  try EccRecoverKey.recoverPublicKey2(privateKey: Data(eosioPrivateKey: privateKey), curve: .k1)
+            guard let eosLegacyPublicKey2 = publicKey2.toCompressedPublicKey?.toEosioLegacyPublicKey else {
+                XCTFail("Should not fail to convert to EOSIO Legacy Public key.")
+                return
+            }
+            XCTAssert(eosLegacyPublicKey2 == "EOS7mbBaD7UFLQKVE3oGkAp4ToFaFjaedjJA2WBpTBY8yXgnwK53e")
         } catch let error {
             XCTFail("Should not error extracting public from private key: \(error.localizedDescription)")
         }
@@ -177,6 +196,10 @@ class EosioSwiftEccRecoverKeyTests: XCTestCase {
             let pubKey = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
             let eosioPubKey = pubKey.toCompressedPublicKey!.toEosioK1PublicKey
             XCTAssertEqual(publicKeyK1, eosioPubKey)
+
+            let pubKey2 = try EccRecoverKey.recoverPublicKey(privateKey: privateKey, curve: .k1)
+            let eosioPubKey2 = pubKey2.toCompressedPublicKey!.toEosioK1PublicKey
+            XCTAssertEqual(publicKeyK1, eosioPubKey2)
         } catch {
             XCTFail("Unexpected error thrown")
         }

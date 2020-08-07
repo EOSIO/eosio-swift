@@ -37,7 +37,27 @@ class EosioSwiftEccsignTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error thrown")
         }
+    }
 
+    func test_signWithK1_2() {
+        do {
+            let publicKey = try Data(hex: publicKeyHex)
+            let privateKey = try Data(hex: privateKeyHex)
+            for _ in 1...10 {
+                let sig = try EosioEccSign.signWithK1_2(publicKey: publicKey, privateKey: privateKey, data: message)
+                guard sig.count == 65 else {
+                    return XCTFail("sig.count not equal to 65")
+                }
+                let derSig = EcdsaSignature(r: sig[1...32], s: sig[33...64]).der
+                let recid = Int(sig[0] - 31)
+                
+                let recoveredPubKey = try EccRecoverKey.recoverPublicKey2(signatureDer: derSig, message: message.sha256, recid: recid, curve: .k1)
+                XCTAssertEqual(recoveredPubKey.hex, publicKeyHex)
+            }
+            
+        } catch {
+            XCTFail("Unexpected error thrown")
+        }
     }
 
 }

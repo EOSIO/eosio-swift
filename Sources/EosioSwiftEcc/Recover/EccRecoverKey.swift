@@ -52,94 +52,58 @@ public class EccRecoverKey {
     }
 
     public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
-        return Data()
-    }
 
-    /*
-    public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
+        // This is important or we will fault trying to invoke the math libraries!
+        crypt_mp_init("ltm")
 
-        var curveParams: ec_params = ec_params()
-        switch curve {
-        case .k1:
-            let curveStrParams = ec_get_curve_params_by_type(USER_DEFINED_SECP256K1)
-            import_params(&curveParams, curveStrParams)
-        case .r1:
-            let curveStrParams = ec_get_curve_params_by_type(SECP256R1)
-            import_params(&curveParams, curveStrParams)
-        }
-
-        var pubXData = Data()
-        var pubYData = Data()
+        var pubKeyData = Data()
         try privateKey.withUnsafeBytes { rawBufferPointer in
             let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
             guard let pkbytes = bufferPointer.baseAddress else {
                 throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
             }
-            let fpSize = Int((curveParams.ec_fp.p_bitlen + 7) / 8)
-            let publicKeyX = UnsafeMutablePointer<UInt8>.allocate(capacity: fpSize)
-            publicKeyX.initialize(repeating: 0, count: fpSize)
-            let publicKeyY = UnsafeMutablePointer<UInt8>.allocate(capacity: fpSize)
-            publicKeyY.initialize(repeating: 0, count: fpSize)
+
+            var key: ecc_key = ecc_key()
+            switch curve {
+            case .k1:
+                var keyCurve: UnsafePointer<ltc_ecc_curve>?
+                guard ecc_find_curve("SECP256K1", &keyCurve) == CRYPT_OK else {
+                    throw EosioError(.keySigningError, reason: "Curve not found.")
+                }
+                guard ecc_set_curve(keyCurve, &key) == CRYPT_OK else {
+                    throw EosioError(.keySigningError, reason: "Cannot set curve on key.")
+                }
+            case .r1:
+                var keyCurve: UnsafePointer<ltc_ecc_curve>?
+                guard ecc_find_curve("SECP256R1", &keyCurve) == CRYPT_OK else {
+                    throw EosioError(.keySigningError, reason: "Curve not found.")
+                }
+                guard ecc_set_curve(keyCurve, &key) == CRYPT_OK else {
+                    throw EosioError(.keySigningError, reason: "Cannot set curve on key.")
+                }
+            }
+
+            guard ecc_set_key(pkbytes, UInt(privateKey.count), Int32(PK_PRIVATE.rawValue), &key) == CRYPT_OK else {
+                throw EosioError(.keySigningError, reason: "Cannot load private key and create public key.")
+            }
+
+            let bufSize = Int(ECC_BUF_SIZE)
+            let outbuf = UnsafeMutablePointer<UInt8>.allocate(capacity: bufSize)
+            var outbufLen = UInt(bufSize)
+            outbuf.initialize(repeating: 0, count: bufSize)
             defer {
-                publicKeyX.deinitialize(count: fpSize)
-                publicKeyX.deallocate()
-                publicKeyY.deinitialize(count: fpSize)
-                publicKeyY.deallocate()
+                outbuf.deinitialize(count: bufSize)
+                outbuf.deallocate()
             }
 
-            var privateKeyNum: nn = nn()
-            nn_init_from_buf(&privateKeyNum, pkbytes, UInt16(privateKey.count))
-            var pub: prj_pt = prj_pt()
-            prj_pt_mul_monty(&pub, &privateKeyNum, &curveParams.ec_gen)
-            var pubAff: aff_pt = aff_pt()
-            prj_pt_to_aff(&pubAff, &pub)
-            fp_export_to_buf(publicKeyX, UInt16(fpSize), &pubAff.x)
-            fp_export_to_buf(publicKeyY, UInt16(fpSize), &pubAff.y)
-            pubXData = Data(bytes: publicKeyX, count: fpSize)
-            pubYData = Data(bytes: publicKeyY, count: fpSize)
+            guard ecc_get_key(outbuf, &outbufLen, Int32(PK_PUBLIC.rawValue), &key) == CRYPT_OK else {
+                throw EosioError(.keySigningError, reason: "Cannot export public key.")
+            }
+            
+            pubKeyData = Data(bytes: outbuf, count: Int(outbufLen))
         }
-        let publicKeyData = Data(bytes: [0x04], count: 1) + pubXData + pubYData
-
-        return publicKeyData
+        return pubKeyData
     }
- */
-
-    /*
-    public class func recoverPublicKey2(privateKey: Data, curve: EllipticCurveType) throws -> Data {
-        var eccCurve: uECC_Curve
-        switch curve {
-        case .k1:
-            eccCurve = uECC_secp256k1()
-        case .r1:
-            eccCurve = uECC_secp256r1()
-        }
-
-        var recoveredData = Data()
-        try privateKey.withUnsafeBytes { rawBufferPointer in
-            let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
-            guard let pkbytes = bufferPointer.baseAddress else {
-                throw EosioError(.keySigningError, reason: "Base address of privateKey is nil.")
-            }
-            let keySize = 64
-            let publicKeyPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: keySize)
-            publicKeyPointer.initialize(repeating: 0, count: keySize)
-            defer {
-                publicKeyPointer.deinitialize(count: keySize)
-                publicKeyPointer.deallocate()
-            }
-            let result = uECC_compute_public_key(pkbytes,
-                                                 publicKeyPointer,
-                                                 eccCurve)
-            guard result == 1 else {
-                throw EosioError(.keySigningError, reason: "Failed to extract public key.")
-            }
-
-            recoveredData = Data(bytes: publicKeyPointer, count: keySize)
-        }
-        let publicKeyData = Data(bytes: [0x04], count: 1) + recoveredData
-        return publicKeyData
-    }
- */
 
     /// Recover a public key from the private key.
     ///
@@ -194,6 +158,78 @@ public class EccRecoverKey {
         EC_KEY_free(key)
         BN_free(privKeyBN)
         return try Data(hex: recoveredPubKeyHex)
+    }
+
+    public class func recoverPublicKey2(signatureDer: Data,
+                                        message: Data,
+                                        recid: Int,
+                                        curve: EllipticCurveType = .r1) throws -> Data {
+
+        // This is important or we will fault trying to invoke the math libraries!
+        crypt_mp_init("ltm")
+
+        var pubKeyData = Data()
+        try signatureDer.withUnsafeBytes { rawSigPointer in
+            let sigPointer = rawSigPointer.bindMemory(to: UInt8.self)
+            guard let sigbytes = sigPointer.baseAddress else {
+                throw EosioError(.keySigningError, reason: "Base address of signatureDer is nil.")
+            }
+
+            // Unfortunately there doesn't seem to be a way to avoid the nesting.
+            try message.withUnsafeBytes { rawMessagePointer in
+                let messagePointer = rawMessagePointer.bindMemory(to: UInt8.self)
+                guard let msgbytes = messagePointer.baseAddress else {
+                    throw EosioError(.keySigningError, reason: "Base address of message is nil.")
+                }
+
+                var key: ecc_key = ecc_key()
+                switch curve {
+                case .k1:
+                    var keyCurve: UnsafePointer<ltc_ecc_curve>?
+                    guard ecc_find_curve("SECP256K1", &keyCurve) == CRYPT_OK else {
+                        throw EosioError(.keySigningError, reason: "Curve not found.")
+                    }
+                    guard ecc_set_curve(keyCurve, &key) == CRYPT_OK else {
+                        throw EosioError(.keySigningError, reason: "Cannot set curve on key.")
+                    }
+                case .r1:
+                    var keyCurve: UnsafePointer<ltc_ecc_curve>?
+                    guard ecc_find_curve("SECP256R1", &keyCurve) == CRYPT_OK else {
+                        throw EosioError(.keySigningError, reason: "Curve not found.")
+                    }
+                    guard ecc_set_curve(keyCurve, &key) == CRYPT_OK else {
+                        throw EosioError(.keySigningError, reason: "Cannot set curve on key.")
+                    }
+                }
+
+                let result = ecc_recover_key(sigbytes,
+                                UInt(signatureDer.count),
+                                msgbytes,
+                                UInt(message.count),
+                                Int32(recid),
+                                LTC_ECCSIG_ANSIX962,
+                                &key)
+                guard result == CRYPT_OK else {
+                    throw EosioError(.keySigningError, reason: "Error extracting key from signature.")
+                }
+
+                let bufSize = Int(ECC_BUF_SIZE)
+                let outbuf = UnsafeMutablePointer<UInt8>.allocate(capacity: bufSize)
+                var outbufLen = UInt(bufSize)
+                outbuf.initialize(repeating: 0, count: bufSize)
+                defer {
+                    outbuf.deinitialize(count: bufSize)
+                    outbuf.deallocate()
+                }
+
+                guard ecc_get_key(outbuf, &outbufLen, Int32(PK_PUBLIC.rawValue), &key) == CRYPT_OK else {
+                    throw EosioError(.keySigningError, reason: "Cannot export public key.")
+                }
+
+                pubKeyData = Data(bytes: outbuf, count: Int(outbufLen))
+            }
+        }
+        return pubKeyData
     }
 
     /// Recover a public key from a signature, message.
@@ -265,6 +301,16 @@ public class EccRecoverKey {
             paddedHex = "0" + paddedHex
         }
         return paddedHex
+    }
+
+    public class func recid2(signatureDer: Data, message: Data, targetPublicKey: Data, curve: EllipticCurveType = .r1) throws -> Int {
+        for i in 0...3 {
+            let recoveredPublicKey = try recoverPublicKey2(signatureDer: signatureDer, message: message, recid: i, curve: curve)
+            if recoveredPublicKey == targetPublicKey {
+                return i
+            }
+        }
+        throw EosioError(.keySigningError, reason: "Unable to find recid for \(targetPublicKey.hex)" )
     }
 
     /// Get the recovery id (recid) for a signature, message and target public key.

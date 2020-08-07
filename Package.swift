@@ -28,7 +28,6 @@ let package = Package(
             cSettings: [
                 .define("MP_NO_DEV_URANDOM"),
                 .define("LTM_DESC"),
-                .define("USE_LTM"),
                 .define("LTC_SOURCE"),
                 .define("LTC_NO_TEST"),
                 .headerSearchPath("libtomcrypt/headers"),

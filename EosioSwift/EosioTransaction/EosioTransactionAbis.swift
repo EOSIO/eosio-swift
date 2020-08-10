@@ -44,7 +44,7 @@ public extension EosioTransaction {
         ///   - hex: The ABI as a hex string.
         /// - Throws: If the hex string is not valid or the ABI is not valid.
         public func addAbi(name: EosioName, hex: String) throws {
-            let abi = try Data(hex: hex)
+            let abi = try Data.construct(hex: hex)
             try validateAbi(hex: hex)
             abis[name] = abi
         }

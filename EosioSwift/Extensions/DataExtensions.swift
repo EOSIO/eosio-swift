@@ -8,25 +8,9 @@
 
 import Foundation
 import CommonCrypto
+import UIExtensions
 
 public extension Data {
-
-    private static let hexAlphabet = "0123456789abcdef".unicodeScalars.map { $0 }
-
-    /// Get a hex-encoded string representation of the data.
-    ///
-    /// - Returns: Base16 encoded string representation of the data.
-    func hexEncodedString() -> String {
-        return String(self.reduce(into: "".unicodeScalars, { (result, value) in
-            result.append(Data.hexAlphabet[Int(value/16)])
-            result.append(Data.hexAlphabet[Int(value%16)])
-        }))
-    }
-
-    /// Return the data as a hex encoded string
-    var hex: String {
-        return self.hexEncodedString()
-    }
 
     /// Init a `Data` object with a base64 string.
     ///
@@ -46,49 +30,12 @@ public extension Data {
     ///
     /// - Parameter hex: The data encoded as a hex string.
     /// - Throws: If the string is not a valid hex string.
-    init(hex: String) throws {
-        guard let data = Data(hexString: hex) else {
+    static func construct(hex: String) throws -> Data {
+        guard let data = Data(hex: hex) else {
             throw EosioError(.serializeError, reason: "\(hex) is not a valid hex string")
         }
-        self = data
-    }
 
-    /// Initializes a data object from a Base16 encoded string.
-    ///
-    /// - Parameter hexString: A Base16 encoded string.
-    init?(hexString: String) {
-        guard let hexData = hexString.data(using: .ascii) else { return nil }
-
-        let len = hexString.count / 2
-        var data: Data?
-
-        hexData.withUnsafeBytes { ptr in
-            var dataPtrOffset = 0
-
-            guard let baseAddress = ptr.baseAddress else { return }
-            let dataPtr = UnsafeMutablePointer<UInt8>.allocate(capacity: len)
-
-            for offset in stride(from: 0, to: hexString.count, by: 2) {
-                let bytes = Data(bytes: baseAddress+offset, count: 2)
-
-                guard let string = String(data: bytes, encoding: .ascii) else {
-                    dataPtr.deallocate()
-                    return
-                }
-
-                guard let num = UInt8(string, radix: 16) else {
-                    dataPtr.deallocate()
-                    return
-                }
-                dataPtr[dataPtrOffset] = num
-                dataPtrOffset += 1
-            }
-
-            data = Data(bytesNoCopy: dataPtr, count: len, deallocator: .free)
-        }
-
-        guard let validData = data else { return nil }
-        self = validData
+        return data
     }
 
     /// Returns the SHA256 hash of the data.

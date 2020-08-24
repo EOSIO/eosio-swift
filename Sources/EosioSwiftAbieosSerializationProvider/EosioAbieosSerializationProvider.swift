@@ -8,7 +8,9 @@
 
 import Foundation
 import EosioSwift
+#if SWIFT_PACKAGE
 import Abieos
+#endif
 
 /// Serialization provider implementation for EOSIO SDK for Swift using ABIEOS.
 /// Responsible for ABI-driven transaction and action serialization and deserialization
@@ -61,7 +63,11 @@ public class EosioAbieosSerializationProvider: EosioSerializationProviderProtoco
 
     private func getAbiJsonFile(fileName: String) throws -> String {
         var abiString = ""
+        #if SWIFT_PACKAGE
         let path = Bundle.module.url(forResource: fileName, withExtension: nil)?.path ?? ""
+        #else
+        let path = Bundle(for: EosioAbieosSerializationProvider.self).url(forResource: fileName, withExtension: nil)?.path ?? ""
+        #endif
         abiString = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
         guard abiString != "" else {
             throw Error(.serializationProviderError, reason: "Json to hex -- No ABI file found for \(fileName)")

@@ -8,7 +8,9 @@
 
 import Foundation
 import PromiseKit
+#if SWIFT_PACKAGE
 import PMKFoundation
+#endif
 
 /// Default RPC Provider implementation. Conforms to `EosioRpcProviderProtocol`.
 /// RPC Reference: https://developers.eos.io/eosio-nodeos/reference

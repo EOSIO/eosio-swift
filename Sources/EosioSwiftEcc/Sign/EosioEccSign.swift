@@ -9,7 +9,9 @@
 // swiftlint:disable identifier_name
 import Foundation
 import EosioSwift
+#if SWIFT_PACKAGE
 import libtom
+#endif
 
 /// EosioEccSign manages ECC signing.
 public class EosioEccSign {

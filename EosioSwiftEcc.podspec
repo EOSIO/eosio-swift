@@ -29,17 +29,20 @@ Pod::Spec.new do |s|
   s.swift_version         = '5.0'
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'Sources/**/*.{c,h,m,cpp,hpp}',
-  		             'Sources/**/*.swift'
+  s.source_files = 'Sources/**/*.{c,h}',
+                   'Sources/**/*.swift'
 
-  s.libraries           = "c++"
-  s.pod_target_xcconfig = { 'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
- 						                'CLANG_CXX_LIBRARY' => 'libc++',
- 						                'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
- 						                'CLANG_ENABLE_MODULES' => 'YES',
-						                'SWIFT_COMPILATION_MODE' => 'wholemodule',
-						                'ENABLE_BITCODE' => 'YES' }
-
-  s.ios.dependency 'GRKOpenSSLFramework', '1.0.2.19'
+  s.public_header_files = 'Sources/libtom/libtomcrypt/headers/*.h'
+  
+  s.pod_target_xcconfig = { 
+    'GCC_C_LANGUAGE_STANDARD' => 'c99',
+    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+    'CLANG_ENABLE_MODULES' => 'YES',
+    'OTHER_SWIFT_FLAGS' => '$(inherited) -DMP_NO_DEV_URANDOM=1 -DLTM_DESC=1 -DLTC_SOURCE=1 -DLTC_NO_TEST=1',
+    'SWIFT_COMPILATION_MODE' => 'wholemodule',
+    'ENABLE_BITCODE' => 'YES'
+  }
+    
   s.ios.dependency 'EosioSwift', '~> 1.0.0'
+  
 end

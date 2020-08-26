@@ -8,7 +8,9 @@
 
 import Foundation
 import EosioSwift
+#if SWIFT_PACKAGE
 import libtom
+#endif
 
 /// Utilities for recovering supported ECC keys.
 public class EccRecoverKey {

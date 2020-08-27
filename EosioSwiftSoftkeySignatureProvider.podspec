@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.summary          = 'Experimental Software Key Signature Provider for Eosio SDK for Swift.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift-softkey-signature-provider'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
-                           Copyright (c) 2017-2019 block.one and its contributors.  All rights reserved.
+                           Copyright (c) 2017-2020 block.one and its contributors.  All rights reserved.
                          LICENSE
                        }
   s.author           = { 'Todd Bowden' => 'todd.bowden@block.one',
@@ -28,17 +28,16 @@ Pod::Spec.new do |s|
   s.swift_version         = '5.0'
   s.ios.deployment_target = '11.0'
 
-  s.source_files =  'Sources/**/*.{c,h,m,cpp,hpp}',
-                    'Sources/**/*.swift'
+  s.source_files =  'Sources/**/*.swift'
 
-  s.libraries = "c++"
-  s.pod_target_xcconfig = { 'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
-                            'CLANG_CXX_LIBRARY' => 'libc++',
-                            'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
-                            'CLANG_ENABLE_MODULES' => 'YES',
-                            'SWIFT_COMPILATION_MODE' => 'wholemodule',
-                            'ENABLE_BITCODE' => 'YES' }
+  s.pod_target_xcconfig = { 
+    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+    'CLANG_ENABLE_MODULES' => 'YES',
+    'SWIFT_COMPILATION_MODE' => 'wholemodule',
+    'ENABLE_BITCODE' => 'YES' 
+  }
 
   s.ios.dependency 'EosioSwiftEcc', '~> 1.0.0'
   s.ios.dependency 'EosioSwift', '~> 1.0.0'
+  
 end

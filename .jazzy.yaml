@@ -1,8 +1,0 @@
-copyright: Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
-theme: fullwidth
-github_url: https://github.com/EOSIO/eosio-swift-abieos-serialization-provider
-github_file_prefix: https://github.com/EOSIO/eosio-swift-abieos-serialization-provider/tree/master
-hide_documentation_coverage: true
-undocumented_text: ""
-output: docs
-clean: true

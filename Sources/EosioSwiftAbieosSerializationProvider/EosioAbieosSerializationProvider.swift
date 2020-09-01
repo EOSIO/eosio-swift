@@ -63,10 +63,12 @@ public class EosioAbieosSerializationProvider: EosioSerializationProviderProtoco
 
     private func getAbiJsonFile(fileName: String) throws -> String {
         var abiString = ""
-        #if SWIFT_PACKAGE
-        let path = Bundle.module.url(forResource: fileName, withExtension: nil)?.path ?? ""
-        #else
+        #if MAIN_BUNDLE
+        let path = Bundle.main.url(forResource: fileName, withExtension: nil)?.path ?? ""
+        #elseif COCOAPODS
         let path = Bundle(for: EosioAbieosSerializationProvider.self).url(forResource: fileName, withExtension: nil)?.path ?? ""
+        #else
+        let path = Bundle.module.url(forResource: fileName, withExtension: nil)?.path ?? ""
         #endif
         abiString = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
         guard abiString != "" else {

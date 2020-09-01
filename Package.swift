@@ -22,6 +22,10 @@ let package = Package(
             name: "EosioSwiftEcc",
             targets: ["libtom", "EosioSwiftEcc"]
         ),
+        .library(
+            name: "EosioSwiftSoftkeySignatureProvider",
+            targets: ["EosioSwiftSoftkeySignatureProvider"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/attaswift/BigInt.git", from: "5.0.0"),
@@ -116,6 +120,11 @@ let package = Package(
             dependencies: ["libtom", "EosioSwift"],
             path: "Sources/EosioSwiftEcc"
         ),
+        .target(
+            name: "EosioSwiftSoftkeySignatureProvider",
+            dependencies: ["EosioSwift", "EosioSwiftEcc"],
+            path: "Sources/EosioSwiftSoftkeySignatureProvider"
+        ),
         .testTarget(
             name: "EosioSwiftTests",
             dependencies: [
@@ -133,6 +142,11 @@ let package = Package(
             name: "EosioSwiftEccTests",
             dependencies: ["EosioSwiftEcc"],
             path: "Tests/EosioSwiftEccTests"
+        ),
+        .testTarget(
+            name: "EosioSwiftSoftkeySignatureProviderTests",
+            dependencies: ["EosioSwiftSoftkeySignatureProvider"],
+            path: "Tests/EosioSwiftSoftkeySignatureProviderTests"
         ),
     ],
     cxxLanguageStandard: .cxx1z

@@ -20,7 +20,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          EosioSwiftSoftkeySignatureProvider Docs
+          EosioSwiftSoftkeySignatureProvider 1.0.0 Docs
         </a>
         
       </p>
@@ -32,7 +32,7 @@
       </p>
     
         <p class="header-col header-col--secondary">
-          <a class="header-link" href="https://github.com/EOSIO/eosio-swift-softkey-signature-provider">
+          <a class="header-link" href="https://github.com/EOSIO/eosio-swift">
             <img class="header-icon" src="img/gh.png"/>
             View on GitHub
           </a>
@@ -62,7 +62,7 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             
             <p><img src="https://github.com/EOSIO/eosio-swift-softkey-signature-provider/raw/master/img/swift-logo.png" alt="Swift Logo"></p>
 <h1 id='eosio-sdk-for-swift-softkey-signature-provider-img-src-https-img-shields-io-badge-eosio-alpha-blue-svg-alt-eosio-alpha' class='heading'>EOSIO SDK for Swift: Softkey Signature Provider <img src="https://img.shields.io/badge/EOSIO-Alpha-blue.svg" alt="EOSIO Alpha"></h1>
@@ -133,7 +133,7 @@
 <span class="k">let</span> <span class="nv">publicKeysArray</span> <span class="o">=</span> <span class="n">signProvider</span><span class="p">?</span><span class="o">.</span><span class="nf">getAvailableKeys</span><span class="p">()</span> <span class="c1">// Returns the public keys.</span>
 </code></pre>
 
-<p>To sign an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift"><code>EosioTransaction</code></a>, create an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift"><code>EosioTransactionSignatureRequest</code></a> object and call the <code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C15signTransactionyyXe_XetcACF">EosioSoftkeySignatureProvider.signTransaction(request:completion:)</a></code> method with the request:</p>
+<p>To sign an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift"><code>EosioTransaction</code></a>, create an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift"><code>EosioTransactionSignatureRequest</code></a> object and call the <code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C15signTransaction7request10completiony0aB00agD7RequestV_yAG0agD8ResponseVctF">EosioSoftkeySignatureProvider.signTransaction(request:completion:)</a></code> method with the request:</p>
 <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">signRequest</span> <span class="o">=</span> <span class="kt">EosioTransactionSignatureRequest</span><span class="p">()</span>
 <span class="n">signRequest</span><span class="o">.</span><span class="n">serializedTransaction</span> <span class="o">=</span> <span class="n">serializedTransaction</span>
 <span class="n">signRequest</span><span class="o">.</span><span class="n">publicKeys</span> <span class="o">=</span> <span class="n">publicKeys</span>
@@ -154,8 +154,8 @@
 <p>This library is an example implementation of <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift"><code>EosioSignatureProviderProtocol</code></a>. It implements the following protocol methods:</p>
 
 <ul>
-<li><code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C15signTransactionyyXe_XetcACF">EosioSoftkeySignatureProvider.signTransaction(request:completion:)</a></code> signs an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift"><code>EosioTransaction</code></a>.</li>
-<li><code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C16getAvailableKeysyyXe_tcACF">EosioSoftkeySignatureProvider.getAvailableKeys(...)</a></code> returns an array containing the public keys associated with the private keys that the object is initialized with.</li>
+<li><code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C15signTransaction7request10completiony0aB00agD7RequestV_yAG0agD8ResponseVctF">EosioSoftkeySignatureProvider.signTransaction(request:completion:)</a></code> signs an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift"><code>EosioTransaction</code></a>.</li>
+<li><code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C16getAvailableKeys10completionyy0aB00agH8ResponseVc_tF">EosioSoftkeySignatureProvider.getAvailableKeys(...)</a></code> returns an array containing the public keys associated with the private keys that the object is initialized with.</li>
 </ul>
 
 <p>To initialize the implementation:</p>
@@ -182,8 +182,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Copyright (c) 2017-2020 block.one and its contributors. All rights reserved.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

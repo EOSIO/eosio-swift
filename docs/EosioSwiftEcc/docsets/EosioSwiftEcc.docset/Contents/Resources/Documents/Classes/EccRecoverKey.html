@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          EosioSwiftEcc Docs
+          EosioSwiftEcc 1.0.0 Docs
         </a>
         
       </p>
@@ -33,7 +33,7 @@
       </p>
     
         <p class="header-col header-col--secondary">
-          <a class="header-link" href="https://github.com/EOSIO/eosio-swift-ecc">
+          <a class="header-link" href="https://github.com/EOSIO/eosio-swift">
             <img class="header-icon" src="../img/gh.png"/>
             View on GitHub
           </a>
@@ -82,16 +82,20 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             <h1>EccRecoverKey</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">EccRecoverKey</span></code></pre>
 
                 </div>
               </div>
             <p>Utilities for recovering supported ECC keys.</p>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwiftEcc/Recover/EccRecoverKey.swift#L16-L184">Show on GitHub</a>
+              </div>
           </div>
         </section>
 
@@ -124,7 +128,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift-ecc/tree/master/EosioSwiftEcc/Recover/EccRecoverKey.swift#L17-L19">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwiftEcc/Recover/EccRecoverKey.swift#L19-L21">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -134,7 +138,7 @@
                     <code>
                     <a name="/s:13EosioSwiftEcc0C10RecoverKeyC013recoverPublicE007privateE05curve10Foundation4DataVAI_AA17EllipticCurveTypeOtKFZ"></a>
                     <a name="//apple_ref/swift/Method/recoverPublicKey(privateKey:curve:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13EosioSwiftEcc0C10RecoverKeyC013recoverPublicE007privateE05curve10Foundation4DataVAI_AA17EllipticCurveTypeOtKFZ">recoverPublicKey(privateKey:curve:)</a>
+                    <a class="token" href="#/s:13EosioSwiftEcc0C10RecoverKeyC013recoverPublicE007privateE05curve10Foundation4DataVAI_AA17EllipticCurveTypeOtKFZ">recoverPublicKey(privateKey:<wbr>curve:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -194,7 +198,7 @@
                         <p>The public key.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift-ecc/tree/master/EosioSwiftEcc/Recover/EccRecoverKey.swift#L28-L74">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwiftEcc/Recover/EccRecoverKey.swift#L30-L82">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -204,7 +208,7 @@
                     <code>
                     <a name="/s:13EosioSwiftEcc0C10RecoverKeyC013recoverPublicE012signatureDer7message5recid5curve10Foundation4DataVAK_AKSiAA17EllipticCurveTypeOtKFZ"></a>
                     <a name="//apple_ref/swift/Method/recoverPublicKey(signatureDer:message:recid:curve:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13EosioSwiftEcc0C10RecoverKeyC013recoverPublicE012signatureDer7message5recid5curve10Foundation4DataVAK_AKSiAA17EllipticCurveTypeOtKFZ">recoverPublicKey(signatureDer:message:recid:curve:)</a>
+                    <a class="token" href="#/s:13EosioSwiftEcc0C10RecoverKeyC013recoverPublicE012signatureDer7message5recid5curve10Foundation4DataVAK_AKSiAA17EllipticCurveTypeOtKFZ">recoverPublicKey(signatureDer:<wbr>message:<wbr>recid:<wbr>curve:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -224,7 +228,10 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">recoverPublicKey</span><span class="p">(</span><span class="nv">signatureDer</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">recid</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">curve</span><span class="p">:</span> <span class="kt"><a href="../Enums/EllipticCurveType.html">EllipticCurveType</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">r1</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">recoverPublicKey</span><span class="p">(</span><span class="nv">signatureDer</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span>
+                                    <span class="nv">message</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span>
+                                    <span class="nv">recid</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
+                                    <span class="nv">curve</span><span class="p">:</span> <span class="kt"><a href="../Enums/EllipticCurveType.html">EllipticCurveType</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">r1</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
 
                         </div>
                       </div>
@@ -288,7 +295,7 @@
                         <p>The public key.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift-ecc/tree/master/EosioSwiftEcc/Recover/EccRecoverKey.swift#L85-L132">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwiftEcc/Recover/EccRecoverKey.swift#L93-L163">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -298,7 +305,7 @@
                     <code>
                     <a name="/s:13EosioSwiftEcc0C10RecoverKeyC5recid12signatureDer7message012targetPublicE05curveSi10Foundation4DataV_A2kA17EllipticCurveTypeOtKFZ"></a>
                     <a name="//apple_ref/swift/Method/recid(signatureDer:message:targetPublicKey:curve:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13EosioSwiftEcc0C10RecoverKeyC5recid12signatureDer7message012targetPublicE05curveSi10Foundation4DataV_A2kA17EllipticCurveTypeOtKFZ">recid(signatureDer:message:targetPublicKey:curve:)</a>
+                    <a class="token" href="#/s:13EosioSwiftEcc0C10RecoverKeyC5recid12signatureDer7message012targetPublicE05curveSi10Foundation4DataV_A2kA17EllipticCurveTypeOtKFZ">recid(signatureDer:<wbr>message:<wbr>targetPublicKey:<wbr>curve:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -382,7 +389,7 @@
                         <p>The recovery id (0-3).</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift-ecc/tree/master/EosioSwiftEcc/Recover/EccRecoverKey.swift#L156-L164">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwiftEcc/Recover/EccRecoverKey.swift#L174-L182">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -395,8 +402,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>Copyright (c) 2017-2020 block.one and its contributors. All rights reserved.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

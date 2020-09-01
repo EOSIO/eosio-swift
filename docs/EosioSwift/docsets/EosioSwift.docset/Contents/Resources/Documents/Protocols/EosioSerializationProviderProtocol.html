@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EosioSerializationProviderProtocol Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Protocol/EosioSerializationProviderProtocol" class="dashAnchor"></a>
+
+    <a title="EosioSerializationProviderProtocol Protocol Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          EosioSwift 1.0.0 Docs
+        </a>
+        
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/EOSIO/eosio-swift">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">EosioSwift Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      EosioSerializationProviderProtocol Protocol Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioAbiProvider.html">EosioAbiProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioError.html">EosioError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioRpcProvider.html">EosioRpcProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction.html">EosioTransaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Config.html">– Config</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Abis.html">– Abis</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Action.html">– Action</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransactionFactory.html">EosioTransactionFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Node.html">Node</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/Base58String.html">Base58String</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioErrorCode.html">EosioErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioInt64.html">EosioInt64</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioResult.html">EosioResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioUInt64.html">EosioUInt64</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Date.html">Date</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Encodable.html">Encodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Error.html">Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Resolver.html">Resolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioAbiProviderProtocol.html">EosioAbiProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcBlockResponseProtocol.html">EosioRpcBlockResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcInfoResponseProtocol.html">EosioRpcInfoResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcProviderProtocol.html">EosioRpcProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcRawAbiResponseProtocol.html">EosioRpcRawAbiResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcRequiredKeysResponseProtocol.html">EosioRpcRequiredKeysResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcResponseProtocol.html">EosioRpcResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcTransactionResponseProtocol.html">EosioRpcTransactionResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioSerializationProviderProtocol.html">EosioSerializationProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioSignatureProviderProtocol.html">EosioSignatureProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/JsonOutput.html">JsonOutput</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Authority.html">Authority</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CurrencyStats.html">CurrencyStats</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioAccountInfo.html">EosioAccountInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioAvailableKeysResponse.html">EosioAvailableKeysResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioName.html">EosioName</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcAbiResponse.html">EosioRpcAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcAccountResponse.html">EosioRpcAccountResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponse.html">EosioRpcActionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseAction.html">EosioRpcActionsResponseAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTrActDeltas.html">EosioRpcActionsResponseActionTrActDeltas</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTrReceipt.html">EosioRpcActionsResponseActionTrReceipt</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTrace.html">EosioRpcActionsResponseActionTrace</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTraceAction.html">EosioRpcActionsResponseActionTraceAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTraceAuth.html">EosioRpcActionsResponseActionTraceAuth</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockHeaderStateResponse.html">EosioRpcBlockHeaderStateResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockHeaderStateResponseHeader.html">EosioRpcBlockHeaderStateResponseHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockRequest.html">EosioRpcBlockRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockResponse.html">EosioRpcBlockResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCodeRequest.html">EosioRpcCodeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCodeResponse.html">EosioRpcCodeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcControlledAccountsResponse.html">EosioRpcControlledAccountsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyBalanceRequest.html">EosioRpcCurrencyBalanceRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyBalanceResponse.html">EosioRpcCurrencyBalanceResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyStatsRequest.html">EosioRpcCurrencyStatsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyStatsResponse.html">EosioRpcCurrencyStatsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcGetTransactionResponse.html">EosioRpcGetTransactionResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryActionsRequest.html">EosioRpcHistoryActionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryControlledAccountsRequest.html">EosioRpcHistoryControlledAccountsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryKeyAccountsRequest.html">EosioRpcHistoryKeyAccountsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryTransactionRequest.html">EosioRpcHistoryTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcInfoResponse.html">EosioRpcInfoResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKeyAccountsResponse.html">EosioRpcKeyAccountsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcProducersRequest.html">EosioRpcProducersRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcProducersResponse.html">EosioRpcProducersResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionRequest.html">EosioRpcPushTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionsRequest.html">EosioRpcPushTransactionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionsResponse.html">EosioRpcPushTransactionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawAbiRequest.html">EosioRpcRawAbiRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawAbiResponse.html">EosioRpcRawAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawCodeAndAbiResponse.html">EosioRpcRawCodeAndAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRequiredKeysRequest.html">EosioRpcRequiredKeysRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRequiredKeysResponse.html">EosioRpcRequiredKeysResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcSendTransactionRequest.html">EosioRpcSendTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcSendTransactionsRequest.html">EosioRpcSendTransactionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcSendTransactionsResponse.html">EosioRpcSendTransactionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableByScopeRequest.html">EosioRpcTableByScopeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableByScopeResponse.html">EosioRpcTableByScopeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsRequest.html">EosioRpcTableRowsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsRequest/EncodeType.html">– EncodeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsResponse.html">EosioRpcTableRowsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTransactionResponse.html">EosioRpcTransactionResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureRequest.html">EosioTransactionSignatureRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureRequest/BinaryAbi.html">– BinaryAbi</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureResponse.html">EosioTransactionSignatureResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureResponse/SignedTransaction.html">– SignedTransaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeyWeight.html">KeyWeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LinkedList.html">LinkedList</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Permission.html">Permission</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PermissionLevel.html">PermissionLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PermissionLevelWeight.html">PermissionLevelWeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ProducerRows.html">ProducerRows</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Queue.html">Queue</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RIPEMD160.html">RIPEMD160</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RawResponse.html">RawResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/TableByScopeRows.html">TableByScopeRows</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/WaitWeight.html">WaitWeight</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A13RpcAbiRequesta">EosioRpcAbiRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A17RpcAccountRequesta">EosioRpcAccountRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A26RpcBlockHeaderStateRequesta">EosioRpcBlockHeaderStateRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A23RpcRawCodeAndAbiRequesta">EosioRpcRawCodeAndAbiRequest</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>EosioSerializationProviderProtocol</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EosioSerializationProviderProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>The protocol to which serialization provider implementations must conform.
+Serialization providers are responsible for ABI-driven transaction and action
+serialization and deserialization between JSON and binary data representations.</p>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L14-L79">Show on GitHub</a>
+              </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolP5errorSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/error" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolP5errorSSSgvp">error</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Used to hold errors.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L16">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolPxycfc"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolPxycfc">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializer for the <code>EosioSerializationProviderProtocol</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L19">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolP9serialize8contract4name4type4json3abiS2SSg_SSAJS2StKF"></a>
+                    <a name="//apple_ref/swift/Method/serialize(contract:name:type:json:abi:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolP9serialize8contract4name4type4json3abiS2SSg_SSAJS2StKF">serialize(contract:<wbr>name:<wbr>type:<wbr>json:<wbr>abi:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The method signature for general serialization requests to conforming serialization providers.
+Carries out JSON to binary conversion using ABIs.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the data cannot be serialized for any reason.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">serialize</span><span class="p">(</span><span class="nv">contract</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">abi</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>contract</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional <code>String</code> representing contract name for the serialize action lookup for this conversion.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional <code>String</code> representing an action name that is used in conjunction with contract (above) to derive the serialize type name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional <code>String</code> representing the type name for the action lookup for this serialize conversion.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>json</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The JSON data <code>String</code> to serialize to binary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>abi</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>String</code> representation of the ABI to use for conversion.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>String</code> of binary serialized data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L33">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolP11deserialize8contract4name4type3hex3abiS2SSg_SSAJS2StKF"></a>
+                    <a name="//apple_ref/swift/Method/deserialize(contract:name:type:hex:abi:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolP11deserialize8contract4name4type3hex3abiS2SSg_SSAJS2StKF">deserialize(contract:<wbr>name:<wbr>type:<wbr>hex:<wbr>abi:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The method signature for general deserialization requests to conforming serialization providers.
+Carries out binary to JSON conversion using ABIs.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the data cannot be deserialized for any reason.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deserialize</span><span class="p">(</span><span class="nv">contract</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">hex</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">abi</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>contract</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional <code>String</code> representing contract name for the deserialize action lookup for this conversion.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional <code>String</code> representing an action name that is used in conjunction with contract (above) to derive the deserialize type name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional <code>String</code> representing the type name for the action lookup for this deserialize conversion.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hex</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The binary data <code>String</code> to deserialize to a JSON String.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>abi</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>String</code> representation of the ABI to use for conversion.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>String</code> of JSON data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L46">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolP20serializeTransaction4jsonS2S_tKF"></a>
+                    <a name="//apple_ref/swift/Method/serializeTransaction(json:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolP20serializeTransaction4jsonS2S_tKF">serializeTransaction(json:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The method signature for transaction serialization requests to conforming serialization providers.
+Convert JSON Transaction data representation to binary <code>String</code> representation of Transaction data.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the data cannot be serialized for any reason.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">serializeTransaction</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>json</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The JSON representation of Transaction data to serialize.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A binary <code>String</code> representation of Transaction data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L54">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolP22deserializeTransaction3hexS2S_tKF"></a>
+                    <a name="//apple_ref/swift/Method/deserializeTransaction(hex:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolP22deserializeTransaction3hexS2S_tKF">deserializeTransaction(hex:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The method signature for transaction deserialization requests to conforming serialization providers.
+Converts a binary <code>String</code> representation of Transaction data to JSON <code>String</code> of Transaction data.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the data cannot be deserialized for any reason.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deserializeTransaction</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hex</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The binary Transaction data <code>String</code> to deserialize.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>String</code> of JSON Transaction data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L62">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolP12serializeAbi4jsonS2S_tKF"></a>
+                    <a name="//apple_ref/swift/Method/serializeAbi(json:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolP12serializeAbi4jsonS2S_tKF">serializeAbi(json:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The method signature for ABI serialization requests to conforming serialization providers.
+Convert JSON ABI to a <code>String</code> binary representation of data.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the data cannot be serialized for any reason.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">serializeAbi</span><span class="p">(</span><span class="nv">json</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>json</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The JSON data <code>String</code> to serialize.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>String</code> representation of binary data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L70">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A29SerializationProviderProtocolP14deserializeAbi3hexS2S_tKF"></a>
+                    <a name="//apple_ref/swift/Method/deserializeAbi(hex:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A29SerializationProviderProtocolP14deserializeAbi3hexS2S_tKF">deserializeAbi(hex:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The method signature for ABI deserialization requests to conforming serialization providers.
+Converts a binary <code>String</code> hex representation of an ABI to a JSON <code>String</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    If the data cannot be deserialized for any reason.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deserializeAbi</span><span class="p">(</span><span class="nv">hex</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hex</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The binary data <code>String</code> to deserialize.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A <code>String</code> of JSON data.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift#L78">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>Copyright (c) 2017-2020 block.one and its contributors. All rights reserved.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

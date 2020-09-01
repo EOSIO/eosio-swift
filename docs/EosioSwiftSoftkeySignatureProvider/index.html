@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EosioSwiftSoftkeySignatureProvider  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="EosioSwiftSoftkeySignatureProvider  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          EosioSwiftSoftkeySignatureProvider Docs
+        </a>
+        
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/EOSIO/eosio-swift-softkey-signature-provider">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">EosioSwiftSoftkeySignatureProvider Reference</a>
+      <img class="carat" src="img/carat.png" />
+      EosioSwiftSoftkeySignatureProvider  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/EosioSoftkeySignatureProvider.html">EosioSoftkeySignatureProvider</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <p><img src="https://github.com/EOSIO/eosio-swift-softkey-signature-provider/raw/master/img/swift-logo.png" alt="Swift Logo"></p>
+<h1 id='eosio-sdk-for-swift-softkey-signature-provider-img-src-https-img-shields-io-badge-eosio-alpha-blue-svg-alt-eosio-alpha' class='heading'>EOSIO SDK for Swift: Softkey Signature Provider <img src="https://img.shields.io/badge/EOSIO-Alpha-blue.svg" alt="EOSIO Alpha"></h1>
+
+<p><a href="https://github.com/EOSIO/eosio-swift/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="Software License"></a>
+<a href="https://swift.org"><img src="https://img.shields.io/badge/Language-Swift_5.0-orange.svg" alt="Swift 5.0"></a>
+<img src="https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg" alt=""></p>
+
+<p>Softkey Signature Provider is an example pluggable signature provider for <a href="https://github.com/EOSIO/eosio-swift">EOSIO SDK for Swift</a>. It allows for signing transactions using in-memory K1 keys.</p>
+
+<p><strong>Important:</strong> Softkey Signature Provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet, such as the <a href="https://github.com/EOSIO/eosio-swift-vault-signature-provider">EOSIO SDK for Swift: Vault Signature Provider</a>.</p>
+
+<p><em>All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.</em></p>
+<h2 id='contents' class='heading'>Contents</h2>
+
+<ul>
+<li><a href="#about-signature-providers">About Signature Providers</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#direct-usage">Direct Usage</a></li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#ios-example-app">iOS Example App</a></li>
+<li><a href="#library-methods">Library Methods</a></li>
+<li><a href="#want-to-help">Want to Help?</a></li>
+<li><a href="#license">License &amp; Legal</a></li>
+</ul>
+<h2 id='about-signature-providers' class='heading'>About Signature Providers</h2>
+
+<p>The Signature Provider abstraction is arguably the most useful of all of the <a href="https://github.com/EOSIO/eosio-swift">EOSIO SDK for Swift</a> providers. It is responsible for:</p>
+
+<ul>
+<li>finding out what keys are available for signing (<code>getAvailableKeys</code>), and</li>
+<li>requesting and obtaining transaction signatures with a subset of the available keys (<code>signTransaction</code>).</li>
+</ul>
+
+<p>By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need software signing? <a href="https://github.com/EOSIO/eosio-swift#basic-usage">Configure the <code>EosioTransaction</code></a> with this signature provider. Need a signature from keys in the platform&rsquo;s Keychain or Secure Enclave? Take a look at the <a href="https://github.com/EOSIO/eosio-swift-vault-signature-provider">Vault Signature Provider</a>. Need signatures from a wallet on the user&rsquo;s device? A signature provider can do that too!</p>
+
+<p>All signature providers must conform to the <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift"><code>EosioSignatureProviderProtocol</code></a> Protocol.</p>
+<h2 id='prerequisites' class='heading'>Prerequisites</h2>
+
+<ul>
+<li>Xcode 10 or higher</li>
+<li>CocoaPods 1.5.3 or higher</li>
+<li>For iOS, iOS 11+</li>
+</ul>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>Softkey Signature Provider is intended to be used in conjunction with <a href="https://github.com/EOSIO/eosio-swift">EOSIO SDK for Swift</a> as a provider plugin.</p>
+
+<p>To use Softkey Signature Provider with EOSIO SDK for Swift in your app, add the following pods to your <a href="https://guides.cocoapods.org/syntax/podfile.html">Podfile</a>:</p>
+<pre class="highlight ruby"><code><span class="n">use_frameworks!</span>
+
+<span class="n">target</span> <span class="s2">"Your Target"</span> <span class="k">do</span>
+  <span class="n">pod</span> <span class="s2">"EosioSwift"</span><span class="p">,</span> <span class="s2">"~&gt; 0.4.0"</span> <span class="c1"># EOSIO SDK for Swift core library</span>
+  <span class="n">pod</span> <span class="s2">"EosioSwiftSoftkeySignatureProvider"</span><span class="p">,</span> <span class="s2">"~&gt; 0.4.0"</span> <span class="c1"># pod for this library</span>
+  <span class="c1"># add other providers for EOSIO SDK for Swift</span>
+  <span class="n">pod</span> <span class="s2">"EosioSwiftAbieosSerializationProvider"</span><span class="p">,</span> <span class="s2">"~&gt; 0.4.0"</span> <span class="c1"># serialization provider</span>
+
+</code></pre>
+
+<p>Then run <code>pod install</code>.</p>
+
+<p>Now Softkey Signature Provider is ready for use within EOSIO SDK for Swift according to the <a href="https://github.com/EOSIO/eosio-swift/tree/master#basic-usage">EOSIO SDK for Swift Basic Usage instructions</a>.</p>
+<h2 id='direct-usage' class='heading'>Direct Usage</h2>
+
+<p>Generally, signature providers are called by <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift"><code>EosioTransaction</code></a> during signing. (<a href="https://github.com/EOSIO/eosio-swift#basic-usage">See an example here.</a>) If you find, however, that you need to get available keys or request signing directly, this library can be invoked as follows:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">signProvider</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">EosioSoftkeySignatureProvider</span><span class="p">(</span><span class="nv">privateKeys</span><span class="p">:</span> <span class="n">privateKeysArray</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">publicKeysArray</span> <span class="o">=</span> <span class="n">signProvider</span><span class="p">?</span><span class="o">.</span><span class="nf">getAvailableKeys</span><span class="p">()</span> <span class="c1">// Returns the public keys.</span>
+</code></pre>
+
+<p>To sign an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift"><code>EosioTransaction</code></a>, create an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift"><code>EosioTransactionSignatureRequest</code></a> object and call the <code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C15signTransactionyyXe_XetcACF">EosioSoftkeySignatureProvider.signTransaction(request:completion:)</a></code> method with the request:</p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">signRequest</span> <span class="o">=</span> <span class="kt">EosioTransactionSignatureRequest</span><span class="p">()</span>
+<span class="n">signRequest</span><span class="o">.</span><span class="n">serializedTransaction</span> <span class="o">=</span> <span class="n">serializedTransaction</span>
+<span class="n">signRequest</span><span class="o">.</span><span class="n">publicKeys</span> <span class="o">=</span> <span class="n">publicKeys</span>
+<span class="n">signRequest</span><span class="o">.</span><span class="n">chainId</span> <span class="o">=</span> <span class="n">chainId</span>
+
+<span class="n">signProvider</span><span class="o">.</span><span class="nf">signTransaction</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="n">signRequest</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="k">in</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='documentation' class='heading'>Documentation</h2>
+
+<p>Please refer to the generated code documentation at <a href="https://eosio.github.io/eosio-swift-softkey-signature-provider">https://eosio.github.io/eosio-swift-softkey-signature-provider</a> or by cloning this repo and opening the <code>docs/index.html</code> file in your browser.</p>
+<h2 id='ios-example-app' class='heading'>iOS Example App</h2>
+
+<p>If you&rsquo;d like to see the EOSIO SDK for Swift: Softkey Signature Provider in action, check out our open source <a href="https://github.com/EOSIO/eosio-swift-ios-example-app">iOS Example App</a>&ndash;a working application that fetches an account&rsquo;s token balance and pushes a transfer action.</p>
+<h2 id='library-methods' class='heading'>Library Methods</h2>
+
+<p>This library is an example implementation of <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift"><code>EosioSignatureProviderProtocol</code></a>. It implements the following protocol methods:</p>
+
+<ul>
+<li><code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C15signTransactionyyXe_XetcACF">EosioSoftkeySignatureProvider.signTransaction(request:completion:)</a></code> signs an <a href="https://github.com/EOSIO/eosio-swift/blob/master/EosioSwift/EosioTransaction/EosioTransaction.swift"><code>EosioTransaction</code></a>.</li>
+<li><code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C16getAvailableKeysyyXe_tcACF">EosioSoftkeySignatureProvider.getAvailableKeys(...)</a></code> returns an array containing the public keys associated with the private keys that the object is initialized with.</li>
+</ul>
+
+<p>To initialize the implementation:</p>
+
+<ul>
+<li><code><a href="Classes/EosioSoftkeySignatureProvider.html#/s:34EosioSwiftSoftkeySignatureProvider0acdE0C11privateKeysACSaySSG_tKcfc">EosioSoftkeySignatureProvider.init(privateKeys:)</a></code> initializes the signature provider with an array of private keys as strings.</li>
+</ul>
+<h2 id='want-to-help' class='heading'>Want to help?</h2>
+
+<p>Interested in contributing? That&rsquo;s awesome! Here are some <a href="https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/CONTRIBUTING.md">Contribution Guidelines</a> and the <a href="https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/CONTRIBUTING.md#conduct">Code of Conduct</a>.</p>
+<h2 id='license' class='heading'>License</h2>
+
+<p><a href="https://github.com/EOSIO/eosio-swift-softkey-signature-provider/blob/master/LICENSE">MIT</a></p>
+<h2 id='important' class='heading'>Important</h2>
+
+<p>See LICENSE for copyright and license terms.  Block.one makes its contribution on a voluntary basis as a member of the EOSIO community and is not responsible for ensuring the overall performance of the software or any related applications.  We make no representation, warranty, guarantee or undertaking in respect of the software or any related documentation, whether expressed or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall we be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or documentation or the use or other dealings in the software or documentation. Any test results or performance figures are indicative and will not reflect performance under all conditions.  Any reference to any third party or third-party product, service or other resource is not an endorsement or recommendation by Block.one.  We are not responsible, and disclaim any and all responsibility and liability, for your use of or reliance on any of these resources. Third-party resources may be updated, changed or terminated at any time, so the information here may be out of date or inaccurate.  Any person using or offering this software in connection with providing software, goods or services to third parties shall advise such third parties of these license terms, disclaimers and exclusions of liability.  Block.one, EOSIO, EOSIO Labs, EOS, the heptahedron and associated logos are trademarks of Block.one.</p>
+
+<p>Wallets and related components are complex software that require the highest levels of security.  If incorrectly built or used, they may compromise users’ private keys and digital assets. Wallet applications and related components should undergo thorough security evaluations before being used.  Only experienced developers should work with this software.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

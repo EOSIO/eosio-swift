@@ -7,7 +7,7 @@ let package = Package(
     name: "EosioSwift",
     platforms: [
         .iOS(.v12),
-	.macOS(.v10_14)
+        .macOS(.v10_14)
     ],
     products: [
         .library(
@@ -17,6 +17,10 @@ let package = Package(
         .library(
             name: "EosioSwiftAbieosSerializationProvider",
             targets: ["Abieos", "EosioSwiftAbieosSerializationProvider"]
+        ),
+        .library(
+            name: "EosioSwiftEcc",
+            targets: ["libtom", "EosioSwiftEcc"]
         ),
     ],
     dependencies: [
@@ -94,6 +98,24 @@ let package = Package(
                 .copy("transaction.abi.json")
             ]
         ),
+        .target(
+            name: "libtom",
+            dependencies: [],
+            path: "Sources/libtom",
+            cSettings: [
+                .define("MP_NO_DEV_URANDOM"),
+                .define("LTM_DESC"),
+                .define("LTC_SOURCE"),
+                .define("LTC_NO_TEST"),
+                .headerSearchPath("libtomcrypt/headers"),
+                .headerSearchPath("libtommath")
+            ]
+        ),
+        .target(
+            name: "EosioSwiftEcc",
+            dependencies: ["libtom", "EosioSwift"],
+            path: "Sources/EosioSwiftEcc"
+        ),
         .testTarget(
             name: "EosioSwiftTests",
             dependencies: [
@@ -106,6 +128,11 @@ let package = Package(
             name: "EosioSwiftAbieosSerializationProviderTests",
             dependencies: ["EosioSwiftAbieosSerializationProvider"],
             path: "Tests/EosioSwiftAbieosSerializationProviderTests"
+        ),
+        .testTarget(
+            name: "EosioSwiftEccTests",
+            dependencies: ["EosioSwiftEcc"],
+            path: "Tests/EosioSwiftEccTests"
         ),
     ],
     cxxLanguageStandard: .cxx1z

@@ -1,9 +1,0 @@
-language: swift
-xcode_workspace: EosioSwiftSoftkeySignatureProvider.xcworkspace
-xcode_scheme: EosioSwiftSoftkeySignatureProviderTests
-osx_image: xcode10.2
-xcode_destination: platform=iOS Simulator,OS=12.0,name=iPhone X
-before_install:
-- gem install cocoapods -v 1.7.3
-- pod repo update
-- pod install

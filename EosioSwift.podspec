@@ -44,10 +44,9 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'AbieosSerializationProvider' do |ss|
-    ss.public_header_files = 'Sources/EosioSwiftAbieosSerializationProvider.h',
-                             'Sources/Abieos/include/abieos.h'
+    ss.public_header_files = 'Sources/Abieos/include/abieos.h'
 
-    ss.source_files = 'Sources/EosioSwiftAbieosSerializationProvider/**/*.{c,h,m,cpp,hpp}',
+    ss.source_files = 'Sources/Abieos/**/*.{c,h,m,cpp,hpp}',
                       'Sources/EosioSwiftAbieosSerializationProvider/**/*.swift'
 
     ss.preserve_paths = 'Sources/EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json',
@@ -74,7 +73,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'Ecc' do |ss|
-    ss.source_files = 'Sources/EosioSwiftEcc/**/*.{c,h}',
+    ss.source_files = 'Sources/libtom/**/*.{c,h}',
                       'Sources/EosioSwiftEcc/**/*.swift'
 
     ss.public_header_files = 'Sources/libtom/libtomcrypt/headers/*.h'
@@ -83,7 +82,7 @@ Pod::Spec.new do |s|
        'GCC_C_LANGUAGE_STANDARD' => 'c99',
        'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
        'CLANG_ENABLE_MODULES' => 'YES',
-       'OTHER_SWIFT_FLAGS' => '$(inherited) -DMP_NO_DEV_URANDOM=1 -DLTM_DESC=1 -DLTC_SOURCE=1 -DLTC_NO_TEST=1',
+       'OTHER_SWIFT_FLAGS' => '$(inherited) -DMP_NO_DEV_URANDOM -DLTM_DESC -DLTC_SOURCE -DLTC_NO_TEST',
        'OTHER_CFLAGS' => '$(inherited) -DMP_NO_DEV_URANDOM -DLTM_DESC -DLTC_SOURCE -DLTC_NO_TEST',
        'SWIFT_COMPILATION_MODE' => 'wholemodule',
        'ENABLE_BITCODE' => 'YES'

@@ -39,5 +39,5 @@ Pod::Spec.new do |s|
   s.ios.dependency 'BigInt', '~> 5.0'
   s.ios.dependency 'PromiseKit', '~> 6.8'
 
-  s.dependency 'UIExtensions.swift', '~> 1.1.0'
+  s.dependency 'UIExtensions.swift', '~> 1.1.1'
 end

@@ -23,14 +23,14 @@ PODS:
   - PromiseKit/UIKit (6.8.4):
     - PromiseKit/CorePromise
   - SwiftLint (0.32.0)
-  - UIExtensions.swift (1.1)
+  - UIExtensions.swift (1.1.1)
 
 DEPENDENCIES:
   - BigInt (~> 5.0)
   - OHHTTPStubs/Swift
   - PromiseKit (~> 6.8)
   - SwiftLint
-  - UIExtensions.swift (from `../gui-kit/`)
+  - UIExtensions.swift (from `https://github.com/horizontalsystems/gui-kit/`)
 
 SPEC REPOS:
   trunk:
@@ -41,15 +41,20 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   UIExtensions.swift:
-    :path: "../gui-kit/"
+    :git: https://github.com/horizontalsystems/gui-kit/
+
+CHECKOUT OPTIONS:
+  UIExtensions.swift:
+    :commit: aaa903a8fbf9def952320d0f035391b0c67b7818
+    :git: https://github.com/horizontalsystems/gui-kit/
 
 SPEC CHECKSUMS:
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
   PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
-  UIExtensions.swift: b3852a339a81c730d98b3342ae0275e807703782
+  UIExtensions.swift: 3ed084c0343ddd0f86c7c558d37759e1fd7d5778
 
-PODFILE CHECKSUM: fe4c96a173307e912ef659b3780c2f368b5abd92
+PODFILE CHECKSUM: f181ab508be439403586f10b4b064ca61c3439bc
 
 COCOAPODS: 1.9.1

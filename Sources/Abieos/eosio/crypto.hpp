@@ -6,6 +6,7 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <array>
 
 namespace eosio {
 

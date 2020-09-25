@@ -97,7 +97,6 @@ let package = Package(
             dependencies: ["Abieos", "EosioSwift"],
             path: "Sources/EosioSwiftAbieosSerializationProvider",
             resources: [
-                .copy("abi.abi.json"),
                 .copy("eosio.assert.abi.json"),
                 .copy("transaction.abi.json")
             ]

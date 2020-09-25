@@ -50,13 +50,11 @@ Pod::Spec.new do |s|
                       'Sources/EosioSwiftAbieosSerializationProvider/**/*.swift'
 
     ss.preserve_paths = 'Sources/EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json',
-                        'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json',
-                        'Sources/EosioSwiftAbieosSerializationProvider/abi.abi.json'
+                        'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json'
 
     ss.ios.resource_bundle = { 'EosioSwift' => 'Sources/EosioSwiftAbieosSerializationProvider/*.abi.json' }
 
     ss.resources = 'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json',
-                   'Sources/EosioSwiftAbieosSerializationProvider/abi.abi.json',
                    'Sources/EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json'
 
     ss.libraries = "c++"

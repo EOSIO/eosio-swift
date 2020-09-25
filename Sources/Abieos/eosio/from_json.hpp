@@ -9,6 +9,7 @@
 #include <vector>
 #include <variant>
 #include <errno.h>
+#include <map>
 
 namespace eosio {
 enum class from_json_error {
@@ -560,6 +561,17 @@ void from_json(std::optional<T>& result, S& stream) {
       from_json(*result, stream);
    }
 }
+
+/// \output_section Parse JSON 
+/// Parse JSON and convert to `map`. This overload works with
+/// [reflected objects](standardese://reflection/).
+template <typename Key, typename Val, typename S>
+void from_json(std::map<Key, Val>& result, S& stream) {
+   from_json_object(stream, [&](std::string_view key) {
+      from_json(result[Key(key)], stream);
+   });
+}
+
 
 template <int N = 0, typename... T>
 void set_variant_impl(std::variant<T...>& result, uint32_t type) {

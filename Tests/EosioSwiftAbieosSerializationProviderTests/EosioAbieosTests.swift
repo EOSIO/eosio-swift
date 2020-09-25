@@ -126,7 +126,9 @@ class EosioSwiftAbieosTests: XCTestCase {
     }
     
     // Direct comparison of the JSON strings is fragile.  This compares the expected JSON to a result by checking
-    // that its keys are a sub-set of the results keys since abieos can add keys for empty values.
+    // that its keys are a sub-set of the results keys since abieos can add keys for empty values.  Values are not
+    // included since they can be anything (Any) and are not comparable.  If abieos gets the keys right, that is
+    // good enough for the unit test.
     func compareJson(expected: String?, isSubsetOf result: String?) -> Bool {
         do {
             guard let json1 = expected, let json2 = result else {

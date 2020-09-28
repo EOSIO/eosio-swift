@@ -149,11 +149,6 @@ let package = Package(
             dependencies: ["EosioSwiftSoftkeySignatureProvider"],
             path: "Tests/EosioSwiftSoftkeySignatureProviderTests"
         ),
-        .testTarget(
-            name: "EosioSwiftIntegrationTests",
-            dependencies: ["EosioSwift", "EosioSwiftSoftkeySignatureProvider", "EosioSwiftAbieosSerializationProvider"],
-            path: "Tests/EosioSwiftIntegrationTests"
-        ),
     ],
     cxxLanguageStandard: .cxx1z
 )

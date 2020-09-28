@@ -9,6 +9,7 @@
 #include <optional>
 #include "../rapidjson/encodings.h"
 #include <variant>
+#include <map>
 
 namespace eosio {
 
@@ -165,6 +166,29 @@ void to_json(const std::vector<T>& obj, S& stream) {
       write_newline(stream);
    }
    stream.write(']');
+}
+
+template <typename K, typename V, typename S>
+void to_json(const std::map<K, V>& obj, S& stream) {
+   stream.write('{');
+   bool first = true;
+   for (const auto& [k,v] : obj) {
+      if (first) {
+         increase_indent(stream);
+      } else {
+         stream.write(',');
+      }
+      write_newline(stream);
+      first = false;
+      to_json(k, stream);
+      stream.write(':');
+      to_json(v, stream);
+   }
+   if (!first) {
+      decrease_indent(stream);
+      write_newline(stream);
+   }
+   stream.write('}');
 }
 
 template <typename T, typename S>

@@ -89,6 +89,7 @@ let package = Package(
                 "eosio/types.hpp",
                 "eosio/varint.hpp",
                 "eosio/fpconv.license",
+                "fuzzer.hpp",
                 "LICENSE.txt"
             ]
         ),

@@ -89,6 +89,7 @@ let package = Package(
                 "eosio/types.hpp",
                 "eosio/varint.hpp",
                 "eosio/fpconv.license",
+                "fuzzer.hpp",
                 "LICENSE.txt"
             ]
         ),
@@ -97,7 +98,6 @@ let package = Package(
             dependencies: ["Abieos", "EosioSwift"],
             path: "Sources/EosioSwiftAbieosSerializationProvider",
             resources: [
-                .copy("abi.abi.json"),
                 .copy("eosio.assert.abi.json"),
                 .copy("transaction.abi.json")
             ]

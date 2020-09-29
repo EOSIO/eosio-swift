@@ -654,6 +654,13 @@ public class EosioTransaction: Codable {
                 completion(.failure(error))
             case .success(let pushTransactionResponse):
                 strongSelf.transactionId = pushTransactionResponse.transactionId
+                let returnActionValues = pushTransactionResponse.returnActionValues()
+                print("Action Return Values: \(String(describing: returnActionValues))")
+                strongSelf.actions.enumerated().forEach { (index, action) in
+                    if returnActionValues.indices.contains(index) {
+                        action.returnValue = returnActionValues[index]
+                    }
+                }
                 return completion(.success(true))
             }
         }

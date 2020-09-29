@@ -148,6 +148,12 @@ let package = Package(
             dependencies: ["EosioSwiftSoftkeySignatureProvider"],
             path: "Tests/EosioSwiftSoftkeySignatureProviderTests"
         ),
+        // Temporary test targets for trying out transactions to local chain
+        .testTarget(
+            name: "EosioSwiftIntegrationTests",
+            dependencies: ["EosioSwift", "EosioSwiftSoftkeySignatureProvider", "EosioSwiftAbieosSerializationProvider"],
+            path: "Tests/EosioSwiftIntegrationTests"
+        ),
     ],
     cxxLanguageStandard: .cxx1z
 )

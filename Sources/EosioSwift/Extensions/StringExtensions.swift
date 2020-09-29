@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreFoundation
 
 public extension String {
 
@@ -89,13 +90,14 @@ public extension String {
     /// Converts an object to a JSON string if possible.
     ///
     /// - Parameter jsonObject: An object to convert to JSON string.
+    /// - Parameter writingOptions: Optional array of WritingOptions to control the JSON string output.
     /// - Returns: A string if the object is convertible to JSON string or nil.
-    static func jsonString(jsonObject: Any?) -> String? {
+    static func jsonString(jsonObject: Any?, writingOptions: JSONSerialization.WritingOptions?) -> String? {
         guard let object = jsonObject else { return nil }
         if let string = object as? String {
             return string
         }
-        if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: []), let string = String(data: jsonData, encoding: .utf8) {
+        if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: writingOptions ?? []), let string = String(data: jsonData, encoding: .utf8) {
             return string
         }
         return nil

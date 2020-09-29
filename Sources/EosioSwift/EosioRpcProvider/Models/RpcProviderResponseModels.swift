@@ -230,6 +230,25 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
         let processedContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .processed)
         processed = processedContainer?.decodeDynamicKeyValues()
     }
+    
+    public func returnActionValues() -> [Any?] {
+        var actionReturnValues: [Any?] = []
+        
+        guard let details = processed else {
+            return actionReturnValues
+        }
+        
+        guard let actionTraces = details["action_traces"] as? [[String: Any]] else {
+            return actionReturnValues
+        }
+        
+        actionTraces.forEach { actionTrace in
+            let returnValue = actionTrace["return_value_data"]
+            actionReturnValues.append(returnValue)
+        }
+        
+        return actionReturnValues
+    }
 }
 
 /// Response struct for the `get_key_accounts` RPC endpoint

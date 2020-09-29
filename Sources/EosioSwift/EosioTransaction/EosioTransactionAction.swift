@@ -22,6 +22,9 @@ public extension EosioTransaction {
         /// Action data.
         public private(set) var data: [String: Any]
 
+        /// Action return value.
+        public internal(set) var returnValue: Any?
+        
         /// Action data as a json string.
         public var dataJson: String? {
             return data.jsonString

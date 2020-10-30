@@ -77,6 +77,31 @@ public struct EosioRpcBlockRequest: Codable {
     }
 }
 
+/// Request struct for requests to `v1/chain/get_block_info`.
+/// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
+public struct EosioRpcBlockInfoRequest: Codable {
+    enum CodingKeys: String, CodingKey {
+        case blockNum = "block_num"
+    }
+    /// Block number to retrieve
+    public var blockNum: UInt64
+    
+    /// Initialize an `EosioRpcBlockInfoRequest` with a numeric block number.
+    public init (blockNum: UInt64) {
+        self.blockNum = blockNum
+    }
+    
+    /// Initialize an `EosioRpcBlockInfoRequest` with a String block number.
+    /// Note: This is not the block id.
+    public init?(blockNumString: String) {
+        guard let numericValue = UInt64(blockNumString) else {
+            return nil
+        }
+        self.blockNum = numericValue
+    }
+    
+}
+
 /// Request struct for requests to `v1/chain/get_raw_abi`.
 /// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
 public struct EosioRpcRawAbiRequest: Codable {

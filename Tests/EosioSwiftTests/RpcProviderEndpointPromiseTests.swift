@@ -104,6 +104,40 @@ class RpcProviderEndpointPromiseTests: XCTestCase {
 
         wait(for: [expect], timeout: 30)
     }
+    
+    /// Test getBlockInfo() promise implementation.
+    func testGetBlockInfo(unhappy: Bool = false) {
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            let retVal = RpcTestConstants.getHHTTPStubsResponse(callCount: callCount, urlRelativePath: request.url?.relativePath, unhappy: unhappy)
+            callCount += 1
+            return retVal
+        }).name = "Get Block Info Stub"
+        let expect = expectation(description: "testGetBlockInfo")
+        let requestParameters = EosioRpcBlockInfoRequest(blockNum: 25260032)
+
+        firstly {
+            (rpcProvider?.getBlockInfo(.promise, requestParameters: requestParameters))!
+        }.done {
+            if unhappy {
+                XCTFail("testGetBlock unhappy path should not fulfill promise!")
+            }
+            XCTAssertTrue($0.blockNum.value == 25260032)
+            XCTAssertTrue($0.refBlockPrefix.value == 2249927103)
+            XCTAssertTrue($0.id == "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116")
+        }.catch {
+            print($0)
+            if unhappy {
+                XCTAssertTrue($0.eosioError.errorCode == EosioErrorCode.rpcProviderError)
+            } else {
+                XCTFail("Failed get_block_info")
+            }
+        }.finally {
+            expect.fulfill()
+        }
+
+        wait(for: [expect], timeout: 30)
+    }
 
     /// Test getBlock promise happy path.
     func testGetBlockSuccess() {

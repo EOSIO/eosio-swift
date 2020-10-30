@@ -353,6 +353,9 @@ public class EosioRpcProvider {
         if let requestParameters = requestParameters {
             do {
                 let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
+                #if DEBUG
+                print("Request JSON: \(String(data: jsonData, encoding: .utf8) ?? "Could not convert from Data to String.")")
+                #endif
                 request.httpBody = jsonData
             } catch let error {
                 let eosioError = EosioError(.rpcProviderFatalError, reason: "Error while encoding request parameters.", originalError: error as NSError)

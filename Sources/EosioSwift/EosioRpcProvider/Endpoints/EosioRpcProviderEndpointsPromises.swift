@@ -33,6 +33,16 @@ extension EosioRpcProvider {
     public func getBlock(_: PMKNamespacer, requestParameters: EosioRpcBlockRequest) -> Promise<EosioRpcBlockResponse> {
         return Promise { getBlock(requestParameters: requestParameters, completion: $0.resolve) }
     }
+    
+    /// Call `chain/get_block_info` and get a Promise back. Get a block by block number.
+    ///
+    /// - Parameters:
+    ///   - _: Differentiates call signature from that of non-promise-returning endpoint method. Pass in `.promise` as the first parameter to call this method.
+    ///   - requestParameters: An `EosioRpcBlockInfoRequest`.
+    /// - Returns: A Promise fulfilled with an `EosioRpcBlockInfoResponse` or rejected with an `EosioError`.
+    public func getBlockInfo(_: PMKNamespacer, requestParameters: EosioRpcBlockInfoRequest) -> Promise<EosioRpcBlockInfoResponse> {
+        return Promise { getBlockInfo(requestParameters: requestParameters, completion: $0.resolve) }
+    }
 
     /// Call `chain/get_info` and get a Promise back. Get information about the chain and node.
     ///

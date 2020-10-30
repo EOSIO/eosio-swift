@@ -18,8 +18,8 @@ public protocol EosioRpcInfoResponseProtocol {
     var headBlockTime: String { get }
 }
 
-/// Protocol for get_block responses. RPC responses must contain these properties, at a minimum, in order to be compatible with the core EOSIO SDK for Swift library.
-public protocol EosioRpcBlockResponseProtocol {
+/// Protocol for get_block_info responses. RPC responses must contain these properties, at a minimum, in order to be compatible with the core EOSIO SDK for Swift library.
+public protocol EosioRpcBlockInfoResponseProtocol {
     /// The block number of the block fetched.
     var blockNum: EosioUInt64 { get }
     /// The block prefix for the block fetched.

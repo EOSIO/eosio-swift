@@ -520,13 +520,6 @@
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 17,
-      "symbol": "EosioRpcInfoResponse.lastIrreversibleBlockNum",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 18,
       "symbol": "EosioRpcInfoResponse.lastIrreversibleBlockId",
       "symbol_kind": "source.lang.swift.decl.var.instance",

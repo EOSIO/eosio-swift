@@ -87,6 +87,28 @@ class EosioTransactionTests: XCTestCase {
     }
 
     func test_prepare_shouldCallGetBlockFunctionOfRPCProviderWithCorrectBlockNumber() {
+        var blockNum = rpcProvider.rpcInfo.lastIrreversibleBlockNum.value
+        if transaction.config.useLastIrreversible == false {
+            blockNum = rpcProvider.rpcInfo.headBlockNum.value - UInt64(transaction.config.blocksBehind)
+            if blockNum <= 0 {
+                blockNum = 1
+            }
+        }
+
+        transaction.prepare { (result) in
+            switch result {
+            case .failure:
+                XCTFail("Prepare should not fail")
+            case .success:
+                XCTAssertEqual(self.rpcProvider.blockNumberRequested, blockNum)
+            }
+        }
+    }
+    
+    func test_prepare_shouldCallGetBlockFunctionOfRPCProviderWithCorrectBlockNumberBlocksBehind() {
+        // Set the transaction to use blocks behind rather than the last irreversible block.
+        transaction.config.useLastIrreversible = false
+        
         var blockNum = rpcProvider.rpcInfo.headBlockNum.value - UInt64(transaction.config.blocksBehind)
         if blockNum <= 0 {
             blockNum = 1

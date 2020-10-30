@@ -567,6 +567,22 @@
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
+
+<p>Starting with version 1.0, it is possible to configure transactions to use the last irreversible block rather than a block <code>blocksBehind</code> the current head block of the chain.  The number of <code>blocksBehind</code> or the <code>expireSeconds</code> can also be adjusted.  This is done by modifying the <code>Transaction.Config</code> before calling <code>prepare</code>, <code>sign</code> or <code>signAndBroadcast</code>.  When <code>useLastIrreversible</code> is true, then <code>blocksBehind</code> is ignored.  <code>Transaction.Config</code> defaults <code>useLastIrreversible</code> to <code>true</code> to help minimize micro-forking of transactions under certain conditions. </p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">transaction</span> <span class="o">=</span> <span class="kt">EosioTransaction</span><span class="p">()</span>
+<span class="n">transaction</span><span class="o">.</span><span class="n">rpcProvider</span> <span class="o">=</span> <span class="kt">EosioRpcProvider</span><span class="p">(</span><span class="nv">endpoint</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"http://localhost:8888"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+<span class="n">transaction</span><span class="o">.</span><span class="n">serializationProvider</span> <span class="o">=</span> <span class="kt">EosioAbieosSerializationProvider</span><span class="p">()</span>
+<span class="n">transaction</span><span class="o">.</span><span class="n">signatureProvider</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">EosioSoftkeySignatureProvider</span><span class="p">(</span><span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="s">"yourPrivateKey"</span><span class="p">])</span>
+
+<span class="c1">// Modify the transation configuration.</span>
+<span class="n">transaction</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">useLastIrreversible</span> <span class="o">=</span> <span class="kc">false</span>
+
+<span class="c1">// Modify expire seconds if desired.</span>
+<span class="n">transaction</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">expireSeconds</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">8</span>
+
+<span class="c1">// Add actions, sign, broadcast etc. as shown above...</span>
+
+</code></pre>
 <h3 id='the-transaction-factory' class='heading'>The Transaction Factory</h3>
 
 <p>Alternatively, to avoid having to set the providers on every transaction, you can use the <a href="EosioSwift/EosioTransaction/EosioTransactionFactory.swift"><code><a href="Classes/EosioTransactionFactory.html">EosioTransactionFactory</a></code></a> convenience class, as follows:</p>

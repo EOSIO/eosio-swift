@@ -53,6 +53,8 @@ public class RpcTestConstants {
             switch urlRelativePath {
             case "/v1/chain/get_block" :
                 return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockResponseJson, unhappy: unhappy)
+            case "/v1/chain/get_block_info" :
+                return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockInfoResponseJson, unhappy: unhappy)
             case "/v1/chain/get_block_header_state" :
                 return getOHHTTPStubsResponseForJson(json: RpcTestConstants.blockHeaderStateJson, unhappy: unhappy)
             case "/v1/chain/get_raw_abi" :
@@ -199,6 +201,23 @@ public class RpcTestConstants {
     "block_extensions": [],
     "id": "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116",
     "block_num": 25260032,
+    "ref_block_prefix": 2249927103
+    }
+    """
+    
+    public static let blockInfoResponseJson = """
+    {
+    "timestamp": "2019-02-21T18:31:40.000",
+    "producer": "blkproducer2",
+    "confirmed": 0,
+    "previous": "01816fffa4548475add3c45d0e0620f59468a6817426137b37851c23ccafa9cc",
+    "transaction_mroot": "0000000000000000000000000000000000000000000000000000000000000000",
+    "action_mroot": "de5493939e3abdca80deeab2fc9389cc43dc1982708653cfe6b225eb788d6659",
+    "schedule_version": 3,
+    "producer_signature": "SIG_K1_KZ3ptku7orAgcyMzd9FKW4jPC9PvjW9BGadFoyxdJFWM44VZdjW28DJgDe6wkNHAxnpqCWSzaBHB1AfbXBUn3HDzetemoA",
+    "id": "0181700002e623f2bf291b86a10a5cec4caab4954d4231f31f050f4f86f26116",
+    "block_num": 25260032,
+    "ref_block_num": 28672,
     "ref_block_prefix": 2249927103
     }
     """

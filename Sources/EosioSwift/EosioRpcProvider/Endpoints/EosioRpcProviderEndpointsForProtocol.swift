@@ -20,13 +20,13 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
         }
     }
 
-    /// Call `chain/get_block`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
+    /// Call `chain/get_block_info`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
     ///
     /// - Parameters:
     ///   - requestParameters: An `EosioRpcBlockRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcBlockResponseProtocol` and an optional `EosioError`.
-    public func getBlockBase(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_block", requestParameters: requestParameters) {(result: EosioRpcBlockResponse?, error: EosioError?) in
+    public func getBlockInfoBase(requestParameters: EosioRpcBlockInfoRequest, completion: @escaping (EosioResult<EosioRpcBlockInfoResponseProtocol, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_block_info", requestParameters: requestParameters) {(result: EosioRpcBlockInfoResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
     }

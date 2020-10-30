@@ -35,6 +35,17 @@ extension EosioRpcProvider {
             self?.getBlock(requestParameters: requestParameters, completion: { promise($0.asResult) })
         }.eraseToAnyPublisher()
     }
+    
+    /// Call `chain/get_block_info` and get a Publisher back. Get a block by block number.
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An `EosioRpcBlockInfoRequest`.
+    /// - Returns: A Publisher fulfilled with an `EosioRpcBlockInfoResponse` or rejected with an `EosioError`.
+    public func getBlockInfoPublisher(requestParameters: EosioRpcBlockInfoRequest) -> AnyPublisher<EosioRpcBlockInfoResponse, EosioError> {
+        return Future<EosioRpcBlockInfoResponse, EosioError> { [weak self] promise in
+            self?.getBlockInfo(requestParameters: requestParameters, completion: { promise($0.asResult) })
+        }.eraseToAnyPublisher()
+    }
 
     /// Call `chain/get_info` and get a Publisher back. Get information about the chain and node.
     ///

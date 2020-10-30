@@ -89,7 +89,7 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
 }
 
 /// Response struct for the `get_block` RPC endpoint.
-public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResponseProtocol, Decodable {
+public struct EosioRpcBlockResponse: EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public let timestamp: String
     public let producer: String
@@ -167,6 +167,74 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
         blockExtensions = nestedBlx?.decodeDynamicValues() ?? [Any]()
         id = try container.decode(String.self, forKey: .id)
         blockNum = try container.decode(EosioUInt64.self, forKey: .blockNum)
+        refBlockPrefix = try container.decode(EosioUInt64.self, forKey: .refBlockPrefix)
+    }
+
+}
+
+/// Response struct for the `get_block_info` RPC endpoint.
+public struct EosioRpcBlockInfoResponse: EosioRpcBlockInfoResponseProtocol, EosioRpcResponseProtocol, Decodable {
+    public var _rawResponse: Any?
+    public let timestamp: String
+    public let producer: String
+    public let confirmed: UInt
+    public let previous: String
+    public let transactionMroot: String
+    public let actionMroot: String
+    public let scheduleVersion: UInt
+    public let producerSignature: String
+    public let id: String
+    public let blockNum: EosioUInt64
+    public let refBlockNum: EosioUInt64
+    public let refBlockPrefix: EosioUInt64
+
+    enum CodingKeys: String, CodingKey {
+        case timestamp
+        case producer
+        case confirmed
+        case previous
+        case transactionMroot = "transaction_mroot"
+        case actionMroot = "action_mroot"
+        case scheduleVersion = "schedule_version"
+        case producerSignature = "producer_signature"
+        case id
+        case blockNum = "block_num"
+        case refBlockNum = "ref_block_num"
+        case refBlockPrefix = "ref_block_prefix"
+    }
+
+    public init(timestamp: String, producer: String = "", confirmed: UInt = 0, previous: String = "", transactionMroot: String = "",
+                actionMroot: String = "", scheduleVersion: UInt = 0,
+                producerSignature: String = "",
+                id: String, blockNum: EosioUInt64, refBlockNum: EosioUInt64, refBlockPrefix: EosioUInt64) {
+        self.timestamp = timestamp
+        self.producer = producer
+        self.confirmed = confirmed
+        self.previous = previous
+        self.transactionMroot = transactionMroot
+        self.actionMroot = actionMroot
+        self.scheduleVersion = scheduleVersion
+        self.producerSignature = producerSignature
+        self.id = id
+        self.blockNum = blockNum
+        self.refBlockNum = refBlockNum
+        self.refBlockPrefix = refBlockPrefix
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        timestamp = try container.decode(String.self, forKey: .timestamp)
+        producer = try container.decodeIfPresent(String.self, forKey: .producer) ?? ""
+        confirmed = try container.decodeIfPresent(UInt.self, forKey: .confirmed) ?? 0
+        previous = try container.decodeIfPresent(String.self, forKey: .previous) ?? ""
+        transactionMroot = try container.decodeIfPresent(String.self, forKey: .transactionMroot) ?? ""
+        actionMroot = try container.decodeIfPresent(String.self, forKey: .actionMroot) ?? ""
+        scheduleVersion = try container.decodeIfPresent(UInt.self, forKey: .scheduleVersion) ?? 0
+        producerSignature = try container.decodeIfPresent(String.self, forKey: .producerSignature) ?? ""
+        id = try container.decode(String.self, forKey: .id)
+        blockNum = try container.decode(EosioUInt64.self, forKey: .blockNum)
+        refBlockNum = try container.decode(EosioUInt64.self, forKey: .refBlockNum)
         refBlockPrefix = try container.decode(EosioUInt64.self, forKey: .refBlockPrefix)
     }
 

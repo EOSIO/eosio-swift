@@ -16,6 +16,8 @@ public protocol EosioRpcInfoResponseProtocol {
     var headBlockNum: EosioUInt64 { get }
     /// The timestamp on the latest (head) block.
     var headBlockTime: String { get }
+    /// The block number of the last irreversible block.
+    var lastIrreversibleBlockNum: EosioUInt64 { get }
 }
 
 /// Protocol for get_block_info responses. RPC responses must contain these properties, at a minimum, in order to be compatible with the core EOSIO SDK for Swift library.

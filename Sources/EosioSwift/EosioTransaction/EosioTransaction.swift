@@ -36,6 +36,8 @@ public class EosioTransaction: Codable {
         public var blocksBehind: UInt = 3
         /// Number of seconds behind the head block time for calculating transaction `expiration`.
         public var expireSeconds: UInt = 60 * 5
+        /// Use the last irreversible block instead of `blocksBehind` from the current head block to calculate TAPOS.
+        public var useLastIrreversible: Bool = true
     }
     /// Should signature providers be permitted to modify the transaction prior to signing? Defaults to `true`.
     public var allowSignatureProviderToModifyTransaction = true
@@ -422,10 +424,15 @@ public class EosioTransaction: Codable {
                     strongSelf.expiration = headBlockTime.addingTimeInterval(TimeInterval(strongSelf.config.expireSeconds))
                 }
 
-                let blocksBehind = UInt64(strongSelf.config.blocksBehind)
-                var blockNum = info.headBlockNum.value - blocksBehind
-                if blockNum <= 0 {
-                    blockNum = 1
+                // Default to using last irreversiable block
+                var blockNum = info.lastIrreversibleBlockNum.value
+                
+                if strongSelf.config.useLastIrreversible == false {
+                    let blocksBehind = UInt64(strongSelf.config.blocksBehind)
+                    blockNum = info.headBlockNum.value - blocksBehind
+                    if blockNum <= 0 {
+                        blockNum = 1
+                    }
                 }
                 strongSelf.getBlockAndSetTapos(blockNum: blockNum, completion: completion)
             }

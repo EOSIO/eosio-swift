@@ -172,6 +172,24 @@ transaction.signAndBroadcast { (result) in
 }
 ```
 
+Starting with version 1.0, it is possible to configure transactions to use the last irreversible block rather than a block `blocksBehind` the current head block of the chain.  The number of `blocksBehind` or the `expireSeconds` can also be adjusted.  This is done by modifying the `Transaction.Config` before calling `prepare`, `sign` or `signAndBroadcast`.  When `useLastIrreversible` is true, then `blocksBehind` is ignored.  `Transaction.Config` defaults `useLastIrreversible` to `true` to help minimize micro-forking of transactions under certain conditions. 
+
+```swift
+let transaction = EosioTransaction()
+transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
+transaction.serializationProvider = EosioAbieosSerializationProvider()
+transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+
+// Modify the transation configuration.
+transaction.config.useLastIrreversible = false
+
+// Modify expire seconds if desired.
+transaction.config.expireSeconds = 60 * 8
+
+// Add actions, sign, broadcast etc. as shown above...
+
+```
+
 ### The Transaction Factory
 
 Alternatively, to avoid having to set the providers on every transaction, you can use the [`EosioTransactionFactory`](EosioSwift/EosioTransaction/EosioTransactionFactory.swift) convenience class, as follows:

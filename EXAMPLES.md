@@ -1,6 +1,6 @@
 # EOSIO SDK for Swift Examples
 
-EOSIO SDK for Swift contains an exenstive set of functionality beyond the basics required for transactions.  The code snippets below show how to use some of this extended functionality.  It is important to note that these are simply example snippets and may not work the way you expect if you just copy and paste them into a method.  One common mistake is to allow the transaction or one of the providers to go out of scope, resulting in an error in the return closure when the server replies to the transaction request.  If you are seeing "self does not exist" errors when trying to send transactions or RPC calls, check to make sure that your objects are being held properly.
+EOSIO SDK for Swift contains an extensive set of functionality beyond the basics required for transactions.  The code snippets below show how to use some of this extended functionality.  It is important to note that these are simply example snippets and may not work the way you expect if you just copy and paste them into a method.  One common mistake is to allow the transaction or one of the providers to go out of scope, resulting in an error in the return closure when the server replies to the transaction request.  If you are seeing "self does not exist" errors when trying to send transactions or RPC calls, check to make sure that your objects are being held properly.
 
 ## Basic Transaction Examples
 

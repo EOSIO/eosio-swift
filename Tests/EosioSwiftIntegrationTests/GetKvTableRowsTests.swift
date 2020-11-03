@@ -23,12 +23,14 @@ class GetKvTableRowsTests: XCTestCase {
     
     override func setUpWithError() throws {
 
+        /*
         transaction = EosioTransaction()
-        let url = URL(string: "https://8000-a67a1a17-5713-42b5-ba3e-ea1654012dd6.ws-us02.gitpod.io")!
+        let url = URL(string: "https://my.test.blockchain")!
         rpcProvider = EosioRpcProvider(endpoint: url)
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = EosioAbieosSerializationProvider()
         transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"])
+        */
          
     }
 
@@ -36,7 +38,7 @@ class GetKvTableRowsTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testGetKvTableRows() throws {
+    func skip_testGetKvTableRows() throws {
         let tablesRequest = EosioRpcKvTableRowsRequest(code: "todo",
                                                        table: "todo",
                                                        indexName: "uuid",
@@ -54,7 +56,9 @@ class GetKvTableRowsTests: XCTestCase {
                 let rows = response.rows
                 XCTAssertNotNil(rows)
                 XCTAssert(rows.count > 0)
-                print ("Rows returned: \(rows)")
+                response.rows.forEach { row in
+                    print("row: \(row)")
+                }
                 expect.fulfill()
             }
         }

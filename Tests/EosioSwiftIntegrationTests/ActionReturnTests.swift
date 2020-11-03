@@ -28,7 +28,7 @@ class ActionReturnTests: XCTestCase {
     override func setUpWithError() throws {
         /*
         transaction = EosioTransaction()
-        let url = URL(string: "http://10.0.0.112:8888")!
+        let url = URL(string: "https://my.test.blockchain")!
         rpcProvider = EosioRpcProvider(endpoint: url)
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = EosioAbieosSerializationProvider()
@@ -108,5 +108,5 @@ class ActionReturnTests: XCTestCase {
         wait(for: [expect], timeout: 30)
         
     }
-    
+
 }

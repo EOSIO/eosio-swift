@@ -4,7 +4,7 @@ EOSIO SDK for Swift contains an extensive set of functionality beyond the basics
 
 ## Basic Transaction Examples
 
-### Submiting a Transaction
+### Submitting a Transaction
 
 Basic submission of a transaction is shown in the main [README.md](README.md) file at the top level of the repository.  Please see the [Basic Usage](README.md/#basic-usage) example for details.
 

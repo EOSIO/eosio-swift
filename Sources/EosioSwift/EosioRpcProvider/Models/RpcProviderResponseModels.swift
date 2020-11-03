@@ -1075,6 +1075,28 @@ public struct EosioRpcTableRowsResponse: Decodable, EosioRpcResponseProtocol {
     }
 }
 
+/// Response type for the `get_kv_table_rows` RPC endpoint.
+public struct EosioRpcKvTableRowsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var rows: [Any] = [Any]()
+    public var more: Bool
+    public var nextKey: String
+    
+    enum CustomCodingKeys: String, CodingKey {
+        case rows
+        case more
+        case nextKey = "next_key"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+        var rowsContainer = try? container.nestedUnkeyedContainer(forKey: .rows)
+        rows = rowsContainer?.decodeDynamicValues() ?? [Any]()
+        more = try container.decodeIfPresent(Bool.self, forKey: .more) ?? false
+        nextKey = try container.decodeIfPresent(String.self, forKey: .nextKey) ?? ""
+    }
+}
+
 /// Response struct for the rows returned from get_table_by_scope
 public struct TableByScopeRows: Decodable {
     public var code: String

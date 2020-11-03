@@ -192,6 +192,16 @@ extension EosioRpcProvider {
         return Promise { getTableRows(requestParameters: requestParameters, completion: $0.resolve) }
     }
 
+    /// Call `chain/get_kv_table_rows` and get a Promise back. Returns an object containing rows from the specified table.
+    ///
+    /// - Parameters:
+    ///   - _: Differentiates call signature from that of non-promise-returning endpoint method. Pass in `.promise` as the first parameter to call this method.
+    ///   - requestParameters: An `EosioRpcKvTableRowsRequest`.
+    /// - Returns: A Promise fulfilled with an `EosioRpcKvTableRowsResponse` or rejected with an `EosioError`.
+    public func getKvTableRows(_: PMKNamespacer, requestParameters: EosioRpcKvTableRowsRequest) -> Promise<EosioRpcKvTableRowsResponse> {
+        return Promise { getKvTableRows(requestParameters: requestParameters, completion: $0.resolve) }
+    }
+    
     /// Call `chain/get_code` and get a Promise back.
     ///
     /// - Parameters:

@@ -209,6 +209,17 @@ extension EosioRpcProvider {
             self?.getTableRows(requestParameters: requestParameters, completion: { promise($0.asResult) })
         }.eraseToAnyPublisher()
     }
+    
+    /// Call `chain/get_kv_table_rows` and get a Publisher back. Returns an object containing rows from the specified table.
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An `EosioRpcKvTableRowsRequest`.
+    /// - Returns: A Publisher fulfilled with an `EosioRpcKvTableRowsResponse` or rejected with an `EosioError`.
+    public func getKvTableRowsPublisher(requestParameters: EosioRpcKvTableRowsRequest) -> AnyPublisher<EosioRpcKvTableRowsResponse, EosioError> {
+        return Future<EosioRpcKvTableRowsResponse, EosioError> { [weak self] promise in
+            self?.getKvTableRows(requestParameters: requestParameters, completion: { promise($0.asResult) })
+        }.eraseToAnyPublisher()
+    }
 
     /// Call `chain/get_code` and get a Publisher back.
     ///

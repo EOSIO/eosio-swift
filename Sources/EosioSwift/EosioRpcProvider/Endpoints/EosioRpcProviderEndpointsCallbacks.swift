@@ -207,6 +207,17 @@ extension EosioRpcProvider {
             completion(EosioResult(success: result, failure: error)!)
         }
     }
+    
+    /// Call `chain/get_kv_table_rows`. Returns an object containing rows from the specified table.
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An `EosioRpcKvTableRowsRequest`.
+    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcKvTableRowsResponse` and an optional `EosioError`.
+    public func getKvTableRows(requestParameters: EosioRpcKvTableRowsRequest, completion:@escaping (EosioResult<EosioRpcKvTableRowsResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_kv_table_rows", requestParameters: requestParameters) {(result: EosioRpcKvTableRowsResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
 
     /// Call `chain/get_code`.
     ///

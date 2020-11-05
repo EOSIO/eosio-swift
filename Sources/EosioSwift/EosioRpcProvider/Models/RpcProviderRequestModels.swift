@@ -177,6 +177,80 @@ public struct EosioRpcTableRowsRequest: Codable {
     }
 }
 
+/// The request type for `get_kv_table_rows` RPC requests.
+public struct EosioRpcKvTableRowsRequest: Codable {
+    /// Encoding types for `indexValue`, `lowerBound` or `upperBound`
+    public enum EncodeType: String, Codable {
+        /// Arbitrary binary index values.
+        case bytes
+        /// String encoding
+        case string
+        /// Decimal encoding
+        case dec
+        /// Hexidecimal encoding
+        case hex
+        /// EosioName encoding
+        case name
+    }
+    /// The name of the smart contract that controls the provided kv table.
+    public var code: String
+    /// The name of the kv table to query.
+    public var table: String
+    ///The name of the primary or secondary index.
+    public var indexName: String
+    /// The type of key specified by by the `indexName`.  This can be `bytes` for arbitrary binary index values or C++ types such as `uint64_t` or `name` for `EosioName` values.
+    public var encodeType: EncodeType
+    /// Should the results be deserialized and returned as json.
+    public var json: Bool
+    /// The value used for an exact match query, encoded as the specified `encodeType`.
+    public var indexValue: String?
+    /// The lower bound value for a ranged query, encoded as the specified `encodeType`.  Not used if `indexValue` is specified.  Optional if `reverse` is `true`.
+    public var lowerBound: String?
+    /// The upper bound value for a ranged query, encoded as the specified `encodeType`.  Not used if `indexValue is specified`.  Optional if `reverse` is `false`.
+    public var upperBound: String?
+    /// Limit number of results returned.
+    public var limit: Int32
+    /// Reverse the order of returned results.
+    public var reverse: Bool?
+    
+    public init(
+        code: String,
+        table: String,
+        indexName: String,
+        encodeType: EncodeType = .bytes,
+        json: Bool = true,
+        indexValue: String? = nil,
+        lowerBound: String? = nil,
+        upperBound: String? = nil,
+        limit: Int32 = 10,
+        reverse: Bool? = nil
+    ) {
+        self.code = code
+        self.table = table
+        self.indexName = indexName
+        self.encodeType = encodeType
+        self.json = json
+        self.indexValue = indexValue
+        self.lowerBound = lowerBound
+        self.upperBound = upperBound
+        self.limit = limit
+        self.reverse = reverse
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case code
+        case table
+        case indexName = "index_name"
+        case encodeType = "encode_type"
+        case json
+        case indexValue = "index_value"
+        case lowerBound = "lower_bound"
+        case upperBound = "upper_bound"
+        case limit
+        case reverse
+    }
+}
+
 /// The request type for `get_code` RPC requests.
 public struct EosioRpcCodeRequest: Codable {
     public var accountName: String

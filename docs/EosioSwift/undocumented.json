@@ -415,98 +415,105 @@
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 182,
+      "line": 216,
+      "symbol": "EosioRpcKvTableRowsRequest.init(code:table:indexName:encodeType:json:indexValue:lowerBound:upperBound:limit:reverse:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
+      "line": 256,
       "symbol": "EosioRpcCodeRequest.accountName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 183,
+      "line": 257,
       "symbol": "EosioRpcCodeRequest.codeAsWasm",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 185,
+      "line": 259,
       "symbol": "EosioRpcCodeRequest.init(accountName:codeAsWasm:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 195,
+      "line": 269,
       "symbol": "EosioRpcHistoryActionsRequest.position",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 196,
+      "line": 270,
       "symbol": "EosioRpcHistoryActionsRequest.offset",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 197,
+      "line": 271,
       "symbol": "EosioRpcHistoryActionsRequest.accountName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 199,
+      "line": 273,
       "symbol": "EosioRpcHistoryActionsRequest.init(position:offset:accountName:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 214,
+      "line": 288,
       "symbol": "EosioRpcHistoryTransactionRequest.id",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 215,
+      "line": 289,
       "symbol": "EosioRpcHistoryTransactionRequest.blockNumHint",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 216,
+      "line": 290,
       "symbol": "EosioRpcHistoryTransactionRequest.init(transactionId:blockNumHint:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 224,
+      "line": 298,
       "symbol": "EosioRpcHistoryKeyAccountsRequest.publicKey",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 226,
+      "line": 300,
       "symbol": "EosioRpcHistoryKeyAccountsRequest.init(publicKey:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 233,
+      "line": 307,
       "symbol": "EosioRpcHistoryControlledAccountsRequest.controllingAccount",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift",
-      "line": 235,
+      "line": 309,
       "symbol": "EosioRpcHistoryControlledAccountsRequest.init(controllingAccount:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -1773,49 +1780,70 @@
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 1080,
-      "symbol": "TableByScopeRows.code",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 1081,
-      "symbol": "TableByScopeRows.scope",
+      "symbol": "EosioRpcKvTableRowsResponse.rows",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 1082,
-      "symbol": "TableByScopeRows.table",
+      "symbol": "EosioRpcKvTableRowsResponse.more",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
       "line": 1083,
+      "symbol": "EosioRpcKvTableRowsResponse.nextKey",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 1102,
+      "symbol": "TableByScopeRows.code",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 1103,
+      "symbol": "TableByScopeRows.scope",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 1104,
+      "symbol": "TableByScopeRows.table",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
+      "line": 1105,
       "symbol": "TableByScopeRows.payer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 1084,
+      "line": 1106,
       "symbol": "TableByScopeRows.count",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 1090,
+      "line": 1112,
       "symbol": "EosioRpcTableByScopeResponse.rows",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/steve.mccoole/Documents/ws/b1x/eosio-swift/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderResponseModels.swift",
-      "line": 1091,
+      "line": 1113,
       "symbol": "EosioRpcTableByScopeResponse.more",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EosioRpcKvTableRowsRequest Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Struct/EosioRpcKvTableRowsRequest" class="dashAnchor"></a>
+
+    <a title="EosioRpcKvTableRowsRequest Structure Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          EosioSwift 1.0.0 Docs
+        </a>
+        
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/EOSIO/eosio-swift">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">EosioSwift Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      EosioRpcKvTableRowsRequest Structure Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioAbiProvider.html">EosioAbiProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioError.html">EosioError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioRpcProvider.html">EosioRpcProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction.html">EosioTransaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Config.html">– Config</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Abis.html">– Abis</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransaction/Action.html">– Action</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/EosioTransactionFactory.html">EosioTransactionFactory</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Node.html">Node</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/Base58String.html">Base58String</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioErrorCode.html">EosioErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioInt64.html">EosioInt64</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioResult.html">EosioResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/EosioUInt64.html">EosioUInt64</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Date.html">Date</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Encodable.html">Encodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Error.html">Error</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Resolver.html">Resolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioAbiProviderProtocol.html">EosioAbiProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcBlockInfoResponseProtocol.html">EosioRpcBlockInfoResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcInfoResponseProtocol.html">EosioRpcInfoResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcProviderProtocol.html">EosioRpcProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcRawAbiResponseProtocol.html">EosioRpcRawAbiResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcRequiredKeysResponseProtocol.html">EosioRpcRequiredKeysResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcResponseProtocol.html">EosioRpcResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioRpcTransactionResponseProtocol.html">EosioRpcTransactionResponseProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioSerializationProviderProtocol.html">EosioSerializationProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/EosioSignatureProviderProtocol.html">EosioSignatureProviderProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/JsonOutput.html">JsonOutput</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Authority.html">Authority</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CurrencyStats.html">CurrencyStats</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioAccountInfo.html">EosioAccountInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioAvailableKeysResponse.html">EosioAvailableKeysResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioName.html">EosioName</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcAbiResponse.html">EosioRpcAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcAccountResponse.html">EosioRpcAccountResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponse.html">EosioRpcActionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseAction.html">EosioRpcActionsResponseAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTrActDeltas.html">EosioRpcActionsResponseActionTrActDeltas</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTrReceipt.html">EosioRpcActionsResponseActionTrReceipt</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTrace.html">EosioRpcActionsResponseActionTrace</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTraceAction.html">EosioRpcActionsResponseActionTraceAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcActionsResponseActionTraceAuth.html">EosioRpcActionsResponseActionTraceAuth</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockHeaderStateResponse.html">EosioRpcBlockHeaderStateResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockHeaderStateResponseHeader.html">EosioRpcBlockHeaderStateResponseHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockInfoRequest.html">EosioRpcBlockInfoRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockInfoResponse.html">EosioRpcBlockInfoResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockRequest.html">EosioRpcBlockRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcBlockResponse.html">EosioRpcBlockResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCodeRequest.html">EosioRpcCodeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCodeResponse.html">EosioRpcCodeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcControlledAccountsResponse.html">EosioRpcControlledAccountsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyBalanceRequest.html">EosioRpcCurrencyBalanceRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyBalanceResponse.html">EosioRpcCurrencyBalanceResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyStatsRequest.html">EosioRpcCurrencyStatsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcCurrencyStatsResponse.html">EosioRpcCurrencyStatsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcGetTransactionResponse.html">EosioRpcGetTransactionResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryActionsRequest.html">EosioRpcHistoryActionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryControlledAccountsRequest.html">EosioRpcHistoryControlledAccountsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryKeyAccountsRequest.html">EosioRpcHistoryKeyAccountsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcHistoryTransactionRequest.html">EosioRpcHistoryTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcInfoResponse.html">EosioRpcInfoResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKeyAccountsResponse.html">EosioRpcKeyAccountsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKvTableRowsRequest/EncodeType.html">– EncodeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcProducersRequest.html">EosioRpcProducersRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcProducersResponse.html">EosioRpcProducersResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionRequest.html">EosioRpcPushTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionsRequest.html">EosioRpcPushTransactionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcPushTransactionsResponse.html">EosioRpcPushTransactionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawAbiRequest.html">EosioRpcRawAbiRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawAbiResponse.html">EosioRpcRawAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRawCodeAndAbiResponse.html">EosioRpcRawCodeAndAbiResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRequiredKeysRequest.html">EosioRpcRequiredKeysRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcRequiredKeysResponse.html">EosioRpcRequiredKeysResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcSendTransactionRequest.html">EosioRpcSendTransactionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcSendTransactionsRequest.html">EosioRpcSendTransactionsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcSendTransactionsResponse.html">EosioRpcSendTransactionsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableByScopeRequest.html">EosioRpcTableByScopeRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableByScopeResponse.html">EosioRpcTableByScopeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsRequest.html">EosioRpcTableRowsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsRequest/EncodeType.html">– EncodeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTableRowsResponse.html">EosioRpcTableRowsResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcTransactionResponse.html">EosioRpcTransactionResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureRequest.html">EosioTransactionSignatureRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureRequest/BinaryAbi.html">– BinaryAbi</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureResponse.html">EosioTransactionSignatureResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioTransactionSignatureResponse/SignedTransaction.html">– SignedTransaction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeyWeight.html">KeyWeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LinkedList.html">LinkedList</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Permission.html">Permission</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PermissionLevel.html">PermissionLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PermissionLevelWeight.html">PermissionLevelWeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ProducerRows.html">ProducerRows</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Queue.html">Queue</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RIPEMD160.html">RIPEMD160</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RawResponse.html">RawResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/TableByScopeRows.html">TableByScopeRows</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/WaitWeight.html">WaitWeight</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A13RpcAbiRequesta">EosioRpcAbiRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A17RpcAccountRequesta">EosioRpcAccountRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A26RpcBlockHeaderStateRequesta">EosioRpcBlockHeaderStateRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10EosioSwift0A23RpcRawCodeAndAbiRequesta">EosioRpcRawCodeAndAbiRequest</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>EosioRpcKvTableRowsRequest</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">EosioRpcKvTableRowsRequest</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
+
+                </div>
+              </div>
+            <p>The request type for <code>get_kv_table_rows</code> RPC requests.</p>
+
+              <div class="slightly-smaller">
+                <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L181-L252">Show on GitHub</a>
+              </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV10EncodeTypeO"></a>
+                    <a name="//apple_ref/swift/Enum/EncodeType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV10EncodeTypeO">EncodeType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Encoding types for <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV10indexValueSSSgvp">indexValue</a></code>, <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV10lowerBoundSSSgvp">lowerBound</a></code> or <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV10upperBoundSSSgvp">upperBound</a></code></p>
+
+                        <a href="../Structs/EosioRpcKvTableRowsRequest/EncodeType.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">EncodeType</span> <span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">Codable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L183-L194">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV4codeSSvp"></a>
+                    <a name="//apple_ref/swift/Property/code" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV4codeSSvp">code</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The name of the smart contract that controls the provided kv table.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">code</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L196">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV5tableSSvp"></a>
+                    <a name="//apple_ref/swift/Property/table" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV5tableSSvp">table</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The name of the kv table to query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">table</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L198">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV9indexNameSSvp"></a>
+                    <a name="//apple_ref/swift/Property/indexName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV9indexNameSSvp">indexName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The name of the primary or secondary index.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">indexName</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L200">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV10encodeTypeAC06EncodeI0Ovp"></a>
+                    <a name="//apple_ref/swift/Property/encodeType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV10encodeTypeAC06EncodeI0Ovp">encodeType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The type of key specified by by the <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV9indexNameSSvp">indexName</a></code>.  This can be <code>bytes</code> for arbitrary binary index values or C++ types such as <code>uint64_t</code> or <code>name</code> for <code><a href="../Structs/EosioName.html">EosioName</a></code> values.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">encodeType</span><span class="p">:</span> <span class="kt"><a href="../Structs/EosioRpcKvTableRowsRequest/EncodeType.html">EncodeType</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L202">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV4jsonSbvp"></a>
+                    <a name="//apple_ref/swift/Property/json" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV4jsonSbvp">json</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Should the results be deserialized and returned as json.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L204">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV10indexValueSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/indexValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV10indexValueSSSgvp">indexValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The value used for an exact match query, encoded as the specified <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV10encodeTypeAC06EncodeI0Ovp">encodeType</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">indexValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L206">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV10lowerBoundSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/lowerBound" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV10lowerBoundSSSgvp">lowerBound</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The lower bound value for a ranged query, encoded as the specified <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV10encodeTypeAC06EncodeI0Ovp">encodeType</a></code>.  Not used if <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV10indexValueSSSgvp">indexValue</a></code> is specified.  Optional if <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV7reverseSbSgvp">reverse</a></code> is <code>true</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">lowerBound</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L208">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV10upperBoundSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/upperBound" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV10upperBoundSSSgvp">upperBound</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The upper bound value for a ranged query, encoded as the specified <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV10encodeTypeAC06EncodeI0Ovp">encodeType</a></code>.  Not used if <code>indexValue is specified</code>.  Optional if <code><a href="../Structs/EosioRpcKvTableRowsRequest.html#/s:10EosioSwift0A21RpcKvTableRowsRequestV7reverseSbSgvp">reverse</a></code> is <code>false</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">upperBound</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L210">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV5limits5Int32Vvp"></a>
+                    <a name="//apple_ref/swift/Property/limit" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV5limits5Int32Vvp">limit</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Limit number of results returned.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int32</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L212">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV7reverseSbSgvp"></a>
+                    <a name="//apple_ref/swift/Property/reverse" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV7reverseSbSgvp">reverse</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reverse the order of returned results.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reverse</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L214">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10EosioSwift0A21RpcKvTableRowsRequestV4code5table9indexName10encodeType4json0J5Value10lowerBound05upperQ05limit7reverseACSS_S2SAC06EncodeM0OSbSSSgA2Ps5Int32VSbSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(code:table:indexName:encodeType:json:indexValue:lowerBound:upperBound:limit:reverse:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A21RpcKvTableRowsRequestV4code5table9indexName10encodeType4json0J5Value10lowerBound05upperQ05limit7reverseACSS_S2SAC06EncodeM0OSbSSSgA2Ps5Int32VSbSgtcfc">init(code:<wbr>table:<wbr>indexName:<wbr>encodeType:<wbr>json:<wbr>indexValue:<wbr>lowerBound:<wbr>upperBound:<wbr>limit:<wbr>reverse:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+    <span class="nv">code</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">table</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">indexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">encodeType</span><span class="p">:</span> <span class="kt"><a href="../Structs/EosioRpcKvTableRowsRequest/EncodeType.html">EncodeType</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">bytes</span><span class="p">,</span>
+    <span class="nv">json</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nv">indexValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">lowerBound</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">upperBound</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int32</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="nv">reverse</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Models/RpcProviderRequestModels.swift#L216-L238">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>Copyright (c) 2017-2020 block.one and its contributors. All rights reserved.</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

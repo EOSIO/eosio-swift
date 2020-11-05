@@ -903,7 +903,7 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
     public var action: EosioRpcActionsResponseActionTraceAction
     public var contextFree: Bool
     public var elapsed: EosioUInt64
-    public var console: String
+    public var console: String?
     public var transactionId: String
     public var blockNumber: EosioUInt64
     public var blockTime: String
@@ -932,7 +932,7 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
         action = try container.decode(EosioRpcActionsResponseActionTraceAction.self, forKey: .action)
         contextFree = try container.decode(Bool.self, forKey: .contextFree)
         elapsed = try container.decode(EosioUInt64.self, forKey: .elapsed)
-        console = try container.decode(String.self, forKey: .console)
+        console = try container.decodeIfPresent(String.self, forKey: .console)
         transactionId = try container.decode(String.self, forKey: .transactionId)
         blockNumber = try container.decode(EosioUInt64.self, forKey: .blockNumber)
         blockTime = try container.decode(String.self, forKey: .blockTime)

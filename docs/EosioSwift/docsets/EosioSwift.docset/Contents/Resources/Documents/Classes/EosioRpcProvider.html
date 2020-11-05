@@ -275,6 +275,15 @@
                 <a class="nav-group-task-link" href="../Structs/EosioRpcKeyAccountsResponse.html">EosioRpcKeyAccountsResponse</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKvTableRowsRequest/EncodeType.html">– EncodeType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/EosioRpcProducersRequest.html">EosioRpcProducersRequest</a>
               </li>
               <li class="nav-group-task">
@@ -1701,6 +1710,67 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10EosioSwift0A11RpcProviderC14getKvTableRows17requestParameters10completionyAA0acfgH7RequestV_yAA0A6ResultOyAA0acfgH8ResponseVAA0A5ErrorCGctF"></a>
+                    <a name="//apple_ref/swift/Method/getKvTableRows(requestParameters:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A11RpcProviderC14getKvTableRows17requestParameters10completionyAA0acfgH7RequestV_yAA0A6ResultOyAA0acfgH8ResponseVAA0A5ErrorCGctF">getKvTableRows(requestParameters:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Call <code>chain/get_kv_table_rows</code>. Returns an object containing rows from the specified table.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getKvTableRows</span><span class="p">(</span><span class="nv">requestParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a></span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt"><a href="../Enums/EosioResult.html">EosioResult</a></span><span class="o">&lt;</span><span class="kt"><a href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a></span><span class="p">,</span> <span class="kt"><a href="../Classes/EosioError.html">EosioError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An <code><a href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Called with the response, as an <code><a href="../Enums/EosioResult.html">EosioResult</a></code> consisting of an <code><a href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a></code> and an optional <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L216-L220">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10EosioSwift0A11RpcProviderC7getCode17requestParameters10completionyAA0acF7RequestV_yAA0A6ResultOyAA0acF8ResponseVAA0A5ErrorCGctF"></a>
                     <a name="//apple_ref/swift/Method/getCode(requestParameters:completion:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10EosioSwift0A11RpcProviderC7getCode17requestParameters10completionyAA0acF7RequestV_yAA0A6ResultOyAA0acF8ResponseVAA0A5ErrorCGctF">getCode(requestParameters:<wbr>completion:<wbr>)</a>
@@ -1754,7 +1824,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L216-L220">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L227-L231">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1815,7 +1885,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L227-L231">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L238-L242">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1876,7 +1946,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L238-L242">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L249-L253">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1937,7 +2007,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L251-L255">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L262-L266">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1998,7 +2068,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L262-L266">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L273-L277">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2059,7 +2129,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L273-L277">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L284-L288">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -2120,7 +2190,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L284-L288">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCallbacks.swift#L295-L299">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3063,6 +3133,59 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10EosioSwift0A11RpcProviderC23getKvTableRowsPublisher17requestParameters7Combine03AnyI0VyAA0acfgH8ResponseVAA0A5ErrorCGAA0acfgH7RequestV_tF"></a>
+                    <a name="//apple_ref/swift/Method/getKvTableRowsPublisher(requestParameters:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A11RpcProviderC23getKvTableRowsPublisher17requestParameters7Combine03AnyI0VyAA0acfgH8ResponseVAA0A5ErrorCGAA0acfgH7RequestV_tF">getKvTableRowsPublisher(requestParameters:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Call <code>chain/get_kv_table_rows</code> and get a Publisher back. Returns an object containing rows from the specified table.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getKvTableRowsPublisher</span><span class="p">(</span><span class="nv">requestParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a></span><span class="p">,</span> <span class="kt"><a href="../Classes/EosioError.html">EosioError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An <code><a href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L218-L222">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10EosioSwift0A11RpcProviderC16getCodePublisher17requestParameters7Combine03AnyG0VyAA0acF8ResponseVAA0A5ErrorCGAA0acF7RequestV_tF"></a>
                     <a name="//apple_ref/swift/Method/getCodePublisher(requestParameters:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10EosioSwift0A11RpcProviderC16getCodePublisher17requestParameters7Combine03AnyG0VyAA0acF8ResponseVAA0A5ErrorCGAA0acF7RequestV_tF">getCodePublisher(requestParameters:<wbr>)</a>
@@ -3108,7 +3231,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcCodeResponse.html">EosioRpcCodeResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L218-L222">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L229-L233">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3161,7 +3284,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcCodeResponse.html">EosioRpcCodeResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L229-L233">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L240-L244">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3214,7 +3337,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcRawAbiResponse.html">EosioRpcRawAbiResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L240-L244">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L251-L255">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3267,7 +3390,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcActionsResponse.html">EosioRpcActionsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L253-L257">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L264-L268">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3320,7 +3443,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcGetTransactionResponse.html">EosioRpcGetTransactionResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L264-L268">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L275-L279">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3373,7 +3496,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcKeyAccountsResponse.html">EosioRpcKeyAccountsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L275-L279">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L286-L290">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -3426,7 +3549,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Publisher fulfilled with an <code><a href="../Structs/EosioRpcControlledAccountsResponse.html">EosioRpcControlledAccountsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L286-L290">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsCombine.swift#L297-L301">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -4972,6 +5095,71 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10EosioSwift0A11RpcProviderC14getKvTableRows_17requestParameters10PromiseKit0K0CyAA0acfgH8ResponseVGAF13PMKNamespacerO_AA0acfgH7RequestVtF"></a>
+                    <a name="//apple_ref/swift/Method/getKvTableRows(_:requestParameters:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10EosioSwift0A11RpcProviderC14getKvTableRows_17requestParameters10PromiseKit0K0CyAA0acfgH8ResponseVGAF13PMKNamespacerO_AA0acfgH7RequestVtF">getKvTableRows(_:<wbr>requestParameters:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Call <code>chain/get_kv_table_rows</code> and get a Promise back. Returns an object containing rows from the specified table.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getKvTableRows</span><span class="p">(</span><span class="nv">_</span><span class="p">:</span> <span class="kt">PMKNamespacer</span><span class="p">,</span> <span class="nv">requestParameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>_</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Differentiates call signature from that of non-promise-returning endpoint method. Pass in <code>.promise</code> as the first parameter to call this method.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestParameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An <code><a href="../Structs/EosioRpcKvTableRowsRequest.html">EosioRpcKvTableRowsRequest</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcKvTableRowsResponse.html">EosioRpcKvTableRowsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L201-L203">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10EosioSwift0A11RpcProviderC7getCode_17requestParameters10PromiseKit0I0CyAA0acF8ResponseVGAF13PMKNamespacerO_AA0acF7RequestVtF"></a>
                     <a name="//apple_ref/swift/Method/getCode(_:requestParameters:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10EosioSwift0A11RpcProviderC7getCode_17requestParameters10PromiseKit0I0CyAA0acF8ResponseVGAF13PMKNamespacerO_AA0acF7RequestVtF">getCode(_:<wbr>requestParameters:<wbr>)</a>
@@ -5029,7 +5217,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcCodeResponse.html">EosioRpcCodeResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L201-L203">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L211-L213">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5094,7 +5282,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcCodeResponse.html">EosioRpcCodeResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L211-L213">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L221-L223">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5159,7 +5347,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcRawAbiResponse.html">EosioRpcRawAbiResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L221-L223">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L231-L233">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5224,7 +5412,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcActionsResponse.html">EosioRpcActionsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L233-L235">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L243-L245">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5289,7 +5477,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcGetTransactionResponse.html">EosioRpcGetTransactionResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L243-L245">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L253-L255">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5354,7 +5542,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcKeyAccountsResponse.html">EosioRpcKeyAccountsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L253-L255">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L263-L265">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -5419,7 +5607,7 @@ RPC Reference: <a href="https://developers.eos.io/eosio-nodeos/reference">https:
                         <p>A Promise fulfilled with an <code><a href="../Structs/EosioRpcControlledAccountsResponse.html">EosioRpcControlledAccountsResponse</a></code> or rejected with an <code><a href="../Classes/EosioError.html">EosioError</a></code>.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L263-L265">Show on GitHub</a>
+                        <a href="https://github.com/EOSIO/eosio-swift/tree/master/Sources/EosioSwift/EosioRpcProvider/Endpoints/EosioRpcProviderEndpointsPromises.swift#L273-L275">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

@@ -28,11 +28,11 @@ class ActionReturnTests: XCTestCase {
     override func setUpWithError() throws {
         /*
         transaction = EosioTransaction()
-        let url = URL(string: "https://my.test.blockchain")!
+        let url = URL(string: "http://my.test.blockchain")!
         rpcProvider = EosioRpcProvider(endpoint: url)
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = EosioAbieosSerializationProvider()
-        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["5JuH9fCXmU3xbj8nRmhPZaVrxxXrdPaRmZLW1cznNTmTQR2Kg5Z"])
+        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["MyTestKey"])
          */
     }
 

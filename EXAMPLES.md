@@ -239,6 +239,13 @@ rpcProvider.getKvTableRows(requestParameters: tablesRequest) { result in
         // json equaled true in the request.
         response.rows.foreach { row in
             // Work with each row.
+            if let entry: [String: Any] = row as? [String: Any] {
+                let accountName = entry["account_name"] as? String ?? ""
+                let firstName = entry["first_name"] as? String ?? ""
+                let lastName = entry["last_name"] as? String ?? ""
+            } else {
+                // Would check for serialized string.
+            }
         }
     }
 }

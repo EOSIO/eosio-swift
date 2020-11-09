@@ -22,16 +22,14 @@ class GetKvTableRowsTests: XCTestCase {
     }
     
     override func setUpWithError() throws {
-
         /*
         transaction = EosioTransaction()
-        let url = URL(string: "https://my.test.blockchain")!
+        let url = URL(string: "http://my.test.blockchain")!
         rpcProvider = EosioRpcProvider(endpoint: url)
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = EosioAbieosSerializationProvider()
-        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"])
-        */
-         
+        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["MyTestKey"])
+         */
     }
 
     override func tearDownWithError() throws {
@@ -39,12 +37,13 @@ class GetKvTableRowsTests: XCTestCase {
     }
     
     func skip_testGetKvTableRows() throws {
-        let tablesRequest = EosioRpcKvTableRowsRequest(code: "todo",
-                                                       table: "todo",
-                                                       indexName: "uuid",
-                                                       encodeType: .string,
+        let tablesRequest = EosioRpcKvTableRowsRequest(code: "kvaddrbook",
+                                                       table: "kvaddrbook",
+                                                       indexName: "accname",
+                                                       encodeType: .name,
                                                        json: true,
-                                                       indexValue: "bf581bee-9f2c-447b-94ad-78e4984b6f51")
+                                                       lowerBound: "jane",
+                                                       reverse: false)
         
         let expect = expectation(description: "testGetKvTableRows")
         
@@ -55,9 +54,16 @@ class GetKvTableRowsTests: XCTestCase {
             case .success(let response):
                 let rows = response.rows
                 XCTAssertNotNil(rows)
-                XCTAssert(rows.count > 0)
+                XCTAssert(rows.count == 4)
                 response.rows.forEach { row in
                     print("row: \(row)")
+                }
+                if let entry1: [String: Any] = rows[0] as? [String: Any] {
+                    XCTAssertEqual("jane", entry1["account_name"] as? String ?? "")
+                    XCTAssertEqual("Jane", entry1["first_name"] as? String ?? "")
+                    XCTAssertEqual("Doe", entry1["last_name"] as? String ?? "")
+                } else {
+                    XCTFail("Should be able to get entry as [String: Any]")
                 }
                 expect.fulfill()
             }

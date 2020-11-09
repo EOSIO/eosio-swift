@@ -353,6 +353,9 @@ public class EosioRpcProvider {
         if let requestParameters = requestParameters {
             do {
                 let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
+                #if DEBUG
+                print("Request JSON: \(String(data: jsonData, encoding: .utf8) ?? "Could not convert from Data to String.")")
+                #endif
                 request.httpBody = jsonData
             } catch let error {
                 let eosioError = EosioError(.rpcProviderFatalError, reason: "Error while encoding request parameters.", originalError: error as NSError)
@@ -368,6 +371,11 @@ public class EosioRpcProvider {
         do {
             var resource = try decoder.decode(T.self, from: data)
             resource._rawResponse = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+            #if DEBUG
+            if let response = resource._rawResponse {
+                print("EosioRpcProvider.decodeResponse: \(String.jsonString(jsonObject: response, writingOptions: [.sortedKeys, .prettyPrinted]) ?? "No Response")")
+            }
+            #endif
             return Promise.value(resource)
         } catch DecodingError.dataCorrupted(let context) {
             let errorReason = "\(errorReasonPrefix) DataCorrupted: \(context.debugDescription)."

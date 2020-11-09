@@ -582,6 +582,9 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
+                if let console = eosioRpcActionsResponse.actions.first?.actionTrace.console {
+                    XCTAssert(console == "contracts console")
+                }
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_actions")
@@ -628,6 +631,52 @@ class RpcProviderExtensionEndpointTests: XCTestCase {
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
                 XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == -1)
+            case .failure(let err):
+                print(err.description)
+                XCTFail("Failed get_actions")
+            }
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testGetActionsNoConsole() {
+        var callCount = 1
+        (stub(condition: isHost("localhost")) { request in
+            if let urlString = request.url?.absoluteString {
+                if callCount == 1 && urlString == "https://localhost/v1/chain/get_info" {
+                    callCount += 1
+                    return RpcTestConstants.getInfoOHHTTPStubsResponse()
+                } else if callCount == 2 && urlString == "https://localhost/v1/history/get_actions" {
+                    return RpcTestConstants.getOHHTTPStubsResponseForJson(json: RpcTestConstants.actionsNoConsoleJson)
+                } else {
+                    return RpcTestConstants.getErrorOHHTTPStubsResponse(code: NSURLErrorUnknown, reason: "Unexpected call count in stub: \(callCount)")
+                }
+            } else {
+                return RpcTestConstants.getErrorOHHTTPStubsResponse(reason: "No valid url string in request in stub")
+            }
+        }).name = "Get Actions No Console stub"
+        let expect = expectation(description: "testGetActionsNoConsole")
+        let requestParameters = EosioRpcHistoryActionsRequest(position: -1, offset: -20, accountName: "cryptkeeper")
+        rpcProvider?.getActions(requestParameters: requestParameters) { response in
+            switch response {
+            case .success(let eosioRpcActionsResponse):
+                XCTAssertNotNil(eosioRpcActionsResponse._rawResponse)
+                XCTAssert(eosioRpcActionsResponse.lastIrreversibleBlock.value == 55535908)
+                XCTAssert(eosioRpcActionsResponse.timeLimitExceededError == false)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.globalActionSequence.value == 6483908013)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.receiverSequence.value == 1236)
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.count == 1)
+                if let firstSequence = eosioRpcActionsResponse.actions.first?.actionTrace.receipt.authorizationSequence.first as? [Any] {
+                    guard let accountName = firstSequence.first as? String, accountName == "powersurge22" else {
+                        return XCTFail("Should be able to find account name")
+                    }
+                }
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.name == "transfer")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.authorization.first?.permission == "active")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.data["memo"] as? String == "l2sbjsdrfd.m")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.action.hexData == "10826257e3ab38ad000000004800a739f3eef20b00000000044d4545544f4e450c6c3273626a736472666a2e6f")
+                XCTAssert(eosioRpcActionsResponse.actions.first?.actionTrace.accountRamDeltas.first?.delta.value == 472)
             case .failure(let err):
                 print(err.description)
                 XCTFail("Failed get_actions")

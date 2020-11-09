@@ -36,6 +36,8 @@ public class EosioTransaction: Codable {
         public var blocksBehind: UInt = 3
         /// Number of seconds behind the head block time for calculating transaction `expiration`.
         public var expireSeconds: UInt = 60 * 5
+        /// Use the last irreversible block instead of `blocksBehind` from the current head block to calculate TAPOS.
+        public var useLastIrreversible: Bool = true
     }
     /// Should signature providers be permitted to modify the transaction prior to signing? Defaults to `true`.
     public var allowSignatureProviderToModifyTransaction = true
@@ -422,10 +424,15 @@ public class EosioTransaction: Codable {
                     strongSelf.expiration = headBlockTime.addingTimeInterval(TimeInterval(strongSelf.config.expireSeconds))
                 }
 
-                let blocksBehind = UInt64(strongSelf.config.blocksBehind)
-                var blockNum = info.headBlockNum.value - blocksBehind
-                if blockNum <= 0 {
-                    blockNum = 1
+                // Default to using last irreversiable block
+                var blockNum = info.lastIrreversibleBlockNum.value
+                
+                if strongSelf.config.useLastIrreversible == false {
+                    let blocksBehind = UInt64(strongSelf.config.blocksBehind)
+                    blockNum = info.headBlockNum.value - blocksBehind
+                    if blockNum <= 0 {
+                        blockNum = 1
+                    }
                 }
                 strongSelf.getBlockAndSetTapos(blockNum: blockNum, completion: completion)
             }
@@ -449,9 +456,9 @@ public class EosioTransaction: Codable {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
 
-        let requestParameters = EosioRpcBlockRequest(blockNumOrId: blockNum)
+        let requestParameters = EosioRpcBlockInfoRequest(blockNum: blockNum)
 
-        rpcProvider.getBlockBase(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
+        rpcProvider.getBlockInfoBase(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
             guard let strongSelf = self else {
                 return completion(.failure(EosioError(.getBlockError, reason: "self does not exist")))
             }
@@ -654,6 +661,13 @@ public class EosioTransaction: Codable {
                 completion(.failure(error))
             case .success(let pushTransactionResponse):
                 strongSelf.transactionId = pushTransactionResponse.transactionId
+                let returnActionValues = pushTransactionResponse.returnActionValues()
+                print("Action Return Values: \(String(describing: returnActionValues))")
+                strongSelf.actions.enumerated().forEach { (index, action) in
+                    if returnActionValues.indices.contains(index) {
+                        action.returnValue = returnActionValues[index]
+                    }
+                }
                 return completion(.success(true))
             }
         }

@@ -89,6 +89,7 @@ let package = Package(
                 "eosio/types.hpp",
                 "eosio/varint.hpp",
                 "eosio/fpconv.license",
+                "fuzzer.hpp",
                 "LICENSE.txt"
             ]
         ),
@@ -97,7 +98,6 @@ let package = Package(
             dependencies: ["Abieos", "EosioSwift"],
             path: "Sources/EosioSwiftAbieosSerializationProvider",
             resources: [
-                .copy("abi.abi.json"),
                 .copy("eosio.assert.abi.json"),
                 .copy("transaction.abi.json")
             ]
@@ -147,6 +147,12 @@ let package = Package(
             name: "EosioSwiftSoftkeySignatureProviderTests",
             dependencies: ["EosioSwiftSoftkeySignatureProvider"],
             path: "Tests/EosioSwiftSoftkeySignatureProviderTests"
+        ),
+        // Temporary test targets for trying out transactions to local chain
+        .testTarget(
+            name: "EosioSwiftIntegrationTests",
+            dependencies: ["EosioSwift", "EosioSwiftSoftkeySignatureProvider", "EosioSwiftAbieosSerializationProvider"],
+            path: "Tests/EosioSwiftIntegrationTests"
         ),
     ],
     cxxLanguageStandard: .cxx1z

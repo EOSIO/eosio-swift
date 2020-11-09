@@ -16,10 +16,12 @@ public protocol EosioRpcInfoResponseProtocol {
     var headBlockNum: EosioUInt64 { get }
     /// The timestamp on the latest (head) block.
     var headBlockTime: String { get }
+    /// The block number of the last irreversible block.
+    var lastIrreversibleBlockNum: EosioUInt64 { get }
 }
 
-/// Protocol for get_block responses. RPC responses must contain these properties, at a minimum, in order to be compatible with the core EOSIO SDK for Swift library.
-public protocol EosioRpcBlockResponseProtocol {
+/// Protocol for get_block_info responses. RPC responses must contain these properties, at a minimum, in order to be compatible with the core EOSIO SDK for Swift library.
+public protocol EosioRpcBlockInfoResponseProtocol {
     /// The block number of the block fetched.
     var blockNum: EosioUInt64 { get }
     /// The block prefix for the block fetched.
@@ -46,6 +48,10 @@ public protocol EosioRpcRequiredKeysResponseProtocol {
 public protocol EosioRpcTransactionResponseProtocol {
     /// The transaction ID.
     var transactionId: String { get }
+    /// Return action values, if any.  The returned values are placed in their respective actions.  Array must contain nil for the actions that do not return action values.
+    /// There may be more action values than input actions due to inline actions or notifications but input (request) actions are always returned first and in the same
+    /// order as they were submitted in the transaction.
+    func returnActionValues() -> [Any?]
 }
 
 /// Protocol for generic responses. All RPC response objects will contain the `_rawResponse` property.

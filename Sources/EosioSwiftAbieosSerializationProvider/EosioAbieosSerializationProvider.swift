@@ -93,8 +93,19 @@ public class EosioAbieosSerializationProvider: EosioSerializationProviderProtoco
     /// - Returns: A String of binary data.
     /// - Throws: If the data cannot be serialized for any reason.
     public func serializeAbi(json: String) throws -> String {
-        let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
-        return try serialize(contract: nil, name: "", type: "abi_def", json: json, abi: abiJson)
+        refreshContext()
+        
+        let jsonToBinResult = abieos_abi_json_to_bin(context, json)
+        
+        guard jsonToBinResult == 1 else {
+            throw Error(.serializationProviderError, reason: "serializeAbi - unable to convert to binary. \(self.error ?? "")")
+        }
+        
+        guard let hex = String(validatingUTF8: abieos_get_bin_hex(context)) else {
+            throw Error(.serializationProviderError, reason: "serializeUnable to convert binary to hex")
+        }
+        
+        return hex
     }
 
     /// Calls ABIEOS to carry out JSON to binary conversion using ABIs.
@@ -154,8 +165,26 @@ public class EosioAbieosSerializationProvider: EosioSerializationProviderProtoco
     /// - Returns: A String of JSON data.
     /// - Throws: If the data cannot be deserialized for any reason.
     public func deserializeAbi(hex: String) throws -> String {
-        let abiJson = try getAbiJsonFile(fileName: "abi.abi.json")
-        return try deserialize(contract: nil, name: "", type: "abi_def", hex: hex, abi: abiJson)
+        refreshContext()
+        
+        let abiData = try Data(hex: hex)
+        var jsonString: String? = nil
+        
+        try abiData.withUnsafeBytes { rawAbiPointer in
+            let abiPointer = rawAbiPointer.bindMemory(to: Int8.self)
+            guard let abiBytes = abiPointer.baseAddress else {
+                throw Error(.serializationProviderError, reason: "Base address of abi buffer is nil.")
+            }
+            if let jsonCstring = abieos_abi_bin_to_json(context, abiBytes, abiData.count) {
+                jsonString = String(cString: jsonCstring)
+            }
+        }
+        
+        guard let returnString = jsonString else {
+            throw Error(.serializationProviderError, reason: "Unable to convert hex json. \(self.error ?? "")")
+        }
+        
+        return returnString
     }
 
     /// Calls ABIEOS to carry out binary to JSON conversion using ABIs.

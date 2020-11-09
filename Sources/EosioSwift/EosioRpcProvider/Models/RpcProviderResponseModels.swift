@@ -89,7 +89,7 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
 }
 
 /// Response struct for the `get_block` RPC endpoint.
-public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResponseProtocol, Decodable {
+public struct EosioRpcBlockResponse: EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public let timestamp: String
     public let producer: String
@@ -172,6 +172,74 @@ public struct EosioRpcBlockResponse: EosioRpcBlockResponseProtocol, EosioRpcResp
 
 }
 
+/// Response struct for the `get_block_info` RPC endpoint.
+public struct EosioRpcBlockInfoResponse: EosioRpcBlockInfoResponseProtocol, EosioRpcResponseProtocol, Decodable {
+    public var _rawResponse: Any?
+    public let timestamp: String
+    public let producer: String
+    public let confirmed: UInt
+    public let previous: String
+    public let transactionMroot: String
+    public let actionMroot: String
+    public let scheduleVersion: UInt
+    public let producerSignature: String
+    public let id: String
+    public let blockNum: EosioUInt64
+    public let refBlockNum: EosioUInt64
+    public let refBlockPrefix: EosioUInt64
+
+    enum CodingKeys: String, CodingKey {
+        case timestamp
+        case producer
+        case confirmed
+        case previous
+        case transactionMroot = "transaction_mroot"
+        case actionMroot = "action_mroot"
+        case scheduleVersion = "schedule_version"
+        case producerSignature = "producer_signature"
+        case id
+        case blockNum = "block_num"
+        case refBlockNum = "ref_block_num"
+        case refBlockPrefix = "ref_block_prefix"
+    }
+
+    public init(timestamp: String, producer: String = "", confirmed: UInt = 0, previous: String = "", transactionMroot: String = "",
+                actionMroot: String = "", scheduleVersion: UInt = 0,
+                producerSignature: String = "",
+                id: String, blockNum: EosioUInt64, refBlockNum: EosioUInt64, refBlockPrefix: EosioUInt64) {
+        self.timestamp = timestamp
+        self.producer = producer
+        self.confirmed = confirmed
+        self.previous = previous
+        self.transactionMroot = transactionMroot
+        self.actionMroot = actionMroot
+        self.scheduleVersion = scheduleVersion
+        self.producerSignature = producerSignature
+        self.id = id
+        self.blockNum = blockNum
+        self.refBlockNum = refBlockNum
+        self.refBlockPrefix = refBlockPrefix
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        timestamp = try container.decode(String.self, forKey: .timestamp)
+        producer = try container.decodeIfPresent(String.self, forKey: .producer) ?? ""
+        confirmed = try container.decodeIfPresent(UInt.self, forKey: .confirmed) ?? 0
+        previous = try container.decodeIfPresent(String.self, forKey: .previous) ?? ""
+        transactionMroot = try container.decodeIfPresent(String.self, forKey: .transactionMroot) ?? ""
+        actionMroot = try container.decodeIfPresent(String.self, forKey: .actionMroot) ?? ""
+        scheduleVersion = try container.decodeIfPresent(UInt.self, forKey: .scheduleVersion) ?? 0
+        producerSignature = try container.decodeIfPresent(String.self, forKey: .producerSignature) ?? ""
+        id = try container.decode(String.self, forKey: .id)
+        blockNum = try container.decode(EosioUInt64.self, forKey: .blockNum)
+        refBlockNum = try container.decode(EosioUInt64.self, forKey: .refBlockNum)
+        refBlockPrefix = try container.decode(EosioUInt64.self, forKey: .refBlockPrefix)
+    }
+
+}
+
 /// Response struct for the `get_raw_abi` RPC endpoint.
 public struct EosioRpcRawAbiResponse: EosioRpcRawAbiResponseProtocol, EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
@@ -229,6 +297,25 @@ public struct EosioRpcTransactionResponse: EosioRpcTransactionResponseProtocol, 
         transactionId = try container.decode(String.self, forKey: .transactionId)
         let processedContainer = try? container.nestedContainer(keyedBy: DynamicKey.self, forKey: .processed)
         processed = processedContainer?.decodeDynamicKeyValues()
+    }
+    
+    public func returnActionValues() -> [Any?] {
+        var actionReturnValues: [Any?] = []
+        
+        guard let details = processed else {
+            return actionReturnValues
+        }
+        
+        guard let actionTraces = details["action_traces"] as? [[String: Any]] else {
+            return actionReturnValues
+        }
+        
+        actionTraces.forEach { actionTrace in
+            let returnValue = actionTrace["return_value_data"]
+            actionReturnValues.append(returnValue)
+        }
+        
+        return actionReturnValues
     }
 }
 
@@ -816,7 +903,7 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
     public var action: EosioRpcActionsResponseActionTraceAction
     public var contextFree: Bool
     public var elapsed: EosioUInt64
-    public var console: String
+    public var console: String?
     public var transactionId: String
     public var blockNumber: EosioUInt64
     public var blockTime: String
@@ -845,7 +932,7 @@ public struct EosioRpcActionsResponseActionTrace: Decodable, EosioRpcResponsePro
         action = try container.decode(EosioRpcActionsResponseActionTraceAction.self, forKey: .action)
         contextFree = try container.decode(Bool.self, forKey: .contextFree)
         elapsed = try container.decode(EosioUInt64.self, forKey: .elapsed)
-        console = try container.decode(String.self, forKey: .console)
+        console = try container.decodeIfPresent(String.self, forKey: .console)
         transactionId = try container.decode(String.self, forKey: .transactionId)
         blockNumber = try container.decode(EosioUInt64.self, forKey: .blockNumber)
         blockTime = try container.decode(String.self, forKey: .blockTime)
@@ -985,6 +1072,28 @@ public struct EosioRpcTableRowsResponse: Decodable, EosioRpcResponseProtocol {
         var rowsContainer = try? container.nestedUnkeyedContainer(forKey: .rows)
         rows = rowsContainer?.decodeDynamicValues() ?? [Any]()
         more = try container.decodeIfPresent(Bool.self, forKey: .more) ?? false
+    }
+}
+
+/// Response type for the `get_kv_table_rows` RPC endpoint.
+public struct EosioRpcKvTableRowsResponse: Decodable, EosioRpcResponseProtocol {
+    public var _rawResponse: Any?
+    public var rows: [Any] = [Any]()
+    public var more: Bool
+    public var nextKey: String
+    
+    enum CustomCodingKeys: String, CodingKey {
+        case rows
+        case more
+        case nextKey = "next_key"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+        var rowsContainer = try? container.nestedUnkeyedContainer(forKey: .rows)
+        rows = rowsContainer?.decodeDynamicValues() ?? [Any]()
+        more = try container.decodeIfPresent(Bool.self, forKey: .more) ?? false
+        nextKey = try container.decodeIfPresent(String.self, forKey: .nextKey) ?? ""
     }
 }
 

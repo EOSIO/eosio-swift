@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.summary          = 'EOSIO SDK for Swift - API for integrating with EOSIO-based blockchains.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
-                           Copyright (c) 2017-2019 block.one and its contributors.  All rights reserved.
+                           Copyright (c) 2017-2020 block.one and its contributors.  All rights reserved.
                          LICENSE
                        }
   s.author           = { 'Todd Bowden' => 'todd.bowden@block.one',
@@ -50,13 +50,11 @@ Pod::Spec.new do |s|
                       'Sources/EosioSwiftAbieosSerializationProvider/**/*.swift'
 
     ss.preserve_paths = 'Sources/EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json',
-                        'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json',
-                        'Sources/EosioSwiftAbieosSerializationProvider/abi.abi.json'
+                        'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json'
 
     ss.ios.resource_bundle = { 'EosioSwift' => 'Sources/EosioSwiftAbieosSerializationProvider/*.abi.json' }
 
     ss.resources = 'Sources/EosioSwiftAbieosSerializationProvider/transaction.abi.json',
-                   'Sources/EosioSwiftAbieosSerializationProvider/abi.abi.json',
                    'Sources/EosioSwiftAbieosSerializationProvider/eosio.assert.abi.json'
 
     ss.libraries = "c++"

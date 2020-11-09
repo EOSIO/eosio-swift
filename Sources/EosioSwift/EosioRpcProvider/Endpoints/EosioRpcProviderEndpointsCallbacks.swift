@@ -33,6 +33,17 @@ extension EosioRpcProvider {
             completion(EosioResult(success: result, failure: error)!)
         }
     }
+    
+    /// Call `chain/get_block_info`. Get a block by block number or ID.
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An `EosioRpcBlockInfoRequest`.
+    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcBlockInfoResponse` and an optional `EosioError`.
+    public func getBlockInfo(requestParameters: EosioRpcBlockInfoRequest, completion: @escaping (EosioResult<EosioRpcBlockInfoResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_block_info", requestParameters: requestParameters) {(result: EosioRpcBlockInfoResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
 
     /// Call `chain/get_info`. Get information about the chain and node.
     ///
@@ -193,6 +204,17 @@ extension EosioRpcProvider {
     ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcTableRowsResponse` and an optional `EosioError`.
     public func getTableRows(requestParameters: EosioRpcTableRowsRequest, completion:@escaping (EosioResult<EosioRpcTableRowsResponse, EosioError>) -> Void) {
         getResource(rpc: "chain/get_table_rows", requestParameters: requestParameters) {(result: EosioRpcTableRowsResponse?, error: EosioError?) in
+            completion(EosioResult(success: result, failure: error)!)
+        }
+    }
+    
+    /// Call `chain/get_kv_table_rows`. Returns an object containing rows from the specified table.
+    ///
+    /// - Parameters:
+    ///   - requestParameters: An `EosioRpcKvTableRowsRequest`.
+    ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcKvTableRowsResponse` and an optional `EosioError`.
+    public func getKvTableRows(requestParameters: EosioRpcKvTableRowsRequest, completion:@escaping (EosioResult<EosioRpcKvTableRowsResponse, EosioError>) -> Void) {
+        getResource(rpc: "chain/get_kv_table_rows", requestParameters: requestParameters) {(result: EosioRpcKvTableRowsResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
     }

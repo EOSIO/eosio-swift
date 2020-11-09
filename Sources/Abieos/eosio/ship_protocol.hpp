@@ -670,7 +670,35 @@ namespace eosio { namespace ship_protocol {
                  deferred_trx_expiration_window, max_transaction_delay, max_inline_action_size, max_inline_action_depth,
                  max_authority_depth)
 
-   using chain_config = std::variant<chain_config_v0>;
+   struct chain_config_v1 {
+      uint64_t max_block_net_usage                 = {};
+      uint32_t target_block_net_usage_pct          = {};
+      uint32_t max_transaction_net_usage           = {};
+      uint32_t base_per_transaction_net_usage      = {};
+      uint32_t net_usage_leeway                    = {};
+      uint32_t context_free_discount_net_usage_num = {};
+      uint32_t context_free_discount_net_usage_den = {};
+      uint32_t max_block_cpu_usage                 = {};
+      uint32_t target_block_cpu_usage_pct          = {};
+      uint32_t max_transaction_cpu_usage           = {};
+      uint32_t min_transaction_cpu_usage           = {};
+      uint32_t max_transaction_lifetime            = {};
+      uint32_t deferred_trx_expiration_window      = {};
+      uint32_t max_transaction_delay               = {};
+      uint32_t max_inline_action_size              = {};
+      uint16_t max_inline_action_depth             = {};
+      uint16_t max_authority_depth                 = {};
+      uint32_t max_action_return_value_size        = {};
+   };
+
+   EOSIO_REFLECT(chain_config_v1, max_block_net_usage, target_block_net_usage_pct, max_transaction_net_usage,
+               base_per_transaction_net_usage, net_usage_leeway, context_free_discount_net_usage_num,
+               context_free_discount_net_usage_den, max_block_cpu_usage, target_block_cpu_usage_pct,
+               max_transaction_cpu_usage, min_transaction_cpu_usage, max_transaction_lifetime,
+               deferred_trx_expiration_window, max_transaction_delay, max_inline_action_size, max_inline_action_depth,
+               max_authority_depth, max_action_return_value_size)
+
+   using chain_config = std::variant<chain_config_v0, chain_config_v1>;
 
    struct global_property_v0 {
       std::optional<uint32_t> proposed_schedule_block_num = {};

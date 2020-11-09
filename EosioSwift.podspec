@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.summary          = 'EOSIO SDK for Swift - API for integrating with EOSIO-based blockchains.'
   s.homepage         = 'https://github.com/EOSIO/eosio-swift'
   s.license          = { :type => 'MIT', :text => <<-LICENSE
-                           Copyright (c) 2017-2019 block.one and its contributors.  All rights reserved.
+                           Copyright (c) 2017-2020 block.one and its contributors.  All rights reserved.
                          LICENSE
                        }
   s.author           = { 'Todd Bowden' => 'todd.bowden@block.one',

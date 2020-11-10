@@ -5,7 +5,12 @@
 [![Swift 5.0](https://img.shields.io/badge/Language-Swift_5.0-orange.svg)](https://swift.org)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2011-blue.svg)
 
-EOSIO SDK for Swift is an API for integrating with EOSIO-based blockchains using the [EOSIO RPC API](https://developers.eos.io/eosio-nodeos/reference). For a high-level introduction to our Swift and Java SDKs, check out our announcement on Medium: [EOSIO™ Software Release: Native SDKs for Swift and Java](https://medium.com/eosio/eosio-software-release-native-sdks-for-swift-and-java-e6086ddd37b8).
+EOSIO SDK for Swift is a set of components for integrating with EOSIO-based blockchains.  It contains:
+
+* EosioSwift, the core component for communicating and transacting with EOSIO-based blockchains using the [EOSIO RPC API](https://developers.eos.io/eosio-nodeos/reference). For a high-level introduction to our Swift and Java SDKs, check out our announcement on Medium: [EOSIO™ Software Release: Native SDKs for Swift and Java](https://medium.com/eosio/eosio-software-release-native-sdks-for-swift-and-java-e6086ddd37b8).
+* ABIEOS Serialization Provider, a pluggable serialization provider for [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift).  Serialization providers are responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations. This particular serialization provider wraps [ABIEOS](https://github.com/EOSIO/abieos), a C/C++ library that facilitates this conversion.
+* ECC, a component for working with public and private keys, cryptographic signatures, encryption/decryption, etc. as part of the [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) family of components.
+* Softkey Signature Provider, an example pluggable signature provider for [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift). It allows for signing transactions using in-memory K1 keys.
 
 To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is for the core library to run anywhere Swift runs, adding other targets (macOS, watchOS, tvOS) as the library matures.
 
@@ -13,41 +18,107 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
 
 ## Contents
 
-- [Installation](#installation)
+- [Prerequisites](#prerequisites)
+- [Swift Package Manager Installation](#swift-package-manager-installation)
+- [Cocoapods Installation](#cocoapods-installation)
 - [Basic Usage](#basic-usage)
     - [Working With Transactions](#working-with-transactions)
     - [The Transaction Factory](#the-transaction-factory)
     - [Usage With PromiseKit](#usage-with-promisekit)
+    - [Abieos Serialization Provider Usage](#abieos-serialization-provider-usage)
+    - [ECC Usage](#ecc-usage)
+    - [Softkey Signature Provider Usage](#softkey-signature-provider-usage)
     - [Key Management and Signing Utilities](#key-management-and-signing-utilities)
-- [iOS Example App](#ios-example-app)
 - [Documentation](#documentation)
 - [Provider Protocol Architecture](#provider-protocol-architecture)
 - [RPC: Using the Default RPC Provider](#rpc-using-the-default-rpc-provider)
 - [Want to Help?](#want-to-help)
 - [License & Legal](#license)
 
-## Installation
+## Prerequisites
 
-### Prerequisites
+* Xcode 11 or higher
+* CocoaPods 1.9.3 or higher OR
+* Swift Package Manager (SPM) 5.2 or higher
+* For iOS, iOS 12+
 
-* Xcode 10 or higher
-* CocoaPods 1.5.3 or higher
-* For iOS, iOS 11+*
+## Swift Package Manager Installation
 
-***Note:** [ABIEOS Serialization Provider](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider) requires iOS 12+ at the moment.
+Depending on the component(s) you wish to use, the appropriate dependencies will also be installed for you.  For example, if you wished to use `EosioSwiftAbieosSerializationProvider`, then the main `EosioSwift` component would also be installed.
 
-### Instructions
+If you wish to use all of the components, add the `EosioSwift`, `EosioSwiftAbieosSerializationProvider`, `EosioSwiftEcc` and `EosioSwiftSoftkeySignatureProvider` products from `https://github.com/EOSIO/eosio-swift` to your application dependencies.
 
-To use EOSIO SDK for Swift in your app, add the following pods to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
+Or to include it into a library, add the following to your `Package.swift` definition:
+
+```swift
+// swift-tools-version:5.2
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+    name: "MyName",
+    platforms: [
+        .iOS(.v12)
+    ],
+    products: [
+        // Products define the executables and libraries produced by a package, and make them visible to other packages.
+        .library(
+            name: "MyLibrary",
+            targets: ["MyLibrary"]),
+    ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        // .package(url: /* package url */, from: "1.0.0"),
+        .package(name: "EosioSwift", url: "https://github.com/EOSIO/eosio-swift", from: "1.0.0"))
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "MyLibrary",
+            dependencies: [
+                .product(name: "EosioSwift", package: "EosioSwift"),
+                .product(name: "EosioSwiftAbieosSerializationProvider", package: "EosioSwift"),
+                .product(name: "EosioSwiftEcc", package: "EosioSwift"),
+                .product(name: "EosioSwiftSoftkeySignatureProvider", package: "EosioSwift"),
+        ]),
+        .testTarget(
+            name: "MyLibraryTests",
+            dependencies: ["MyLibrary"]),
+    ]
+)
+```
+
+Technically, in the full definition, not all of the components would have to be specified as dependencies since `EosioSwiftSoftkeySignatureProvider` depends on `EosioSwiftEcc` and `EosioSwift` and would include them automatically, but all products are listed here for illustration purposes.  
+
+If you only want some of the components, you can remove the unwanted dependencies in the product name definition for your target.
+
+## CocoaPods Installation
+
+All of the EOSIO SDK for Swift components are separated as subspecs in Cocoapods.  If you install the entire pod from EOSIO SDK for Swift you will get the main EosioSwift API, Abieos Serialization Provider, ECC and Softkey Signature Provider.  To do this, add the following to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 
 ```ruby
 use_frameworks!
 
 target "Your Target" do
-  pod "EosioSwift", "~> 0.4.0" # pod for this library
-  # Providers for EOSIO SDK for Swift
-  pod "EosioSwiftAbieosSerializationProvider", "~> 0.4.0" # serialization provider
-  pod "EosioSwiftSoftkeySignatureProvider", "~> 0.4.0" # experimental signature provider for development only
+  pod "EosioSwiftVault", "~> 1.0.0"
+end
+```
+
+Then run `pod install`.  And you're all set for the [Basic Usage](#basic-usage) example!
+
+If you wish to use only some of the components, add the subspecs you want out of the list below to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
+
+```ruby
+use_frameworks!
+
+target "Your Target" do
+  pod "EosioSwift/Core", "~> 1.0.0" # The main Eosio Swift API
+  pod "EosioSwift/AbieosSerializationProvider", "~> 1.0.0" # serialization provider
+  pod "EosioSwift/Ecc", "~> 1.0.0" # ECC, mostly a dependency, normally do not need to specify
+  pod "EosioSwift/SoftkeySignatureProvider", "~> 1.0.0" # experimental signature provider for development only 
+  
 end
 ```
 
@@ -101,6 +172,24 @@ transaction.signAndBroadcast { (result) in
 }
 ```
 
+Starting with version 1.0, it is possible to configure transactions to use the last irreversible block rather than a block `blocksBehind` the current head block of the chain.  The number of `blocksBehind` or the `expireSeconds` can also be adjusted.  This is done by modifying the `Transaction.Config` before calling `prepare`, `sign` or `signAndBroadcast`.  When `useLastIrreversible` is true, then `blocksBehind` is ignored.  `Transaction.Config` defaults `useLastIrreversible` to `true` to help minimize micro-forking of transactions under certain conditions. 
+
+```swift
+let transaction = EosioTransaction()
+transaction.rpcProvider = EosioRpcProvider(endpoint: URL(string: "http://localhost:8888")!)
+transaction.serializationProvider = EosioAbieosSerializationProvider()
+transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["yourPrivateKey"])
+
+// Modify the transation configuration.
+transaction.config.useLastIrreversible = false
+
+// Modify expire seconds if desired.
+transaction.config.expireSeconds = 60 * 8
+
+// Add actions, sign, broadcast etc. as shown above...
+
+```
+
 ### The Transaction Factory
 
 Alternatively, to avoid having to set the providers on every transaction, you can use the [`EosioTransactionFactory`](EosioSwift/EosioTransaction/EosioTransactionFactory.swift) convenience class, as follows:
@@ -134,17 +223,65 @@ firstly {
 }
 ```
 
+### Abieos Serialization Provider Usage
+
+If you wish to use ABIEOS Serialization Provider directly, its public methods can be called like this:
+
+```swift
+let abieos: EosioAbieosSerializationProvider? = EosioAbieosSerializationProvider()
+let hex = "1686755CA99DE8E73E1200" // some binary data
+let json = "{"name": "John"}" // some JSON
+
+let jsonToBinaryTransaction = try? abieos?.serializeTransaction(json: json)
+let binaryToJsonTransaction = try? abieos?.deserializeTransaction(hex: hex)
+```
+
+### ECC Usage
+
+ECC provides the following methods, among others. This list will expand as more are added.
+
+* `EosioEccSign.signWithK1(...)`: Sign data with a K1 key for validation on an EOSIO chain.
+* `EccRecoverKey.recoverPublicKey(...)`: Recover a public key from a private key or from a signature and message.
+* `EccRecoverKey.recid(...)`: Get the Recovery ID for a signature, message and target public key.
+
+### Softkey Signature Provider Usage
+
+**Important:** Softkey Signature Provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet, such as the Vault Signature Provider from [EOSIO SDK for Swift: Vault](https://github.com/EOSIO/eosio-swift-vault).
+
+Generally, signature providers are called by [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/Sources/EosioSwift/EosioTransaction/EosioTransaction.swift) during signing. ([See an example here.](https://github.com/EOSIO/eosio-swift#basic-usage)) If you find, however, that you need to get available keys or request signing directly, this library can be invoked as follows:
+
+```swift
+let signProvider = try? EosioSoftkeySignatureProvider(privateKeys: privateKeysArray)
+let publicKeysArray = signProvider?.getAvailableKeys() // Returns the public keys.
+```
+
+To sign an [`EosioTransaction`](https://github.com/EOSIO/eosio-swift/blob/master/Sources/EosioSwift/EosioTransaction/EosioTransaction.swift), create an [`EosioTransactionSignatureRequest`](https://github.com/EOSIO/eosio-swift/blob/master/Sources/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) object and call the `EosioSoftkeySignatureProvider.signTransaction(request:completion:)` method with the request:
+
+```swift
+var signRequest = EosioTransactionSignatureRequest()
+signRequest.serializedTransaction = serializedTransaction
+signRequest.publicKeys = publicKeys
+signRequest.chainId = chainId
+
+signProvider.signTransaction(request: signRequest) { (response) in
+    ...
+}
+```
+
 ### Key Management and Signing Utilities
 
 Utilities for key generation and management and other signing functionality can be found in the [EOSIO SDK for Swift: Vault](https://github.com/EOSIO/eosio-swift-vault) library.
 
-## iOS Example App
-
-If you'd like to see EOSIO SDK for Swift in action, check out our open source [iOS Example App](https://github.com/EOSIO/eosio-swift-ios-example-app)--a working application that fetches an account's token balance and pushes a transfer action.
-
 ## Documentation
 
-Please refer to the generated code documentation at https://eosio.github.io/eosio-swift/ or by cloning this repo and opening the `docs/index.html` file in your browser.
+Please refer to the generated code documentation at https://eosio.github.io/eosio-swift/ or by cloning this repo and opening any of the following files in your browser:
+
+* `docs/EosioSwift/index.html`
+* `docs/EosioSwiftAbieosSerializationProvider/index.html`
+* `docs/EosioSwiftEcc/index.html`
+* `docs/EosioSwiftSoftkeySignatureProvider/index.html`
+
+Documentation can be regenerated or updated by running the `update_documentation.sh` script in the repo.
 
 ## Provider Protocol Architecture
 
@@ -152,41 +289,44 @@ The core EOSIO SDK for Swift library uses a provider-protocol-driven architectur
 
 ### Signature Provider Protocol
 
-The Signature Provider abstraction is arguably the most useful of all of the providers. It is responsible for _a)_ finding out what keys are available for signing and _b)_ requesting and obtaining transaction signatures with a subset of the available keys.
+The Signature Provider abstraction is arguably the most useful of all of the [EOSIO SDK for Swift](https://github.com/EOSIO/eosio-swift) providers. It is responsible for:
 
-By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need a signature from keys in the platform's Keychain or Secure Enclave? Configure the `EosioTransaction` with the [EOSIO SDK for Swift: Vault Signature Provider](https://github.com/EOSIO/eosio-swift-vault-signature-provider). Need signatures from a wallet on the user's device? A signature provider can do that too!
+* finding out what keys are available for signing (`getAvailableKeys`), and
+* requesting and obtaining transaction signatures with a subset of the available keys (`signTransaction`).
 
-EOSIO SDK for Swift _does not include_ a signature provider implementation; one must be installed separately. All signature providers must conform to the [`EosioSignatureProviderProtocol`](EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift).
+By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need software signing? [Configure the `EosioTransaction`](#basic-usage) with this signature provider. Need a signature from keys in the platform's Keychain or Secure Enclave? Take a look at the [Vault Signature Provider](https://github.com/EOSIO/eosio-swift-vault). Need signatures from a wallet on the user's device? A signature provider can do that too!
 
-* [Vault Signature Provider](https://github.com/EOSIO/eosio-swift-vault-signature-provider) - Signature provider implementation for signing transactions using keys stored in Keychain or the device's Secure Enclave.
-* [Softkey Signature Provider](https://github.com/EOSIO/eosio-swift-softkey-signature-provider) - Example signature provider for signing transactions using K1 keys in memory. _This signature provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet._
-* [Reference iOS Authenticator Signature Provider](https://github.com/EOSIO/eosio-swift-reference-ios-authenticator-signature-provider) - Native iOS Apps using this signature provider are able to integrate with the [EOSIO Reference iOS Authenticator App](https://github.com/EOSIO/eosio-reference-ios-authenticator-app), allowing their users to sign in and approve transactions via the authenticator app.
+All signature providers must conform to the [`EosioSignatureProviderProtocol`](https://github.com/EOSIO/eosio-swift/blob/master/Sources/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) Protocol.
+
+EOSIO SDK for Swift does include a signature provider implementation;  `EosioSoftkeySignatureProvider`, an example signature provider for signing transactions using K1 keys in memory. _This signature provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet._.
+
+While it is possible to use `EosioSoftkeySignatureProvider`, [Vault Signature Provider](https://github.com/EOSIO/eosio-swift-vault), a signature provider implementation for signing transactions using keys stored in Keychain or the device's Secure Enclave, is strongly recommended.
 
 ### RPC Provider Protocol
 
 The RPC Provider is responsible for all [RPC calls to nodeos](https://developers.eos.io/eosio-nodeos/reference), as well as general network handling (Reachability, retry logic, etc.) While EOSIO SDK for Swift includes an [RPC Provider implementation](#rpc-using-the-default-rpc-provider), it must still be set explicitly when creating an `EosioTransaction`, as it must be instantiated with an endpoint. (The default implementation suffices for most use cases.)
 
-* [`EosioRpcProviderProtocol`](EosioSwift/EosioRpcProviderProtocol/EosioRpcProviderProtocol.swift) - All RPC providers must conform to this protocol.
-* [`EosioRpcProvider`](EosioSwift/EosioRpcProvider/EosioRpcProvider.swift) Default Implementation - Default RPC provider implementation included in EOSIO SDK for Swift.
+* [`EosioRpcProviderProtocol`](Sources/EosioSwift/EosioRpcProviderProtocol/EosioRpcProviderProtocol.swift) - All RPC providers must conform to this protocol.
+* [`EosioRpcProvider`](Sources/EosioSwift/EosioRpcProvider/EosioRpcProvider.swift) Default Implementation - Default RPC provider implementation included in EOSIO SDK for Swift.
 * [Nodeos RPC Reference Documentation](https://developers.eos.io/eosio-nodeos/reference) - Nodeos RPC reference.
 
 ### Serialization Provider Protocol
 
-The Serialization Provider is responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations. These implementations often contain platform-sensitive C++ code and larger dependencies. For those reasons, EOSIO SDK for Swift _does not include_ a serialization provider implementation; one must be installed separately.
+The Serialization Provider is responsible for ABI-driven transaction and action serialization and deserialization between JSON and binary data representations. These implementations often contain platform-sensitive C++ code and larger dependencies. EOSIO SDK for Swift does include a serialization provider implementation.
 
-* [`EosioSerializationProviderProtocol`](EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift) - All serialization providers must conform to this protocol.
-* [ABIEOS Serialization Provider Implementation](https://github.com/EOSIO/eosio-swift-abieos-serialization-provider) - Serialization/deserialization using ABIEOS. Currently supports iOS 12+.
+* [`EosioSerializationProviderProtocol`](Sources/EosioSwift/EosioSerializationProviderProtocol/EosioSerializationProviderProtocol.swift) - All serialization providers must conform to this protocol.
+* [`EosioAbieosSerializationProvider`](Sources/EosioSwiftAbieosSerializationProvider/EosioAbieosSerializationProvider.swift) - Serialization/deserialization using ABIEOS. Currently supports iOS 12+.
 
 ### ABI Provider Protocol
 
-The ABI Provider is responsible for fetching and caching ABIs for use during serialization and deserialization. If none is explicitly set on the `EosioTransaction`, the default [`EosioAbiProvider`](EosioSwift/EosioAbiProviderProtocol/EosioAbiProvider.swift) will be used. (The default implementation suffices for most use cases.)
+The ABI Provider is responsible for fetching and caching ABIs for use during serialization and deserialization. If none is explicitly set on the `EosioTransaction`, the default [`EosioAbiProvider`](Sources/EosioSwift/EosioAbiProviderProtocol/EosioAbiProvider.swift) will be used. (The default implementation suffices for most use cases.)
 
-* [`EosioAbiProviderProtocol`](EosioSwift/EosioAbiProviderProtocol/EosioAbiProviderProtocol.swift) - All ABI providers must conform to this protocol.
-* [`EosioAbiProvider`](EosioSwift/EosioAbiProviderProtocol/EosioAbiProvider.swift) Default Implementation - Default ABI provider implementation included in EOSIO SDK for Swift.
+* [`EosioAbiProviderProtocol`](Sources/EosioSwift/EosioAbiProviderProtocol/EosioAbiProviderProtocol.swift) - All ABI providers must conform to this protocol.
+* [`EosioAbiProvider`](Sources/EosioSwift/EosioAbiProviderProtocol/EosioAbiProvider.swift) Default Implementation - Default ABI provider implementation included in EOSIO SDK for Swift.
 
 ## RPC: Using the Default RPC Provider
 
-EOSIO Swift includes a default RPC Provider implementation ([`EosioRpcProvider`](EosioSwift/EosioRpcProvider/EosioRpcProvider.swift)) for communicating with EOSIO nodes using the [EOSIO RPC API](https://developers.eos.io/eosio-nodeos/reference). Alternate RPC providers can be used assuming they conform to the minimal [`EosioRpcProviderProtocol`](EosioSwift/EosioRpcProviderProtocol/EosioRpcProviderProtocol.swift). The core EOSIO SDK for Swift library depends only on the five RPC endpoints set forth in that Protocol. Other endpoints, however, are exposed in the default [`EosioRpcProvider`](EosioSwift/EosioRpcProvider/EosioRpcProvider.swift).
+EOSIO Swift includes a default RPC Provider implementation ([`EosioRpcProvider`](Sources/EosioSwift/EosioRpcProvider/EosioRpcProvider.swift)) for communicating with EOSIO nodes using the [EOSIO RPC API](https://developers.eos.io/eosio-nodeos/reference). Alternate RPC providers can be used assuming they conform to the minimal [`EosioRpcProviderProtocol`](Sources/EosioSwift/EosioRpcProviderProtocol/EosioRpcProviderProtocol.swift). The core EOSIO SDK for Swift library depends only on five of the six RPC endpoints set forth in that Protocol. `pushTransaction` is no longer used by the core library but has been retained for backwards compatibility.  Other endpoints, however, are exposed in the default [`EosioRpcProvider`](Sources/EosioSwift/EosioRpcProvider/EosioRpcProvider.swift).
 
 Calls can be made to any of the available endpoints as follows:
 

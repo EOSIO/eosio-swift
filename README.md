@@ -2,7 +2,7 @@
 # EOSIO SDK for Swift ![EOSIO Alpha](https://img.shields.io/badge/EOSIO-Alpha-blue.svg)
 
 [![Software License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/EOSIO/eosio-swift/blob/master/LICENSE)
-[![Swift 5.0](https://img.shields.io/badge/Language-Swift_5.3-orange.svg)](https://swift.org)
+[![Swift 5.2](https://img.shields.io/badge/Language-Swift_5.2-orange.svg)](https://swift.org)
 ![](https://img.shields.io/badge/Deployment%20Target-iOS%2012-blue.svg)
 
 EOSIO SDK for Swift is a set of components for integrating with EOSIO-based blockchains.  It contains:

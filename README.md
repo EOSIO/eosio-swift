@@ -252,7 +252,7 @@ ECC provides the following methods, among others. This list will expand as more 
 
 **Important:** Softkey Signature Provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet, such as the Vault Signature Provider from [EOSIO SDK for Swift: Vault](https://github.com/EOSIO/eosio-swift-vault).
 
-Generally, signature providers are called by [`EosioTransaction`]ster/Sources/EosioSwift/EosioTransaction/EosioTransaction.swift) during signing. ([See an example here.](https://github.com/EOSIO/eosio-swift#basic-usage)) If you find, however, that you need to get available keys or request signing directly, this library can be invoked as follows:
+Generally, signature providers are called by [`EosioTransaction`](Sources/EosioSwift/EosioTransaction/EosioTransaction.swift) during signing. ([See an example here.](https://github.com/EOSIO/eosio-swift#basic-usage)) If you find, however, that you need to get available keys or request signing directly, this library can be invoked as follows:
 
 ```swift
 let signProvider = try? EosioSoftkeySignatureProvider(privateKeys: privateKeysArray)
@@ -304,7 +304,7 @@ The Signature Provider abstraction is arguably the most useful of all of the [EO
 
 By simply switching out the signature provider on a transaction, signature requests can be routed any number of ways. Need software signing? [Configure the `EosioTransaction`](#basic-usage) with the [Softkey Signature Provider](#softkey-signature-provider-usage) signature provider. Need a signature from keys in the platform's Keychain or Secure Enclave? Take a look at the [Vault Signature Provider](https://github.com/EOSIO/eosio-swift-vault). Need signatures from a wallet on the user's device? A signature provider can do that too!
 
-All signature providers must conform to the [`EosioSignatureProviderProtocol`]ster/Sources/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) Protocol.
+All signature providers must conform to the [`EosioSignatureProviderProtocol`](Sources/EosioSwift/EosioSignatureProviderProtocol/EosioSignatureProviderProtocol.swift) Protocol.
 
 EOSIO SDK for Swift does include a signature provider implementation; `EosioSoftkeySignatureProvider`, an example signature provider for signing transactions using K1 keys in memory. _This signature provider stores keys in memory and is therefore not secure. It should only be used for development purposes. In production, we strongly recommend using a signature provider that interfaces with a secure vault, authenticator or wallet._
 

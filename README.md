@@ -30,7 +30,8 @@ To date, EOSIO SDK for Swift has only been tested on iOS. The goal, however, is 
     - [ECC Usage](#ecc-usage)
     - [Softkey Signature Provider Usage](#softkey-signature-provider-usage)
     - [Key Management and Signing Utilities](#key-management-and-signing-utilities)
-- [Other Examples](#other-examples)
+- [Other Code Examples](#other-code-examples)
+- [iOS Example App](#ios-example-app)
 - [Code Documentation](#code-documentation)
 - [Provider Protocol Architecture](#provider-protocol-architecture)
 - [RPC: Using the Default RPC Provider](#rpc-using-the-default-rpc-provider)
@@ -276,9 +277,13 @@ signProvider.signTransaction(request: signRequest) { (response) in
 
 Utilities for key generation and management and other signing functionality can be found in the [EOSIO SDK for Swift: Vault](https://github.com/EOSIO/eosio-swift-vault) library.
 
-## Other Examples
+## Other Code Examples
 
 More examples can be found in the [EXAMPLES.md](EXAMPLES.md) document.
+
+## iOS Example App
+
+If you'd like to see EOSIO SDK for Swift in action, check out our open source [iOS Example App](https://github.com/EOSIO/eosio-swift-ios-example-app)--a working application that fetches an account's token balance and pushes a transfer action.
 
 ## Code Documentation
 

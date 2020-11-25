@@ -1,24 +1,26 @@
 # EOSIO SDK for Swift Examples
 
-EOSIO SDK for Swift contains an extensive set of functionality beyond the basics required for transactions.  The code snippets below show how to use some of this extended functionality.  It is important to note that these are simply example snippets and may not work the way you expect if you just copy and paste them into a method.  One common mistake is to allow the transaction or one of the providers to go out of scope, resulting in an error in the return closure when the server replies to the transaction request.  If you are seeing "self does not exist" errors when trying to send transactions or RPC calls, check to make sure that your objects are being held properly.
+EOSIO SDK for Swift contains an extensive set of functionality beyond the basics required for transactions. The code snippets below show how to use some of this extended functionality. It is important to note that these are simply example snippets and may not work the way you expect if you just copy and paste them into a method.
 
-Note: For clarity, these examples use the soft key signature provider which is NOT recommended for production use!
+One common mistake is to allow the transaction or one of the providers to go out of scope, resulting in an error in the return closure when the server replies to the transaction request. If you are seeing "self does not exist" errors when trying to send transactions or RPC calls, check to make sure that your objects are being held properly.
+
+Note: For clarity, these examples use the Softkey Signature Provider, which is NOT recommended for production use!
 
 ## Basic Transaction Examples
 
 ### Submitting a Transaction
 
-Basic submission of a transaction is shown in the main [README.md](README.md) file at the top level of the repository.  Please see the [Basic Usage](README.md/#basic-usage) example for details.
+Basic submission of a transaction is shown in the main [README.md](README.md) file at the top level of the repository. Please see the [Basic Usage](README.md/#basic-usage) example for details.
 
 ### How to Transfer an EOSIO Token
 
-The [Basic Usage](README.md/#basic-usage) example in the top level [README.md](README.md) file is an example of transferring an EOSIO token.  Please see that example for details.
+The [Basic Usage](README.md/#basic-usage) example in the top level [README.md](README.md) file is an example of transferring an EOSIO token. Please see that example for details.
 
 ## Extended Transaction Examples
 
 ### Retrieving Action Return Values From Transactions
 
-This snippet calls a transaction that returns a 32-bit integer value.  The user is required to know the correct type that the action returns in order to cast successfully.  Each action will contain its return value, if the server provided one.
+This snippet calls a transaction that returns a 32-bit integer value. The user is required to know the correct type that the action returns in order to cast successfully. Each action will contain its return value, if the server provided one.
 
 ```swift
 let url = URL(string: "https://my.example.blockchain")!
@@ -51,7 +53,7 @@ transaction.signAndBroadcast { result in
 
 ### Accessing Extended Fields in Transaction Responses
 
-Using `EosioTransaction.signAndBroadcast()` provides an easy way to sign and submit transactions but has a limited amount of information that it returns.  If you need to get additional information back from the blockchain, you must use `sendTransactionBase()` from [`EosioRpcProvider`](Sources/EosioSwift/EosioRpcProvider/EosioRpcProvider.swift) to submit the transaction after it is signed.  The process is much the same as a normal flow but instead of calling `signAndBroadcast()`,  use `sign()` instead and load the results into a `EosioRpcSendTransactionRequest` to be sent to the blockchain.  Afterward, the full response is available and can be decoded.  A small subset of fields are shown in the example below.  
+Using `EosioTransaction.signAndBroadcast()` provides an easy way to sign and submit transactions, but it returns a limited amount of information. If you need to get additional information back from the blockchain, you must use `sendTransactionBase()` from [`EosioRpcProvider`](Sources/EosioSwift/EosioRpcProvider/EosioRpcProvider.swift) to submit the transaction after it is signed. The process is much the same as a normal flow but instead of calling `signAndBroadcast()`, use `sign()` instead and load the results into an `EosioRpcSendTransactionRequest` to be sent to the blockchain. Afterward, the full response is available and can be decoded. A small subset of fields are shown in the example below.
 
 ```swift
 transaction = EosioTransaction()
@@ -124,7 +126,7 @@ do {
 
 ### Get Account Information
 
-This snippet retrieves information for an account on the blockchain.  There are several layers of response to unpack if all information is desired.  Some portions of the response are not fully unmarshalled, either due to size or because the responses can vary in structure.  These are returned as general `[String: Any]` Swift objects.  The [NODEOS Reference](https://developers.eos.io/eosio-nodeos/reference) is helpful for decoding the parts of responses that are not fully unmarshalled.  
+This snippet retrieves information for an account on the blockchain. There are several layers of response to unpack if all information is desired. Some portions of the response are not fully unmarshalled, either due to size or because the responses can vary in structure. These are returned as general `[String: Any]` Swift objects. The [NODEOS Reference](https://developers.eos.io/manuals/eos/latest/nodeos/plugins/chain_api_plugin/api-reference/index) is helpful for decoding the parts of responses that are not fully unmarshalled.
 
 ```swift
 let url = URL(string: "https://my.example.blockchain")!
@@ -134,9 +136,9 @@ let requestParameters = EosioRpcAccountRequest(accountName: "cryptkeeper")
 rpcProvider.getAccount(requestParameters: requestParameters) { response in
     switch response {
     case .success(let eosioRpcAccountResponse):
-        guard let response = eosioRpcAccountResponse else { 
+        guard let response = eosioRpcAccountResponse else {
             // Handle condition
-            return 
+            return
         }
         let accountname = response.accountName
         let ramQuota = response.ramQuota.value
@@ -180,43 +182,9 @@ rpcProvider.getAccount(requestParameters: requestParameters) { response in
 }
 ```
 
-### Getting Transaction Information From the History Plugin
-
-This snippet returns information on a transaction from the History API plugin.  Only a few fields are shown in the decoding example below.  The [NODEOS Reference](https://developers.eos.io/eosio-nodeos/reference) is helpful for decoding the parts of responses that are not fully unmarshalled.  
-
-```swift
-let url = URL(string: "https://my.test.blockchain")!
-rpcProvider = EosioRpcProvider(endpoint: url)
-
-let requestParameters = EosioRpcHistoryTransactionRequest(transactionId: "ae735820e26a7b771e1b522186294d7cbba035d0c31ca88237559d6c0a3bf00a", blockNumHint: 21098575)
-rpcProvider.getTransaction(requestParameters: requestParameters) { response in
-    switch response {
-    case .success(let eosioRpcGetTransactionResponse):
-        let returnedId = eosioRpcGetTransactionResponse.id
-        let returnedBlockNum = eosioRpcGetTransactionResponse.blockNum.value
-        guard let dict = eosioRpcGetTransactionResponse.trx["trx"] as? [String: Any] else {
-            print("Should find trx.trx dictionary.")
-            return
-        }
-        if let refBlockNum = dict["ref_block_num"] as? UInt64 {
-            print(refBlockNum)
-        } else {
-            XCTFail("Should find trx ref_block_num.")
-        }
-        if let signatures = dict["signatures"] as? [String] {
-            print(signatures[0])
-        } else {
-            print("Should find trx signatures and it should match.")
-        }
-    case .failure(let err):
-        print("Failed get_transaction call: \(err.description)")
-    }
-}
-```
-
 ### Retrieving Values from KV Tables
 
-This snippet retrieves values from a KV table defined by a contract on the server.  The example below is requesting the values from the contract "todo" in the table named "todo".  It is querying the index named "uuid" for the value "bf581bee-9f2c-447b-94ad-78e4984b6f51".  The encoding type of the indexValue being supplied is ".string".  Other supported encoding types can be found in the full documenation in this repo at  `docs/EosioSwift/index.html`.
+This snippet retrieves values from a KV table defined by a contract on the server. The example below is requesting the values from the contract "todo" in the table named "todo". It is querying the index named "uuid" for the value "bf581bee-9f2c-447b-94ad-78e4984b6f51". The encoding type of the indexValue being supplied is ".string". Other supported encoding types can be found in the full documentation in this repo at `docs/EosioSwift/index.html`.
 
 ```swift
 let url = URL(string: "https://my.example.blockchain")!
@@ -234,8 +202,8 @@ rpcProvider.getKvTableRows(requestParameters: tablesRequest) { result in
     case .failure(let error):
         print("Failed getKvTableRows call: \(error.localizedDescription)")
     case .success(let response):
-        // Iterate through rows.  They will either be serialied strings if json equaled false
-        // or they will be [String: Any] representations of the returned JSON objects if 
+        // Iterate through rows. They will either be serialized strings if json equaled false
+        // or they will be [String: Any] representations of the returned JSON objects if
         // json equaled true in the request.
         response.rows.foreach { row in
             // Work with each row.

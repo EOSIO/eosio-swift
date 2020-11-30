@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
                          'Steve McCoole' => 'steve.mccoole@objectpartners.com',
                          'Ben Martell' => 'ben.martell@objectpartners.com' }
 
-  s.source           = { :git => 'https://github.com/EOSIO/eosio-swift.git', :tag => "v" + s.version.to_s }
+  s.source           = { :git => 'https://github.com/EOSIO/eosio-swift.git', :tag => s.version.to_s }
 
   s.swift_version         = '5.0'
   s.ios.deployment_target = '12.0'

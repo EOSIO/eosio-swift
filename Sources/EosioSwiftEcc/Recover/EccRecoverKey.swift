@@ -140,7 +140,7 @@ public class EccRecoverKey {
                                 LTC_ECCSIG_ANSIX962,
                                 &key)
                 guard result == CRYPT_OK else {
-                    throw EosioError(.keySigningError, reason: "Error extracting key from signature.")
+                    throw EosioError(.keySigningError, reason: "Error \(result) extracting key from signature.")
                 }
 
                 let bufSize = Int(ECC_BUF_SIZE)

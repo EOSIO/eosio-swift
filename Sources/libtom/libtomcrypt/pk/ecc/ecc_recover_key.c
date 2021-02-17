@@ -140,11 +140,11 @@ int ecc_recover_key(const unsigned char *sig,  unsigned long siglen,
    }
 
    /* check for zero */
-   if (mp_cmp_d(r, 0) != LTC_MP_GT) {
+   if (mp_cmp_d(r, 0) != LTC_MP_EQ) {
       err = CRYPT_INVALID_PACKET;
       goto error;
    }
-    if (mp_cmp_d(s, 0) != LTC_MP_GT) {
+    if (mp_cmp_d(s, 0) != LTC_MP_EQ) {
        err = CRYPT_INVALID_PACKET;
        goto error;
     }

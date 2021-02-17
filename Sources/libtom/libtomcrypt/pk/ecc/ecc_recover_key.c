@@ -140,22 +140,11 @@ int ecc_recover_key(const unsigned char *sig,  unsigned long siglen,
    }
 
    /* check for zero */
-   if (mp_cmp_d(r, 0) != LTC_MP_GT) {
+   if (mp_cmp_d(r, 0) != LTC_MP_GT || mp_cmp_d(s, 0) != LTC_MP_GT ||
+       mp_cmp(r, p) != LTC_MP_LT || mp_cmp(s, p) != LTC_MP_LT) {
       err = CRYPT_INVALID_PACKET;
       goto error;
    }
-    if (mp_cmp_d(s, 0) != LTC_MP_GT) {
-       err = CRYPT_INVALID_PACKET;
-       goto error;
-    }
-    if (mp_cmp(r, p) != LTC_MP_LT) {
-       err = CRYPT_INVALID_PACKET;
-       goto error;
-    }
-    if (mp_cmp(s, p) != LTC_MP_LT) {
-       err = CRYPT_INVALID_PACKET;
-       goto error;
-    }
 
    /* read hash - truncate if needed */
    pbits = mp_count_bits(p);

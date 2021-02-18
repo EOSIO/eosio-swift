@@ -19,13 +19,19 @@ public struct EcdsaSignature {
     public var s: Data
     /// A signature in der format.
     public var der: Data {
-        var der = Data(capacity: 1 + 1 + 2 + 32 + 2 + 32)
+        guard r.count > 0 && s.count > 0 else { return Data() }
+        var rd = Data(r)
+        if rd[0] > 0x7F { rd = [0x00] + rd }
+        var sd = Data(s)
+        if sd[0] > 0x7F { sd = [0x00] + sd }
+
+        var der = Data(capacity: 1 + 1 + 2 + rd.count + 2 + sd.count)
         der = der + [0x30]
-        der = der + [0x44]
-        der = der + [0x02] + [0x20]
-        der = der + r
-        der = der + [0x02] + [0x20]
-        der = der + s
+        der = der + [UInt8(4 + rd.count + sd.count)]
+        der = der + [0x02] + [UInt8(rd.count)]
+        der = der + rd
+        der = der + [0x02] + [UInt8(sd.count)]
+        der = der + sd
         return der
     }
 
@@ -44,12 +50,10 @@ public struct EcdsaSignature {
         let rLen = Int(der[3])
         let rIndex = 4
         r = der[rIndex..<rIndex+rLen].suffix(32)
-        guard r.count == 32 else { return nil }
         guard der[rLen+4] == 0x02 else { return nil }
         let sLen = Int(der[rLen+5])
         let sIndex = rLen+6
         s = der[sIndex..<sIndex+sLen].suffix(32)
-        guard s.count == 32 else { return nil }
 
         if requireLowS && curve == .r1 {
             // n for r1 curve. reference: http://www.secg.org/SEC2-Ver-1.0.pdf

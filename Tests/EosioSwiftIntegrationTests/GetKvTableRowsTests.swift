@@ -24,12 +24,13 @@ class GetKvTableRowsTests: XCTestCase {
     override func setUpWithError() throws {
         /*
         transaction = EosioTransaction()
-        let url = URL(string: "http://my.test.blockchain")!
+        let url = URL(string: "http://my.block.chain")!
         rpcProvider = EosioRpcProvider(endpoint: url)
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = EosioAbieosSerializationProvider()
-        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["MyTestKey"])
+        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["MyPrivateKey"])
          */
+         
     }
 
     override func tearDownWithError() throws {

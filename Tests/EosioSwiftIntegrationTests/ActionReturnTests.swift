@@ -25,15 +25,21 @@ class ActionReturnTests: XCTestCase {
         var memo: String
     }
     
+    struct Sum: Codable {
+        var valueA: Int
+        var valueB: Int
+    }
+    
     override func setUpWithError() throws {
         /*
         transaction = EosioTransaction()
-        let url = URL(string: "http://my.test.blockchain")!
+        let url = URL(string: "http://my.block.chain")!
         rpcProvider = EosioRpcProvider(endpoint: url)
         transaction.rpcProvider = rpcProvider
         transaction.serializationProvider = EosioAbieosSerializationProvider()
-        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["MyTestKey"])
-         */
+        transaction.signatureProvider = try EosioSoftkeySignatureProvider(privateKeys: ["MyPrivateKey"])
+        */
+         
     }
 
     override func tearDownWithError() throws {
@@ -43,12 +49,12 @@ class ActionReturnTests: XCTestCase {
     func skip_testActionReturn() throws {
         let action = try EosioTransaction.Action(
             account: EosioName("returnvalue"),
-            name: EosioName("actionresret"),
+            name: EosioName("sum"),
             authorization: [EosioTransaction.Action.Authorization(
-                actor: EosioName("bob"),
+                actor: EosioName("returnvalue"),
                 permission: EosioName("active"))
             ],
-            data: [String: Any]()
+            data: Sum(valueA: 5, valueB: 4)
         )
         transaction.add(action: action)
        
@@ -60,7 +66,7 @@ class ActionReturnTests: XCTestCase {
                 print("Transaction successful, action return value is: \(String(describing: action.returnValue))")
                 let returnValue = action.returnValue as? Int32
                 XCTAssertNotNil(returnValue)
-                XCTAssert(returnValue == 10)
+                XCTAssert(returnValue == 9)
             case .failure(let error):
                 print("Transaction failed, error: \(error)")
                 XCTFail("Transaction error: \(error)")
@@ -70,7 +76,7 @@ class ActionReturnTests: XCTestCase {
         
         // If success I have a transaction id.
         
-        wait(for: [expect], timeout: 30)
+        wait(for: [expect], timeout: 300)
         
     }
     

@@ -41,6 +41,23 @@ public extension Data {
         }
         self = data
     }
+    
+    /// Init a `Data` object with a base64url string.
+    //
+    // - Parameter: base64url: The data encoded as a base64url string.
+    // - Throws: if the string is not a valid base64url string.
+    init(base64url: String) throws {
+        var base64 = base64url
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+            .replacingOccurrences(of: "=", with: "")
+        base64 += String(repeating: "=", count: base64.count % 4)
+        
+        guard let data = Data(base64Encoded: base64) else {
+            throw EosioError(.serializeError, reason: "\(base64) is not a valid base64 string")
+        }
+        self = data
+    }
 
     /// Init a `Data` object with a hex string.
     ///

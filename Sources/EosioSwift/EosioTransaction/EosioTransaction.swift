@@ -12,9 +12,14 @@ import PromiseKit
 
 /// Class for creating, preparing, signing, and (optionally) broadcasting transactions on EOSIO-based blockchains.
 public class EosioTransaction: Codable {
-
+    public enum ChainVersion {
+        case v2, v3
+    }
+    
     /// Chain ID in `String` format.
     public var chainId = ""
+    /// Specifies which version the remote node is running
+    public var chainVersion: ChainVersion = .v2
     /// Remote Procedure Call (RPC) provider for facilitating communication with blockchain nodes. Conforms to `EosioRpcProviderProtocol`.
     public var rpcProvider: EosioRpcProviderProtocol?
     /// Application Binary Interface (ABI) provider for facilitating the fetching and caching of ABIs from blockchain nodes. A default is provided. Conforms to `EosioAbiProviderProtocol`.
@@ -455,23 +460,44 @@ public class EosioTransaction: Codable {
         guard let rpcProvider = rpcProvider else {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
-
-        let requestParameters = EosioRpcBlockInfoRequest(blockNum: blockNum)
-
-        rpcProvider.getBlockInfoBase(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
-            guard let strongSelf = self else {
-                return completion(.failure(EosioError(.getBlockError, reason: "self does not exist")))
-            }
-            switch blockResponse {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success(let block):
-                // set tapos fields and return
-                strongSelf.refBlockNum = UInt16(block.blockNum.value & 0xffff)
-                strongSelf.refBlockPrefix = block.refBlockPrefix.value
-                return completion(.success(true))
-            }
-        })
+        
+        // Support for the old node version
+        if chainVersion == .v2 {
+            let requestParameters = EosioRpcBlockRequest(blockNumOrId: blockNum)
+            
+            rpcProvider.getBlockBase(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
+                guard let strongSelf = self else {
+                    return completion(.failure(EosioError(.getBlockError, reason: "self does not exist")))
+                }
+                switch blockResponse {
+                case .failure(let error):
+                    completion(.failure(error))
+                case .success(let block):
+                    // set tapos fields and return
+                    strongSelf.refBlockNum = UInt16(block.blockNum.value & 0xffff)
+                    strongSelf.refBlockPrefix = block.refBlockPrefix.value
+                    return completion(.success(true))
+                }
+            })
+        } else {
+            // Nodes version that can handle the get_block_info
+            let requestParameters = EosioRpcBlockInfoRequest(blockNum: blockNum)
+            
+            rpcProvider.getBlockInfoBase(requestParameters: requestParameters, completion: { [weak self] (blockResponse) in
+                guard let strongSelf = self else {
+                    return completion(.failure(EosioError(.getBlockError, reason: "self does not exist")))
+                }
+                switch blockResponse {
+                case .failure(let error):
+                    completion(.failure(error))
+                case .success(let block):
+                    // set tapos fields and return
+                    strongSelf.refBlockNum = UInt16(block.blockNum.value & 0xffff)
+                    strongSelf.refBlockPrefix = block.refBlockPrefix.value
+                    return completion(.success(true))
+                }
+            })
+        }
     }
 
     /// Signs a transaction by getting the available keys from the `signatureProvider` and calling `sign(availableKeys:, completion:)`.

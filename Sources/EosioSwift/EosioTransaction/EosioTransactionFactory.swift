@@ -10,7 +10,6 @@ import Foundation
 
 /// Convenience class for creating transactions on EOSIO-based blockchains. Once you set properties (`rpcProvider` etc.), you don't have to set them again in order to create a new transaction.
 public class EosioTransactionFactory {
-
     /// Remote Procedure Call (RPC) provider for facilitating communication with blockchain nodes. Conforms to `EosioRpcProviderProtocol`.
     let rpcProvider: EosioRpcProviderProtocol
     /// Signature provider for facilitating the retrieval of available public keys and the signing of transactions. Conforms to `EosioSignatureProviderProtocol`.
@@ -21,6 +20,8 @@ public class EosioTransactionFactory {
     let abiProvider: EosioAbiProviderProtocol?
     /// Transaction configuration.
     let config: EosioTransaction.Config?
+    
+    let chainVersion: EosioTransaction.ChainVersion
 
     /// Initializes the class.
     public init(
@@ -28,13 +29,15 @@ public class EosioTransactionFactory {
         signatureProvider: EosioSignatureProviderProtocol,
         serializationProvider: EosioSerializationProviderProtocol,
         abiProvider: EosioAbiProviderProtocol? = nil,
-        config: EosioTransaction.Config? = nil
+        config: EosioTransaction.Config? = nil,
+        chainVersionSupport: EosioTransaction.ChainVersion = .v2
     ) {
         self.rpcProvider = rpcProvider
         self.signatureProvider = signatureProvider
         self.serializationProvider = serializationProvider
         self.abiProvider = abiProvider
         self.config = config
+        self.chainVersion = chainVersionSupport
     }
 
     /// Returns a new `EosioTransaction` instance.
@@ -45,6 +48,7 @@ public class EosioTransactionFactory {
         newTransaction.signatureProvider = signatureProvider
         newTransaction.serializationProvider = serializationProvider
         newTransaction.abiProvider = abiProvider
+        newTransaction.chainVersion = chainVersion
         if let config = config { newTransaction.config = config }
 
         return newTransaction

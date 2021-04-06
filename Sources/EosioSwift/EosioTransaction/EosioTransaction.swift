@@ -413,6 +413,9 @@ public class EosioTransaction: Codable {
                 if strongSelf.chainId == "" {
                     strongSelf.chainId = info.chainId
                 }
+                if strongSelf.versionString == "" {
+                    strongSelf.versionString = info.serverVersionString
+                }
                 // return an error if provided chainId does not match info chainId
                 guard strongSelf.chainId == info.chainId else {
                     return completion(.failure(EosioError(.eosioTransactionError, reason: "Provided chain id \(strongSelf.chainId) does not match chain id \(info.chainId)")))

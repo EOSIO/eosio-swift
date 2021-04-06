@@ -32,7 +32,8 @@ let package = Package(
         .package(url: "https://github.com/mxcl/PromiseKit", from: "6.8.0"),
         .package(name: "PMKFoundation", url: "https://github.com/PromiseKit/Foundation", from: "3.0.0"),
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.0.0"),
-        .package(url: "https://github.com/realm/SwiftLint", from: "0.39.1")
+        .package(url: "https://github.com/realm/SwiftLint", from: "0.39.1"),
+        .package(url: "https://github.com/ddddxxx/Semver", from: "0.2.1"),
     ],
     targets: [
         .target(
@@ -40,7 +41,8 @@ let package = Package(
             dependencies: [
                 "PromiseKit",
                 "PMKFoundation",
-                "BigInt"
+                "BigInt",
+                "Semver"
             ],
             path: "Sources/EosioSwift"
         ),

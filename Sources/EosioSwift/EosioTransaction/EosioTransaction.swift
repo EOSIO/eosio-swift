@@ -18,7 +18,7 @@ public class EosioTransaction: Codable {
     /// Remote Procedure Call (RPC) provider for facilitating communication with blockchain nodes. Conforms to `EosioRpcProviderProtocol`.
     public var rpcProvider: EosioRpcProviderProtocol?
     /// Version of eosio
-    public var versionString = ""
+    public var chainVersionString = ""
     /// Application Binary Interface (ABI) provider for facilitating the fetching and caching of ABIs from blockchain nodes. A default is provided. Conforms to `EosioAbiProviderProtocol`.
     public var abiProvider: EosioAbiProviderProtocol?
     /// Signature provider for facilitating the retrieval of available public keys and the signing of transactions. Conforms to `EosioSignatureProviderProtocol`.
@@ -413,8 +413,8 @@ public class EosioTransaction: Codable {
                 if strongSelf.chainId == "" {
                     strongSelf.chainId = info.chainId
                 }
-                if strongSelf.versionString == "" {
-                    strongSelf.versionString = info.serverVersionString
+                if strongSelf.chainVersionString == "" {
+                    strongSelf.chainVersionString = info.serverVersionString
                 }
                 // return an error if provided chainId does not match info chainId
                 guard strongSelf.chainId == info.chainId else {

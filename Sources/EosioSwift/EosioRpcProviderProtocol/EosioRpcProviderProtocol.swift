@@ -34,6 +34,11 @@ public protocol EosioRpcProviderProtocol {
     /// - Parameter completion: Completion called with an `EosioResult`.
     func getBlockInfoBase(requestParameters: EosioRpcBlockInfoRequest, completion: @escaping(EosioResult<EosioRpcBlockInfoResponseProtocol, EosioError>) -> Void)
 
+    /// Calls /v1/chain/get_block.
+    ///
+    /// - Parameter completion: Completion called with an `EosioResult`.
+    func getBlockBase(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void)
+
     /// Calls /v1/chain/get_raw_abi.
     ///
     /// - Parameter completion: Completion called with an `EosioResult`.

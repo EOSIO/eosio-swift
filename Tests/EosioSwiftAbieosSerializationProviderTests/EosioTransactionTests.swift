@@ -303,6 +303,17 @@ class RpcMockProvider: EosioRpcProviderProtocol {
         completion(result)
     }
 
+    public func getBlockBase(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
+        let res = createBlockResponse()
+        var result: EosioResult<EosioRpcBlockResponse, EosioError>
+        if let res = res {
+            result = EosioResult.success(res)
+        } else {
+            result = EosioResult.failure(EosioError(.rpcProviderError, reason: "Can't get block"))
+        }
+        completion(result)
+    }
+
     public func getRawAbiBase(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
         let res = createRawAbiResponse(account: requestParameters.accountName)
         var result: EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>

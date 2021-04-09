@@ -82,7 +82,7 @@ class EosioTransactionTests: XCTestCase {
 
     func test_prepare_shouldCallGetBlockFunctionOfRPCProvider() {
         transaction.prepare { (_) in
-            XCTAssertTrue(self.rpcProvider.getBlockInfoCalled)
+            XCTAssertTrue(self.rpcProvider.getBlockInfoCalled || self.rpcProvider.getBlockCalled)
         }
     }
 
@@ -126,7 +126,7 @@ class EosioTransactionTests: XCTestCase {
 
     func test_getBlockAndSetTapos_shouldCallGetBlockFunctionOfRPCProvider() {
         transaction.getBlockAndSetTapos(blockNum: 324) { (_) in
-            XCTAssertTrue(self.rpcProvider.getBlockInfoCalled)
+            XCTAssertTrue(self.rpcProvider.getBlockInfoCalled || self.rpcProvider.getBlockCalled)
         }
     }
 
@@ -763,9 +763,9 @@ class RPCProviderMock: EosioRpcProviderProtocol {
     }
 
     var getBlockInfoCalled = false
-    var getBlockReturnsFailure = false
-    var blockNumberRequested: UInt64!
-    let block = EosioRpcBlockInfoResponse(
+    var getBlockInfoReturnsFailure = false
+    var blockInfoNumberRequested: UInt64!
+    let blockInfo = EosioRpcBlockInfoResponse(
         timestamp: "timestatmp",
         producer: "producer",
         confirmed: 8,
@@ -782,8 +782,40 @@ class RPCProviderMock: EosioRpcProviderProtocol {
 
     func getBlockInfoBase(requestParameters: EosioRpcBlockInfoRequest, completion: @escaping (EosioResult<EosioRpcBlockInfoResponseProtocol, EosioError>) -> Void) {
         getBlockInfoCalled = true
-        blockNumberRequested = requestParameters.blockNum
+        blockInfoNumberRequested = requestParameters.blockNum
         let result: EosioResult<EosioRpcBlockInfoResponseProtocol, EosioError>
+        if getBlockInfoReturnsFailure {
+            result = EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
+        } else {
+            result = EosioResult.success(blockInfo)
+        }
+
+        completion(result)
+    }
+
+
+    var getBlockCalled = false
+    var getBlockReturnsFailure = false
+    var blockNumberRequested: UInt64!
+    let block = EosioRpcBlockResponse(
+        timestamp: "timestatmp",
+        producer: "producer",
+        confirmed: 8,
+        previous: "prev",
+        transactionMroot: "root",
+        actionMroot: "action",
+        scheduleVersion: 9,
+        newProducers: nil,
+        producerSignature: "signature",
+        id: "klj",
+        blockNum: EosioUInt64.uint64(89),
+        refBlockPrefix: EosioUInt64.uint64(0980)
+    )
+
+    func getBlockBase(requestParameters: EosioRpcBlockRequest, completion: @escaping (EosioResult<EosioRpcBlockResponse, EosioError>) -> Void) {
+        getBlockCalled = true
+        blockNumberRequested = UInt64(requestParameters.blockNumberOrId) ?? 0
+        let result: EosioResult<EosioRpcBlockResponse, EosioError>
         if getBlockReturnsFailure {
             result = EosioResult.failure(EosioError(.getBlockError, reason: "Some reason"))
         } else {
@@ -791,7 +823,6 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         }
 
         completion(result)
-
     }
 
     public func getRawAbiBase(requestParameters: EosioRpcRawAbiRequest, completion: @escaping

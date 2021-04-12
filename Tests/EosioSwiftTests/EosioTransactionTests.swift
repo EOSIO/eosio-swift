@@ -81,8 +81,27 @@ class EosioTransactionTests: XCTestCase {
     }
 
     func test_prepare_shouldCallGetBlockFunctionOfRPCProvider() {
+        transaction.chainVersionString = "v1.3.0"
         transaction.prepare { (_) in
-            XCTAssertTrue(self.rpcProvider.getBlockInfoCalled || self.rpcProvider.getBlockCalled)
+            XCTAssertTrue(self.rpcProvider.getBlockCalled)
+        }
+
+        setUp()
+        transaction.chainVersionString = "v2.0.0"
+        transaction.prepare { (_) in
+            XCTAssertTrue(self.rpcProvider.getBlockCalled)
+        }
+
+        setUp()
+        transaction.chainVersionString = "v2.1.0-rc1"
+        transaction.prepare { (_) in
+            XCTAssertTrue(self.rpcProvider.getBlockInfoCalled)
+        }
+
+        setUp()
+        transaction.chainVersionString = "v2.1.0"
+        transaction.prepare { (_) in
+            XCTAssertTrue(self.rpcProvider.getBlockInfoCalled)
         }
     }
 

@@ -80,6 +80,11 @@ public class EosioTransaction: Codable {
         return actions + contextFreeActions
     }
 
+    /// Sem version constants
+    private let version_2_0_0 = "v2.0.0"
+    private let version_2_1_0 = "v2.1.0"
+
+
     /// Add an Action.
     ///
     /// - Parameters:
@@ -462,9 +467,10 @@ public class EosioTransaction: Codable {
             return completion(.failure(EosioError(.eosioTransactionError, reason: "No rpc provider available")))
         }
 
-        var version = Semver(chainVersionString) ?? Semver("2.0.0")
+        // get the version or v2.0.0 if chainVersionString is invalid, force unwrap known version constants.
+        var version = Semver(chainVersionString) ?? Semver(version_2_0_0)!
         version = Semver(major: version.major, minor: version.minor, patch: version.patch)
-        if version < Semver("2.1.0") {
+        if version < Semver(version_2_1_0)! {
             // support for nodes runing versions earlier than 2.1 (use get_block)
             let requestParameters = EosioRpcBlockRequest(blockNumOrId: blockNum)
 
